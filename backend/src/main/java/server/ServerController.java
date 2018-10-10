@@ -1,13 +1,15 @@
 package server;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
+@Controller
 public class ServerController {
 
-    @RequestMapping("/")
-    public String index(){
-        return "Greetingsfrom Spring Boot!";
+    @GetMapping(path = "/")
+    public @ResponseBody
+    void helloWorld() {
+        System.out.println("Hello World"); //Navigate to http://localhost:8080/ to get this output in the console
     }
 }
