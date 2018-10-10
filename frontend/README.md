@@ -11,4 +11,4 @@
 * open shell/cmd in this folder
 * enter **npx install** (notice the x!)
 * use **npm start** to start the server (notice the m!)
-* go to http://localhost:3030/
+* go to http://localhost:3000/ (it should open itself)
