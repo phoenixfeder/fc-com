@@ -1,6 +1,6 @@
 # Flashcard Community Backend
 
-<img src="https://github.com/phoenixfeder/fc-com/blob/master/graphics/logo.png" alt="logo" width="200">
+<img src="https://github.com/phoenixfeder/fc-com/blob/master/graphics/logo.png" alt="logo" height="150"><img src="https://jaxenter.de/wp-content/uploads/2016/05/IntelliJIDEA_icon.png" alt="IntelliJLogo" height="150">
 
 # How to Install
 ## What you need
