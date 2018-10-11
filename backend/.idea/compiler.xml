@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="de.tinf27b2.fccserver" />
         <module name="FlashcardCommunityServer" />
       </profile>
     </annotationProcessing>
