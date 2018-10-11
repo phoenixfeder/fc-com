@@ -1,6 +1,6 @@
-# Flashcard Community Backend
+# Flashcard Community Frontend
 
-<img src="https://github.com/phoenixfeder/fc-com/blob/master/graphics/logo.png" alt="logo" width="200">
+<img src="https://github.com/phoenixfeder/fc-com/blob/master/graphics/logo.png" alt="logo" height="150"><img src="https://www.import.io/wp-content/uploads/2017/10/React-logo-1.png" alt="ReactLogo" height="150">
 
 # How to Install
 ## What you need
