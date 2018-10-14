@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
+    animation: logo-ease-in 1 1.5s linear;
   height: 40vmin;
 }
 
@@ -18,15 +18,13 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
+@keyframes logo-ease-in {
   from {
-    transform: rotate(0deg);
+      transform: translateY(-25px);
+      opacity: 0.0;
   }
   to {
-    transform: rotate(360deg);
+      transform: translateY(0px);
+      opacity: 1.0;
   }
 }
