@@ -1,15 +1,33 @@
 package server;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import server.entities.FlashCard;
+import server.exceptions.NoPermissionException;
+import server.services.FlashCardService;
+import server.system.Authenticator;
 
 @Controller
 public class ServerController {
 
-    @GetMapping(path = "/")
+    private FlashCardService flashCardService;
+
+    @Autowired
+    public void setFlashCardService(FlashCardService flashCardService) {
+        this.flashCardService = flashCardService;
+    }
+
+
+    @RequestMapping(
+            path = "/flashcard/{id}",
+            method = RequestMethod.GET)
     public @ResponseBody
-    void helloWorld() {
-        System.out.println("Hello World"); //Navigate to http://localhost:8080/ to get this output in the console
+    FlashCard getFlashCardWithID(@PathVariable("id") int id, @RequestParam(value = "auth", required = false) String auth) {
+        if (Authenticator.isValidAuthentication(auth)) {
+            return flashCardService.getFlashCardwithID(id);
+        }
+        throw new NoPermissionException();
+
     }
 }
