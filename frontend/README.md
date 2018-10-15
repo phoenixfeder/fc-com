@@ -8,7 +8,7 @@
 * Visual Studio Code, Notepad++ or a similar tool
 ## What to do
 * install node.js
-* open shell/cmd in this folder
+* open shell/cmd and navigate to project frontend folder
 * enter **npx install** (notice the x!)
 * use **npm start** to start the server (notice the m!)
 * go to http://localhost:3000/ (it should open itself)
