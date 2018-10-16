@@ -2,11 +2,13 @@ package server;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import server.entities.FlashCard;
-import server.exceptions.NoPermissionException;
+import server.exceptions.NoFlashCardWithIDException;
 import server.services.FlashCardService;
-import server.system.Authenticator;
 
 @Controller
 public class ServerController {
@@ -23,11 +25,12 @@ public class ServerController {
             path = "/flashcard/{id}",
             method = RequestMethod.GET)
     public @ResponseBody
-    FlashCard getFlashCardWithID(@PathVariable("id") int id, @RequestParam(value = "auth", required = false) String auth) {
-        if (Authenticator.isValidAuthentication(auth)) {
+    FlashCard getFlashCardWithID(@PathVariable("id") String id_s) {
+        try{
+            int id = Integer.parseInt(id_s);
             return flashCardService.getFlashCardwithID(id);
+        }catch (NumberFormatException e){
+            throw new NoFlashCardWithIDException();
         }
-        throw new NoPermissionException();
-
     }
 }
