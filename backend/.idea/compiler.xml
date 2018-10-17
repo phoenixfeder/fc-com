@@ -7,8 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="de.tinf27b2.fccserver" />
-        <module name="FlashcardCommunityServer" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="de.tinf27b2.fccserver" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
