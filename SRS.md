@@ -31,10 +31,15 @@
 
 # 1. Introduction
 ## 1.1 Purpose
-TODO
+
+The purpose of this document gives a general description of the Flashcard Community Project. It explains our vision and all features of the product. Also it offers insights into the system of back- and frontend, the interfaces in both ends for communication and the constraints of the product.
+
 ## 1.2 Scope
-TODO
+
+This document is designed for internal use only and will outline the development process of the project.
+
 ## 1.3 Definitions, Acronyms and Abbreviations
+
 |Term||
 |-|-|
 |**SRS**|Software Requirements Specification|
@@ -47,11 +52,12 @@ TODO
 |[GitHub](https://github.com/phoenixfeder/fc-com/)|17/10/2018|
 
 ## 1.5 Overview
-TODO
+
+The next chapters provide informations about our vision based on the use case diagram as well as more detailed software requirements.
 
 # 2. Overall Description
 ## 2.1 Vision
-TODO
+The goal of Flashcard Community is to create an online solution for creating flashcards, sort them in boxes and learn with those using some of known learning-systems we will implement. Users can share their boxes with other users, so they can form a small learning community or learning groups.
 
 ## 2.2 Product perspective
 
