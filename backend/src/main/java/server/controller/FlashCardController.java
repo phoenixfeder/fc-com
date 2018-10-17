@@ -1,4 +1,4 @@
-package server;
+package server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,8 @@ import server.exceptions.NoFlashCardWithIDException;
 import server.services.FlashCardService;
 
 @Controller
-public class ServerController {
+@RequestMapping("/flashcard")
+public class FlashCardController {
 
     private FlashCardService flashCardService;
 
@@ -22,7 +23,7 @@ public class ServerController {
 
 
     @RequestMapping(
-            path = "/flashcard/{id}",
+            path = "/{id}",
             method = RequestMethod.GET)
     public @ResponseBody
     FlashCard getFlashCardWithID(@PathVariable("id") String id_s) {
