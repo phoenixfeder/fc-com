@@ -2,5 +2,5 @@ package server.entities;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface FlashCardRepository extends CrudRepository<FlashCard, Integer> {
+public interface UserRepository extends CrudRepository<FlashCard, Long> {
 }
