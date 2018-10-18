@@ -1,6 +1,6 @@
-package server.EntitieToDTOTransfer;
+package server.entities.entitieToDTOTransfer;
 
-import server.DTO.FlashCardDTO;
+import server.entities.dto.FlashCardDTO;
 import server.entities.FlashCard;
 
 public class FlashCardToDTO {

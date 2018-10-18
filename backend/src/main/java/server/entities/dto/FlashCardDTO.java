@@ -1,4 +1,4 @@
-package server.DTO;
+package server.entities.dto;
 
 import lombok.Getter;
 import lombok.Setter;
