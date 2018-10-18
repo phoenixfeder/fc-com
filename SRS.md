@@ -43,6 +43,8 @@ This document is designed for internal use only and will outline the development
 |Term||
 |-|-|
 |**SRS**|Software Requirements Specification|
+|**JSON**|JavaScript Object Notation|
+|**API**|Application Programming Interface|
 
 ## 1.4 References
 
@@ -73,110 +75,122 @@ TODO
 
 # 3. Specific Requirements
 ## 3.1 Functionality – Data Backend
-### 3.1.1 Read data stream
-TODO
+- Needed for handling, storing, securing and providing data
 
-### 3.1.2 Adapt data structure
-TODO
+### 3.1.1 Read data given over API endpoints
+- Frontend sends data over API
+- Data as JSON
+
+### 3.1.2 Parse data
+- Must be able to adjust recieved data according to the strtucuture of the database
 
 ### 3.1.3 Provide data
-TODO
+- Must provide data to the frontend when accessed by frontend
+- Also answer with status code
 
 ## 3.2 Functionality – User Interface
-### 3.2.1 General overview
-TODO
+- Providing an UI for the user to interact with
+- gets the data from the data backend
 
-### 3.2.2 Car data
-TODO
+### 3.2.1 User data
+- User can see, edit his profile information after log-in respectively registration
+- Can use the following functionality when logged in
+- Learn statistic
 
-### 3.2.3 Timing data
-TODO
+### 3.2.3 Flashcard box data
+- See single boxes with flashcards
+- Add, remove or edit flashcards
+- Share with other users
+- Temporary learn boxes (e.g. correct answer < 50%>)
 
-### 3.2.4 Race data
-TODO
-
-### 3.2.5 Driver input data
-TODO
-
-### 3.2.6 Change Settings
-TODO
-
-### 3.2.7 Analytics
-TODO
-
-## 3.3 Functionality – Data Analytics
-### 3.3.1 Analyze acceleration behavior
-TODO
-
-### 3.3.2 Analyze upshift times
-TODO
+### 3.2.4 Flashcard data 
+- User can see 2 texts, frontpage (question) and backpacke (answer)
 
 ## 3.4 Usability
-### 3.4.1 Racing geeks
-TODO
+-Fairly easy, will be intuitive 
+- If questions come up, there is a FAQ
+- User should know the principle of flashcards (FAQ)
 
 ## 3.5 Reliability
 ### 3.5.1 Availability
-TODO
+- 99.9%, depends on hoster but every hoster has outages here and there
 
-### 3.5.2 Accuracy
-TODO
+### 3.5.2 MTBF, MTTR
+- Depends on hoster, non critical bugs however will be fixed when there is time, critical bugs within days
+
+### 3.5.3 Accuracy
+- depends on the data the user provides
+- We can't secure the accuracy of the flashcards
+
+### 3.5.6 Bug classes
+- critical bug: data loss, user data leak
+- non critical bug: data not shown  (not deleted), other visual bugs
 
 ## 3.6 Performance
 ### 3.6.1 Response time
-TODO 
+- keep minimum to not have impact at user experience
+- e.g. loading 200 cards response time 2 seconds
+- average (without loading data) 50ms
 
 ### 3.6.2 Throughput
-TODO
+- depends on amount of cards to be loaded, no transactions needed when users are inactive
 
 ### 3.6.3 Capacity
-TODO
+- Theoretically unlimited when enough disk space is provided, mysql can handle tables up to 65 tb of data
 
 ### 3.6.4 Resource utilization
-TODO
+- We try to keep transactions limited by sending the exact data that is needed, not more not less
+- 
 
 ## 3.7 Supportability
-### 3.7.1 Similar data structure
-TODO
+- Clear separation of front and backend
+- We stick to naming and coding conventions of the libaries and frameworks we use
+- 
 
 ## 3.8 Design Constraints
-### 3.8.1 Qt-Framework
-TODO
+### 3.8.1 Spring Boot
+- Java
 
-### 3.8.2 OS-Support
-TODO
+### 3.8.2 ReactJS
+- JS
+- Material UI
 
-### 3.8.3 Supported Games
-TODO
+### 3.8.3 Supported Platforms 
+- Current webbrowser
+- Stable internet connection
 
 ## 3.9 Online User Documentation and Help System Requirements
-TODO
+- Step-by-step underlined with pictures 
 
 ## 3.10 Purchased Components
+- N\A
+
 ### 3.10.1 Racing simulation required
 TODO
 
 ## 3.11 Interfaces
 ### 3.11.1 User Interfaces
-TODO
+- One site for each given functionality (see top)
+- Sites accesible over menu
+- Easy on the eyes
 
 ### 3.11.2 Hardware Interfaces
-TODO
+N\A
 
 ### 3.11.3 Software Interfaces
-TODO
+- API stuff here
 
 ### 3.11.4 Communications Interfaces
-TODO
+- JSON stuff here
 
 ## 3.12 Licensing Requirements
-TODO
+- MIT License, see Repo
 
 ## 3.13 Legal, Copyright and other Notices
-TODO
+N\A
 
 ## 3.14 Applicable Standards
-TODO
+N\A
 
 # 4. Supporting Information
-TODO
+For a better overview, watch the table of contents and/or references.
