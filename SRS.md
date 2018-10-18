@@ -15,7 +15,6 @@
 - [Specific Requirements](#3-specific-requirements)
     - [Functionality - Data Backend](#31-functionality--data-backend)
     - [Functionality - User Interface](#32-functionality--user-interface)
-    - [Functionality - Data Analytics](#33-functionality--data-analytics)
     - [Usability](#34-usability)
     - [Reliability](#35-reliability)
     - [Performance](#36-performance)
@@ -45,6 +44,8 @@ This document is designed for internal use only and will outline the development
 |**SRS**|Software Requirements Specification|
 |**JSON**|JavaScript Object Notation|
 |**API**|Application Programming Interface|
+|**MTBF**|Mean Time Between Failures|
+|**MTTR**|Mean Time To Repair|
 
 ## 1.4 References
 
@@ -112,40 +113,57 @@ TODO
 - User should know the principle of flashcards (FAQ)
 
 ## 3.5 Reliability
+In the following we describe the availability, MTBF and MTTR, accuracy and bug classes we strive for.
+
 ### 3.5.1 Availability
-- 99.9%, depends on hoster but every hoster has outages here and there
+Since we are trying to focus on a bug free application rather than caring about hosting it on our own, the availability depends on the hosting
+provider we choose. Due redundancy and other security arrangements, most providers can ensure an uptime over 99.9% of the time its hosted at 
+their datacenter.
+
 
 ### 3.5.2 MTBF, MTTR
-- Depends on hoster, non critical bugs however will be fixed when there is time, critical bugs within days
+If the application fails due an hardware issue, then the mean times are up to our hosting provider. Since the ensured uptime of most hosting providers
+is 99.9%, they try to fix the issue within a few minutes.
+However, if the application fails due a bug in our code, we can revert the code to a previous version that worked fine. This shouldn't take more than
+one or two hours from the point on we noticed.
 
 ### 3.5.3 Accuracy
-- depends on the data the user provides
-- We can't secure the accuracy of the flashcards
+We can't ensure that the information on the flashcards will be correct since they will be provided by the user itself. As we develop the functions on 
+our own, we can only guarantee that our F.A.Q. will be correct.
 
 ### 3.5.6 Bug classes
-- critical bug: data loss, user data leak
-- non critical bug: data not shown  (not deleted), other visual bugs
+We classify bugs like the following:
+- **Critical bug**: A critical bug occurs when the database starts dropping data without intention, secret user information, like passwords, are open to the public
+or users are not able to use the application at all.
+- **Non critical bug**: A non critical bug appears when the user still can use the application but it appears glitched and the user experience is slightly influenced.
 
 ## 3.6 Performance
+In general, we try to keep to user experience fluent and response times low. High peaks can still appear when the user loads a large flashcard box or the hosting 
+provider is currently having issues.
+
 ### 3.6.1 Response time
-- keep minimum to not have impact at user experience
-- e.g. loading 200 cards response time 2 seconds
-- average (without loading data) 50ms
+As nearly the whole UI will be loaded initially, even pages that aren't shown yet, will appear within less than 100ms when accessed. 
+A huge flashcard box (200 and more) can take a one or two seconds to load, especially when the backend currently needs to handle a larger
+amount of requests.
 
 ### 3.6.2 Throughput
-- depends on amount of cards to be loaded, no transactions needed when users are inactive
+The amount of transactions between the frontend or the backend totally depends on the users behaviour. There will be a few more transactions
+when a user accesses the application initially, but as long he isn't requesting a lot of flashcard boxes hardly any transactions will occur.
 
 ### 3.6.3 Capacity
-- Theoretically unlimited when enough disk space is provided, mysql can handle tables up to 65 tb of data
+Current database management software is able to handle single tables up to 65TB of data. Therefore one can say we theoretically able to host
+a nearly unlimited amount of flashcards. Of course we are not able to afford such a huge database, but even on a small storage we can easily 
+host enough flashcards for a small user base. 
 
 ### 3.6.4 Resource utilization
-- We try to keep transactions limited by sending the exact data that is needed, not more not less
-- 
+Once requested flashcards are loaded, we try to keep them on the client side as long as possible. Thus we decline the waiting time for the user
+and leave open resources for other requests by other users. 
 
 ## 3.7 Supportability
-- Clear separation of front and backend
-- We stick to naming and coding conventions of the libaries and frameworks we use
-- 
+Our frontend, backend and each functionality will be clearly separated and we try to stick to naming conventions which are common in the used technologies. 
+Furthermore we aim to keep our code clean which we can't guarantee though. Thereby we make it easy to understand our infrastructure and avoid possible confusion
+when one needs to edit older parts of the application.
+
 
 ## 3.8 Design Constraints
 ### 3.8.1 Spring Boot
@@ -156,17 +174,17 @@ TODO
 - Material UI
 
 ### 3.8.3 Supported Platforms 
-- Current webbrowser
-- Stable internet connection
+Since FlashCardCommunity will be a web application the user only needs a modern web browser and a stable internet connection. With modern web browser we mean the
+current versions of Mozilla Firefox, Google Chrome, Opera, Edge and even IE down to version 9 will be supported!
 
 ## 3.9 Online User Documentation and Help System Requirements
-- Step-by-step underlined with pictures 
+We want a provide a F.A.Q. for possible questions that can come up when using our application. Since it can be frustrating when a F.A.Q. doesn't really help with 
+your answering problems, we want each F.A.Q. to be easy to understand and follow. For example a F.A.Q. that answers how to create a flashcard will include step-by-step
+instructions and enough pictures to show the user exactly what to click at.
 
 ## 3.10 Purchased Components
 - N\A
 
-### 3.10.1 Racing simulation required
-TODO
 
 ## 3.11 Interfaces
 ### 3.11.1 User Interfaces
