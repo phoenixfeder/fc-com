@@ -46,6 +46,9 @@ This document is designed for internal use only and will outline the development
 |**API**|Application Programming Interface|
 |**MTBF**|Mean Time Between Failures|
 |**MTTR**|Mean Time To Repair|
+|**DTO**|Data Transfer Object|
+|**HTTP**|Hypertext Transfer Protocol|
+|**FAQ**|Frequently Asked Questions|
 
 ## 1.4 References
 
@@ -76,41 +79,33 @@ TODO
 
 # 3. Specific Requirements
 ## 3.1 Functionality – Data Backend
-- Needed for handling, storing, securing and providing data
+The backend for Flashcard Community is needed to separate the user interface with the data storage, so that there is a checkpoint, if the correct permissions are present to get data or rather to ensure that incoming data is properly built and saved correctly. For security reasons data is filtered by the backend. It is then packed in the right format which the next chapter describes. The data is kepted inside a database and maintained by the backend.
 
 ### 3.1.1 Read data given over API endpoints
-- Frontend sends data over API
-- Data as JSON
+For the communication of both sides (frontend and backend) we need a data format which can be read by both frameworks, therefore JSON is used. The frontend sends data in that format to the backend in form of a request and waits for a response. The backend doesn't require a response from the frontend.
 
 ### 3.1.2 Parse data
-- Must be able to adjust recieved data according to the strtucuture of the database
+The incoming data will be checked if the needed values are present and the right permissions are given. We use for the data transfer dto objects, which is an reduced and compact format of the entities the backend is using with the database. So the data has to be parsed in those objects. Also the backend parses data from the database in those dto objects for sending them.
 
 ### 3.1.3 Provide data
-- Must provide data to the frontend when accessed by frontend
-- Also answer with status code
+Requested data should always be send, if the request was correct, the data is present and the permission is given. The response contains a HTTP status code even if the request failed, so that the frontend knows always what happend.
 
 ## 3.2 Functionality – User Interface
-- Providing an UI for the user to interact with
-- gets the data from the data backend
+The frontend provides an user interface for the users to interact with the flashcard community system, thus with the database. It requests data and display these graffically. The following subchapters explines the kinds of data the frontend can request.
 
 ### 3.2.1 User data
-- User can see, edit his profile information after log-in respectively registration
-- Can use the following functionality when logged in
-- Learn statistic
+User data provides requests with user related data. With these the user can log in, see and edit his profile, visitors can create a new account. Also it provides the basis for the permission-system.
 
 ### 3.2.3 Flashcard box data
-- See single boxes with flashcards
-- Add, remove or edit flashcards
-- Share with other users
-- Temporary learn boxes (e.g. correct answer < 50%>)
+Flashcard box data provides data to manage the flashcard boxes of the user.
 
 ### 3.2.4 Flashcard data 
-- User can see 2 texts, frontpage (question) and backpacke (answer)
+This data will not be send on its own, because it will be embedded inside the flashcard box data. Here is the data of all cards of an flashcard box located.
+
+### 3.2.5 Statistics data
 
 ## 3.4 Usability
--Fairly easy, will be intuitive 
-- If questions come up, there is a FAQ
-- User should know the principle of flashcards (FAQ)
+We will build the user interface intuitive, so that a new user does not necessarily need an explanation. If questions arise our interface provides a comprehensive FAQ. If the user doesn't know the principle of flashcards and a system to learn with them, the user interface provides a manual how to learn with flashcards.
 
 ## 3.5 Reliability
 In the following we describe the availability, MTBF and MTTR, accuracy and bug classes we strive for.
