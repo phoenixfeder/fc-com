@@ -49,6 +49,7 @@ This document is designed for internal use only and will outline the development
 |**DTO**|Data Transfer Object|
 |**HTTP**|Hypertext Transfer Protocol|
 |**FAQ**|Frequently Asked Questions|
+|**REST**|Representational State Transfer|
 
 ## 1.4 References
 
@@ -56,10 +57,12 @@ This document is designed for internal use only and will outline the development
 |-|-|
 |[Blog](https://flashcardcommunity.wordpress.com/)|17/10/2018|
 |[GitHub](https://github.com/phoenixfeder/fc-com/)|17/10/2018|
+|[Spring Boot](https://spring.io/projects/spring-boot)|19/10/2018|
+|[ReactJS](https://reactjs.org/)|19/10/2018|
 
 ## 1.5 Overview
 
-The next chapters provide informations about our vision based on the use case diagram as well as more detailed software requirements.
+The next chapters provide information about our vision based on the use case diagram as well as more detailed software requirements.
 
 # 2. Overall Description
 ## 2.1 Vision
@@ -79,34 +82,35 @@ TODO
 
 # 3. Specific Requirements
 ## 3.1 Functionality – Data Backend
-The backend for Flashcard Community is needed to separate the user interface with the data storage, so that there is a checkpoint, if the correct permissions are present to get data or rather to ensure that incoming data is properly built and saved correctly. For security reasons data is filtered by the backend. It is then packed in the right format which the next chapter describes. The data is kepted inside a database and maintained by the backend.
+The backend is needed to separate the user interface from the data storage. It verifies if the correct permissions are present to request data or to ensure that incoming data is properly parsed and saved correctly. For security reasons data is filtered by the backend. It is then packed in the right format which the next chapter describes. The data is kept inside a database and maintained by the backend.
 
 ### 3.1.1 Read data given over API endpoints
-For the communication of both sides (frontend and backend) we need a data format which can be read by both frameworks, therefore JSON is used. The frontend sends data in that format to the backend in form of a request and waits for a response. The backend doesn't require a response from the frontend.
+For the communication between both sides (frontend and backend) a universal data format is needed, therefore JSON is used. The frontend sends data in JSON to the backend in form of a request and waits for a response from the backend which also answers with JSON.
 
 ### 3.1.2 Parse data
-The incoming data will be checked if the needed values are present and the right permissions are given. We use for the data transfer dto objects, which is an reduced and compact format of the entities the backend is using with the database. So the data has to be parsed in those objects. Also the backend parses data from the database in those dto objects for sending them.
+Incoming data needs to be checked if the sent values represent the correct data type and if the user that sends the request has the permissions to do so. For the data transfer we use so called DTO objects, which is an reduced and compact form of the entities the backend is using with the database. 
 
 ### 3.1.3 Provide data
-Requested data should always be send, if the request was correct, the data is present and the permission is given. The response contains a HTTP status code even if the request failed, so that the frontend knows always what happend.
+After data is requested from the frontend and the user is allowed to do so, the backend sends out the previously mentioned DTO objects. In addition, the response contains a HTTP status code even if the request failed so that the frontend knows if it just received data or an error.
 
 ## 3.2 Functionality – User Interface
-The frontend provides an user interface for the users to interact with the flashcard community system, thus with the database. It requests data and display these graffically. The following subchapters explines the kinds of data the frontend can request.
+The frontend provides an user interface for the users to interact with and is able to request data from the data backend. The following subsections explain the types of data the frontend can request.
 
-### 3.2.1 User data
-User data provides requests with user related data. With these the user can log in, see and edit his profile, visitors can create a new account. Also it provides the basis for the permission-system. Furthermore it gives informations about connected user inside the community.
+### 3.2.1 User system
+At registration, the data provided by the user is stored in the backend. It is needed to log in, edit the profile and also provides the basis for a permission-system. 
 
-### 3.2.3 Flashcard box data
-Flashcard box data provides data to manage the flashcard boxes of the user.
+### 3.2.3 Flashcard boxes
+Data related to single flashcard boxes contain references to individual flashcards. A user can give permissions to other users so they're able to use the same flashcard box as well. 
+A user is able to learn with those boxes using different methods.
 
-### 3.2.4 Flashcard data 
-This data will not be send on its own, because it will be embedded inside the flashcard box data. Here is the data of all cards of an flashcard box located.
+### 3.2.4 Flashcards
+A flashcard data is composed of a virtual front- and backpage. For a better overview, flashcards can only be accessed from a individual flashcard boxes.
 
-### 3.2.5 Statistics data
-The statistics data gives information about the learning progress of flashcard boxes and is saved per user, not per box.
+### 3.2.5 Statistics
+Statistics contains information about the learning progress of individual flashcard boxes and is saved per single user, not per box.
 
 ## 3.4 Usability
-We will build the user interface intuitive, so that a new user does not necessarily need an explanation. If questions arise our interface provides a comprehensive FAQ. If the user doesn't know the principle of flashcards and a system to learn with them, the user interface provides a manual how to learn with flashcards.
+We will build the user interface intuitive, so that a new user does not necessarily need an explanation. If questions arise our interface provides a comprehensive FAQ. If the user doesn't know the principle of flashcards and a system to learn with them, the user interface provides a manual how to learn with flashcards as well.
 
 ## 3.5 Reliability
 In the following we describe the availability, MTBF and MTTR, accuracy and bug classes we strive for.
@@ -161,12 +165,20 @@ when one needs to edit older parts of the application.
 
 
 ## 3.8 Design Constraints
+We are focused on building a modern-looking application using modern technologies. Of course there are other smaller libraries and frameworks used than the ones that
+are listed, but they represent just a small fraction of the whole project and aren't worth mentioning. Especially in ReactJS one does add a lot of external modules.
+
 ### 3.8.1 Spring Boot
-- Java
+Spring Boot is built on top of the Spring framework and provides the developer with helpful features to create and run web applications. In our case, a REST Web Service
+which represents the interface between our front- and backend. As we want to benefit from the newest features of Java 10, the platform this service will be hosted on 
+needs to support Java 10 or higher.
 
 ### 3.8.2 ReactJS
-- JS
-- Material UI
+ReactJS helps building interactive UIs that can be updated dynamically and therefore eliminate the need to refresh the web application. One can also develop single 
+components and can reuse them all over the application. Such a component could be a login form, a profile card or anything else one wants to reuse. We are going to 
+import a React framework called Material-UI that provides a lot of pre-defined components. Its design based on, oh wonder, the Material-Design. The development will
+take place with the newest version of JavaScript. Fortunately, our development environment is able to compile it to the lower version of JavaScript. Thus, we can
+use the newest features without having to worry about browser compatibility. 
 
 ### 3.8.3 Supported Platforms 
 Since FlashCardCommunity will be a web application the user only needs a modern web browser and a stable internet connection. With modern web browser we mean the
