@@ -195,21 +195,33 @@ instructions and enough pictures to show the user exactly what to click at.
 
 ## 3.11 Interfaces
 ### 3.11.1 User Interfaces
-- One site for each given functionality (see top)
-- Sites accesible over menu
-- Easy on the eyes
+Our User Interface will provide one page for each implemented functionality.
+To navigate between these sites the user will find a menu bar at the sides.
+    
+Since we are using the Material UI framework the application 
+ 
+ we can use its component-based loading process. 
+This way we don`t need to reload the whole site but only the needed components.
+
 
 ### 3.11.2 Hardware Interfaces
 N\A
 
 ### 3.11.3 Software Interfaces
-- API stuff here
+Our backend implements a REST-API, whose URLs our frontend can invoke with Http-Requests.
+We will prepare base URLs for data concerning the user as well as the flashcards. 
+For each base URL one can choose to either receive the data to show them on the website or push new data to our backend.
+ 
+These data will be processed by our backend and then passed to our database.
+The connection between our backend and the database will be managed by Hibernate.
 
 ### 3.11.4 Communications Interfaces
-- JSON stuff here
+Each HTTP-Request and Response contains a JSON.
+By  interpreting its content our system will be able to transfer all needed data between front- and backend.
+
 
 ## 3.12 Licensing Requirements
-- MIT License, see Repo
+Our project runs under the MIT License. This way everyone is allowed to create his own version
 
 ## 3.13 Legal, Copyright and other Notices
 N\A
