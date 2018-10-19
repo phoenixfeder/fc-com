@@ -94,7 +94,7 @@ Requested data should always be send, if the request was correct, the data is pr
 The frontend provides an user interface for the users to interact with the flashcard community system, thus with the database. It requests data and display these graffically. The following subchapters explines the kinds of data the frontend can request.
 
 ### 3.2.1 User data
-User data provides requests with user related data. With these the user can log in, see and edit his profile, visitors can create a new account. Also it provides the basis for the permission-system.
+User data provides requests with user related data. With these the user can log in, see and edit his profile, visitors can create a new account. Also it provides the basis for the permission-system. Furthermore it gives informations about connected user inside the community.
 
 ### 3.2.3 Flashcard box data
 Flashcard box data provides data to manage the flashcard boxes of the user.
@@ -103,6 +103,7 @@ Flashcard box data provides data to manage the flashcard boxes of the user.
 This data will not be send on its own, because it will be embedded inside the flashcard box data. Here is the data of all cards of an flashcard box located.
 
 ### 3.2.5 Statistics data
+The statistics data gives information about the learning progress of flashcard boxes and is saved per user, not per box.
 
 ## 3.4 Usability
 We will build the user interface intuitive, so that a new user does not necessarily need an explanation. If questions arise our interface provides a comprehensive FAQ. If the user doesn't know the principle of flashcards and a system to learn with them, the user interface provides a manual how to learn with flashcards.
@@ -114,7 +115,6 @@ In the following we describe the availability, MTBF and MTTR, accuracy and bug c
 Since we are trying to focus on a bug free application rather than caring about hosting it on our own, the availability depends on the hosting
 provider we choose. Due redundancy and other security arrangements, most providers can ensure an uptime over 99.9% of the time its hosted at 
 their datacenter.
-
 
 ### 3.5.2 MTBF, MTTR
 If the application fails due an hardware issue, then the mean times are up to our hosting provider. Since the ensured uptime of most hosting providers
