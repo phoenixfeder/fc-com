@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import App from '../components/App';
+import {withRouter} from 'react-router-dom';
 
 const AppContainer = connect()(App);
 
-export default AppContainer;
+export default withRouter(AppContainer);
