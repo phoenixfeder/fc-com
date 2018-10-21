@@ -199,11 +199,7 @@ instructions and enough pictures to show the user exactly what to click at.
 Our User Interface will provide one page for each implemented functionality.
 To navigate between these sites the user will find a menu bar at the sides.
     
-Since we are using the Material UI framework the application 
- 
- we can use its component-based loading process. 
-This way we don`t need to reload the whole site but only the needed components.
-
+Since we are using the Material UI framework the application will be accessible from either desktop or mobile browsers.
 
 ### 3.11.2 Hardware Interfaces
 N\A
@@ -222,7 +218,7 @@ By  interpreting its content our system will be able to transfer all needed data
 
 
 ## 3.12 Licensing Requirements
-Our project runs under the MIT License. This way everyone is allowed to create his own version
+Our project runs under the MIT License. This way everyone is allowed to create his own version.
 
 ## 3.13 Legal, Copyright and other Notices
 N\A
