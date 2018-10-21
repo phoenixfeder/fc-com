@@ -59,6 +59,7 @@ This document is designed for internal use only and will outline the development
 |[GitHub](https://github.com/phoenixfeder/fc-com/)|17/10/2018|
 |[Spring Boot](https://spring.io/projects/spring-boot)|19/10/2018|
 |[ReactJS](https://reactjs.org/)|19/10/2018|
+|[Use Case Diagram](https://github.com/phoenixfeder/fc-com/blob/master/FlashCardCommunityUseCases.png)|21/10/2018|
 
 ## 1.5 Overview
 
@@ -70,15 +71,15 @@ The goal of Flashcard Community is to create an online solution for creating fla
 
 ## 2.2 Product perspective
 
-TODO
+![UseCaseDiagram](/../../blob/master/FlashCardCommunityUseCases.png)
 
 *use case diagram*
 
 ## 2.3 User characteristics
-TODO
+Our main target group consists of students who use flashcards for preparing for an exam and want to share their flashcards with a community or just with their friends.
 
 ## 2.4 Dependencies
-TODO
+FlashCardCommunity depends on a database where all flashcards data is stored. 
 
 # 3. Specific Requirements
 ## 3.1 Functionality – Data Backend
