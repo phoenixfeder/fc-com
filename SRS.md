@@ -70,10 +70,9 @@ The next chapters provide information about our vision based on the use case dia
 The goal of Flashcard Community is to create an online solution for creating flashcards, sort them in boxes and learn with those using some of known learning-systems we will implement. Users can share their boxes with other users, so they can form a small learning community or learning groups.
 
 ## 2.2 Product perspective
+Our Use-Case-Diagram\
+![UseCaseDiagram](https://github.com/phoenixfeder/fc-com/raw/master/graphics/usecases/FlashCardCommunityUseCases.png)
 
-![UseCaseDiagram](/../../blob/master/FlashCardCommunityUseCases.png)
-
-*use case diagram*
 
 ## 2.3 User characteristics
 Our main target group consists of students who use flashcards for preparing for an exam and want to share their flashcards with a community or just with their friends.
