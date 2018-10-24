@@ -10,6 +10,7 @@ import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import {lightTheme} from '../../utils/themeLight';
+import Link from "react-router-dom/es/Link";
 
 const styles = {
     root: {
@@ -38,8 +39,8 @@ class AppBar extends Component {
                             <TypographyUI variant="h6" color="inherit" className={classes.grow}>
                                 Flashcard Community
                             </TypographyUI>
-                            <ButtonUI color="inherit">
-                                Login
+                            <ButtonUI component={Link} to="/register" color="inherit">
+                                Register
                             </ButtonUI>
                         </ToolBarUI>
                     </AppBarUI>
