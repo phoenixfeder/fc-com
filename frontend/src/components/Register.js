@@ -33,20 +33,33 @@ class Register extends Component {
         super();
         this.state = {
             isUsernameInvalid: false,
+            isUsernameTouched: false,
             isPasswordInvalid: false,
+            isPasswordTouched: false,
             isEmailInvalid: false,
+            isEmailTouched: false,
         };
     };
 
+    isAnyInvalid(){
+        return this.state.isUsernameInvalid || this.state.isPasswordInvalid || this.state.isEmailInvalid;
+    };
+    isAllTouched(){
+        return this.state.isUsernameTouched && this.state.isPasswordTouched && this.state.isEmailTouched;
+    }
+
     handleUsernameChange = (event) => {
         this.setState({isUsernameInvalid: event.target.value.length < 4 || event.target.value.length > 12});
+        this.setState({isUsernameTouched: true});
     };
 
     handlePasswordChange = (event) => {
         this.setState({isPasswordInvalid: event.target.value.length < 4});
+        this.setState({isPasswordTouched: true});
     };
     handleEmailChange = (event) => {
         this.setState({isEmailInvalid: !event.target.value.includes('@')});
+        this.setState({isEmailTouched: true});
     };
 
     render() {
@@ -111,7 +124,7 @@ class Register extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="primary" disabled={false}> {/* TODO: Connect all booleans */}
+                                        <Button variant="contained" color="primary" disabled={this.isAnyInvalid() || !this.isAllTouched()}>
                                             Register now!
                                         </Button>
                                     </Grid>
