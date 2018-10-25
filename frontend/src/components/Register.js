@@ -29,16 +29,24 @@ const styles = theme => ({
 
 class Register extends Component {
 
-constructor() {
-    super();
-    this.state = {
-        name: '',
-    }
-};
+    constructor() {
+        super();
+        this.state = {
+            isUsernameInvalid: false,
+            isPasswordInvalid: false,
+            isEmailInvalid: false,
+        };
+    };
 
-    handleNameChange = (event) => {
-        this.setState({ name: event.target.value });
-        console.log(event.target.value)
+    handleUsernameChange = (event) => {
+        this.setState({isUsernameInvalid: event.target.value.length < 4 || event.target.value.length > 12});
+    };
+
+    handlePasswordChange = (event) => {
+        this.setState({isPasswordInvalid: event.target.value.length < 4});
+    };
+    handleEmailChange = (event) => {
+        this.setState({isEmailInvalid: !event.target.value.includes('@')});
     };
 
     render() {
@@ -62,37 +70,44 @@ constructor() {
                                         </Typography>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true}>
+                                        <FormControl required={true} error={this.state.isUsernameInvalid}>
+
                                             <InputLabel>Username</InputLabel>
-                                            <Input type="text" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <UsernameIcon/>
-                                                </InputAdornment>
-                                            }/>
+                                            <Input type="text"
+
+                                                   startAdornment={
+                                                       <InputAdornment position="start">
+                                                           <UsernameIcon/>
+                                                       </InputAdornment>
+                                                   }
+                                                   onChange={this.handleUsernameChange}
+                                            />
                                             <FormHelperText><em>4 - 12 letters and/or numbers</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true}>
+                                        <FormControl required={true} error={this.state.isPasswordInvalid}>
                                             <InputLabel>Password</InputLabel>
                                             <Input type="password" startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon/>
                                                 </InputAdornment>
                                             }
-                                            onChange={this.handleNameChange}
+                                                   onChange={this.handlePasswordChange}
                                             />
                                             <FormHelperText><em>At least 4 characters</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true}>
+                                        <FormControl required={true} error={this.state.isEmailInvalid}>
                                             <InputLabel>E-Mail</InputLabel>
                                             <Input type="email" startAdornment={
                                                 <InputAdornment position="start">
                                                     <EMailIcon/>
                                                 </InputAdornment>
-                                            }/>
+                                            }
+                                                   onChange={this.handleEmailChange}
+                                            />
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
