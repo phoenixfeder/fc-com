@@ -28,6 +28,19 @@ const styles = theme => ({
 });
 
 class Register extends Component {
+
+constructor() {
+    super();
+    this.state = {
+        name: '',
+    }
+};
+
+    handleNameChange = (event) => {
+        this.setState({ name: event.target.value });
+        console.log(event.target.value)
+    };
+
     render() {
         const {classes} = this.props;
         return (
@@ -66,7 +79,9 @@ class Register extends Component {
                                                 <InputAdornment position="start">
                                                     <PasswordIcon/>
                                                 </InputAdornment>
-                                            }/>
+                                            }
+                                            onChange={this.handleNameChange}
+                                            />
                                             <FormHelperText><em>At least 4 characters</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
