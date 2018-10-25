@@ -63,7 +63,7 @@ class Register extends Component {
                                         <Typography variant="h3" component="h3" align="center">
                                             Register
                                         </Typography>
-                                        <Typography variant="p" component="p" align="center"
+                                        <Typography component="p" align="center"
                                                     className={classes.headline}>
                                             ... at Flashcard Community!<br/>Don't worry, we don't require unnecessary
                                             information :)<br/>
@@ -111,7 +111,7 @@ class Register extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="primary">
+                                        <Button variant="contained" color="primary" disabled={false}> {/* TODO: Connect all booleans */}
                                             Register now!
                                         </Button>
                                     </Grid>
