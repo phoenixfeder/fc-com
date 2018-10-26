@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class FAQ extends Component {
+class HelloWorld extends Component {
 
     constructor() {
         super();
@@ -40,4 +40,4 @@ class FAQ extends Component {
 
 }
 
-export default FAQ;
+export default HelloWorld;
