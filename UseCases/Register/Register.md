@@ -4,6 +4,8 @@
 ## 1. General
 
 ### 1.1 Brief Description
+A visitor will be able to register on our site by providing a username, a password and an 
+E-mail address. It is needed to use our platform.
 
 Mockup:
 
