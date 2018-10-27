@@ -130,7 +130,7 @@ class Register extends Component {
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="caption" className={classes.headline}>
-                                            Got an account already? <a href="#">Sign in.</a>
+                                            Got an account already? <a href={"www.google.de"}>Sign in.</a>
                                         </Typography>
 
                                     </Grid>

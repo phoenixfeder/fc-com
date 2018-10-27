@@ -46,7 +46,7 @@ class AppBar extends Component {
 
     render() {
         const {classes} = this.props;
-        const { auth, anchorEl } = this.state;
+        const {anchorEl} = this.state;
         const open = Boolean(anchorEl);
         return (
             <div className={classes.root}>
