@@ -65,8 +65,8 @@ class EditProfile extends Component {
                         <Grid item sm={12} md={8} lg={6}>
                             <Grid container justify="center" spacing={16} className={classes.paper} component={Paper}
                                   elevation={2} direction={"column"}>
-                                <Grid container spacing={16} direction={"column"}>
-                                    <Grid item lg={12}>
+                                <Grid container spacing={16}>
+                                    <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="h4" component="h3">
                                             Edit Profile
                                         </Typography>
