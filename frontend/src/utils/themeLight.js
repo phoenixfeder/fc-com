@@ -7,4 +7,7 @@ export const lightTheme = createMuiTheme({
         primary: blue,
         secondary: red,
     },
+    typography: {
+        useNextVariants: true,
+    },
 });
