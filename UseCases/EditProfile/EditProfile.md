@@ -12,6 +12,7 @@ the user could also delete his account.
 
 
 ![Mockup Large](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/EditProfile/EditProfileMockupLarge.JPG)
+
 ![Mockup Small](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/EditProfile/EditProfileMockupSmall.JPG)
 
 ## 2. Flow of Events
