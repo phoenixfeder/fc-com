@@ -17,7 +17,7 @@ E-mail address. It is needed to use our platform.
 A flowchart about what happens on each side of the application for this specific use case. 
 ### 2.1 Basic Flow
 
-![Alt-Text]()
+![Alt-Text](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Register/RegisterFlowchart.svg)
 
 	
 ## 3. Special Requirements
