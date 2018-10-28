@@ -10,14 +10,15 @@ E-mail address. It is needed to use our platform.
 ### 1.2 Mock-up
 
 
-![Alt-Text]()
+![Mockup Large](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Register/RegisterMockupLarge.JPG)
+![Mockup Small](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Register/RegisterMockupSmall.JPG)
 
 
 ## 2. Flow of Events
 A flowchart about what happens on each side of the application for this specific use case. 
 ### 2.1 Basic Flow
 
-![Alt-Text](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Register/RegisterFlowchart.svg)
+![Register Flowchart](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Register/RegisterFlowchart.svg)
 
 	
 ## 3. Special Requirements
