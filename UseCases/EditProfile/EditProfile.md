@@ -11,15 +11,15 @@ the user could also delete his account.
 ### 1.2 Mock-up
 
 
-![Mockup Large](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/EditProfile/EditProfileMockupLarge.JPG)
+![Mockup Large](https://github.com/phoenixfeder/fc-com/raw/UCS_Register_Edit/UseCases/EditProfile/EditProfileMockupLarge.JPG)
 
-![Mockup Small](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/EditProfile/EditProfileMockupSmall.JPG)
+![Mockup Small](https://github.com/phoenixfeder/fc-com/raw/UCS_Register_Edit/UseCases/EditProfile/EditProfileMockupSmall.JPG)
 
 ## 2. Flow of Events
 A flowchart about what happens on each side of the application for this specific use case.
 ### 2.1 Basic Flow
 
-![Edit Profile Flowchart](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/EditProfile/EditProfileFlowchart.png)
+![Edit Profile Flowchart](https://github.com/phoenixfeder/fc-com/raw/UCS_Register_Edit/UseCases/EditProfile/EditProfileFlowchart.png)
 
 	
 ## 3. Special Requirements
