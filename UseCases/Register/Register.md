@@ -11,7 +11,6 @@ E-mail address. It is needed to use our platform.
 
 
 ![Mockup Large](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Register/RegisterMockupLarge.JPG)
-
 ![Mockup Small](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Register/RegisterMockupSmall.JPG)
 
 
