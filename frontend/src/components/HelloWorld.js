@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {backendBaseURL} from '../jsonProperty';
 
 class HelloWorld extends Component {
 
@@ -13,8 +14,8 @@ class HelloWorld extends Component {
     }
 
     componentWillMount() {
-        console.log("started")
-        fetch('http://localhost:8080/flashcard/100000')
+
+        fetch(backendBaseURL + '/flashcard/100000')
             .then(results => {
                 return results.json();
             })
