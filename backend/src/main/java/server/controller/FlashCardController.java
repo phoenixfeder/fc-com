@@ -2,12 +2,8 @@ package server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import server.entities.FlashCard;
-import server.exceptions.NoFlashCardWithIDException;
+import org.springframework.web.bind.annotation.*;
+import server.entities.dto.FlashCardDTO;
 import server.services.FlashCardService;
 
 @Controller
@@ -21,17 +17,12 @@ public class FlashCardController {
         this.flashCardService = flashCardService;
     }
 
-
+    @CrossOrigin
     @RequestMapping(
             path = "/{id}",
             method = RequestMethod.GET)
     public @ResponseBody
-    FlashCard getFlashCardWithID(@PathVariable("id") String id_s) {
-        try{
-            int id = Integer.parseInt(id_s);
-            return flashCardService.getFlashCardwithID(id);
-        }catch (NumberFormatException e){
-            throw new NoFlashCardWithIDException();
-        }
+    FlashCardDTO getFlashCardWithID(@PathVariable("id") String id_s) {
+        return flashCardService.getFlashCardWithID(id_s);
     }
 }

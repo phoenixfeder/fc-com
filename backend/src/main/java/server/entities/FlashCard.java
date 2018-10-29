@@ -15,8 +15,8 @@ import javax.persistence.Id;
 @ToString
 public class FlashCard {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
 
     private String title;
     private String frontText;
