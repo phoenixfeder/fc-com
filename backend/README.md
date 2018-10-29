@@ -14,4 +14,3 @@
 * Create a database **fcc_db**
 * Open Project
     * If you can run the app go to http://localhost:8080/
-    * You should read in the console **Hello World**
