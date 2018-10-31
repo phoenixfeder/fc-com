@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {BACKEND_URL_GETFLASHCARD} from '../utils/const-paths';
+import Flashcard from './Flashcard';
 
 class HelloWorld extends Component {
 
@@ -14,13 +15,10 @@ class HelloWorld extends Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <div id="helloworld">
                 <p>Ich bin die HelloWorld-Seite</p>
-                <p>Titel: {this.props.flashcard.title}</p>
-                <p>Vorderseite: {this.props.flashcard.frontText}</p>
-                <p>Rückseite: {this.props.flashcard.backText}</p>
+                <Flashcard flashcard={this.props.flashcard}/>
             </div>
         );
     }

@@ -1,0 +1,34 @@
+.flashcard{
+    width: 594px;
+    height: 420px;
+    margin: 10px;
+    text-align: center;
+
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.flashcard-title{
+    position: relative;
+    font-size: 30px;
+    height: 40px;
+    padding: 10px;
+    background: url(../../graphics/fc_linetop.png);
+    background-position-y: bottom;
+    background-repeat: repeat-x;
+}
+
+.flashcard-text{
+    position: relative;
+    font-size: 20px;
+    padding: 7px;
+
+    height: 340px;
+
+    background: url(../../graphics/fc_lines.png);
+
+    line-height: 37px;
+    font
+
+    text-align: center;
+    vertical-align: middle;
+}
