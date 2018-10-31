@@ -14,7 +14,7 @@ class HelloWorld extends Component {
     }
 
     render() {
-
+        console.log(this.props);
         return (
             <div id="helloworld">
                 <p>Ich bin die HelloWorld-Seite</p>

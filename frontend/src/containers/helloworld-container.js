@@ -3,7 +3,7 @@ import HelloWorld from '../components/HelloWorld';
 import {flashCardGotten} from '../actions/flashcard-action';
 
 const mapStateToProps = state => {
-    return { flashcard: state.flashcardReducer.flashcard };
+    return { flashcard: state.flashcards.flashcard };
 };
 
 const mapDispatchToProps = dispatch => {
