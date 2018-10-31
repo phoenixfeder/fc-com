@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {backendBaseURL} from '../jsonProperty';
+import {BACKEND_URL_GETFLASHCARD} from '../utils/const-paths';
 
 class HelloWorld extends Component {
 
@@ -15,7 +15,7 @@ class HelloWorld extends Component {
 
     componentWillMount() {
 
-        fetch(backendBaseURL + '/flashcard/100000')
+        fetch(BACKEND_URL_GETFLASHCARD(100000))
             .then(results => {
                 return results.json();
             })
