@@ -30,15 +30,12 @@
 
 # 1. Introduction
 ## 1.1 Purpose
-
 The purpose of this document gives a general description of the Flashcard Community Project. It explains our vision and all features of the product. Also it offers insights into the system of back- and frontend, the interfaces in both ends for communication and the constraints of the product.
 
 ## 1.2 Scope
-
 This document is designed for internal use only and will outline the development process of the project.
 
 ## 1.3 Definitions, Acronyms and Abbreviations
-
 |Term||
 |-|-|
 |**SRS**|Software Requirements Specification|
@@ -52,7 +49,6 @@ This document is designed for internal use only and will outline the development
 |**REST**|Representational State Transfer|
 
 ## 1.4 References
-
 |Title|Date|
 |-|-|
 |[Blog](https://flashcardcommunity.wordpress.com/)|17/10/2018|
@@ -62,7 +58,6 @@ This document is designed for internal use only and will outline the development
 |[Use Case Diagram](https://github.com/phoenixfeder/fc-com/blob/master/FlashCardCommunityUseCases.png)|21/10/2018|
 
 ## 1.5 Overview
-
 The next chapters provide information about our vision based on the use case diagram as well as more detailed software requirements.
 
 # 2. Overall Description
@@ -165,7 +160,6 @@ Our frontend, backend and each functionality will be clearly separated and we tr
 Furthermore we aim to keep our code clean which we can't guarantee though. Thereby we make it easy to understand our infrastructure and avoid possible confusion
 when one needs to edit older parts of the application.
 
-
 ## 3.8 Design Constraints
 We are focused on building a modern-looking application using modern technologies. Of course there are other smaller libraries and frameworks used than the ones that
 are listed, but they represent just a small fraction of the whole project and aren't worth mentioning. Especially in ReactJS one does add a lot of external modules.
@@ -194,7 +188,6 @@ instructions and enough pictures to show the user exactly what to click at.
 ## 3.10 Purchased Components
 - N\A
 
-
 ## 3.11 Interfaces
 ### 3.11.1 User Interfaces
 Our User Interface will provide one page for each implemented functionality.
@@ -216,7 +209,6 @@ The connection between our backend and the database will be managed by Hibernate
 ### 3.11.4 Communications Interfaces
 Each HTTP-Request and Response contains a JSON.
 By  interpreting its content our system will be able to transfer all needed data between front- and backend.
-
 
 ## 3.12 Licensing Requirements
 Our project runs under the MIT License. This way everyone is allowed to create his own version.
