@@ -1,0 +1,1 @@
+export const FLASHCARD_GOTTEN = 'FLASHCARD_GOTTEN';

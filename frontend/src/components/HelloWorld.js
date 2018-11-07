@@ -1,39 +1,24 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import {BACKEND_URL_GETFLASHCARD} from '../utils/const-paths';
+import Flashcard from './Flashcard';
 
 class HelloWorld extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            title: "",
-            fronttext:"",
-            backtext:"",
-
-        }
-    }
-
     componentWillMount() {
-        console.log("started")
-        fetch('http://localhost:8080/flashcard/100000')
-            .then(results => {
-                return results.json();
-            })
-            .then(data => {
-                this.setState({title: data.title})
-                this.setState({fronttext: data.frontText})
-                this.setState({backtext: data.backText})
-            })
-           // .catch(e => console.log(e.toString()))
+        fetch(BACKEND_URL_GETFLASHCARD(100000))
+        .then(results => {
+            return results.json();
+        })
+        //.then(result => this.props.updateFlashcard(result))
+        .then(result => this.props.updateFlashcard(result))
 
     }
 
     render() {
         return (
-            <div>
+            <div id="helloworld">
                 <p>Ich bin die HelloWorld-Seite</p>
-                <p>Titel: {this.state.title}</p>
-                <p>Vorderseite: {this.state.fronttext}</p>
-                <p>Rückseite: {this.state.backtext}</p>
+                <Flashcard flashcard={this.props.flashcard}/>
             </div>
         );
     }
