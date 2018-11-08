@@ -1,8 +1,10 @@
 package server.services;
 
 import org.springframework.stereotype.Service;
+import server.entities.FlashCardBox;
 import server.entities.dto.FlashCardDTO;
 import server.entities.entitieToDTOTransfer.FlashCardToDTO;
+import server.entities.repositories.FlashCardBoxRepository;
 import server.entities.repositories.FlashCardRepository;
 import server.exceptions.NoFlashCardWithIDException;
 

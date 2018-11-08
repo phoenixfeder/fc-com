@@ -9,12 +9,10 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class FlashCard {
+public class FlashCardBox {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
-    private String title;
-    private String frontText;
-    private String backText;
+    private String name;
 }
