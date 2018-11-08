@@ -5,6 +5,7 @@ import FAQContainer from '../containers/faq-container';
 import RegisterContainer from "../containers/register-container";
 import HelloWorldContainer from "../containers/helloworld-container";
 import EditProfileContainer from "../containers/editprofile-container";
+import LoginContainer from '../containers/login-container'
 
 class Main extends Component {
     render() {
@@ -16,6 +17,7 @@ class Main extends Component {
                     <Route path='/faq' component={FAQContainer}/>
                     <Route path='/helloworld' component={HelloWorldContainer}/>
                     <Route path='/edit' component={EditProfileContainer}/>
+                    <Route path='/login' component={LoginContainer}/>
                 </Switch>
             </div>
         );
