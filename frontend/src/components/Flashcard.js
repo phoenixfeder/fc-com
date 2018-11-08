@@ -3,7 +3,7 @@ import './css/flashcard.css'
 import * as FlashcardStyle from '../utils/const-flashcard';
 
 
-class Header extends Component {
+class Flashcard extends Component {
 
     render() {
         return (
@@ -19,11 +19,11 @@ class Header extends Component {
 
     }
 
-
+    
 
 }
 
 
 
 
-export default Header;
+export default Flashcard;
