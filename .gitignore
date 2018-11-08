@@ -1,6 +1,9 @@
 #idea
 .idea/
 
+node_modules
+package-lock.json
+
 #backend
 backend/out/
 backend/.idea/

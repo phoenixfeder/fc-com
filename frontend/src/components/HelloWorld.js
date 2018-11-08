@@ -15,14 +15,24 @@ class HelloWorld extends Component {
     }
 
     render() {
+
+
         return (
             <div id="helloworld">
                 <p>Ich bin die HelloWorld-Seite</p>
-                <Flashcard flashcard={this.props.flashcard}/>
+                <div >
+                    <Flashcard flashcard={this.props.flashcard}/>
+                </div>
+                <button onClick={() => {setTextToBackText(this.props.flashcard); this.forceUpdate()}}>Turn around</button>
             </div>
+
         );
     }
 
 }
-
+function setTextToBackText(flashcard) {
+    var oldText = flashcard.frontText
+    flashcard.frontText = flashcard.backText
+    flashcard.backText = oldText
+}
 export default HelloWorld;
