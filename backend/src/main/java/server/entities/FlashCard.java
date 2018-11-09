@@ -2,10 +2,9 @@ package server.entities;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -17,4 +16,8 @@ public class FlashCard {
     private String title;
     private String frontText;
     private String backText;
+
+    @ManyToMany(mappedBy = "cards")
+    Set<FlashCardBox> boxes = new HashSet<>();
+
 }
