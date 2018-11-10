@@ -1,12 +1,12 @@
 package server.entities.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import server.entities.dto.request.Register;
-import server.entities.dto.request.Status;
+import server.entities.dto.request.RegisterRequest;
 
 @Getter
 public class RequestDTO {
-    Status status;
-    Register register;
+    @JsonProperty("register")
+    RegisterRequest registerRequest;
 
 }

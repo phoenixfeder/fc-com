@@ -7,5 +7,6 @@ import server.entities.User;
 import java.util.List;
 
 public interface UserRepository extends CrudRepository<User, Long> {
-    User findUserByUserName(String username);
+    User findUserByUsername(String username);
+    User findUserByEmail(String email);
 }
