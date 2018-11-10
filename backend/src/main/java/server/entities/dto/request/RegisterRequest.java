@@ -3,5 +3,6 @@ package server.entities.dto.request;
 import lombok.Getter;
 
 @Getter
-public class Status {
+public class Register {
+    User user;
 }

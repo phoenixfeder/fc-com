@@ -16,7 +16,7 @@ public class Status {
         return new Status("OK");
     }
 
-    public static Status notOk(String message){
-        return new Status(message);
+    public static Status notOk(){
+        return new Status("ERROR");
     }
 }
