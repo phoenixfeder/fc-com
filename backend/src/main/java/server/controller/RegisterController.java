@@ -2,10 +2,8 @@ package server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.services.RegisterService;
 
@@ -19,11 +17,15 @@ public class RegisterController {
         this.registerService = registerService;
     }
 
-    @RequestMapping(
-            path = "/checkname/{name}",
-            method = RequestMethod.GET)
+    @RequestMapping(path = "/checkname/{name}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseDTO checkUsername(@PathVariable("name") String name) {
-        return registerService.isUsernameTaken(name);
+        return registerService.checkUsername(name);
+    }
+
+    @RequestMapping(path = "/newuser", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseDTO addUser(@RequestBody RequestDTO requestDTO) {
+        return registerService.addUser(requestDTO);
     }
 }

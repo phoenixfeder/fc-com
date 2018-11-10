@@ -5,7 +5,7 @@ INSERT INTO flash_card(id, back_text, front_text, title) VALUES
 
 ALTER TABLE user AUTO_INCREMENT=100000;
 
-INSERT INTO user(id, user_name, email, password, is_validated, role_id) VALUES
+INSERT INTO user(id, username, email, password, is_validated, role_id) VALUES
 (100000, 'testuser', 'test.user@test.de', '123456', true, 1);
 
 INSERT INTO role(id, name) VALUES

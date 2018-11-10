@@ -2,23 +2,21 @@ package server.entities.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import server.entities.dto.request.UserRequest;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
-    private String userName;
+public class UserResponse {
+    private String username;
     private String email;
-    private String password;
 
-    public User(String userName, String email, String password) {
-        this.userName = userName;
+    public UserResponse(String username, String email, String password) {
+        this.username = username;
         this.email = email;
-        this.password = password;
     }
 
-    public User(server.entities.dto.request.User user) {
-        this.userName = user.getUserName();
-        this.email = user.getEmail();
-        this.password = user.getPassword();
+    public UserResponse(UserRequest userRequest) {
+        this.username = userRequest.getUsername();
+        this.email = userRequest.getEmail();
     }
 }

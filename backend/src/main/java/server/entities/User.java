@@ -15,11 +15,11 @@ import java.util.Set;
 @ToString
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(unique = true)
-    private String userName;
+    private String username;
     @Column(unique = true)
     private String email;
     @Column(nullable = false)
@@ -32,14 +32,11 @@ public class User {
     private String interest;
     private LocalDate dateOfBirth;
 
-   // @ManyToOne
-   // @JoinColumn(name = "role_id")
-    //private int roleId;
-
-    @ManyToOne(targetEntity = Role.class)
+    @ManyToOne(targetEntity = Role.class, cascade = CascadeType.ALL)
+    @JoinColumn(name="role_id")
     private Role role;
 
-    @ManyToMany(mappedBy = "boxUsers")
+    /*@ManyToMany(mappedBy = "boxUsers")
     private Set<FlashCardBox> boxes = new HashSet<>();
 
     @ManyToMany(mappedBy = "groupUsers")
@@ -57,6 +54,12 @@ public class User {
             joinColumns =  @JoinColumn(name = "friend_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> friendOf = new HashSet<>();
+    private Set<User> friendOf = new HashSet<>();*/
+
+    public void insertDTOData(String username, String email, String password){
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
 }

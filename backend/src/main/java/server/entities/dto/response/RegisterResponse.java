@@ -1,14 +1,17 @@
 package server.entities.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Register {
+public class RegisterResponse {
     private String messageUsername;
     private String messageEmail;
+    private String messagePassword;
 
-    private User user;
+    @JsonProperty("user")
+    private UserResponse userResponse;
 
 }

@@ -5,18 +5,22 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Status {
+public class StatusResponse {
     String message;
 
-    private Status(String message) {
+    private StatusResponse(String message) {
         this.message = message;
     }
 
-    public static Status ok(){
-        return new Status("OK");
+    public static StatusResponse ok() {
+        return new StatusResponse("OK");
     }
 
-    public static Status notOk(){
-        return new Status("ERROR");
+    public static StatusResponse notOk() {
+        return new StatusResponse("ERROR");
+    }
+
+    public static StatusResponse formatError() {
+        return new StatusResponse("JSON FORMAT ERROR");
     }
 }
