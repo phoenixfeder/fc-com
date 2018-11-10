@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Switch, Route} from 'react-router-dom';
-import HomeContainer from '../containers/home-container';
+import Home from './Home';
 import FAQ from './FAQ';
-import RegisterContainer from "../containers/register-container";
+import Register from "./Register";
 import HelloWorldContainer from "../containers/helloworld-container";
 import EditProfile from "./EditProfile";
 import Login from './Login'
@@ -12,8 +12,8 @@ class Main extends Component {
         return (
             <div>
                 <Switch>
-                    <Route exact path='/' component={HomeContainer}/>
-                    <Route path='/register' component={RegisterContainer}/>
+                    <Route exact path='/' component={Home}/>
+                    <Route path='/register' component={Register}/>
                     <Route path='/faq' component={FAQ}/>
                     <Route path='/helloworld' component={HelloWorldContainer}/>
                     <Route path='/edit' component={EditProfile}/>
