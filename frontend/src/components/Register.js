@@ -17,9 +17,11 @@ import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+/*
 const usernameRegex = '';
 const passwordRegex = '';
 const mailRegex = '';
+*/
 
 const styles = theme => ({
     root: {
@@ -78,46 +80,60 @@ class Register extends Component {
 
     handleUsernameChange = (event) => {
         this.setState({
-            isUsernameInvalid: event.target.value.length < 4 || event.target.value.length > 12,
+            isUsernameInvalid: event.target.value.length < 3 || event.target.value.length > 12,
             isUsernameTouched: true,
-            username: event.value,
+            username: event.target.value,
         });
     };
 
     handlePasswordChange = (event) => {
         this.setState({
-            isPasswordInvalid: event.target.value.length < 4,
+            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32,
             isPasswordTouched: true,
-            password: event.value,
+            password: event.target.value,
         });
     };
     handleEmailChange = (event) => {
         this.setState({
             isEmailInvalid: !event.target.value.includes('@'),
             isEmailTouched: true,
-            mail: event.value,
+            mail: event.target.value,
         });
     };
 
     handleSubmit = (event) => {
         //TODO: CONST FOR API
+        console.log(this.isAllTouched);
+        console.log(this.isAnyInvalid);
         this.setState({loading: true});
-        
-        fetch('http://localhost:8080/register', {
+
+        fetch('http://localhost:8080/register/newuser', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    username: this.state.username,
-                    password: this.state.password,
-                    mail: this.state.mail,
-                })
-            }).then(response => {
-                //TODO: Handle response
-                console.log(response)
-
+            body: JSON.stringify({
+                "register": {
+                    "user": {
+                        "username": this.state.username,
+                        "email": this.state.mail,
+                        "password": this.state.password
+                    }
+                }
+            })
+            }).then(results => {
+                return results.json();
+            }).then(result => {
+                console.log(result);
+               
+                //TODO: Proper feedback
+                if (result.status.message === "ERROR") {
+                    console.log("Failed!");
+                } else {
+                    console.log("Success");
+                }
+                
             });
 
         this.setState({loading: false})
@@ -157,7 +173,7 @@ class Register extends Component {
                                                    }
                                                    onChange={this.handleUsernameChange}
                                             />
-                                            <FormHelperText><em>4 - 12 letters and/or numbers</em></FormHelperText>
+                                            <FormHelperText><em>3 - 12 letters and/or numbers</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -170,7 +186,7 @@ class Register extends Component {
                                             }
                                                    onChange={this.handlePasswordChange}
                                             />
-                                            <FormHelperText><em>At least 4 characters</em></FormHelperText>
+                                            <FormHelperText><em>6 - 32 characters</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -200,7 +216,7 @@ class Register extends Component {
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <div className={classes.wrapper}>
-                                            <Button variant="contained" color="primary" disabled={this.isAnyInvalid || !this.isAllTouched} onClick={this.handleSubmit}>
+                                            <Button variant="contained" color="primary" disabled={!this.isAllTouched() || this.isAnyInvalid()} onClick={this.handleSubmit}>
                                                 Register now!
                                             </Button>
                                             {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
