@@ -1,18 +1,13 @@
 package server.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 public class FlashCard {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -21,4 +16,8 @@ public class FlashCard {
     private String title;
     private String frontText;
     private String backText;
+
+    @ManyToMany(mappedBy = "cards")
+    Set<FlashCardBox> boxes = new HashSet<>();
+
 }
