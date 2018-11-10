@@ -14,6 +14,7 @@ import UsernameIcon from '@material-ui/icons/Person'
 import PasswordIcon from '@material-ui/icons/Lock'
 import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
+import Link from 'react-router-dom/es/Link';
 
 const styles = theme => ({
     root: {
@@ -130,7 +131,7 @@ class Register extends Component {
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="caption" className={classes.headline}>
-                                            Got an account already? <a href={"www.google.de"}>Sign in.</a>
+                                            Got an account already? <Link to="/login">Sign in!</Link>
                                         </Typography>
 
                                     </Grid>
