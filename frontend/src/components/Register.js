@@ -54,10 +54,15 @@ class Register extends Component {
             isEmailInvalid: false,
             isEmailTouched: false,
 
+            username: '',
+            password: '',
+            mail: '',
+
             loading: false,
         };
     };
 
+    //TODO: Correct Regex missing, check if pw is exactly the same and include "loading"
     isAnyInvalid(){
         return this.state.isUsernameInvalid || this.state.isPasswordInvalid || this.state.isEmailInvalid;
     };
@@ -66,18 +71,49 @@ class Register extends Component {
     }
 
     handleUsernameChange = (event) => {
-        this.setState({isUsernameInvalid: event.target.value.length < 4 || event.target.value.length > 12});
-        this.setState({isUsernameTouched: true});
+        this.setState({
+            isUsernameInvalid: event.target.value.length < 4 || event.target.value.length > 12,
+            isUsernameTouched: true,
+            username: event.value,
+        });
     };
 
     handlePasswordChange = (event) => {
-        this.setState({isPasswordInvalid: event.target.value.length < 4});
-        this.setState({isPasswordTouched: true});
+        this.setState({
+            isPasswordInvalid: event.target.value.length < 4,
+            isPasswordTouched: true,
+            password: event.value,
+        });
     };
     handleEmailChange = (event) => {
-        this.setState({isEmailInvalid: !event.target.value.includes('@')});
-        this.setState({isEmailTouched: true});
+        this.setState({
+            isEmailInvalid: !event.target.value.includes('@'),
+            isEmailTouched: true,
+            mail: event.value,
+        });
     };
+
+    handleSubmit = (event) => {
+        //TODO: CONST FOR API
+        this.setState({ loading: true});
+        fetch('http://localhost:8080/register', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password,
+                mail: this.state.mail,
+            })
+        }).then( response => {
+            //TODO: Handle response
+            console.log(response)
+            
+        });
+        this.setState({ loading: false })
+    }
 
     render() {
         const {classes} = this.props;
@@ -155,7 +191,7 @@ class Register extends Component {
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <div className={classes.wrapper}>
-                                            <Button variant="contained" color="primary" disabled={this.isAnyInvalid() || !this.isAllTouched()}>
+                                            <Button variant="contained" color="primary" disabled={this.isAnyInvalid() || !this.isAllTouched()} onClick={this.handleSubmit}>
                                                 Register now!
                                             </Button>
                                             {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
