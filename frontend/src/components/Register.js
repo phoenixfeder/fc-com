@@ -15,6 +15,7 @@ import PasswordIcon from '@material-ui/icons/Lock'
 import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
     root: {
@@ -25,6 +26,19 @@ const styles = theme => ({
     headline: {
         paddingTop: 20,
         paddingBottom: 20
+    },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    wrapper: {
+        margin: theme.spacing.unit,
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
     },
 });
 
@@ -39,6 +53,8 @@ class Register extends Component {
             isPasswordTouched: false,
             isEmailInvalid: false,
             isEmailTouched: false,
+
+            loading: false,
         };
     };
 
@@ -113,6 +129,19 @@ class Register extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
+                                        <FormControl required={true} error={this.state.isPasswordInvalid}>
+                                            <InputLabel>Repeat password</InputLabel>
+                                            <Input type="password" startAdornment={
+                                                <InputAdornment position="start">
+                                                    <PasswordIcon />
+                                                </InputAdornment>
+                                            }
+                                                onChange={this.handlePasswordChange}
+                                            />
+                                            <FormHelperText><em>See above</em></FormHelperText>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={this.state.isEmailInvalid}>
                                             <InputLabel>E-Mail</InputLabel>
                                             <Input type="email" startAdornment={
@@ -125,9 +154,12 @@ class Register extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="primary" disabled={this.isAnyInvalid() || !this.isAllTouched()}>
-                                            Register now!
-                                        </Button>
+                                        <div className={classes.wrapper}>
+                                            <Button variant="contained" color="primary" disabled={this.isAnyInvalid() || !this.isAllTouched()}>
+                                                Register now!
+                                            </Button>
+                                            {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                                        </div>                                        
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="caption" className={classes.headline}>
