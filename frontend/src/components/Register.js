@@ -17,6 +17,10 @@ import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+const usernameRegex = '';
+const passwordRegex = '';
+const mailRegex = '';
+
 const styles = theme => ({
     root: {
         ...theme.mixins.gutters(),
@@ -70,6 +74,8 @@ class Register extends Component {
         return this.state.isUsernameTouched && this.state.isPasswordTouched && this.state.isEmailTouched;
     }
 
+    
+
     handleUsernameChange = (event) => {
         this.setState({
             isUsernameInvalid: event.target.value.length < 4 || event.target.value.length > 12,
@@ -95,24 +101,27 @@ class Register extends Component {
 
     handleSubmit = (event) => {
         //TODO: CONST FOR API
-        this.setState({ loading: true});
+        this.setState({loading: true});
+        
         fetch('http://localhost:8080/register', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password,
-                mail: this.state.mail,
-            })
-        }).then( response => {
-            //TODO: Handle response
-            console.log(response)
-            
-        });
-        this.setState({ loading: false })
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: this.state.username,
+                    password: this.state.password,
+                    mail: this.state.mail,
+                })
+            }).then(response => {
+                //TODO: Handle response
+                console.log(response)
+
+            });
+
+        this.setState({loading: false})
+        
     }
 
     render() {
@@ -191,7 +200,7 @@ class Register extends Component {
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <div className={classes.wrapper}>
-                                            <Button variant="contained" color="primary" disabled={this.isAnyInvalid() || !this.isAllTouched()} onClick={this.handleSubmit}>
+                                            <Button variant="contained" color="primary" disabled={this.isAnyInvalid || !this.isAllTouched} onClick={this.handleSubmit}>
                                                 Register now!
                                             </Button>
                                             {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
