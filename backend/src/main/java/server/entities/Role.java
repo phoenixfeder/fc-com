@@ -20,8 +20,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    private int name;
-
-    private boolean permissionA;
+    private String name;
 
 }

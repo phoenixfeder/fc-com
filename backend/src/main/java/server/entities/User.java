@@ -22,10 +22,11 @@ public class User {
     private String userName;
     @Column(unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
 
     private boolean isValidated = false;
-    private String checkSum;
+    private String checkSum = "";
 
     private String realName;
     private String interest;
