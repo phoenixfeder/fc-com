@@ -1,6 +1,7 @@
 package server.services;
 
 import org.springframework.stereotype.Service;
+import server.config.Lang;
 import server.entities.Role;
 import server.entities.User;
 import server.entities.dto.RequestDTO;
@@ -29,7 +30,7 @@ public class RegisterService {
         if (CheckEntries.isUserNameTaken(userRepository, name)) {
             responseDTO.setStatusResponse(StatusResponse.notOk());
             RegisterResponse registerResponse = new RegisterResponse();
-            registerResponse.setMessageUsername("Username exists.");
+            registerResponse.setMessageUsername(Lang.UsernameIsTaken);
             responseDTO.setRegisterResponse(registerResponse);
         } else {
             responseDTO.setStatusResponse(StatusResponse.ok());
@@ -52,32 +53,37 @@ public class RegisterService {
 
             if (CheckEntries.isUserNameTaken(userRepository, userRequest.getUsername())) {
                 responseDTO.setStatusResponse(StatusResponse.notOk());
-                responseDTO.getRegisterResponse().setMessageUsername("Username already exists.");
+                responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameIsTaken);
             }
 
             if (CheckEntries.isEmailTaken(userRepository, userRequest.getEmail())) {
                 responseDTO.setStatusResponse(StatusResponse.notOk());
-                responseDTO.getRegisterResponse().setMessageEmail("Email already exists.");
+                responseDTO.getRegisterResponse().setMessageEmail(Lang.EmailIsTaken);
             }
 
             if(userRequest.getUsername() == null || "".equals(userRequest.getUsername())){
                 responseDTO.setStatusResponse(StatusResponse.notOk());
-                responseDTO.getRegisterResponse().setMessageUsername("Username is required.");
+                responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameRequired);
             }
 
-            if(userRequest.getUsername() != null && userRequest.getUsername().length() < 6){
+            if(userRequest.getUsername() != null && (userRequest.getUsername().length() < 3 || userRequest.getUsername().length() > 12)){
                 responseDTO.setStatusResponse(StatusResponse.notOk());
-                responseDTO.getRegisterResponse().setMessageUsername("Username must be at least 6 characters.");
+                responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameTooShort);
             }
 
             if(userRequest.getEmail() == null || "".equals(userRequest.getEmail())){
                 responseDTO.setStatusResponse(StatusResponse.notOk());
-                responseDTO.getRegisterResponse().setMessageEmail("Email is required.");
+                responseDTO.getRegisterResponse().setMessageEmail(Lang.EmailRequired);
             }
 
             if(userRequest.getPassword() == null || "".equals(userRequest.getPassword())){
                 responseDTO.setStatusResponse(StatusResponse.notOk());
-                responseDTO.getRegisterResponse().setMessagePassword("Password is required.");
+                responseDTO.getRegisterResponse().setMessagePassword(Lang.PasswordRequired);
+            }
+
+            if(userRequest.getPassword() != null && (userRequest.getPassword().length() < 6 || userRequest.getPassword().length() > 32)){
+                responseDTO.setStatusResponse(StatusResponse.notOk());
+                responseDTO.getRegisterResponse().setMessagePassword(Lang.PasswordTooShort);
             }
 
             if (responseDTO.getStatusResponse().getMessage().equals(StatusResponse.ok().getMessage())) {
