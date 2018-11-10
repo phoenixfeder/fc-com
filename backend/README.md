@@ -7,7 +7,7 @@
 * IntelliJ Ultimate
 * MySQL Database (Xampp will help)
 ## What to do
-* create an userRequest for **localhost** in the mysql database
+* create an user for **localhost** in the mysql database
     * name **fcc**
     * password **u34o3MwWfigwwCws**
     * Grant all rights!
