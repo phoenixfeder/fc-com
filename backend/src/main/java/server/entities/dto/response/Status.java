@@ -1,4 +1,4 @@
-package server.entities.dto.parts;
+package server.entities.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
