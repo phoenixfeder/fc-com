@@ -3,6 +3,7 @@ package server.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import server.config.Config;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.services.RegisterService;
@@ -17,12 +18,14 @@ public class RegisterController {
         this.registerService = registerService;
     }
 
+    @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/checkname/{name}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseDTO checkUsername(@PathVariable("name") String name) {
         return registerService.checkUsername(name);
     }
 
+    @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/newuser", method = RequestMethod.POST)
     public @ResponseBody
     ResponseDTO addUser(@RequestBody RequestDTO requestDTO) {

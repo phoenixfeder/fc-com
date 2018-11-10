@@ -18,7 +18,7 @@ public class FlashCardController {
         this.flashCardService = flashCardService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(
             path = "/{id}",
             method = RequestMethod.GET)
