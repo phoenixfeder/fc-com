@@ -15,6 +15,13 @@ import PasswordIcon from '@material-ui/icons/Lock'
 import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+/*
+const usernameRegex = '';
+const passwordRegex = '';
+const mailRegex = '';
+*/
 
 const styles = theme => ({
     root: {
@@ -25,6 +32,19 @@ const styles = theme => ({
     headline: {
         paddingTop: 20,
         paddingBottom: 20
+    },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    wrapper: {
+        margin: theme.spacing.unit,
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
     },
 });
 
@@ -39,9 +59,16 @@ class Register extends Component {
             isPasswordTouched: false,
             isEmailInvalid: false,
             isEmailTouched: false,
+
+            username: '',
+            password: '',
+            mail: '',
+
+            loading: false,
         };
     };
 
+    //TODO: Correct Regex missing, check if pw is exactly the same and include "loading"
     isAnyInvalid(){
         return this.state.isUsernameInvalid || this.state.isPasswordInvalid || this.state.isEmailInvalid;
     };
@@ -49,19 +76,69 @@ class Register extends Component {
         return this.state.isUsernameTouched && this.state.isPasswordTouched && this.state.isEmailTouched;
     }
 
+    
+
     handleUsernameChange = (event) => {
-        this.setState({isUsernameInvalid: event.target.value.length < 4 || event.target.value.length > 12});
-        this.setState({isUsernameTouched: true});
+        this.setState({
+            isUsernameInvalid: event.target.value.length < 3 || event.target.value.length > 12,
+            isUsernameTouched: true,
+            username: event.target.value,
+        });
     };
 
     handlePasswordChange = (event) => {
-        this.setState({isPasswordInvalid: event.target.value.length < 4});
-        this.setState({isPasswordTouched: true});
+        this.setState({
+            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32,
+            isPasswordTouched: true,
+            password: event.target.value,
+        });
     };
     handleEmailChange = (event) => {
-        this.setState({isEmailInvalid: !event.target.value.includes('@')});
-        this.setState({isEmailTouched: true});
+        this.setState({
+            isEmailInvalid: !event.target.value.includes('@'),
+            isEmailTouched: true,
+            mail: event.target.value,
+        });
     };
+
+    handleSubmit = (event) => {
+        //TODO: CONST FOR API
+        console.log(this.isAllTouched);
+        console.log(this.isAnyInvalid);
+        this.setState({loading: true});
+
+        fetch('http://localhost:8080/register/newuser', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            body: JSON.stringify({
+                "register": {
+                    "user": {
+                        "username": this.state.username,
+                        "email": this.state.mail,
+                        "password": this.state.password
+                    }
+                }
+            })
+            }).then(results => {
+                return results.json();
+            }).then(result => {
+                console.log(result);
+               
+                //TODO: Proper feedback
+                if (result.status.message === "ERROR") {
+                    console.log("Failed!");
+                } else {
+                    console.log("Success");
+                }
+                
+            });
+
+        this.setState({loading: false})
+        
+    }
 
     render() {
         const {classes} = this.props;
@@ -87,7 +164,7 @@ class Register extends Component {
                                         <FormControl required={true} error={this.state.isUsernameInvalid}>
 
                                             <InputLabel>Username</InputLabel>
-                                            <Input type="text"
+                                            <Input id="user-input" type="text"
 
                                                    startAdornment={
                                                        <InputAdornment position="start">
@@ -96,26 +173,39 @@ class Register extends Component {
                                                    }
                                                    onChange={this.handleUsernameChange}
                                             />
-                                            <FormHelperText><em>4 - 12 letters and/or numbers</em></FormHelperText>
+                                            <FormHelperText><em>3 - 12 letters and/or numbers</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={this.state.isPasswordInvalid}>
                                             <InputLabel>Password</InputLabel>
-                                            <Input type="password" startAdornment={
+                                            <Input id="user-password" type="password" startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon/>
                                                 </InputAdornment>
                                             }
                                                    onChange={this.handlePasswordChange}
                                             />
-                                            <FormHelperText><em>At least 4 characters</em></FormHelperText>
+                                            <FormHelperText><em>6 - 32 characters</em></FormHelperText>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item sm={12} md={12} lg={12}>
+                                        <FormControl required={true} error={this.state.isPasswordInvalid}>
+                                            <InputLabel>Repeat password</InputLabel>
+                                            <Input id="user-password-repeat" type="password" startAdornment={
+                                                <InputAdornment position="start">
+                                                    <PasswordIcon />
+                                                </InputAdornment>
+                                            }
+                                                onChange={this.handlePasswordChange}
+                                            />
+                                            <FormHelperText><em>See above</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={this.state.isEmailInvalid}>
                                             <InputLabel>E-Mail</InputLabel>
-                                            <Input type="email" startAdornment={
+                                            <Input id="user-mail-input" type="email" startAdornment={
                                                 <InputAdornment position="start">
                                                     <EMailIcon/>
                                                 </InputAdornment>
@@ -125,13 +215,16 @@ class Register extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="primary" disabled={this.isAnyInvalid() || !this.isAllTouched()}>
-                                            Register now!
-                                        </Button>
+                                        <div className={classes.wrapper}>
+                                            <Button id="register-button" variant="contained" color="primary" disabled={!this.isAllTouched() || this.isAnyInvalid()} onClick={this.handleSubmit}>
+                                                Register now!
+                                            </Button>
+                                            {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                                        </div>                                        
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="caption" className={classes.headline}>
-                                            Got an account already? <Link to="/login">Sign in!</Link>
+                                            Got an account already? <Link id="link-login" to="/login">Sign in!</Link>
                                         </Typography>
 
                                     </Grid>
