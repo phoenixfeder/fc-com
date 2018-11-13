@@ -164,7 +164,7 @@ class Register extends Component {
                                         <FormControl required={true} error={this.state.isUsernameInvalid}>
 
                                             <InputLabel>Username</InputLabel>
-                                            <Input type="text"
+                                            <Input id="user-input" type="text"
 
                                                    startAdornment={
                                                        <InputAdornment position="start">
@@ -179,7 +179,7 @@ class Register extends Component {
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={this.state.isPasswordInvalid}>
                                             <InputLabel>Password</InputLabel>
-                                            <Input type="password" startAdornment={
+                                            <Input id="user-password" type="password" startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon/>
                                                 </InputAdornment>
@@ -192,7 +192,7 @@ class Register extends Component {
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={this.state.isPasswordInvalid}>
                                             <InputLabel>Repeat password</InputLabel>
-                                            <Input type="password" startAdornment={
+                                            <Input id="user-password-repeat" type="password" startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon />
                                                 </InputAdornment>
@@ -205,7 +205,7 @@ class Register extends Component {
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={this.state.isEmailInvalid}>
                                             <InputLabel>E-Mail</InputLabel>
-                                            <Input type="email" startAdornment={
+                                            <Input id="user-mail-input" type="email" startAdornment={
                                                 <InputAdornment position="start">
                                                     <EMailIcon/>
                                                 </InputAdornment>
@@ -216,7 +216,7 @@ class Register extends Component {
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <div className={classes.wrapper}>
-                                            <Button variant="contained" color="primary" disabled={!this.isAllTouched() || this.isAnyInvalid()} onClick={this.handleSubmit}>
+                                            <Button id="register-button" variant="contained" color="primary" disabled={!this.isAllTouched() || this.isAnyInvalid()} onClick={this.handleSubmit}>
                                                 Register now!
                                             </Button>
                                             {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
@@ -224,7 +224,7 @@ class Register extends Component {
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="caption" className={classes.headline}>
-                                            Got an account already? <Link to="/login">Sign in!</Link>
+                                            Got an account already? <Link id="link-login" to="/login">Sign in!</Link>
                                         </Typography>
 
                                     </Grid>
