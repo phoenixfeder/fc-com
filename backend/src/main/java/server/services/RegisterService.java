@@ -27,13 +27,20 @@ public class RegisterService {
     public ResponseDTO checkUsername(String name) {
         ResponseDTO responseDTO = new ResponseDTO();
 
+        responseDTO.setStatusResponse(StatusResponse.ok());
+
         if (CheckEntries.isUserNameTaken(userRepository, name)) {
             responseDTO.setStatusResponse(StatusResponse.notOk());
             RegisterResponse registerResponse = new RegisterResponse();
             registerResponse.setMessageUsername(Lang.UsernameIsTaken);
             responseDTO.setRegisterResponse(registerResponse);
-        } else {
-            responseDTO.setStatusResponse(StatusResponse.ok());
+        }
+
+        if (name.length() < 3 || name.length() > 12){
+            responseDTO.setStatusResponse(StatusResponse.notOk());
+            RegisterResponse registerResponse = new RegisterResponse();
+            registerResponse.setMessageUsername(Lang.UsernameTooShort);
+            responseDTO.setRegisterResponse(registerResponse);
         }
 
         return responseDTO;
