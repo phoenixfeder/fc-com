@@ -36,6 +36,21 @@ public class RegisterService {
             responseDTO.setStatusResponse(StatusResponse.ok());
         }
 
+        return responseDTO;
+    }
+
+
+    public ResponseDTO checkMail(String mail) {
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        if(CheckEntries.isEmailTaken(userRepository, mail)){
+            responseDTO.setStatusResponse((StatusResponse.notOk()));
+            RegisterResponse registerResponse = new RegisterResponse();
+            registerResponse.setMessageEmail(Lang.EmailIsTaken);
+            responseDTO.setRegisterResponse(registerResponse);
+        }else{
+            responseDTO.setStatusResponse(StatusResponse.ok());
+        }
 
         return responseDTO;
     }
