@@ -5,12 +5,13 @@ Feature: Test of the users input at the register-page
     so that I can correct them
 
     Background:
-        Given I am on the "Registration Page"
+         Given I am on the "Registration" page
 
+    
     Scenario Outline: I am not allowed to enter too short or too long names
-        When I enter <name> in the "nicknamefield"
-        Then I get the error <error>
-        And the "registerbutton" is not clickable
+        When I enter "<name>" in the "username-field"
+        Then I get the error "<error>"
+        And the "register-button" is not clickable
 
         Examples:
             | name                       | error                      |
@@ -18,9 +19,9 @@ Feature: Test of the users input at the register-page
             | abcdefghijklmnopqrstuvwxyz | Your nickname is too long  |
     
     Scenario Outline: I have to enter the email adress in the correct format
-        When I enter <email> in the "emailfield"
+        When I enter "<email>" in the "email-field"
         Then I get the error "No valid email-adress"
-        And the "registerbutton" is not clickable
+        And the "register-button" is not clickable
 
         Examples:
             | email       |
@@ -29,26 +30,27 @@ Feature: Test of the users input at the register-page
             | aaa.aaa@ de |
     
     Scenario Outline: I am not allowed to enter too short or too long passwords
-        When I enter <pw> in the "pwfield"
-        Then I get the error <error>
-        And the "registerbutton" is not clickable
+        When I enter "<pw>" in the "password-field"
+        Then I get the error "<error>"
+        And the "register-button" is not clickable
     
         Examples:
-            | name                       | error                      |
+            | pw                       | error                      |
             | abc                        | Your password is too short |
             | abcdefghijklmnopqrstuvwxyz | Your password is too long  |
 
+    @only
     Scenario: I have to enter the same password in the validate password field
-        When I enter "password123" in the "pwfield"
-        And I enter "password123" in the "pwvalidatefield"
+        When I enter "password123" in the "password-field"
+        And I enter "password123" in the "password-repeat-field"
         Then I get no error
-        When I enter "password456" in the "pwvalidatefield"
+        When I enter "password456" in the "password-repeat-field"
         Then I get the error "The validation does'nt match your password"
-        And the "registerbutton" is not clickable
+        And the "register-button" is not clickable
 
     Scenario: If I enter everything right I can click on the register button
         When I enter "testaccount" in the "nicknamefield"
-        And I enter "test.mail@fc.de" in the "emailfield"
-        And I enter "password123" in the "pwfield"
-        And I enter "password123" in the "pwvalidatefield"
-        Then the "registerbutton" is clickable
+        And I enter "test.mail@fc.de" in the "email-field"
+        And I enter "password123" in the "password-field"
+        And I enter "password123" in the "password-repeat-field"
+        Then the "register-button" is clickable
