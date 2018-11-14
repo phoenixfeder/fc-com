@@ -16,6 +16,7 @@ import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 /*
 const usernameRegex = '';
@@ -59,6 +60,7 @@ class Register extends Component {
             isPasswordTouched: false,
             isEmailInvalid: false,
             isEmailTouched: false,
+            isNoBot: false,
 
             username: '',
             password: '',
@@ -93,12 +95,19 @@ class Register extends Component {
             password: event.target.value,
         });
     };
+
     handleEmailChange = (event) => {
         this.setState({
             isEmailInvalid: !event.target.value.includes('@'),
             isEmailTouched: true,
             mail: event.target.value,
         });
+    };
+
+    handleRecaptchaChange = (event) => {
+        this.setState({
+            isNoBot: true,
+        })
     };
 
     handleSubmit = (event) => {
@@ -213,6 +222,11 @@ class Register extends Component {
                                                    onChange={this.handleEmailChange}
                                             />
                                         </FormControl>
+                                    </Grid>
+                                    <Grid item sm={12} md={12} lg={12}>
+                                        <div className={classes.wrapper}>
+                                            <ReCAPTCHA sitekey="6LeirHoUAAAAAPMRy_IhEWgt-XmiZlNsXBxrwXHe" onChange={this.handleRecaptchaChange} />
+                                        </div>                                        
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <div className={classes.wrapper}>
