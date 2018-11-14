@@ -53,7 +53,7 @@ class Login extends Component {
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={false}>
                                             <InputLabel>E-Mail</InputLabel>
-                                            <Input type="email" startAdornment={
+                                            <Input id="mail-input" type="email" startAdornment={
                                                 <InputAdornment position="start">
                                                     <EMailIcon />
                                                 </InputAdornment>
@@ -64,7 +64,7 @@ class Login extends Component {
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={false}>
                                             <InputLabel>Password</InputLabel>
-                                            <Input type="password" startAdornment={
+                                            <Input id="password-input" type="password" startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon />
                                                 </InputAdornment>
@@ -74,13 +74,13 @@ class Login extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="primary" disabled={false}>
+                                        <Button id="login-button" variant="contained" color="primary" disabled={false}>
                                             Login!
                                         </Button>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="caption" className={classes.headline}>
-                                            Not registered yet? <Link to="/register">Create an account now!</Link>
+                                            Not registered yet? <Link id="create-link" to="/register">Create an account now!</Link>
                                         </Typography>
                                     </Grid>
                                 </Grid>

@@ -59,14 +59,14 @@ class AppBar extends Component {
                             <TypographyUI variant="h6" color="inherit" className={classes.grow}>
                                 Flashcard Community
                             </TypographyUI>
-                            <ButtonUI component={Link} to="/helloworld" color="inherit">
+                            <ButtonUI id="hw-link" component={Link} to="/helloworld" color="inherit">
                                 Hello World
                             </ButtonUI>
-                            <ButtonUI component={Link} to="/faq" color="inherit">
+                            <ButtonUI id="faq-link" component={Link} to="/faq" color="inherit">
                                 FAQ
                             </ButtonUI>
                             <div>
-                                <IconButton
+                                <IconButton id="account-icon"
                                     aria-owns={open ? 'menu-appbar' : null}
                                     aria-haspopup="true"
                                     onClick={this.handleMenu}
@@ -88,8 +88,8 @@ class AppBar extends Component {
                                     open={open}
                                     onClose={this.handleClose}
                                 >
-                                    <MenuItem component={Link} to="/login" onClick={this.handleClose}>Login</MenuItem>
-                                    <MenuItem component={Link} to="/register" onClick={this.handleClose}>Register</MenuItem>
+                                    <MenuItem id="login-menu-link" component={Link} to="/login" onClick={this.handleClose}>Login</MenuItem>
+                                    <MenuItem id="register-menu-link" component={Link} to="/register" onClick={this.handleClose}>Register</MenuItem>
                                 </Menu>
                             </div>
                         </ToolBarUI>
