@@ -16,6 +16,8 @@ exports.select = (select) => {
         case 'register-button':
             return Selector('#register-button');
         case 'username-error-field':
-            return Selector('#usernameErrorMsgID')
+            return Selector('#usernameErrorMsgID');
+        case 'register-feedback-field':
+            return Selector('#register-feedback');
     }
 }
