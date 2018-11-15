@@ -117,19 +117,34 @@ class Register extends Component {
             password: event.target.value,
         });
     };
+
     handleEmailChange = (event) => {
-        var invalid = this.validateEmail(event.target.value)
+        if(event.target.value !== '') {
+
+            fetch('http://localhost:8080/register/checkmail/' + event.target.value)
+                .then(results => {
+                    return results.json();
+                })
+                .then(result => {
+                    this.setState({
+                        isEmailInvalid: !(result.status.message === 'OK'),
+                        emailErrorMsg: (result.register!==undefined)?result.register.messageEmail:'',
+                    })
+                });
+
+        }else{
+            this.setState({
+                emailErrorMsg: 'Email is invalid',
+                isEmailInvalid: true,
+            });
+        }
+
         this.setState({
-            isEmailInvalid: invalid,
             isEmailTouched: true,
             mail: event.target.value,
-            emailErrorMsg: invalid?"No valid email-adress":"",
         });
     };
 
-validateEmail = (email) => {
-    return !email.includes('@');
-}
     handleSubmit = (event) => {
         //TODO: CONST FOR API
         this.setState({loading: true});
