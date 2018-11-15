@@ -1,6 +1,7 @@
 package server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.config.Config;
@@ -13,9 +14,12 @@ import server.services.RegisterService;
 public class RegisterController {
     private RegisterService registerService;
 
+    private ApplicationEventPublisher eventPublisher;
+
     @Autowired
-    public RegisterController(RegisterService registerService) {
+    public RegisterController(RegisterService registerService, ApplicationEventPublisher eventPublisher) {
         this.registerService = registerService;
+        this.eventPublisher = eventPublisher;
     }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
@@ -36,6 +40,11 @@ public class RegisterController {
     @RequestMapping(path = "/newuser", method = RequestMethod.POST)
     public @ResponseBody
     ResponseDTO addUser(@RequestBody RequestDTO requestDTO) {
-        return registerService.addUser(requestDTO);
+
+        ResponseDTO responseDTO = registerService.addUser((requestDTO));
+        if(responseDTO.getStatusResponse().getMessage().equals("OK")){
+
+        }
+        return responseDTO;
     }
 }

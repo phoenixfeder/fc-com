@@ -1,31 +1,28 @@
 package server.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 public class User {
+    @TableGenerator(name = "Id_generator", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "Id_gen", initialValue = 100000, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Id_generator")
     private long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
     private String password;
 
-    private boolean isValidated = false;
+    @ColumnDefault(value = "FALSE")
+    private boolean enabled = false;
     private String checkSum = "";
 
     private String realName;
@@ -33,7 +30,7 @@ public class User {
     private LocalDate dateOfBirth;
 
     @ManyToOne(targetEntity = Role.class, cascade = CascadeType.ALL)
-    @JoinColumn(name="role_id")
+    @JoinColumn(name = "role_id")
     private Role role;
 
     /*@ManyToMany(mappedBy = "boxUsers")
@@ -56,7 +53,7 @@ public class User {
     )
     private Set<User> friendOf = new HashSet<>();*/
 
-    public void insertDTOData(String username, String email, String password){
+    public void insertDTOData(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
