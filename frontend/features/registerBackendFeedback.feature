@@ -21,10 +21,11 @@ Feature: Test of the correct feedback from the backend
             | taken | new.mail@fc.de | pw123456 | Username is taken |
             | newname | taken.mail@fc.de | pw123456 | Email is taken |
 
+    @only
     Scenario:
         Given I enter "newuser" in the "username-field"
         And I enter "new.mail@fc.de" in the "email-field"
         And I enter "pw123456" in the "password-field"
         And I enter "pw123456" in the "password-repeat-field"
         When I click on the "register-button"
-        Then I get the message "Thank you for your registration. Look in your mailaccount to finish the registration"
+        Then I get the message "Thank you, newuser, for your registration. Look in your mailaccount to finish the registration"
