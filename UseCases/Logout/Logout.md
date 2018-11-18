@@ -13,6 +13,7 @@ A real mockup is not needed as it just will be simple button.
 
 ## 2. Flow of Events
 A flowchart about what happens on each side of the application for this specific use case. 
+
 ### 2.1 Basic Flow
 
 ![Logout Flowchart](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Logout/LogoutFlowchart.png)
