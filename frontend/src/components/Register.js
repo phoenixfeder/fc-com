@@ -18,6 +18,13 @@ import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import blue from '@material-ui/core/colors/blue';
 import {BACKEND_URL_REGISTER} from "../utils/const-paths";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
+import * as SnackbarStyles from "./css/SnackbarStyles";
+import Icon from "@material-ui/core/Icon/Icon";
+import green from "@material-ui/core/es/colors/green";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
 
 /*
 const usernameRegex = '';
@@ -71,6 +78,7 @@ class Register extends Component {
 
             loading: false,
             registerMsg: '',
+            registerSend: false,
         };
     };
 
@@ -167,11 +175,46 @@ class Register extends Component {
         }).then(results => {
             return results.json();
         }).then(result => {
-            this.setState({registerMsg:(result.status.message === "ERROR")?'':'Thank you, ' + result.register.user.username + ', for your registration. Look in your mailaccount to finish the registration'});
+            this.setState({registerSend: true, registerMsg:(result.status.message === "ERROR")?'':'Thank you, ' + result.register.user.username + ', for your registration. We´ve sent a mail to ' + result.register.user.email});
+            this.clearInput();
         });
 
-        this.setState({loading: false})
+        this.setState({loading: false,
 
+        })
+
+
+
+    }
+
+    handleSnackbarClose = () => {
+        this.setState({registerSend:false})
+    }
+
+    getSnackbarContent = (name, classes) => {
+        return <SnackbarContent style={{backgroundColor: SnackbarStyles.getStyle(name).backgroundColor, alignItems: 'center'}} message={ <span id={"register-feedback"}><Icon>{SnackbarStyles.getStyle(name).iconName}</Icon> {this.state.registerMsg}</span> }  action={[
+            <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleSnackbarClose}>
+                <CloseIcon className={classes.icon} />
+            </IconButton>,
+        ]}/>
+    }
+
+    clearInput() {
+        this.setState({
+            isUsernameInvalid: false,
+            isUsernameTouched: false,
+            usernameErrorMsg: "3 - 12 characters",
+            isPasswordInvalid: false,
+            isPasswordTouched: false,
+            passwordErrorMsg: "6 - 32 characters",
+            isEmailInvalid: false,
+            isEmailTouched: false,
+            emailErrorMsg: "",
+
+            username: '',
+            password: '',
+            mail: '',
+        });
     }
 
     render() {
@@ -205,6 +248,7 @@ class Register extends Component {
                                                            <UsernameIcon/>
                                                        </InputAdornment>
                                                    }
+                                                   value={this.state.username}
                                                    onChange={this.handleUsernameChange}
                                             />
                                             <FormHelperText id={"usernameErrorMsgID"}><em>{this.state.usernameErrorMsg}</em></FormHelperText>
@@ -218,6 +262,7 @@ class Register extends Component {
                                                     <PasswordIcon/>
                                                 </InputAdornment>
                                             }
+                                                   value={this.state.password}
                                                    onChange={this.handlePasswordChange}
                                             />
                                             <FormHelperText><em>{this.state.passwordErrorMsg}</em></FormHelperText>
@@ -231,6 +276,7 @@ class Register extends Component {
                                                     <PasswordIcon />
                                                 </InputAdornment>
                                             }
+                                                   value={this.state.password}
                                                    onChange={this.handlePasswordChange}
                                             />
                                             <FormHelperText><em>See above</em></FormHelperText>
@@ -244,6 +290,7 @@ class Register extends Component {
                                                     <EMailIcon/>
                                                 </InputAdornment>
                                             }
+                                                   value={this.state.mail}
                                                    onChange={this.handleEmailChange}
                                             />
                                             <FormHelperText><em>{this.state.emailErrorMsg}</em></FormHelperText>
@@ -256,7 +303,6 @@ class Register extends Component {
                                             </Button>
                                             {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                                         </div>
-                                        <Typography style={{color:'green'}} align={"center"} id={"register-feedback"}>{this.state.registerMsg}</Typography>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="caption" className={classes.headline}>
@@ -264,6 +310,7 @@ class Register extends Component {
                                         </Typography>
 
                                     </Grid>
+                                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={this.state.registerSend} autoHideDuration={20000} onClose={this.handleSnackbarClose}>{this.getSnackbarContent('success', classes)}</Snackbar>
                                 </Grid>
                             </Paper>
                         </Grid>
@@ -272,6 +319,7 @@ class Register extends Component {
             </div>
         );
     }
+
 
 }
 
