@@ -10,7 +10,7 @@ To log in is needed to use the full functionality of our platform.
 ### 1.2 Mock-up
 
 
-![Mockup]((https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Login/LoginMockupLarge.JPG)
+![Mockup](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Login/LoginMockupLarge.JPG)
 
 
 ## 2. Flow of Events
