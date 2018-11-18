@@ -88,8 +88,8 @@ class AppBar extends Component {
                                     open={open}
                                     onClose={this.handleClose}
                                 >
-                                    <MenuItem id="login-menu-link" component={Link} to="/login" onClick={this.handleClose}>Login</MenuItem>
-                                    <MenuItem id="register-menu-link" component={Link} to="/register" onClick={this.handleClose}>Register</MenuItem>
+                                    <MenuItem id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit Profile</MenuItem>
+                                    <MenuItem id="register-menu-link" component={Link} to="/logout" onClick={this.handleClose}>Logout</MenuItem>
                                 </Menu>
                             </div>
                         </ToolBarUI>

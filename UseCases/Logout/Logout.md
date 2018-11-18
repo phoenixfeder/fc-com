@@ -8,10 +8,8 @@ A visitor will be able to log in to his account by providing his username and pa
 To log in is needed to use the full functionality of our platform.
 
 ### 1.2 Mock-up
-
-
+A real mockup is not needed as it just will be simple button.
 ![Mockup](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Logout/LogoutMockupLarge.JPG)
-
 
 ## 2. Flow of Events
 A flowchart about what happens on each side of the application for this specific use case. 
