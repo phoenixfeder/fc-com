@@ -68,12 +68,14 @@ class Register extends Component {
             isPasswordInvalid: false,
             isPasswordTouched: false,
             passwordErrorMsg: "6 - 32 characters",
+            isRepeatPasswordTouched: false,
             isEmailInvalid: false,
             isEmailTouched: false,
             emailErrorMsg: "",
 
             username: '',
             password: '',
+            repeatPassword: '',
             mail: '',
 
             loading: false,
@@ -120,11 +122,28 @@ class Register extends Component {
 
     handlePasswordChange = (event) => {
         this.setState({
-            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32,
+            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32||(event.target.value !== this.state.repeatPassword),
             isPasswordTouched: true,
             password: event.target.value,
         });
+        //this.checkPasswordEquality();
     };
+
+    handleRepeatPasswordChange = (event) => {
+        this.setState({
+            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32||(event.target.value !== this.state.password),
+            isRepeatPasswordTouched: true,
+            repeatPassword: event.target.value,
+        });
+        //this.checkPasswordEquality();
+    }
+
+    checkPasswordEquality () {
+        console.log(this.state.repeatPassword + ' ' + this.state.password);
+        this.setState({
+            isPasswordInvalid: this.state.repeatPassword !== this.state.password,
+        })
+    }
 
     handleEmailChange = (event) => {
         if(event.target.value !== '') {
@@ -207,13 +226,16 @@ class Register extends Component {
             isPasswordInvalid: false,
             isPasswordTouched: false,
             passwordErrorMsg: "6 - 32 characters",
+            isRepeatPasswordTouched: false,
             isEmailInvalid: false,
             isEmailTouched: false,
             emailErrorMsg: "",
 
             username: '',
             password: '',
+            repeatPassword: '',
             mail: '',
+
         });
     }
 
@@ -276,8 +298,8 @@ class Register extends Component {
                                                     <PasswordIcon />
                                                 </InputAdornment>
                                             }
-                                                   value={this.state.password}
-                                                   onChange={this.handlePasswordChange}
+                                                   value={this.state.repeatPassword}
+                                                   onChange={this.handleRepeatPasswordChange}
                                             />
                                             <FormHelperText><em>See above</em></FormHelperText>
                                         </FormControl>
