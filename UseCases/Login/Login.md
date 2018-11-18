@@ -21,6 +21,7 @@ A flowchart about what happens on each side of the application for this specific
 
 ![Login Flowchart]()
 
+
 	
 ## 3. Special Requirements
 
