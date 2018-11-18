@@ -26,7 +26,7 @@ N/A
 
 
 ## 4. Preconditions
-Description of what is required after the user submitted the form.
+Description of what is required before the user submitted the form.
 
 ### 5.1 Not logged in yet
 The user should not be able to log in when he already is.
