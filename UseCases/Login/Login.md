@@ -10,16 +10,14 @@ To log in is needed to use the full functionality of our platform.
 ### 1.2 Mock-up
 
 
-![Mockup Large]()
-
-![Mockup Small]()
+![Mockup]((https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Login/LoginMockupLarge.JPG)
 
 
 ## 2. Flow of Events
 A flowchart about what happens on each side of the application for this specific use case. 
 ### 2.1 Basic Flow
 
-![Login Flowchart](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Register/RegisterFlowchart.png)
+![Login Flowchart](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Login/LoginFlowchart.png)
 
 	
 ## 3. Special Requirements
