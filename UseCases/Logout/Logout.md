@@ -1,4 +1,4 @@
-# Use-Case Specification: Register
+# Use-Case Specification: Logout
 
 
 ## 1. General
