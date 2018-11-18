@@ -1,4 +1,4 @@
-# Use-Case Specification: Edit Profile
+# Use-Case Specification: Close Account
 
 
 ## 1. General
@@ -33,7 +33,7 @@ The user needs to be logged in to close his account.
 ## 5. Postconditions
 Description of what is required after the user submitted the form or requested to delete the account.
 
-### 5.1 Delete data from backend
+### 5.1 Delete data from database
 Check which information the user wants to update and if they are valid - e.g. check if the
 E-Mail doesn't already exist in the database.
 
