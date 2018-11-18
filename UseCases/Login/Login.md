@@ -19,7 +19,7 @@ To log in is needed to use the full functionality of our platform.
 A flowchart about what happens on each side of the application for this specific use case. 
 ### 2.1 Basic Flow
 
-![Login Flowchart]()
+![Login Flowchart](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Register/RegisterFlowchart.png)
 
 	
 ## 3. Special Requirements
@@ -32,7 +32,6 @@ Description of what is required after the user submitted the form.
 
 ### 5.1 Not logged in yet
 The user should not be able to log in when he already is.
-
  
 ## 5. Postconditions
 Description of what is required after the user submitted the form.
