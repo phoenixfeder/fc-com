@@ -215,7 +215,7 @@ class Register extends Component {
             <div className={classes.root}>
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
-                        <Grid item xs={12} md={12} lg={12}>
+                        <Grid item xs={12} md={8} lg={4}>
                             <Paper className={classes.root} elevation={1}>
                                 <Grid container spacing={16} alignItems="center" justify="space-evenly"
                                       direction="column">
