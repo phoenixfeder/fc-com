@@ -16,22 +16,14 @@ import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import blue from '@material-ui/core/colors/blue';
-import {BACKEND_URL_REGISTER} from "../utils/const-paths";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import * as SnackbarStyles from "./css/SnackbarStyles";
 import Icon from "@material-ui/core/Icon/Icon";
-import green from "@material-ui/core/es/colors/green";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 
-/*
-const usernameRegex = '';
-const passwordRegex = '';
-const mailRegex = '';
-*/
-
+//Styles to design some specific components
 const styles = theme => ({
     root: {
         ...theme.mixins.gutters(),
@@ -57,126 +49,121 @@ const styles = theme => ({
     },
 });
 
+//Initial state as const to reload initial state at any point
+const initialState = {
+    isUsernameInvalid: false,
+    isUsernameTouched: false,
+    usernameErrorMsg: "3 - 12 characters",
+    isPasswordInvalid: false,
+    isPasswordTouched: false,
+    passwordErrorMsg: "6 - 32 characters",
+    isRepeatPasswordTouched: false,
+    isEmailInvalid: false,
+    isEmailTouched: false,
+    emailErrorMsg: "",
+
+    username: '',
+    password: '',
+    repeatPassword: '',
+    mail: '',
+
+    loading: false,
+    registerMsg: '',
+    registerSend: false,
+};
+
 class Register extends Component {
 
     constructor() {
         super();
-        this.state = {
-            isUsernameInvalid: false,
-            isUsernameTouched: false,
-            usernameErrorMsg: "3 - 12 characters",
-            isPasswordInvalid: false,
-            isPasswordTouched: false,
-            passwordErrorMsg: "6 - 32 characters",
-            isRepeatPasswordTouched: false,
-            isEmailInvalid: false,
-            isEmailTouched: false,
-            emailErrorMsg: "",
-
-            username: '',
-            password: '',
-            repeatPassword: '',
-            mail: '',
-
-            loading: false,
-            registerMsg: '',
-            registerSend: false,
-        };
+        this.state = initialState;
     };
 
-    //TODO: Correct Regex missing, check if pw is exactly the same and include "loading"
-    isAnyInvalid(){
-        return this.state.isUsernameInvalid || this.state.isPasswordInvalid || this.state.isEmailInvalid;
-    };
-    isAllTouched(){
-        return this.state.isUsernameTouched && this.state.isPasswordTouched && this.state.isEmailTouched;
-    }
+    //Handles input changes
+    handleInputChange = async(event) => {
 
-    handleUsernameChange = async (event) => {
-        if(event.target.value !== '') { //event.target.value.length > 3 && event.target.value.length < 12){
+        //Depends on the input field that changed
+        switch (event.target.id) {
 
-            fetch('http://localhost:8080/register/checkname/' + event.target.value)
-                .then(results => {
-                    return results.json();
-                })
-                //.then(result => this.props.updateFlashcard(result))
-                .then(result => {
-                    this.setState({
-                        isUsernameInvalid: !(result.status.message === 'OK'),
-                        usernameErrorMsg: (result.register!==undefined)?result.register.messageUsername:'',
+            //Handle user name change
+            case "user-input":
+        
+                fetch('/register/checkname/' + event.target.value)
+                    .then(results => {
+                        return results.json();
                     })
+                    //.then(result => this.props.updateFlashcard(result))
+                    .then(result => {
+                        this.setState({
+                            isUsernameInvalid: !(result.status.message === 'OK'),
+                            usernameErrorMsg: (result.register !== undefined) ? result.register.messageUsername : '',
+                        })
+                    });
+
+                this.setState({
+                    isUsernameTouched: true,
+                    username: event.target.value,
                 });
 
-        }else{
-            this.setState({
-                usernameErrorMsg: 'Username must be at least 3 characters and maximal 12 characters.',
-                isUsernameInvalid: true,
-            });
-        }
+            break;
 
-        this.setState({
-            isUsernameTouched: true,
-            username: event.target.value,
-        });
-    };
+            //Handle password field change
+            case "user-password":
 
-    handlePasswordChange = (event) => {
-        this.setState({
-            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32||(event.target.value !== this.state.repeatPassword),
-            isPasswordTouched: true,
-            password: event.target.value,
-        });
-        //this.checkPasswordEquality();
-    };
-
-    handleRepeatPasswordChange = (event) => {
-        this.setState({
-            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32||(event.target.value !== this.state.password),
-            isRepeatPasswordTouched: true,
-            repeatPassword: event.target.value,
-        });
-        //this.checkPasswordEquality();
-    }
-
-    checkPasswordEquality () {
-        console.log(this.state.repeatPassword + ' ' + this.state.password);
-        this.setState({
-            isPasswordInvalid: this.state.repeatPassword !== this.state.password,
-        })
-    }
-
-    handleEmailChange = (event) => {
-        if(event.target.value !== '') {
-
-            fetch('http://localhost:8080/register/checkmail/' + event.target.value)
-                .then(results => {
-                    return results.json();
-                })
-                .then(result => {
-                    this.setState({
-                        isEmailInvalid: !(result.status.message === 'OK'),
-                        emailErrorMsg: (result.register!==undefined)?result.register.messageEmail:'',
-                    })
+                this.setState({
+                    isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32 || (event.target.value !== this.state.repeatPassword),
+                    isPasswordTouched: true,
+                    password: event.target.value,
                 });
 
-        }else{
-            this.setState({
-                emailErrorMsg: 'Email is invalid',
-                isEmailInvalid: true,
-            });
+            break;
+
+            //Handle password repeat field
+            case "user-password-repeat":
+
+                this.setState({
+                    isPasswordInvalid: this.state.repeatPassword !== this.state.password,
+                    isRepeatPasswordTouched: true,
+                    repeatPassword: event.target.value
+
+                });
+
+            break;
+
+            //Handle mail field change
+            case "user-mail":
+
+                fetch('/register/checkmail/' + event.target.value)
+                    .then(results => {
+                        return results.json();
+                    })
+                    .then(result => {
+                        this.setState({
+                            isEmailInvalid: !(result.status.message === 'OK'),
+                            emailErrorMsg: (result.register !== undefined) ? result.register.messageEmail : '',
+                        })
+                    });
+
+                this.setState({
+                    isEmailTouched: true,
+                    mail: event.target.value,
+                });
+
+            break;
+
+            default:
+                //Nothing
+            break;
         }
 
-        this.setState({
-            isEmailTouched: true,
-            mail: event.target.value,
-        });
-    };
+    }
 
+    //Handles submit button
     handleSubmit = (event) => {
-        //TODO: CONST FOR API
-        this.setState({loading: true});
 
-        fetch('http://localhost:8080/register/newuser', {
+        this.setState({ loading: true });
+
+        fetch('/register/newuser', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -194,16 +181,20 @@ class Register extends Component {
         }).then(results => {
             return results.json();
         }).then(result => {
-            this.setState({registerSend: true, registerMsg:(result.status.message === "ERROR")?'':'Thank you, ' + result.register.user.username + ', for your registration. We´ve sent a mail to ' + result.register.user.email});
-            this.clearInput();
+            this.setState({ 
+                registerSend: true, 
+                registerMsg: (result.status.message === "ERROR") ? '' : 'Thank you, ' + result.register.user.username + ', for your registration. We´ve sent a mail to ' + result.register.user.email,
+                loading: false });
+            this.setState(initialState);
         });
 
-        this.setState({loading: false,
-
-        })
-
-
-
+    }
+    
+    isAnyInvalid(){
+        return this.state.isUsernameInvalid || this.state.isPasswordInvalid || this.state.isEmailInvalid;
+    };
+    isAllTouched(){
+        return this.state.isUsernameTouched && this.state.isPasswordTouched && this.state.isEmailTouched;
     }
 
     handleSnackbarClose = () => {
@@ -218,34 +209,13 @@ class Register extends Component {
         ]}/>
     }
 
-    clearInput() {
-        this.setState({
-            isUsernameInvalid: false,
-            isUsernameTouched: false,
-            usernameErrorMsg: "3 - 12 characters",
-            isPasswordInvalid: false,
-            isPasswordTouched: false,
-            passwordErrorMsg: "6 - 32 characters",
-            isRepeatPasswordTouched: false,
-            isEmailInvalid: false,
-            isEmailTouched: false,
-            emailErrorMsg: "",
-
-            username: '',
-            password: '',
-            repeatPassword: '',
-            mail: '',
-
-        });
-    }
-
     render() {
         const {classes} = this.props;
         return (
             <div className={classes.root}>
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
-                        <Grid item xs={12} md={12} lg={12}>
+                        <Grid item xs={12} md={8} lg={4}>
                             <Paper className={classes.root} elevation={1}>
                                 <Grid container spacing={16} alignItems="center" justify="space-evenly"
                                       direction="column">
@@ -271,7 +241,7 @@ class Register extends Component {
                                                        </InputAdornment>
                                                    }
                                                    value={this.state.username}
-                                                   onChange={this.handleUsernameChange}
+                                                   onChange={this.handleInputChange}
                                             />
                                             <FormHelperText id={"usernameErrorMsgID"}><em>{this.state.usernameErrorMsg}</em></FormHelperText>
                                         </FormControl>
@@ -285,7 +255,7 @@ class Register extends Component {
                                                 </InputAdornment>
                                             }
                                                    value={this.state.password}
-                                                   onChange={this.handlePasswordChange}
+                                                   onChange={this.handleInputChange}
                                             />
                                             <FormHelperText><em>{this.state.passwordErrorMsg}</em></FormHelperText>
                                         </FormControl>
@@ -313,7 +283,7 @@ class Register extends Component {
                                                 </InputAdornment>
                                             }
                                                    value={this.state.mail}
-                                                   onChange={this.handleEmailChange}
+                                                   onBlur={this.handleInputChange}
                                             />
                                             <FormHelperText id={"emailErrorMsgID"}><em>{this.state.emailErrorMsg}</em></FormHelperText>
                                         </FormControl>
