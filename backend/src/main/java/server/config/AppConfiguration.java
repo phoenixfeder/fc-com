@@ -17,7 +17,7 @@ public class AppConfiguration {
         mailSender.setPort(587);
 
         mailSender.setUsername("flashcardcommunity@gmail.com");
-        mailSender.setPassword("flacaco2018");
+        mailSender.setPassword("pw");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
