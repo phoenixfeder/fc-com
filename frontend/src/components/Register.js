@@ -16,13 +16,10 @@ import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import blue from '@material-ui/core/colors/blue';
-import {BACKEND_URL_REGISTER} from "../utils/const-paths";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import * as SnackbarStyles from "./css/SnackbarStyles";
 import Icon from "@material-ui/core/Icon/Icon";
-import green from "@material-ui/core/es/colors/green";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 
