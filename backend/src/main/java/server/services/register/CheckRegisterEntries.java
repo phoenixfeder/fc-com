@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import server.entities.repositories.UserRepository;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
 public class CheckRegisterEntries {
 
@@ -26,7 +29,13 @@ public class CheckRegisterEntries {
     }
 
     public boolean isEmailIncorrect(String mail){
-        return false;
+        Pattern pattern = Pattern.compile("(?=[a-z0-9@.!#$%&'*+/=?^_`{|}~-]{6,254})" +
+                "(?=[a-z0-9.!#$%&'*+/=?^_`{|}~-]{1,64}@)" +
+                "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*" +
+                "@(?:(?=[a-z0-9-]{1,63}\\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+" +
+                "(?=[a-z0-9-]{1,63})[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+        Matcher matcher = pattern.matcher(mail);
+        return !matcher.matches();
     }
 
     public boolean isPasswordLengthIncorrect(String password){

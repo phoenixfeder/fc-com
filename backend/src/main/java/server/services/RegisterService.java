@@ -1,6 +1,8 @@
 package server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import server.config.Lang;
 import server.config.StatusCode;
@@ -17,6 +19,7 @@ import server.entities.repositories.RoleRepository;
 import server.entities.repositories.UserRepository;
 import server.entities.repositories.VerificationTokenRepository;
 import server.services.register.CheckRegisterEntries;
+import server.services.register.MailSending;
 
 import java.util.UUID;
 
@@ -27,12 +30,15 @@ public class RegisterService {
     private final VerificationTokenRepository verificationTokenRepository;
     private CheckRegisterEntries checkRegisterEntries;
 
+    private final MailSending mailSending;
+
     @Autowired
-    public RegisterService(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository verificationTokenRepository, CheckRegisterEntries checkRegisterEntries) {
+    public RegisterService(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository verificationTokenRepository, CheckRegisterEntries checkRegisterEntries, MailSending mailSending) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.verificationTokenRepository = verificationTokenRepository;
         this.checkRegisterEntries = checkRegisterEntries;
+        this.mailSending = mailSending;
     }
 
     public ResponseDTO checkUsername(String name) {
@@ -112,8 +118,9 @@ public class RegisterService {
                     user.setRole(role);
                 }
                 User newuser = userRepository.save(user);
-                VerificationToken verificationToken = new VerificationToken(newuser);
-                verificationTokenRepository.save(verificationToken);
+                VerificationToken token = verificationTokenRepository.save(new VerificationToken(newuser));
+
+                mailSending.send(newuser.getEmail(), newuser.getUsername(), String.valueOf(newuser.getId()), token.getToken());
 
                 responseDTO.getRegisterResponse().setUserResponse(new UserResponse(userRequest));
             }

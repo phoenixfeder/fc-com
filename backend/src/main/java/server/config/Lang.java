@@ -6,4 +6,11 @@ public class Lang {
     public final static String UsernameIsTaken = "Username already exists.";
     public final static String EmailIsTaken = "Email is already in use.";
     public final static String EmailFormat = "This is not an email address.";
+
+    public final static String mailText =
+            "Hello ##username##,\n\n" +
+                    "Welcome to Flashcard Community." +
+                    "To verify your Account please use the following Link:" +
+                    "http://linktoverify.de?id=##userid##&token=##token##\n\n" +
+                    "Happy learning!";
 }
