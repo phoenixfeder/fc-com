@@ -2,6 +2,7 @@ package server.entities;
 
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import server.entities.dto.request.UserRequest;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -53,10 +54,9 @@ public class User {
     )
     private Set<User> friendOf = new HashSet<>();*/
 
-    public void insertDTOData(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
+    public void insertDTOData(UserRequest userRequest) {
+        this.username = userRequest.getUsername();
+        this.email = userRequest.getEmail();
+        this.password = userRequest.getPassword();
     }
-
 }

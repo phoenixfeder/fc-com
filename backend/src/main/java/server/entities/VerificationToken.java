@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -25,10 +26,16 @@ public class VerificationToken {
 
     private Date expiryDate;
 
-    private Date calculateExpiryDate(int expiryTimeInMinutes){
+    public VerificationToken(User user) {
+        this.user = user;
+        this.expiryDate = calculateExpiryDate();
+        this.token = UUID.randomUUID().toString();
+    }
+
+    private Date calculateExpiryDate() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Timestamp(cal.getTime().getTime()));
-        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+        cal.add(Calendar.MINUTE, EXPIRATION);
         return new Date(cal.getTime().getTime());
     }
 }

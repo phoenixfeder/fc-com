@@ -1,26 +1,28 @@
 package server.entities.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import server.config.StatusCode;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StatusResponse {
-    String message;
+    private int code;
+    private String message;
 
-    private StatusResponse(String message) {
+
+    public StatusResponse(int code, String message) {
+        this.code = code;
         this.message = message;
     }
 
-    public static StatusResponse ok() {
-        return new StatusResponse("OK");
+    public static StatusResponse create(StatusCode statusCode) {
+        return new StatusResponse(statusCode.value(), statusCode.getReasonPhrase());
     }
 
-    public static StatusResponse notOk() {
-        return new StatusResponse("ERROR");
-    }
-
-    public static StatusResponse formatError() {
-        return new StatusResponse("JSON FORMAT ERROR");
+    @JsonIgnore
+    public boolean isOk() {
+        return code == StatusCode.OK.value();
     }
 }
