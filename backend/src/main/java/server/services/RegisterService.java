@@ -19,6 +19,7 @@ import server.entities.repositories.VerificationTokenRepository;
 import server.services.register.CheckRegisterEntries;
 import server.services.register.MailSending;
 
+import java.util.Calendar;
 import java.util.UUID;
 
 @Service
@@ -86,10 +87,17 @@ public class RegisterService {
                 responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameIsTaken);
                 responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
             } else {
-                if (checkRegisterEntries.isUsernameLengthIncorrect(userRequest.getUsername())) {
-                    responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameTooShort);
+                if(checkRegisterEntries.isUsernameIncorrect(userRequest.getUsername())){
+                    responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameSymbols);
                     responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
+                }else{
+                    if (checkRegisterEntries.isUsernameLengthIncorrect(userRequest.getUsername())) {
+                        responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameTooShort);
+                        responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
+                    }
                 }
+
+
             }
 
             if (checkRegisterEntries.isEmailTaken(userRequest.getEmail())) {
@@ -128,6 +136,55 @@ public class RegisterService {
             responseDTO.setStatusResponse(StatusResponse.create(StatusCode.FORMATERROR));
             return responseDTO;
         }
+
+        return responseDTO;
+    }
+
+    public ResponseDTO verifyUser(String id, String token) {
+        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
+
+        if(id == null || token == null){
+            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.PATHERROR));
+            return responseDTO;
+        }
+        int id_int;
+        try{
+            id_int = Integer.parseInt(id);
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.PATHERROR));
+            return responseDTO;
+        }
+        if(!userRepository.findById((long)id_int).isPresent()){
+            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.VERIFYERROR));
+            return responseDTO;
+        }
+
+        User user = userRepository.findById((long)id_int).get();
+
+        VerificationToken verificationToken = verificationTokenRepository.findByUser(user);
+        if(verificationToken == null){
+            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.VERIFYERROR));
+            return responseDTO;
+        }
+
+        if(!token.equals(verificationToken.getToken())){
+            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.VERIFYERROR));
+            return responseDTO;
+        }
+
+        if(Calendar.getInstance().getTime().getTime() > verificationToken.getExpiryDate().getTime()){
+            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.TOKENEXPIRED));
+            return responseDTO;
+        }
+
+        user.setEnabled(true);
+        userRepository.save(user);
+        verificationTokenRepository.delete(verificationToken);
+
+        RegisterResponse registerResponse = new RegisterResponse();
+        registerResponse.setUserResponse(new UserResponse(user.getUsername()));
+        responseDTO.setRegisterResponse(registerResponse);
 
         return responseDTO;
     }

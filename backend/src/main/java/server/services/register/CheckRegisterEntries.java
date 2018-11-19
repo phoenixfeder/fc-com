@@ -23,16 +23,22 @@ public class CheckRegisterEntries {
         return (name.length() < 3 || name.length() > 12);
     }
 
+    public boolean isUsernameIncorrect(String name){
+        Pattern pattern = Pattern.compile("\\A[a-zA-Z0-9]+([_\\-]?[a-zA-Z0-9])*\\z");
+        Matcher matcher = pattern.matcher(name);
+        return !matcher.matches();
+    }
+
     public boolean isEmailTaken(String email) {
         return userRepository.findUserByEmail(email) != null;
     }
 
     public boolean isEmailIncorrect(String mail) {
-        Pattern pattern = Pattern.compile("(?=[a-z0-9@.!#$%&'*+/=?^_`{|}~-]{6,254})" +
+        Pattern pattern = Pattern.compile("\\A(?=[a-z0-9@.!#$%&'*+/=?^_`{|}~-]{6,254}\\z)" +
                 "(?=[a-z0-9.!#$%&'*+/=?^_`{|}~-]{1,64}@)" +
                 "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*" +
                 "@(?:(?=[a-z0-9-]{1,63}\\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+" +
-                "(?=[a-z0-9-]{1,63})[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+                "(?=[a-z0-9-]{1,63}\\z)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\z");
         Matcher matcher = pattern.matcher(mail);
         return !matcher.matches();
     }
