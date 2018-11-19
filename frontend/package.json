@@ -23,6 +23,7 @@
     "test": "./node_modules/.bin/cucumber-js.cmd --tags @only",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:8080",
   "eslintConfig": {
     "extends": "react-app"
   },
