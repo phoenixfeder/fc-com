@@ -1,5 +1,3 @@
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import ErrorIcon from '@material-ui/icons/Error'
 import green from "@material-ui/core/es/colors/green";
 import red from "@material-ui/core/es/colors/red";
 
