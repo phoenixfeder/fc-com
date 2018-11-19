@@ -1,6 +1,5 @@
 package server.services.register;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import server.entities.repositories.UserRepository;
 
@@ -16,19 +15,19 @@ public class CheckRegisterEntries {
         this.userRepository = userRepository;
     }
 
-    public boolean isUserNameTaken(String name){
+    public boolean isUserNameTaken(String name) {
         return userRepository.findUserByUsername(name) != null;
     }
 
-    public boolean isUsernameLengthIncorrect(String name){
+    public boolean isUsernameLengthIncorrect(String name) {
         return (name.length() < 3 || name.length() > 12);
     }
 
-    public boolean isEmailTaken(String email){
+    public boolean isEmailTaken(String email) {
         return userRepository.findUserByEmail(email) != null;
     }
 
-    public boolean isEmailIncorrect(String mail){
+    public boolean isEmailIncorrect(String mail) {
         Pattern pattern = Pattern.compile("(?=[a-z0-9@.!#$%&'*+/=?^_`{|}~-]{6,254})" +
                 "(?=[a-z0-9.!#$%&'*+/=?^_`{|}~-]{1,64}@)" +
                 "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*" +
@@ -38,7 +37,7 @@ public class CheckRegisterEntries {
         return !matcher.matches();
     }
 
-    public boolean isPasswordLengthIncorrect(String password){
+    public boolean isPasswordLengthIncorrect(String password) {
         return (password.length() < 6 || password.length() > 32);
     }
 }

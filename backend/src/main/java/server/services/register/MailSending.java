@@ -5,7 +5,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import server.config.Lang;
-import server.entities.User;
 
 @Component
 public class MailSending {
@@ -25,7 +24,7 @@ public class MailSending {
         return text;
     }
 
-    public void send(String mailAddress, String username, String id, String token){
+    public void send(String mailAddress, String username, String id, String token) {
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(mailAddress);
         email.setSubject("Registration Confirmation");

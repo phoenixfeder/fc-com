@@ -14,7 +14,7 @@ public class ResponseDTO {
     @JsonProperty("register")
     RegisterResponse registerResponse;
 
-    public ResponseDTO(StatusResponse statusResponse){
+    public ResponseDTO(StatusResponse statusResponse) {
         this.statusResponse = statusResponse;
     }
 }

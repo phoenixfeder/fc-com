@@ -1,7 +1,6 @@
 package server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.config.Config;
@@ -39,7 +38,7 @@ public class RegisterController {
     ResponseDTO addUser(@RequestBody RequestDTO requestDTO) {
 
         ResponseDTO responseDTO = registerService.addUser((requestDTO));
-        if(responseDTO.getStatusResponse().getMessage().equals("OK")){
+        if (responseDTO.getStatusResponse().getMessage().equals("OK")) {
 
         }
         return responseDTO;

@@ -1,10 +1,10 @@
 package server.entities.entitieToDTOTransfer;
 
-import server.entities.dto.FlashCardDTO;
 import server.entities.FlashCard;
+import server.entities.dto.FlashCardDTO;
 
 public class FlashCardToDTO {
-    public static FlashCardDTO transfer(FlashCard flashCard){
+    public static FlashCardDTO transfer(FlashCard flashCard) {
         FlashCardDTO flashCardDTO = new FlashCardDTO();
 
         flashCardDTO.setDb_id(flashCard.getId());

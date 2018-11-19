@@ -3,7 +3,6 @@ package server.entities.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 import server.config.StatusCode;
 
 @Data
@@ -23,7 +22,7 @@ public class StatusResponse {
     }
 
     @JsonIgnore
-    public boolean isOk(){
+    public boolean isOk() {
         return code == StatusCode.OK.value();
     }
 }

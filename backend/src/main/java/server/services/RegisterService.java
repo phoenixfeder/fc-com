@@ -1,8 +1,6 @@
 package server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import server.config.Lang;
 import server.config.StatusCode;
@@ -52,7 +50,7 @@ public class RegisterService {
 
         System.out.println(UUID.randomUUID());
 
-        if (name.length() < 3 || name.length() > 12){
+        if (name.length() < 3 || name.length() > 12) {
             RegisterResponse registerResponse = new RegisterResponse();
             registerResponse.setMessageUsername(Lang.UsernameTooShort);
             responseDTO.setRegisterResponse(registerResponse);
@@ -65,7 +63,7 @@ public class RegisterService {
     public ResponseDTO checkMail(String mail) {
         ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
 
-        if(checkRegisterEntries.isEmailTaken(mail)){
+        if (checkRegisterEntries.isEmailTaken(mail)) {
             RegisterResponse registerResponse = new RegisterResponse();
             registerResponse.setMessageEmail(Lang.EmailIsTaken);
             responseDTO.setRegisterResponse(registerResponse);
@@ -87,8 +85,8 @@ public class RegisterService {
             if (checkRegisterEntries.isUserNameTaken(userRequest.getUsername())) {
                 responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameIsTaken);
                 responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
-            }else{
-                if(checkRegisterEntries.isUsernameLengthIncorrect(userRequest.getUsername())){
+            } else {
+                if (checkRegisterEntries.isUsernameLengthIncorrect(userRequest.getUsername())) {
                     responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameTooShort);
                     responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
                 }
@@ -97,14 +95,14 @@ public class RegisterService {
             if (checkRegisterEntries.isEmailTaken(userRequest.getEmail())) {
                 responseDTO.getRegisterResponse().setMessageEmail(Lang.EmailIsTaken);
                 responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
-            }else{
-                if(checkRegisterEntries.isEmailIncorrect(userRequest.getEmail())){
+            } else {
+                if (checkRegisterEntries.isEmailIncorrect(userRequest.getEmail())) {
                     responseDTO.getRegisterResponse().setMessageEmail(Lang.EmailFormat);
                     responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
                 }
             }
 
-            if(checkRegisterEntries.isPasswordLengthIncorrect(userRequest.getPassword())){
+            if (checkRegisterEntries.isPasswordLengthIncorrect(userRequest.getPassword())) {
                 responseDTO.getRegisterResponse().setMessagePassword(Lang.PasswordTooShort);
                 responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
             }

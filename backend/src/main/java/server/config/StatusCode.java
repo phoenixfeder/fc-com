@@ -14,11 +14,11 @@ public enum StatusCode {
         this.reasonPhrase = reasonPhrase;
     }
 
-    public int value(){
+    public int value() {
         return value;
     }
 
-    public String getReasonPhrase(){
+    public String getReasonPhrase() {
         return reasonPhrase;
     }
 }
