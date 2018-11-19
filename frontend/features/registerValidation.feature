@@ -7,16 +7,16 @@ Feature: Test of the users input at the register-page
     Background:
          Given I am on the "Registration" page
 
-    
+
     Scenario Outline: I am not allowed to enter too short or too long names
         When I enter "<name>" in the "username-field"
-        Then I get the error "<error>"
+        Then I get the error "<error>" in the "username-error-field"
         And the "register-button" is not clickable
 
         Examples:
             | name                       | error                      |
-            | abc                        | Your nickname is too short |
-            | abcdefghijklmnopqrstuvwxyz | Your nickname is too long  |
+            | ab                         | Username must be at least 3 characters and maximal 12 characters. |
+            | abcdefghijklmnopqrstuvwxyz | Username must be at least 3 characters and maximal 12 characters.  |
     
     Scenario Outline: I have to enter the email adress in the correct format
         When I enter "<email>" in the "email-field"
@@ -39,7 +39,7 @@ Feature: Test of the users input at the register-page
             | abc                        | Your password is too short |
             | abcdefghijklmnopqrstuvwxyz | Your password is too long  |
 
-    @only
+    
     Scenario: I have to enter the same password in the validate password field
         When I enter "password123" in the "password-field"
         And I enter "password123" in the "password-repeat-field"

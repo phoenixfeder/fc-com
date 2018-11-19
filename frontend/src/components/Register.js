@@ -16,6 +16,15 @@ import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import blue from '@material-ui/core/colors/blue';
+import {BACKEND_URL_REGISTER} from "../utils/const-paths";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
+import * as SnackbarStyles from "./css/SnackbarStyles";
+import Icon from "@material-ui/core/Icon/Icon";
+import green from "@material-ui/core/es/colors/green";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
 
 /*
 const usernameRegex = '';
@@ -55,16 +64,23 @@ class Register extends Component {
         this.state = {
             isUsernameInvalid: false,
             isUsernameTouched: false,
+            usernameErrorMsg: "3 - 12 characters",
             isPasswordInvalid: false,
             isPasswordTouched: false,
+            passwordErrorMsg: "6 - 32 characters",
+            isRepeatPasswordTouched: false,
             isEmailInvalid: false,
             isEmailTouched: false,
+            emailErrorMsg: "",
 
             username: '',
             password: '',
+            repeatPassword: '',
             mail: '',
 
             loading: false,
+            registerMsg: '',
+            registerSend: false,
         };
     };
 
@@ -76,11 +92,29 @@ class Register extends Component {
         return this.state.isUsernameTouched && this.state.isPasswordTouched && this.state.isEmailTouched;
     }
 
-    
+    handleUsernameChange = async (event) => {
+        if(event.target.value !== '') { //event.target.value.length > 3 && event.target.value.length < 12){
 
-    handleUsernameChange = (event) => {
+            fetch('http://localhost:8080/register/checkname/' + event.target.value)
+                .then(results => {
+                    return results.json();
+                })
+                //.then(result => this.props.updateFlashcard(result))
+                .then(result => {
+                    this.setState({
+                        isUsernameInvalid: !(result.status.message === 'OK'),
+                        usernameErrorMsg: (result.register!==undefined)?result.register.messageUsername:'',
+                    })
+                });
+
+        }else{
+            this.setState({
+                usernameErrorMsg: 'Username must be at least 3 characters and maximal 12 characters.',
+                isUsernameInvalid: true,
+            });
+        }
+
         this.setState({
-            isUsernameInvalid: event.target.value.length < 3 || event.target.value.length > 12,
             isUsernameTouched: true,
             username: event.target.value,
         });
@@ -88,14 +122,51 @@ class Register extends Component {
 
     handlePasswordChange = (event) => {
         this.setState({
-            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32,
+            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32||(event.target.value !== this.state.repeatPassword),
             isPasswordTouched: true,
             password: event.target.value,
         });
+        //this.checkPasswordEquality();
     };
-    handleEmailChange = (event) => {
+
+    handleRepeatPasswordChange = (event) => {
         this.setState({
-            isEmailInvalid: !event.target.value.includes('@'),
+            isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32||(event.target.value !== this.state.password),
+            isRepeatPasswordTouched: true,
+            repeatPassword: event.target.value,
+        });
+        //this.checkPasswordEquality();
+    }
+
+    checkPasswordEquality () {
+        console.log(this.state.repeatPassword + ' ' + this.state.password);
+        this.setState({
+            isPasswordInvalid: this.state.repeatPassword !== this.state.password,
+        })
+    }
+
+    handleEmailChange = (event) => {
+        if(event.target.value !== '') {
+
+            fetch('http://localhost:8080/register/checkmail/' + event.target.value)
+                .then(results => {
+                    return results.json();
+                })
+                .then(result => {
+                    this.setState({
+                        isEmailInvalid: !(result.status.message === 'OK'),
+                        emailErrorMsg: (result.register!==undefined)?result.register.messageEmail:'',
+                    })
+                });
+
+        }else{
+            this.setState({
+                emailErrorMsg: 'Email is invalid',
+                isEmailInvalid: true,
+            });
+        }
+
+        this.setState({
             isEmailTouched: true,
             mail: event.target.value,
         });
@@ -103,16 +174,14 @@ class Register extends Component {
 
     handleSubmit = (event) => {
         //TODO: CONST FOR API
-        console.log(this.isAllTouched);
-        console.log(this.isAnyInvalid);
         this.setState({loading: true});
 
         fetch('http://localhost:8080/register/newuser', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 "register": {
                     "user": {
@@ -122,22 +191,52 @@ class Register extends Component {
                     }
                 }
             })
-            }).then(results => {
-                return results.json();
-            }).then(result => {
-                console.log(result);
-               
-                //TODO: Proper feedback
-                if (result.status.message === "ERROR") {
-                    console.log("Failed!");
-                } else {
-                    console.log("Success");
-                }
-                
-            });
+        }).then(results => {
+            return results.json();
+        }).then(result => {
+            this.setState({registerSend: true, registerMsg:(result.status.message === "ERROR")?'':'Thank you, ' + result.register.user.username + ', for your registration. We´ve sent a mail to ' + result.register.user.email});
+            this.clearInput();
+        });
 
-        this.setState({loading: false})
-        
+        this.setState({loading: false,
+
+        })
+
+
+
+    }
+
+    handleSnackbarClose = () => {
+        this.setState({registerSend:false})
+    }
+
+    getSnackbarContent = (name, classes) => {
+        return <SnackbarContent style={{backgroundColor: SnackbarStyles.getStyle(name).backgroundColor, alignItems: 'center'}} message={ <span id={"register-feedback"}><Icon>{SnackbarStyles.getStyle(name).iconName}</Icon> {this.state.registerMsg}</span> }  action={[
+            <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleSnackbarClose}>
+                <CloseIcon className={classes.icon} />
+            </IconButton>,
+        ]}/>
+    }
+
+    clearInput() {
+        this.setState({
+            isUsernameInvalid: false,
+            isUsernameTouched: false,
+            usernameErrorMsg: "3 - 12 characters",
+            isPasswordInvalid: false,
+            isPasswordTouched: false,
+            passwordErrorMsg: "6 - 32 characters",
+            isRepeatPasswordTouched: false,
+            isEmailInvalid: false,
+            isEmailTouched: false,
+            emailErrorMsg: "",
+
+            username: '',
+            password: '',
+            repeatPassword: '',
+            mail: '',
+
+        });
     }
 
     render() {
@@ -146,7 +245,7 @@ class Register extends Component {
             <div className={classes.root}>
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
-                        <Grid item xs={12} md={8} lg={4}>
+                        <Grid item xs={12} md={12} lg={12}>
                             <Paper className={classes.root} elevation={1}>
                                 <Grid container spacing={16} alignItems="center" justify="space-evenly"
                                       direction="column">
@@ -160,8 +259,8 @@ class Register extends Component {
                                             information :)<br/>
                                         </Typography>
                                     </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true} error={this.state.isUsernameInvalid}>
+                                    <Grid item sm={8} md={12} lg={12} >
+                                        <FormControl required={true} error={this.state.isUsernameInvalid} >
 
                                             <InputLabel>Username</InputLabel>
                                             <Input id="user-input" type="text"
@@ -171,9 +270,10 @@ class Register extends Component {
                                                            <UsernameIcon/>
                                                        </InputAdornment>
                                                    }
+                                                   value={this.state.username}
                                                    onChange={this.handleUsernameChange}
                                             />
-                                            <FormHelperText><em>3 - 12 letters and/or numbers</em></FormHelperText>
+                                            <FormHelperText id={"usernameErrorMsgID"}><em>{this.state.usernameErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -184,9 +284,10 @@ class Register extends Component {
                                                     <PasswordIcon/>
                                                 </InputAdornment>
                                             }
+                                                   value={this.state.password}
                                                    onChange={this.handlePasswordChange}
                                             />
-                                            <FormHelperText><em>6 - 32 characters</em></FormHelperText>
+                                            <FormHelperText><em>{this.state.passwordErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -197,7 +298,8 @@ class Register extends Component {
                                                     <PasswordIcon />
                                                 </InputAdornment>
                                             }
-                                                onChange={this.handlePasswordChange}
+                                                   value={this.state.repeatPassword}
+                                                   onChange={this.handleRepeatPasswordChange}
                                             />
                                             <FormHelperText><em>See above</em></FormHelperText>
                                         </FormControl>
@@ -210,17 +312,19 @@ class Register extends Component {
                                                     <EMailIcon/>
                                                 </InputAdornment>
                                             }
+                                                   value={this.state.mail}
                                                    onChange={this.handleEmailChange}
                                             />
+                                            <FormHelperText id={"emailErrorMsgID"}><em>{this.state.emailErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
+                                    <Grid item sm={4} md={4} lg={4}>
                                         <div className={classes.wrapper}>
                                             <Button id="register-button" variant="contained" color="primary" disabled={!this.isAllTouched() || this.isAnyInvalid()} onClick={this.handleSubmit}>
                                                 Register now!
                                             </Button>
                                             {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-                                        </div>                                        
+                                        </div>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="caption" className={classes.headline}>
@@ -228,6 +332,7 @@ class Register extends Component {
                                         </Typography>
 
                                     </Grid>
+                                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={this.state.registerSend} autoHideDuration={20000} onClose={this.handleSnackbarClose}>{this.getSnackbarContent('success', classes)}</Snackbar>
                                 </Grid>
                             </Paper>
                         </Grid>
@@ -236,6 +341,7 @@ class Register extends Component {
             </div>
         );
     }
+
 
 }
 
