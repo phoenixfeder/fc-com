@@ -2,6 +2,7 @@ package server.entities;
 
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import server.entities.dto.request.UserRequest;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -59,4 +60,9 @@ public class User {
         this.password = password;
     }
 
+    public void insertDTOData(UserRequest userRequest) {
+        this.username = userRequest.getUsername();
+        this.email = userRequest.getEmail();
+        this.password = userRequest.getPassword();
+    }
 }

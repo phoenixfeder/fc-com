@@ -14,12 +14,9 @@ import server.services.RegisterService;
 public class RegisterController {
     private RegisterService registerService;
 
-    private ApplicationEventPublisher eventPublisher;
-
     @Autowired
-    public RegisterController(RegisterService registerService, ApplicationEventPublisher eventPublisher) {
+    public RegisterController(RegisterService registerService) {
         this.registerService = registerService;
-        this.eventPublisher = eventPublisher;
     }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
