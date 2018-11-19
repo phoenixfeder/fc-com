@@ -7,7 +7,7 @@ Feature: Test of the users input at the register-page
     Background:
          Given I am on the "Registration" page
 
-    
+
     Scenario Outline: I am not allowed to enter too short or too long names
         When I enter "<name>" in the "username-field"
         Then I get the error "<error>" in the "username-error-field"

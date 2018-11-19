@@ -20,6 +20,7 @@ Given('I am on the {string} page', async function (page) {
 
   Then('I get the error {string} in the {string}', async function (error, field) {
     const outputField = select(field).with({boundTestRun: testController});
+    console.log(outputField);
     await  testController.expect(await outputField.innerText).contains(error); 
   });
 

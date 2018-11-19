@@ -17,6 +17,8 @@ exports.select = (select) => {
             return Selector('#register-button');
         case 'username-error-field':
             return Selector('#usernameErrorMsgID');
+        case 'email-error-field':
+            return Selector('#emailErrorMsgID');
         case 'register-feedback-field':
             return Selector('#register-feedback');
     }

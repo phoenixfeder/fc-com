@@ -245,7 +245,7 @@ class Register extends Component {
             <div className={classes.root}>
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
-                        <Grid item xs={12} md={8} lg={4}>
+                        <Grid item xs={12} md={12} lg={12}>
                             <Paper className={classes.root} elevation={1}>
                                 <Grid container spacing={16} alignItems="center" justify="space-evenly"
                                       direction="column">
@@ -259,8 +259,8 @@ class Register extends Component {
                                             information :)<br/>
                                         </Typography>
                                     </Grid>
-                                    <Grid item >
-                                        <FormControl required={true} error={this.state.isUsernameInvalid}>
+                                    <Grid item sm={8} md={12} lg={12} >
+                                        <FormControl required={true} error={this.state.isUsernameInvalid} >
 
                                             <InputLabel>Username</InputLabel>
                                             <Input id="user-input" type="text"
@@ -315,7 +315,7 @@ class Register extends Component {
                                                    value={this.state.mail}
                                                    onChange={this.handleEmailChange}
                                             />
-                                            <FormHelperText><em>{this.state.emailErrorMsg}</em></FormHelperText>
+                                            <FormHelperText id={"emailErrorMsgID"}><em>{this.state.emailErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={4} md={4} lg={4}>
