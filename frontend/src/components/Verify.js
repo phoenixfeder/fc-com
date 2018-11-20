@@ -57,7 +57,8 @@ class Verify extends Component {
                     <p>Verifying...</p>
                 ) : (
                     <p>Verified! You will be redirected! Did not work? Click <Link to="/login">here!</Link></p>
-                    //TODO: Redirect after 2 secs here
+                    //TODO: Redirect after 2 secs here#
+                    //e.g. <Redirect to="/login"/>
                 )}
             </div>
         )

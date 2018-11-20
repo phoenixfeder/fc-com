@@ -19,7 +19,7 @@ class Main extends Component {
                     <Route path='/helloworld' component={HelloWorldContainer}/>
                     <Route path='/edit' component={EditProfile}/>
                     <Route path='/login' component={Login}/>
-                    <Route path='/verfiy' component={Verfiy} />
+                    <Route path='/verify' component={Verfiy} />
                 </Switch>
             </div>
         );
