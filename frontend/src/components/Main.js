@@ -5,7 +5,8 @@ import FAQ from './FAQ';
 import Register from "./Register";
 import HelloWorldContainer from "../containers/helloworld-container";
 import EditProfile from "./EditProfile";
-import Login from './Login'
+import Login from './Login';
+import Verfiy from './Verify';
 
 class Main extends Component {
     render() {
@@ -18,6 +19,7 @@ class Main extends Component {
                     <Route path='/helloworld' component={HelloWorldContainer}/>
                     <Route path='/edit' component={EditProfile}/>
                     <Route path='/login' component={Login}/>
+                    <Route path='/verfiy' component={Verfiy} />
                 </Switch>
             </div>
         );
