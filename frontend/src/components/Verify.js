@@ -16,8 +16,8 @@ class Verify extends Component {
 
         const parameters = qs.parse(window.location.search);
 
-        fetch('http://localhost:8080/verify', {
-            method: 'POST',
+        fetch('http://localhost:8080/register/verify', {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
