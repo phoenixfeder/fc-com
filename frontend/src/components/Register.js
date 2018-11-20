@@ -80,80 +80,50 @@ class Register extends Component {
     };
 
     //Handles input changes
-    handleInputChange = async(event) => {
+    handleInputChange = async (event) => {
 
         //Depends on the input field that changed
         switch (event.target.id) {
 
             //Handle user name change
             case "user-input":
-        
-                fetch('/register/checkname/' + event.target.value)
-                    .then(results => {
-                        return results.json();
-                    })
-                    //.then(result => this.props.updateFlashcard(result))
-                    .then(result => {
-                        this.setState({
-                            isUsernameInvalid: !(result.status.message === 'OK'),
-                            usernameErrorMsg: (result.register !== undefined) ? result.register.messageUsername : '',
-                        })
-                    });
 
                 this.setState({
-                    isUsernameTouched: true,
                     username: event.target.value,
                 });
 
-            break;
+                break;
 
             //Handle password field change
             case "user-password":
 
                 this.setState({
-                    isPasswordInvalid: event.target.value.length < 6 || event.target.value.length > 32 || (event.target.value !== this.state.repeatPassword),
-                    isPasswordTouched: true,
                     password: event.target.value,
                 });
 
-            break;
+                break;
 
             //Handle password repeat field
             case "user-password-repeat":
 
                 this.setState({
-                    isPasswordInvalid: this.state.repeatPassword !== this.state.password,
-                    isRepeatPasswordTouched: true,
                     repeatPassword: event.target.value
-
                 });
 
-            break;
+                break;
 
             //Handle mail field change
-            case "user-mail":
-
-                fetch('/register/checkmail/' + event.target.value)
-                    .then(results => {
-                        return results.json();
-                    })
-                    .then(result => {
-                        this.setState({
-                            isEmailInvalid: !(result.status.message === 'OK'),
-                            emailErrorMsg: (result.register !== undefined) ? result.register.messageEmail : '',
-                        })
-                    });
+            case "user-mail-input":
 
                 this.setState({
-                    isEmailTouched: true,
                     mail: event.target.value,
                 });
 
-            break;
+                break;
 
             default:
                 //Nothing
-            break;
+                break;
         }
 
     }
@@ -161,52 +131,88 @@ class Register extends Component {
     //Handles submit button
     handleSubmit = (event) => {
 
-        this.setState({ loading: true });
+        this.setState({loading: true});
 
-        fetch('/register/newuser', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "register": {
-                    "user": {
-                        "username": this.state.username,
-                        "email": this.state.mail,
-                        "password": this.state.password
-                    }
-                }
+        if (this.state.password !== this.state.repeatPassword) {
+
+            this.setState({
+                isPasswordInvalid: true,
+                passwordErrorMsg: 'The password doesn´t match the repeated password',
+                loading: false,
             })
-        }).then(results => {
-            return results.json();
-        }).then(result => {
-            this.setState({ 
-                registerSend: true, 
-                registerMsg: (result.status.message === "ERROR") ? '' : 'Thank you, ' + result.register.user.username + ', for your registration. We´ve sent a mail to ' + result.register.user.email,
-                loading: false });
-            this.setState(initialState);
-        });
+
+        }
+        else {
+
+            fetch('http://localhost:8080/register/newuser', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "register": {
+                        "user": {
+                            "username": this.state.username,
+                            "email": this.state.mail,
+                            "password": this.state.password
+                        }
+                    }
+                })
+            }).then(results => {
+                return results.json();
+            }).then(result => {
+
+                this.handleSendResult(result);
+                this.setState({
+                    loading: false,
+                })
+            });
+
+        }
 
     }
-    
-    isAnyInvalid(){
-        return this.state.isUsernameInvalid || this.state.isPasswordInvalid || this.state.isEmailInvalid;
-    };
-    isAllTouched(){
-        return this.state.isUsernameTouched && this.state.isPasswordTouched && this.state.isEmailTouched;
+
+    handleSendResult(result) {
+        switch (result.status.code) {
+            case 200:
+                //wechsle zu login
+                this.setState(initialState);
+                this.setState({
+                    registerSend: true,
+                    registerMsg: 'Thank you, ' + result.register.user.username + ', for your registration. We´ve sent a mail to ' + result.register.user.email
+                });
+                break;
+            case 400:
+                this.setState({
+                    isUsernameInvalid: (result.register.messageUsername !== undefined),
+                    usernameErrorMsg: (result.register.messageUsername !== undefined) ? result.register.messageUsername : '3 - 12 characters',
+                    isPasswordInvalid: (result.register.messagePassword !== undefined),
+                    passwordErrorMsg: (result.register.messagePassword !== undefined) ? result.register.messagePassword : '6 - 32 characters',
+                    isEmailInvalid: (result.register.messageEmail !== undefined),
+                    emailErrorMsg: (result.register.messageEmail !== undefined) ? result.register.messageEmail : '6 - 32 characters',
+                });
+                break;
+            default:
+                //do something
+                break;
+        }
     }
 
     handleSnackbarClose = () => {
-        this.setState({registerSend:false})
+        this.setState({registerSend: false})
     }
 
     getSnackbarContent = (name, classes) => {
-        return <SnackbarContent style={{backgroundColor: SnackbarStyles.getStyle(name).backgroundColor, alignItems: 'center'}} message={ <span id={"register-feedback"}><Icon>{SnackbarStyles.getStyle(name).iconName}</Icon> {this.state.registerMsg}</span> }  action={[
-            <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleSnackbarClose}>
-                <CloseIcon className={classes.icon} />
-            </IconButton>,
-        ]}/>
+        return <SnackbarContent
+            style={{backgroundColor: SnackbarStyles.getStyle(name).backgroundColor, alignItems: 'center'}}
+            message={<span
+                id={"register-feedback"}><Icon>{SnackbarStyles.getStyle(name).iconName}</Icon> {this.state.registerMsg}</span>}
+            action={[
+                <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleSnackbarClose}>
+                    <CloseIcon className={classes.icon}/>
+                </IconButton>,
+            ]}/>
     }
 
     render() {
@@ -229,8 +235,8 @@ class Register extends Component {
                                             information :)<br/>
                                         </Typography>
                                     </Grid>
-                                    <Grid item sm={8} md={12} lg={12} >
-                                        <FormControl required={true} error={this.state.isUsernameInvalid} >
+                                    <Grid item sm={8} md={12} lg={12}>
+                                        <FormControl required={true} error={this.state.isUsernameInvalid}>
 
                                             <InputLabel>Username</InputLabel>
                                             <Input id="user-input" type="text"
@@ -240,10 +246,11 @@ class Register extends Component {
                                                            <UsernameIcon/>
                                                        </InputAdornment>
                                                    }
-                                                   value={this.state.username}
+
                                                    onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText id={"usernameErrorMsgID"}><em>{this.state.usernameErrorMsg}</em></FormHelperText>
+                                            <FormHelperText
+                                                id={"usernameErrorMsgID"}><em>{this.state.usernameErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -254,7 +261,6 @@ class Register extends Component {
                                                     <PasswordIcon/>
                                                 </InputAdornment>
                                             }
-                                                   value={this.state.password}
                                                    onChange={this.handleInputChange}
                                             />
                                             <FormHelperText><em>{this.state.passwordErrorMsg}</em></FormHelperText>
@@ -265,11 +271,10 @@ class Register extends Component {
                                             <InputLabel>Repeat password</InputLabel>
                                             <Input id="user-password-repeat" type="password" startAdornment={
                                                 <InputAdornment position="start">
-                                                    <PasswordIcon />
+                                                    <PasswordIcon/>
                                                 </InputAdornment>
                                             }
-                                                   value={this.state.repeatPassword}
-                                                   onChange={this.handleRepeatPasswordChange}
+                                                   onChange={this.handleInputChange}
                                             />
                                             <FormHelperText><em>See above</em></FormHelperText>
                                         </FormControl>
@@ -282,18 +287,20 @@ class Register extends Component {
                                                     <EMailIcon/>
                                                 </InputAdornment>
                                             }
-                                                   value={this.state.mail}
-                                                   onBlur={this.handleInputChange}
+                                                   onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText id={"emailErrorMsgID"}><em>{this.state.emailErrorMsg}</em></FormHelperText>
+                                            <FormHelperText
+                                                id={"emailErrorMsgID"}><em>{this.state.emailErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={4} md={4} lg={4}>
                                         <div className={classes.wrapper}>
-                                            <Button id="register-button" variant="contained" color="primary" disabled={!this.isAllTouched() || this.isAnyInvalid()} onClick={this.handleSubmit}>
+                                            <Button id="register-button" variant="contained" color="primary"
+                                                    onClick={this.handleSubmit}>
                                                 Register now!
                                             </Button>
-                                            {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                                            {this.state.loading &&
+                                            <CircularProgress size={24} className={classes.buttonProgress}/>}
                                         </div>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -302,7 +309,9 @@ class Register extends Component {
                                         </Typography>
 
                                     </Grid>
-                                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={this.state.registerSend} autoHideDuration={20000} onClose={this.handleSnackbarClose}>{this.getSnackbarContent('success', classes)}</Snackbar>
+                                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                                              open={this.state.registerSend} autoHideDuration={20000}
+                                              onClose={this.handleSnackbarClose}>{this.getSnackbarContent('success', classes)}</Snackbar>
                                 </Grid>
                             </Paper>
                         </Grid>
