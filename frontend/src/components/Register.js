@@ -16,12 +16,9 @@ import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
-import * as SnackbarStyles from "./css/SnackbarStyles";
-import Icon from "@material-ui/core/Icon/Icon";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import CloseIcon from '@material-ui/icons/Close';
+import {withRouter} from "react-router-dom";
+import {compose} from "redux";
+import Notifier from "../utils/Notifier";
 
 //Styles to design some specific components
 const styles = theme => ({
@@ -68,8 +65,6 @@ const initialState = {
     mail: '',
 
     loading: false,
-    registerMsg: '',
-    registerSend: false,
 };
 
 class Register extends Component {
@@ -80,7 +75,7 @@ class Register extends Component {
     };
 
     //Handles input changes
-    handleInputChange = async (event) => {
+    handleInputChange = (event) => {
 
         //Depends on the input field that changed
         switch (event.target.id) {
@@ -141,6 +136,13 @@ class Register extends Component {
                 loading: false,
             })
 
+            this.props.enqueueSnackbar({
+                message: "The password doesn´t match the repeated password",
+                options: {
+                    variant: "error"
+                }
+            });
+
         }
         else {
 
@@ -176,12 +178,13 @@ class Register extends Component {
     handleSendResult(result) {
         switch (result.status.code) {
             case 200:
-                //wechsle zu login
-                this.setState(initialState);
-                this.setState({
-                    registerSend: true,
-                    registerMsg: 'Thank you, ' + result.register.user.username + ', for your registration. We´ve sent a mail to ' + result.register.user.email
+                this.props.enqueueSnackbar({
+                    message: "Registration successful. Please check your mails.",
+                    options: {
+                        variant: "success"
+                    }
                 });
+                this.props.history.push('/login');
                 break;
             case 400:
                 this.setState({
@@ -191,6 +194,12 @@ class Register extends Component {
                     passwordErrorMsg: (result.register.messagePassword !== undefined) ? result.register.messagePassword : '6 - 32 characters',
                     isEmailInvalid: (result.register.messageEmail !== undefined),
                     emailErrorMsg: (result.register.messageEmail !== undefined) ? result.register.messageEmail : '6 - 32 characters',
+               });
+                this.props.enqueueSnackbar({
+                    message: "Registration failed: You got unresolved problems. Please make sure to fill every field correctly",
+                    options: {
+                        variant: "error"
+                    }
                 });
                 break;
             default:
@@ -199,26 +208,12 @@ class Register extends Component {
         }
     }
 
-    handleSnackbarClose = () => {
-        this.setState({registerSend: false})
-    }
-
-    getSnackbarContent = (name, classes) => {
-        return <SnackbarContent
-            style={{backgroundColor: SnackbarStyles.getStyle(name).backgroundColor, alignItems: 'center'}}
-            message={<span
-                id={"register-feedback"}><Icon>{SnackbarStyles.getStyle(name).iconName}</Icon> {this.state.registerMsg}</span>}
-            action={[
-                <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleSnackbarClose}>
-                    <CloseIcon className={classes.icon}/>
-                </IconButton>,
-            ]}/>
-    }
-
     render() {
         const {classes} = this.props;
         return (
+
             <div className={classes.root}>
+                <Notifier/>
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
                         <Grid item xs={12} md={8} lg={4}>
@@ -295,7 +290,7 @@ class Register extends Component {
                                     </Grid>
                                     <Grid item sm={4} md={4} lg={4}>
                                         <div className={classes.wrapper}>
-                                            <Button id="register-button" variant="contained" color="primary"
+                                            <Button id="register-button" variant="contained" color="primary" disabled={this.state.loading}
                                                     onClick={this.handleSubmit}>
                                                 Register now!
                                             </Button>
@@ -309,19 +304,22 @@ class Register extends Component {
                                         </Typography>
 
                                     </Grid>
-                                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-                                              open={this.state.registerSend} autoHideDuration={20000}
-                                              onClose={this.handleSnackbarClose}>{this.getSnackbarContent('success', classes)}</Snackbar>
                                 </Grid>
                             </Paper>
                         </Grid>
                     </Grid>
                 </MuiThemeProviderUI>
             </div>
+
+
         );
     }
 
 
 }
 
-export default withStyles(styles)(Register);
+export default
+compose(
+    withStyles(styles),
+    withRouter,
+)(Register);

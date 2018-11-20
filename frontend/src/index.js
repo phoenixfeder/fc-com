@@ -7,14 +7,17 @@ import {createStore} from 'redux';
 import allReducers from './reducers/index-reducer';
 import AppContainer from './containers/app-container';
 import {BrowserRouter} from 'react-router-dom';
+import {SnackbarProvider} from "notistack";
 
 const store = createStore(allReducers);
 
 ReactDOM.render(
     <Provider store={store}>
+        <SnackbarProvider maxSnack={4} anchorOrigin={{vertical: 'top', horizontal: 'center'}} autoHideDuration={10000}>
         <BrowserRouter>
             <AppContainer/>
         </BrowserRouter>
+        </SnackbarProvider>
     </Provider>,
 document.getElementById('root'));
 
