@@ -14,7 +14,7 @@ public class Lang {
     public final static String mailText =
             "Hello ##username##,\n\n" +
                     "Welcome to Flashcard Community." +
-                    "To verify your Account please use the following Link:" +
+                    "To verify your Account please use the following Link: " +
                     Config.MAILORIGIN + "?id=##userid##&token=##token##\n\n" +
                     "Happy learning!";
 
