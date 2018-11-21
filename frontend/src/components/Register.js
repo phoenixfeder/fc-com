@@ -218,7 +218,7 @@ class Register extends Component {
                     <Grid container alignContent="center" justify="center">
                         <Grid item xs={12} md={8} lg={4}>
                             <Paper className={classes.root} elevation={1}>
-                                <Grid container spacing={16} alignItems="center" justify="space-evenly"
+                                <Grid container spacing={16} alignItems="stretch" justify="space-evenly"
                                       direction="column">
                                     <Grid item lg={12}>
                                         <Typography variant="h3" component="h3" align="center">
@@ -230,8 +230,8 @@ class Register extends Component {
                                             information :)<br/>
                                         </Typography>
                                     </Grid>
-                                    <Grid item sm={8} md={12} lg={12}>
-                                        <FormControl required={true} error={this.state.isUsernameInvalid}>
+                                    <Grid item sm={12} md={12} lg={12}>
+                                        <FormControl fullWidth={true} required={true} error={this.state.isUsernameInvalid}>
 
                                             <InputLabel>Username</InputLabel>
                                             <Input id="user-input" type="text"
@@ -249,7 +249,7 @@ class Register extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true} error={this.state.isPasswordInvalid}>
+                                        <FormControl fullWidth={true} required={true} error={this.state.isPasswordInvalid}>
                                             <InputLabel>Password</InputLabel>
                                             <Input id="user-password" type="password" startAdornment={
                                                 <InputAdornment position="start">
@@ -262,7 +262,7 @@ class Register extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true} error={this.state.isPasswordInvalid}>
+                                        <FormControl fullWidth={true} required={true} error={this.state.isPasswordInvalid}>
                                             <InputLabel>Repeat password</InputLabel>
                                             <Input id="user-password-repeat" type="password" startAdornment={
                                                 <InputAdornment position="start">
@@ -275,7 +275,7 @@ class Register extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true} error={this.state.isEmailInvalid}>
+                                        <FormControl fullWidth={true} required={true} error={this.state.isEmailInvalid}>
                                             <InputLabel>E-Mail</InputLabel>
                                             <Input id="user-mail-input" type="email" startAdornment={
                                                 <InputAdornment position="start">
