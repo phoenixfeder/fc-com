@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import qs from 'query-string';
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -11,7 +10,6 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button/Button";
 import { compose } from "redux";
 import { withRouter } from "react-router-dom";
-import Notifier from "../utils/Notifier";
 
 const styles = theme => ({
     root: {
@@ -41,58 +39,60 @@ class Verify extends Component {
 
         const parameters = qs.parse(window.location.search);
 
-        if (parameters.token === undefined || parameters.id === undefined ||
-            parameters.token === "" || parameters.id === "") {
-            
-            this.props.enqueueSnackbar({
-                message: "Nothing to verify.",
-                options: {
-                    variant: "error"
-                }
-            });
-            //this.props.history.push('/login');
+        fetch('http://localhost:8080/register/verify?id='+parameters.id+'&token='+parameters.token, {
+            method: 'PUT',
+        }).then(results => {
 
-        } else {
+            return results.json();
 
-            fetch('http://localhost:8080/register/verify', {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "verfiy": {
-                        "checksum": parameters.token,
-                        "id": parameters.id,
-                    }
-                })
-            }).then(results => {
+        }).then(result => {
 
-                return results.json();
+            switch (result.status.code) {
+                case 200:
+                    this.props.enqueueSnackbar({
+                        message: "You are now able to login! Enjoy!",
+                        options: {
+                            variant: "success"
+                        }
+                    });
+                    this.props.history.push('/login?username='+result.register.user.username);
+                    break;
 
-            }).then(result => {
+                case 401:
+                    this.props.enqueueSnackbar({
+                        message: "Invalid parameters, cannot verify.",
+                        options: {
+                            variant: "error"
+                        }
+                    });
+                    break;
 
-                switch (result.status.code) {
-                    case 200:
-                        console.log("Redirect to login!");
-                        break;
+                case 402:
+                        this.setState({ tokenOutdated: true });
+                    break;
 
-                    case 400:
-                        this.setState({ error: false });
-                        break;
+                case 501:
+                    this.props.history.push('/');
+                    break;
 
-                    default:
-                        break;
+                default:
+                    this.props.history.push('/');
+                    break;
 
-                }
-            });
+            }
+        });
 
-        }
+        
     }
 
     handleSubmit() {
 
-        console.log("Redirect to home with resend notification!");
+        this.props.enqueueSnackbar({
+            message: "We resend your validation token :)",
+            options: {
+                variant: "success"
+            }
+        });
 
     }
 
@@ -101,7 +101,6 @@ class Verify extends Component {
 
         return (
             <div className={classes.root}>
-                <Notifier />
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
                         <Grid item xs={12} md={8} lg={4}>

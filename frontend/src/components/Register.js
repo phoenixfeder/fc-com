@@ -18,7 +18,6 @@ import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
-import Notifier from "../utils/Notifier";
 
 //Styles to design some specific components
 const styles = theme => ({
@@ -213,7 +212,6 @@ class Register extends Component {
         return (
 
             <div className={classes.root}>
-                <Notifier/>
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
                         <Grid item xs={12} md={8} lg={4}>
