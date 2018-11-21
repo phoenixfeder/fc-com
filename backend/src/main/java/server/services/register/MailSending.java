@@ -26,7 +26,7 @@ public class MailSending {
 
     public void send(String mailAddress, String username, String id, String token) {
         SimpleMailMessage email = new SimpleMailMessage();
-        email.setTo(mailAddress);
+        email.setTo("flashcardcommunity@gmail.com"); //mailAddress
         email.setSubject("Registration Confirmation");
         String text = getMailText(username, id, token);
         email.setText(text);
