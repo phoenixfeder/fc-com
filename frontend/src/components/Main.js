@@ -6,6 +6,7 @@ import EditProfile from "./EditProfile";
 import Login from './Login'
 import RegisterContainer from "../containers/register-container";
 import Verfiy from './Verify';
+import FAQ from './FAQ'; 
 
 class Main extends Component {
     render() {
