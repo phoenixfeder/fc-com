@@ -9,6 +9,9 @@ import withStyles from "@material-ui/core/es/styles/withStyles";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button/Button";
+import { compose } from "redux";
+import { withRouter } from "react-router-dom";
+import Notifier from "../utils/Notifier";
 
 const styles = theme => ({
     root: {
@@ -41,7 +44,13 @@ class Verify extends Component {
         if (parameters.token === undefined || parameters.id === undefined ||
             parameters.token === "" || parameters.id === "") {
             
-            console.log("Redirect to home with error notification!");
+            this.props.enqueueSnackbar({
+                message: "Nothing to verify.",
+                options: {
+                    variant: "error"
+                }
+            });
+            //this.props.history.push('/login');
 
         } else {
 
@@ -92,6 +101,7 @@ class Verify extends Component {
 
         return (
             <div className={classes.root}>
+                <Notifier />
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
                         <Grid item xs={12} md={8} lg={4}>
@@ -133,4 +143,8 @@ class Verify extends Component {
     }
 }
 
-export default withStyles(styles)(Verify);
+export default
+    compose(
+        withStyles(styles),
+        withRouter,
+    )(Verify);
