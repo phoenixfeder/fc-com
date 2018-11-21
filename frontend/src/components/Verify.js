@@ -38,10 +38,10 @@ class Verify extends Component {
 
         const parameters = qs.parse(window.location.search);
 
-        if (parameters.token === undefined || parameters.id === undefined || 
+        if (parameters.token === undefined || parameters.id === undefined ||
             parameters.token === "" || parameters.id === "") {
-
-            console.log("Du hast hier nichts zu suchen.");
+            
+            console.log("Redirect to home with error notification!");
 
         } else {
 
@@ -65,7 +65,7 @@ class Verify extends Component {
 
                 switch (result.status.code) {
                     case 200:
-                        this.setState({ verified: true });
+                        console.log("Redirect to login!");
                         break;
 
                     case 400:
@@ -78,45 +78,12 @@ class Verify extends Component {
                 }
             });
 
-        }   
+        }
     }
 
     handleSubmit() {
 
-        const parameters = qs.parse(window.location.search);
-
-        fetch('http://localhost:8080/register/verify', {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "verfiy": {
-                    "checksum": parameters.token,
-                    "id": parameters.id,
-                }
-            })
-        }).then(results => {
-
-            return results.json();
-
-        }).then(result => {
-
-            switch (result.status.code) {
-                case 200:
-                    this.setState({ verified: true });
-                    break;
-
-                case 400:
-                    this.setState({ error: false });
-                    break;
-
-                default:
-                    break;
-
-            }
-        });
+        console.log("Redirect to home with resend notification!");
 
     }
 
@@ -132,7 +99,7 @@ class Verify extends Component {
                                 <Grid container spacing={16} alignItems="center" justify="center" style={{ minHeight: '100px' }}
                                     direction="column">
                                     <Grid item lg={12}>
-                                        
+
                                         {!this.state.tokenOutdated ? (
                                             <div>
                                                 <Typography component="p" align="center"
@@ -142,17 +109,17 @@ class Verify extends Component {
                                                 <CircularProgress className={classes.progress} />
                                             </div>
                                         ) : (
-                                            <div>
-                                                <Typography component="p" align="center"
-                                                    className={classes.headline}>
-                                                    Woops, it seems like your token is outdated.
+                                                <div>
+                                                    <Typography component="p" align="center"
+                                                        className={classes.headline}>
+                                                        Woops, it seems like your token is outdated.
                                                 </Typography>
-                                                <Button id="register-button" variant="contained" color="primary"
-                                                    onClick={this.handleSubmit}>
-                                                    Resend validation link!
+                                                    <Button id="register-button" variant="contained" color="primary"
+                                                        onClick={this.handleSubmit}>
+                                                        Resend validation link!
                                                 </Button>
-                                            </div>
-                                        )}
+                                                </div>
+                                            )}
 
                                     </Grid>
                                 </Grid>
