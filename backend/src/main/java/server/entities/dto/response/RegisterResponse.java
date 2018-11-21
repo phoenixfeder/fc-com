@@ -14,4 +14,7 @@ public class RegisterResponse {
     @JsonProperty("user")
     private UserResponse userResponse;
 
+    public boolean isOk() {
+        return (messageUsername == null && messageEmail == null && messagePassword == null);
+    }
 }
