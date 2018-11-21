@@ -14,6 +14,7 @@ import PasswordIcon from '@material-ui/icons/Lock'
 import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
+import qs from 'query-string';
 
 const styles = theme => ({
     root: {
@@ -28,8 +29,40 @@ const styles = theme => ({
 });
 
 class Login extends Component {
+    
+    constructor() {
+        super();
+        this.state = {
+            email: '',
+            password: '',
+        };
+    };
 
-    //TODO: Check for valid input (better with the strucutre of redux!)
+    componentDidMount() {
+
+        //Get username from URL
+        this.setState({ email: qs.parse(window.location.search).username !== undefined ? qs.parse(window.location.search).username : ''})
+    }
+
+    //Handles input changes
+    handleInputChange = (event) => {
+
+        //Depends on the input field that changed
+        switch (event.target.id) {
+
+            case "mail-input":
+                this.setState({ email: event.target.value, });
+                break;
+
+            case "password-input":
+                this.setState({ password: event.target.value, });
+                break;
+
+            default:
+                break;
+        }
+
+    }
 
     render() {
         const { classes } = this.props;
@@ -53,7 +86,7 @@ class Login extends Component {
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={false}>
                                             <InputLabel>E-Mail</InputLabel>
-                                            <Input id="mail-input" type="email" startAdornment={
+                                            <Input id="mail-input" type="email" onChange={this.handleInputChange} value={this.state.email} startAdornment={
                                                 <InputAdornment position="start">
                                                     <EMailIcon />
                                                 </InputAdornment>
@@ -64,7 +97,7 @@ class Login extends Component {
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={false}>
                                             <InputLabel>Password</InputLabel>
-                                            <Input id="password-input" type="password" startAdornment={
+                                            <Input id="password-input" type="password" onChange={this.handleInputChange} value={this.state.password} startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon />
                                                 </InputAdornment>
