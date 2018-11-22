@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import MuiThemeProviderUI from "@material-ui/core/styles/MuiThemeProvider";
-import {lightTheme} from "../utils/themeLight";
+import {lightTheme} from "../../utils/themeLight";
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
 import Typography from "@material-ui/core/Typography/Typography";

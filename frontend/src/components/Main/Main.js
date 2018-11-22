@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Switch, Route} from 'react-router-dom';
-import Home from './Home';
-import HelloWorldContainer from "../containers/helloworld-container";
-import EditProfile from "./EditProfile";
-import Login from './Login'
-import RegisterContainer from "../containers/register-container";
-import VerfiyContainer from '../containers/verify-container';
-import FAQ from './FAQ'; 
+import Home from '../Home/Home';
+import HelloWorldContainer from "../HelloWorld/helloworld-container";
+import EditProfile from "../EditProfile/EditProfile";
+import Login from '../Login/Login'
+import RegisterContainer from "../Register/register-container";
+import VerfiyContainer from '../Verify/verify-container';
+import FAQ from '../FAQ/FAQ';
 
 class Main extends Component {
     render() {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import qs from 'query-string';
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { lightTheme } from "../utils/themeLight";
+import { lightTheme } from "../../utils/themeLight";
 import MuiThemeProviderUI from "@material-ui/core/styles/MuiThemeProvider";
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import CircularProgress from '@material-ui/core/CircularProgress';

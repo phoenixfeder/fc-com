@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import HeaderContainer from '../containers/header/header-container';
-import MainContainer from '../containers/main-container';
-import Notifier from "../utils/Notifier";
+import HeaderContainer from '../header/header/header-container';
+import MainContainer from '../Main/main-container';
+import Notifier from "../../utils/Notifier";
 
 class App extends Component {
     render() {

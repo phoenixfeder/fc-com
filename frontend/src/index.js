@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import allReducers from './reducers/index-reducer';
-import AppContainer from './containers/app-container';
+import AppContainer from './components/App/app-container';
 import {BrowserRouter} from 'react-router-dom';
 import {SnackbarProvider} from "notistack";
 import IconButton from "@material-ui/core/IconButton/IconButton";

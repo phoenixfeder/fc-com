@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import './css/flashcard.css'
-import * as FlashcardStyle from '../utils/const-flashcard';
+import './flashcard.css'
+import * as FlashcardStyle from '../../utils/const-flashcard';
 
 
 class Flashcard extends Component {
