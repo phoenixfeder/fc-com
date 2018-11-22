@@ -39,7 +39,7 @@ class Login extends Component {
     };
 
     componentDidMount() {
-
+        document.title='Login';
         //Get username from URL
         this.setState({ email: qs.parse(window.location.search).username !== undefined ? qs.parse(window.location.search).username : ''})
     }
