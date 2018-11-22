@@ -9,7 +9,7 @@ import TypographyUI from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
-import {lightTheme} from '../../utils/themeLight';
+import {lightTheme} from '../../../utils/themeLight';
 import Link from "react-router-dom/es/Link";
 import Menu from "@material-ui/core/Menu/Menu";
 import IconButton from "@material-ui/core/IconButton/IconButton";

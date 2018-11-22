@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from "redux";
-import { enqueueSnackbar } from "../actions/notistack-snackbar-actions";
-import Verify from "../components/Verify";
+import { enqueueSnackbar } from "../../actions/notistack-snackbar-actions";
+import Verify from "./Verify";
 
 const mapStateToProps = state => {
     return { snackbar: state.snackbars.notifications };

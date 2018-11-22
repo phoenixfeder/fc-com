@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import AppBar from '../../components/header/AppBar';
+import AppBar from './AppBar';
 
 const AppBarContainer = connect()(AppBar);
 
