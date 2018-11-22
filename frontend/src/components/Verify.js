@@ -10,6 +10,12 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button/Button";
 import { compose } from "redux";
 import { withRouter } from "react-router-dom";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
+import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
+import EMailIcon from '@material-ui/icons/Mail';
 
 const styles = theme => ({
     root: {
@@ -24,6 +30,22 @@ const styles = theme => ({
         paddingTop: 20,
         paddingBottom: 20
     },
+    resendButton: {
+        padding: 20,
+    },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    wrapper: {
+        margin: theme.spacing.unit,
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+    },
 });
 
 class Verify extends Component {
@@ -32,6 +54,10 @@ class Verify extends Component {
         super();
         this.state = {
             tokenOutdated: false,
+            
+            email: '',
+
+            loading: false,
         };
     };
 
@@ -59,8 +85,9 @@ class Verify extends Component {
                     break;
 
                 case 401:
+                    this.setState({ tokenOutdated: true });
                     this.props.enqueueSnackbar({
-                        message: "Invalid parameters, cannot verify.",
+                        message: "Something went wrong - visit the FAQ page for more help.",
                         options: {
                             variant: "error"
                         }
@@ -71,7 +98,15 @@ class Verify extends Component {
                         this.setState({ tokenOutdated: true });
                     break;
 
+                //Should not be thrown by user
                 case 501:
+                case 502:
+                    this.props.enqueueSnackbar({
+                        message: "Sorry, this should not happen. You possibly visited an unknown site.",
+                        options: {
+                            variant: "error"
+                        }
+                    });
                     this.props.history.push('/');
                     break;
 
@@ -85,14 +120,50 @@ class Verify extends Component {
         
     }
 
-    handleSubmit() {
+    handleMailChange = (event) => {
+        this.setState({email: event.target.value});
+    }
 
-        this.props.enqueueSnackbar({
-            message: "We resend your validation token :)",
-            options: {
-                variant: "success"
+    handleSubmit = () => {
+
+        this.setState({ loading: true })
+        //TODO: Change it accordingly to the correct API endpoint
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        }).then(results => {
+            return results.json();
+        }).then(result => {
+
+            switch(result.status.code) {
+               
+                case 200:
+                    this.props.enqueueSnackbar({
+                        message: "We resend your validation token :)",
+                        options: {
+                            variant: "success"
+                        }
+                    });
+                    this.setState({ loading: false })
+                    this.props.history.push('/');
+                    break;
+
+                default: 
+                    this.props.enqueueSnackbar({
+                        message: "Something went wrong - visit the FAQ page for more help.",
+                        options: {
+                            variant: "error"
+                        }
+                    });
+                    this.setState({ loading: false })
+                    break;
             }
         });
+
+        
 
     }
 
@@ -107,7 +178,7 @@ class Verify extends Component {
                             <Paper elevation={1}>
                                 <Grid container spacing={16} alignItems="center" justify="center" style={{ minHeight: '100px' }}
                                     direction="column">
-                                    <Grid item lg={12}>
+                                    <Grid item lg={12} style={{ textAlign: "center" }}>
 
                                         {!this.state.tokenOutdated ? (
                                             <div>
@@ -118,16 +189,30 @@ class Verify extends Component {
                                                 <CircularProgress className={classes.progress} />
                                             </div>
                                         ) : (
-                                                <div>
-                                                    <Typography component="p" align="center"
-                                                        className={classes.headline}>
-                                                        Woops, it seems like your token is outdated.
+                                            <div>
+                                                <Typography component="p" align="center"
+                                                    className={classes.headline}>
+                                                    Woops, it seems like your token is outdated. Resend it now!
                                                 </Typography>
-                                                    <Button id="register-button" variant="contained" color="primary"
+                                                <FormControl fullWidth={true} required={true}>
+                                                    <InputLabel>E-Mail</InputLabel>
+                                                    <Input id="user-mail-input" type="email" value={this.state.email} startAdornment={
+                                                        <InputAdornment position="start">
+                                                            <EMailIcon />
+                                                        </InputAdornment>
+                                                    }
+                                                        onChange={this.handleMailChange}
+                                                    />
+                                                    <FormHelperText><em>The E-Mail you used for registration.</em></FormHelperText>
+                                                </FormControl>
+                                                <div className={classes.wrapper}>
+                                                    <Button id="resend-button" variant="contained" color="primary" disabled={this.state.loading}
                                                         onClick={this.handleSubmit}>
-                                                        Resend validation link!
-                                                </Button>
+                                                        Resend token now!
+                                                    </Button>
+                                                    {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                                                 </div>
+                                            </div>
                                             )}
 
                                     </Grid>
