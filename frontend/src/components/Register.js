@@ -73,6 +73,10 @@ class Register extends Component {
         this.state = initialState;
     };
 
+    componentDidMount(){
+        document.title='Register';
+    }
+
     //Handles input changes
     handleInputChange = (event) => {
 
@@ -263,7 +267,7 @@ class Register extends Component {
                                             }
                                                    onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText><em>{this.state.passwordErrorMsg}</em></FormHelperText>
+                                            <FormHelperText id={"passwordErrorMsgID"}><em>{this.state.passwordErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -276,7 +280,7 @@ class Register extends Component {
                                             }
                                                    onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText><em>{this.state.repeatPasswordErrorMsg}</em></FormHelperText>
+                                            <FormHelperText id={"repeatPasswordErrorMsgID"}><em>{this.state.repeatPasswordErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>

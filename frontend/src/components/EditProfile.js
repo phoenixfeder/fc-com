@@ -44,6 +44,10 @@ const styles = theme => ({
 
 class EditProfile extends Component {
 
+    componentDidMount(){
+        document.title='Edit Profile';
+    }
+
     state = {
         openCloseAccount: false,
     };

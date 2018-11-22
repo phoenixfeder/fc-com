@@ -36,6 +36,7 @@ class Verify extends Component {
     };
 
     componentDidMount() {
+        document.title='Verify';
 
         const parameters = qs.parse(window.location.search);
 

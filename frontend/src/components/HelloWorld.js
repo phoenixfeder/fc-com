@@ -4,6 +4,10 @@ import Flashcard from './Flashcard';
 
 class HelloWorld extends Component {
 
+    componentDidMount(){
+        document.title='HelloWorld';
+    }
+
     componentWillMount() {
         fetch(BACKEND_URL_GETFLASHCARD(100000))
         .then(results => {

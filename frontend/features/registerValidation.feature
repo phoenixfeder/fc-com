@@ -7,50 +7,73 @@ Feature: Test of the users input at the register-page
     Background:
          Given I am on the "Registration" page
 
-
+    @register
     Scenario Outline: I am not allowed to enter too short or too long names
         When I enter "<name>" in the "username-field"
+        And I click on the "register-button"
         Then I get the error "<error>" in the "username-error-field"
-        And the "register-button" is not clickable
+        And  I get the message "Registration failed: Invalid input"
+
 
         Examples:
             | name                       | error                      |
             | ab                         | Username must be at least 3 characters and maximal 12 characters. |
             | abcdefghijklmnopqrstuvwxyz | Username must be at least 3 characters and maximal 12 characters.  |
-    
+
+    @register
     Scenario Outline: I have to enter the email adress in the correct format
         When I enter "<email>" in the "email-field"
-        Then I get the error "No valid email-adress"
-        And the "register-button" is not clickable
+        And I click on the "register-button"
+        Then I get the error "This is not an email address." in the "email-error-field"
+        And  I get the message "Registration failed: Invalid input"
 
         Examples:
             | email       |
             | s           |
             | sss.@de     |
             | aaa.aaa@ de |
-    
+
+    @register
     Scenario Outline: I am not allowed to enter too short or too long passwords
         When I enter "<pw>" in the "password-field"
-        Then I get the error "<error>"
-        And the "register-button" is not clickable
-    
-        Examples:
-            | pw                       | error                      |
-            | abc                        | Your password is too short |
-            | abcdefghijklmnopqrstuvwxyz | Your password is too long  |
+        And I enter "<pw>" in the "password-repeat-field"
+        And I click on the "register-button"
+        Then I get the error "Password must be at least 6 characters and maximal 32 characters." in the "password-error-field"
+        And  I get the message "Registration failed: Invalid input"
 
-    
+        Examples:
+            | pw                       |
+            | abc                        |
+            | abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz |
+
+    @register
     Scenario: I have to enter the same password in the validate password field
         When I enter "password123" in the "password-field"
-        And I enter "password123" in the "password-repeat-field"
-        Then I get no error
-        When I enter "password456" in the "password-repeat-field"
-        Then I get the error "The validation does'nt match your password"
-        And the "register-button" is not clickable
+        And  I enter "password456" in the "password-repeat-field"
+        And I click on the "register-button"
+        Then I get the error "The password doesn´t match the repeated password" in the "password-repeat-error-field"
+        And  I get the message "Registration failed: Invalid input"
 
-    Scenario: If I enter everything right I can click on the register button
-        When I enter "testaccount" in the "nicknamefield"
-        And I enter "test.mail@fc.de" in the "email-field"
-        And I enter "password123" in the "password-field"
-        And I enter "password123" in the "password-repeat-field"
-        Then the "register-button" is clickable
+    @register
+    Scenario Outline:
+        Given I enter "<name>" in the "username-field"
+        And I enter "<email>" in the "email-field"
+        And I enter "<password>" in the "password-field"
+        And I enter "<password>" in the "password-repeat-field"
+        When I click on the "register-button"
+        Then I get the error "<error>" in the "<error-field>"
+
+        Examples:
+            | name | email | password | error | error-field |
+            | taken | new.mail@fc.de | pw123456 | Username already exists | username-error-field |
+            | newname | taken.mail@fc.de | pw123456 | Email is already in use | email-error-field   |
+
+    @register
+    Scenario:
+        Given I enter "newuser" in the "username-field"
+        And I enter "new.mail@fc.de" in the "email-field"
+        And I enter "pw123456" in the "password-field"
+        And I enter "pw123456" in the "password-repeat-field"
+        When I click on the "register-button"
+        Then I get the message "Thank you, newuser, for your registration. We´ve sent a mail to new.mail@fc.de"
+        And I get redirected to the "Login" page
