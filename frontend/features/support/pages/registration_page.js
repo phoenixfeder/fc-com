@@ -23,7 +23,7 @@ exports.select = (select) => {
             return Selector('#passwordErrorMsgID');
         case 'password-repeat-error-field':
             return Selector('#repeatPasswordErrorMsgID');
-        case 'register-feedback-field':
+        case 'snackbar':
             return Selector('#client-snackbar');
         case 'title':
             return Selector("title");

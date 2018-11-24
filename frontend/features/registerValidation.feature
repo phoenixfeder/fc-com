@@ -56,7 +56,7 @@ Feature: Test of the users input at the register-page
 
     @register
     Scenario Outline:
-        Given I enter "<name>" in the "username-field"
+      When I enter "<name>" in the "username-field"
         And I enter "<email>" in the "email-field"
         And I enter "<password>" in the "password-field"
         And I enter "<password>" in the "password-repeat-field"
@@ -70,7 +70,7 @@ Feature: Test of the users input at the register-page
 
     @register
     Scenario:
-        Given I enter "newuser" in the "username-field"
+      When I enter "newuser" in the "username-field"
         And I enter "new.mail@fc.de" in the "email-field"
         And I enter "pw123456" in the "password-field"
         And I enter "pw123456" in the "password-repeat-field"

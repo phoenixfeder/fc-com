@@ -56,7 +56,8 @@ class Verify extends Component {
             tokenOutdated: false,
             
             email: '',
-
+            emailErrorMsg: 'The E-Mail you used for registration.',
+            isEmailInvalid: false,
             loading: false,
         };
     };
@@ -96,7 +97,14 @@ class Verify extends Component {
                     break;
 
                 case 402:
-                        this.setState({ tokenOutdated: true });
+                    document.title='Request new token';
+                    this.props.enqueueSnackbar({
+                        message: "Your token has expired",
+                        options: {
+                            variant: "error"
+                        }
+                    });
+                    this.setState({ tokenOutdated: true });
                     break;
 
                 //Should not be thrown by user
@@ -122,7 +130,7 @@ class Verify extends Component {
     }
 
     handleMailChange = (event) => {
-        this.setState({email: event.target.value});
+        this.setState({email: event.target.value, emailErrorMsg: 'The E-Mail you used for registration.', isEmailInvalid: false});
     }
 
     handleSubmit = () => {
@@ -159,7 +167,7 @@ class Verify extends Component {
                             variant: "error"
                         }
                     });
-                    this.setState({ loading: false })
+                    this.setState({ loading: false, emailErrorMsg: 'error', isEmailInvalid: true})
                     break;
             }
         });
@@ -195,7 +203,7 @@ class Verify extends Component {
                                                     className={classes.headline}>
                                                     Woops, it seems like your token is outdated. Resend it now!
                                                 </Typography>
-                                                <FormControl fullWidth={true} required={true}>
+                                                <FormControl fullWidth={true} required={true} error={this.state.isEmailInvalid}>
                                                     <InputLabel>E-Mail</InputLabel>
                                                     <Input id="user-mail-input" type="email" value={this.state.email} startAdornment={
                                                         <InputAdornment position="start">
@@ -204,7 +212,7 @@ class Verify extends Component {
                                                     }
                                                         onChange={this.handleMailChange}
                                                     />
-                                                    <FormHelperText><em>The E-Mail you used for registration.</em></FormHelperText>
+                                                    <FormHelperText><em>{this.state.emailErrorMsg}</em></FormHelperText>
                                                 </FormControl>
                                                 <div className={classes.wrapper}>
                                                     <Button id="resend-button" variant="contained" color="primary" disabled={this.state.loading}

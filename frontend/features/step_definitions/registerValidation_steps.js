@@ -7,7 +7,7 @@ Given('I am on the {string} page', async function (page) {
     await testController.navigateTo(url(page));
 });
 
-Given('I enter {string} in the {string}', async function (text, field) {
+When('I enter {string} in the {string}', async function (text, field) {
     const inputField = select(field);
     await testController.click(inputField)
         .selectText(inputField).pressKey('delete') //slow solution
@@ -26,7 +26,7 @@ Then('I get the error {string} in the {string}', async function (error, field) {
 });
 
 Then('I get the message {string}', async function (msg) {
-    const feedbackField = select('register-feedback-field').with({boundTestRun: testController});
+    const feedbackField = select('snackbar').with({boundTestRun: testController});
     await  testController.expect(await feedbackField.innerText).contains(msg);
 });
 
