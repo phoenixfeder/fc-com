@@ -7,6 +7,7 @@ Feature: Test of the users input at the register-page
     Background:
          Given I am on the "Registration" page
 
+
     @register
     Scenario Outline: I am not allowed to enter too short or too long names
         When I enter "<name>" in the "username-field"
@@ -54,6 +55,7 @@ Feature: Test of the users input at the register-page
         Then I get the error "The password doesn´t match the repeated password" in the "password-repeat-error-field"
         And  I get the message "Registration failed: Invalid input"
 
+  @only
     @register
     Scenario Outline:
       When I enter "<name>" in the "username-field"
@@ -65,8 +67,8 @@ Feature: Test of the users input at the register-page
 
         Examples:
             | name | email | password | error | error-field |
-            | taken | new.mail@fc.de | pw123456 | Username already exists | username-error-field |
-            | newname | taken.mail@fc.de | pw123456 | Email is already in use | email-error-field   |
+            | testuser | new.mail@fc.de | pw123456 | Username already exists | username-error-field |
+            | newname | test.user@fc.de | pw123456 | Email is already in use | email-error-field   |
 
     @register
     Scenario:

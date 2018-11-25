@@ -17,7 +17,7 @@ Feature: Test of the correct feedback from the backend at the login-page
 			| nonExistingUsername | pw123456 |
 			| username | wrongPassword |
 
-	@only
+
 	Scenario:
 		When rI enter "username" in the "username-field"
 		And rI enter "pw123456" in the "password-field"

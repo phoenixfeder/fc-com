@@ -7,6 +7,18 @@ Given('eI am on the {string} page with the parameters {string}', async function 
     await testController.navigateTo(url(page)+parameters);
 });
 
+When('eI enter {string} in the {string}', async function (text, field) {
+    const inputField = select(field);
+    await testController.click(inputField)
+        .selectText(inputField).pressKey('delete') //slow solution
+        .typeText(inputField, text);
+});
+
+When('eI click on the {string}', async function (field) {
+    const inputField = select(field);
+    await testController.click(inputField);
+});
+
 Then('eI get redirected to the {string} page', async function (page) {
     await testController.wait(1000).expect(select('title').with({boundTestRun: testController}).innerText).eql(page);
 });
@@ -21,14 +33,7 @@ Then('eI get the message {string}', async function (msg) {
     await  testController.expect(await feedbackField.exists).ok();
 });
 
-When('eI enter {string} in the {string}', async function (text, field) {
-    const inputField = select(field);
-    await testController.click(inputField)
-        .selectText(inputField).pressKey('delete') //slow solution
-        .typeText(inputField, text);
-});
-
-When('eI click on the {string}', async function (field) {
-    const inputField = select(field);
-    await testController.click(inputField);
+Then('eI get the error {string} in the {string}', async function (error, field) {
+    const outputField = select(field).with({boundTestRun: testController});
+    await  testController.expect(await outputField.innerText).contains(error);
 });

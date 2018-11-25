@@ -133,16 +133,24 @@ class Verify extends Component {
         this.setState({email: event.target.value, emailErrorMsg: 'The E-Mail you used for registration.', isEmailInvalid: false});
     }
 
+
     handleSubmit = () => {
 
         this.setState({ loading: true })
         //TODO: Change it accordingly to the correct API endpoint
-        fetch('', {
-            method: 'POST',
+        fetch('http://localhost:8080/register/sendnewtoken', {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
+            body: JSON.stringify({
+                "register": {
+                    "user": {
+                        "email": this.state.email
+                    }
+                }
+            })
         }).then(results => {
             return results.json();
         }).then(result => {
@@ -156,10 +164,18 @@ class Verify extends Component {
                             variant: "success"
                         }
                     });
-                    this.setState({ loading: false })
+                    this.setState({ loading: false });
                     this.props.history.push('/');
                     break;
-
+                case 403:
+                    this.props.enqueueSnackbar({
+                        message: "Please enter the mail you used for our registration",
+                        options: {
+                            variant: "error"
+                        }
+                    });
+                    this.setState({ loading: false, emailErrorMsg: 'Please enter the mail you used for our registration', isEmailInvalid: true })
+                    break;
                 default: 
                     this.props.enqueueSnackbar({
                         message: "Something went wrong - visit the FAQ page for more help.",
@@ -212,7 +228,7 @@ class Verify extends Component {
                                                     }
                                                         onChange={this.handleMailChange}
                                                     />
-                                                    <FormHelperText><em>{this.state.emailErrorMsg}</em></FormHelperText>
+                                                    <FormHelperText id={'mail-error-field'}><em>{this.state.emailErrorMsg}</em></FormHelperText>
                                                 </FormControl>
                                                 <div className={classes.wrapper}>
                                                     <Button id="resend-button" variant="contained" color="primary" disabled={this.state.loading}
