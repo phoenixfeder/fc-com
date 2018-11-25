@@ -10,6 +10,7 @@ import server.entities.User;
 import server.entities.VerificationToken;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
+import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.StatusResponse;
@@ -136,5 +137,39 @@ public class RegisterService {
         responseDTO.setRegisterResponse(registerResponse);
 
         return responseDTO;
+    }
+
+    public ResponseDTO sendNewToken(RequestDTO requestDTO){
+
+        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
+
+        String email;
+
+        try{
+            email = requestDTO.getRegisterRequest().getUserRequest().getEmail();
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseDTO(StatusResponse.create(StatusCode.FORMATERROR));
+        }
+
+        User user = userRepository.findUserByEmail(email);
+
+        if(user == null){
+            return new ResponseDTO(StatusResponse.create(StatusCode.EMAILNOTINUSE));
+        }
+
+        verificationTokenRepository.delete(verificationTokenRepository.findByUser(user));
+
+        VerificationToken token = verificationTokenRepository.save(new VerificationToken(user));
+
+        try{
+            mailSending.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseDTO(StatusResponse.create(StatusCode.EMAILSENDERROR));
+        }
+
+        return responseDTO;
+
     }
 }

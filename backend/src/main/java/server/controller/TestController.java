@@ -2,14 +2,12 @@ package server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import server.config.Config;
-import server.entities.Role;
 import server.entities.User;
 import server.entities.VerificationToken;
-import server.entities.dto.RequestDTO;
-import server.entities.dto.ResponseDTO;
-import server.entities.repositories.RoleRepository;
 import server.entities.repositories.UserRepository;
 import server.entities.repositories.VerificationTokenRepository;
 
@@ -22,13 +20,11 @@ public class TestController {
 
     private final VerificationTokenRepository verificationTokenRepository;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
     @Autowired
-    public TestController(VerificationTokenRepository verificationTokenRepository, UserRepository userRepository, RoleRepository roleRepository) {
+    public TestController(VerificationTokenRepository verificationTokenRepository, UserRepository userRepository) {
         this.verificationTokenRepository = verificationTokenRepository;
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
 
 

@@ -34,9 +34,9 @@ public class RegisterController {
         return registerService.verifyUser(id, token);
     }
     @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/sendVerification/{mail}", method = RequestMethod.GET)
+    @RequestMapping(path = "/sendnewtoken", method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseDTO sendNewVerification(@PathVariable("mail") String mail) {
-        return new ResponseDTO(StatusResponse.create(StatusCode.OK));
+    ResponseDTO sendnewtoken(@RequestBody RequestDTO requestDTO) {
+        return registerService.sendNewToken(requestDTO);
     }
 }
