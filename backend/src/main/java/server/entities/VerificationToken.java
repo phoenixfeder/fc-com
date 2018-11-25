@@ -14,8 +14,9 @@ public class VerificationToken {
 
     private static final int EXPIRATION = 60 * 24;
 
+    @TableGenerator(name = "Id_generator", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "Id_val", initialValue = 100, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Id_generator")
     private long id;
 
     private String token;
