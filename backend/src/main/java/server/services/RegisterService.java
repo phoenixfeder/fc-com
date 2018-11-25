@@ -1,6 +1,7 @@
 package server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import server.config.Lang;
 import server.config.StatusCode;
@@ -29,16 +30,18 @@ public class RegisterService {
     private final RoleRepository roleRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private CheckRegisterEntries checkRegisterEntries;
+    private final PasswordEncoder passwordEncoder;
 
     private final MailSending mailSending;
 
     @Autowired
-    public RegisterService(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository verificationTokenRepository, CheckRegisterEntries checkRegisterEntries, MailSending mailSending) {
+    public RegisterService(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository verificationTokenRepository, CheckRegisterEntries checkRegisterEntries, MailSending mailSending, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.verificationTokenRepository = verificationTokenRepository;
         this.checkRegisterEntries = checkRegisterEntries;
         this.mailSending = mailSending;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public ResponseDTO addUser(RequestDTO requestDTO) {
@@ -63,6 +66,7 @@ public class RegisterService {
 
         User newUser = new User();
         newUser.insertDTOData(userRequest);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         Role role = roleRepository.findById(1).orElse(null);
         newUser.setRole(role);
 
