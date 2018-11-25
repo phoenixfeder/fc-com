@@ -5,15 +5,20 @@ import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import allReducers from './reducers/index-reducer';
-import AppContainer from './containers/app-container';
+import AppContainer from './components/App/app-container';
 import {BrowserRouter} from 'react-router-dom';
 import {SnackbarProvider} from "notistack";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
 
 const store = createStore(allReducers);
 
 ReactDOM.render(
     <Provider store={store}>
-        <SnackbarProvider maxSnack={4} anchorOrigin={{vertical: 'top', horizontal: 'center'}} autoHideDuration={10000}>
+        <SnackbarProvider maxSnack={4} anchorOrigin={{vertical: 'top', horizontal: 'center'}} autoHideDuration={100000}
+                          action={<IconButton key="close" aria-label="Close" color="inherit">
+                              <CloseIcon/>
+                          </IconButton>}  >
         <BrowserRouter>
             <AppContainer/>
         </BrowserRouter>

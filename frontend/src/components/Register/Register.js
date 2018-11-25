@@ -7,7 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button/Button";
-import {lightTheme} from "../utils/themeLight";
+import {lightTheme} from "../../utils/themeLight";
 import MuiThemeProviderUI from "@material-ui/core/styles/MuiThemeProvider";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import UsernameIcon from '@material-ui/icons/Person'
@@ -18,7 +18,6 @@ import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
-import Notifier from "../utils/Notifier";
 
 //Styles to design some specific components
 const styles = theme => ({
@@ -74,6 +73,10 @@ class Register extends Component {
         this.state = initialState;
     };
 
+    componentDidMount(){
+        document.title='Register';
+    }
+
     //Handles input changes
     handleInputChange = (event) => {
 
@@ -85,6 +88,8 @@ class Register extends Component {
 
                 this.setState({
                     username: event.target.value,
+                    isUsernameInvalid: false,
+                    usernameErrorMsg: "3 - 12 characters",
                 });
 
                 break;
@@ -94,6 +99,9 @@ class Register extends Component {
 
                 this.setState({
                     password: event.target.value,
+                    isPasswordInvalid: false,
+                    passwordErrorMsg: "6 - 32 characters",
+                    repeatPasswordErrorMsg: "",
                 });
 
                 break;
@@ -102,7 +110,10 @@ class Register extends Component {
             case "user-password-repeat":
 
                 this.setState({
-                    repeatPassword: event.target.value
+                    repeatPassword: event.target.value,
+                    isPasswordInvalid: false,
+                    passwordErrorMsg: "6 - 32 characters",
+                    repeatPasswordErrorMsg: "",
                 });
 
                 break;
@@ -112,6 +123,8 @@ class Register extends Component {
 
                 this.setState({
                     mail: event.target.value,
+                    isEmailInvalid: false,
+                    emailErrorMsg: "",
                 });
 
                 break;
@@ -132,16 +145,10 @@ class Register extends Component {
 
             this.setState({
                 isPasswordInvalid: true,
-                passwordErrorMsg: 'The password doesn´t match the repeated password',
+                repeatPasswordErrorMsg: 'The password doesn´t match the repeated password',
                 loading: false,
             })
-
-            this.props.enqueueSnackbar({
-                message: "The password doesn´t match the repeated password",
-                options: {
-                    variant: "error"
-                }
-            });
+            this.createNewSnackbar("error", "Registration failed: Invalid input")
 
         }
         else {
@@ -178,12 +185,8 @@ class Register extends Component {
     handleSendResult(result) {
         switch (result.status.code) {
             case 200:
-                this.props.enqueueSnackbar({
-                    message: "Registration successful. Please check your mails.",
-                    options: {
-                        variant: "success"
-                    }
-                });
+                this.createNewSnackbar("success", 'Thank you, ' + result.register.user.username + ', for your registration. We´ve sent a mail to ' + result.register.user.email)
+
                 this.props.history.push('/login');
                 break;
             case 400:
@@ -195,17 +198,24 @@ class Register extends Component {
                     isEmailInvalid: (result.register.messageEmail !== undefined),
                     emailErrorMsg: (result.register.messageEmail !== undefined) ? result.register.messageEmail : '6 - 32 characters',
                });
-                this.props.enqueueSnackbar({
-                    message: "Registration failed: You got unresolved problems. Please make sure to fill every field correctly",
-                    options: {
-                        variant: "error"
-                    }
-                });
+
+                this.createNewSnackbar("error", "Registration failed: Invalid input")
+
                 break;
             default:
                 //do something
+                this.createNewSnackbar("error", "Registration failed: An unexpected error occured. Please contact a system admin")
                 break;
         }
+    }
+
+    createNewSnackbar = (variant, message) => {
+        this.props.enqueueSnackbar({
+            message: message,
+            options: {
+                variant: variant
+            }
+        });
     }
 
     render() {
@@ -213,10 +223,9 @@ class Register extends Component {
         return (
 
             <div className={classes.root}>
-                <Notifier/>
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
-                        <Grid item xs={12} md={8} lg={4}>
+                        <Grid item xs={4} md={4} lg={4} >
                             <Paper className={classes.root} elevation={1}>
                                 <Grid container spacing={16} alignItems="stretch" justify="space-evenly"
                                       direction="column">
@@ -258,7 +267,7 @@ class Register extends Component {
                                             }
                                                    onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText><em>{this.state.passwordErrorMsg}</em></FormHelperText>
+                                            <FormHelperText id={"passwordErrorMsgID"}><em>{this.state.passwordErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -271,7 +280,7 @@ class Register extends Component {
                                             }
                                                    onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText><em>See above</em></FormHelperText>
+                                            <FormHelperText id={"repeatPasswordErrorMsgID"}><em>{this.state.repeatPasswordErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -288,7 +297,7 @@ class Register extends Component {
                                                 id={"emailErrorMsgID"}><em>{this.state.emailErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
-                                    <Grid item sm={4} md={4} lg={4}>
+                                    <Grid item sm={6} md={6} lg={6} style={{alignSelf: "center"}}>
                                         <div className={classes.wrapper}>
                                             <Button id="register-button" variant="contained" color="primary" disabled={this.state.loading}
                                                     onClick={this.handleSubmit}>
@@ -298,7 +307,7 @@ class Register extends Component {
                                             <CircularProgress size={24} className={classes.buttonProgress}/>}
                                         </div>
                                     </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
+                                    <Grid item sm={12} md={12} lg={12} style={{alignSelf: "center"}}>
                                         <Typography variant="caption" className={classes.headline}>
                                             Got an account already? <Link id="link-login" to="/login">Sign in!</Link>
                                         </Typography>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AppBarContainer from "../../containers/header/appbar-container";
+import AppBarContainer from "../AppBar/appbar-container";
 
 
 class Header extends Component {

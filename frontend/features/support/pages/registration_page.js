@@ -19,7 +19,13 @@ exports.select = (select) => {
             return Selector('#usernameErrorMsgID');
         case 'email-error-field':
             return Selector('#emailErrorMsgID');
-        case 'register-feedback-field':
-            return Selector('#register-feedback');
+        case 'password-error-field':
+            return Selector('#passwordErrorMsgID');
+        case 'password-repeat-error-field':
+            return Selector('#repeatPasswordErrorMsgID');
+        case 'snackbar':
+            return Selector('#client-snackbar');
+        case 'title':
+            return Selector("title");
     }
 }
