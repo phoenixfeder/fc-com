@@ -15,6 +15,7 @@ import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import qs from 'query-string';
+import UsernameIcon from '@material-ui/icons/Person'
 
 const styles = theme => ({
     root: {
@@ -33,7 +34,7 @@ class Login extends Component {
     constructor() {
         super();
         this.state = {
-            email: '',
+            username: '',
             password: '',
         };
     };
@@ -41,7 +42,7 @@ class Login extends Component {
     componentDidMount() {
         document.title='Login';
         //Get username from URL
-        this.setState({ email: qs.parse(window.location.search).username !== undefined ? qs.parse(window.location.search).username : ''})
+        this.setState({ username: qs.parse(window.location.search).username !== undefined ? qs.parse(window.location.search).username : ''})
     }
 
     //Handles input changes
@@ -50,8 +51,8 @@ class Login extends Component {
         //Depends on the input field that changed
         switch (event.target.id) {
 
-            case "mail-input":
-                this.setState({ email: event.target.value, });
+            case "username-input":
+                this.setState({ username: event.target.value, });
                 break;
 
             case "password-input":
@@ -85,10 +86,10 @@ class Login extends Component {
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl required={true} error={false}>
-                                            <InputLabel>E-Mail</InputLabel>
-                                            <Input id="mail-input" type="email" onChange={this.handleInputChange} value={this.state.email} startAdornment={
+                                            <InputLabel>Username or E-Mail</InputLabel>
+                                            <Input id="username-input" type="text" onChange={this.handleInputChange} value={this.state.username} startAdornment={
                                                 <InputAdornment position="start">
-                                                    <EMailIcon />
+                                                    <UsernameIcon/>
                                                 </InputAdornment>
                                             }
                                            />

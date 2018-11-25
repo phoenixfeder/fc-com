@@ -13,5 +13,7 @@ exports.select = (select) => {
             return Selector('#user-mail-input');
         case 'resend-button':
             return Selector('#resend-button');
+        case 'username-field':
+            return Selector('#username-input');
     }
 }

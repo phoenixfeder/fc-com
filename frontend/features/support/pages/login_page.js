@@ -9,7 +9,11 @@ exports.select = (select) => {
             return Selector('#client-snackbar');
         case 'title':
             return Selector("title");
-        case 'mail-field':
-            return Selector('#mail-input');
+        case 'username-field':
+            return Selector('#username-input');
+        case 'password-field':
+            return Selector('#password-input')
+        case 'login-button':
+            return Selector('#login-button')
     }
 }
