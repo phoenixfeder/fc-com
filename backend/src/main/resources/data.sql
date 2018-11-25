@@ -4,7 +4,7 @@ INSERT INTO flash_card(id, back_text, front_text, title) VALUES
 (100001, 'Lösung', 'Frage', 'TestCard');
 
 INSERT INTO user(id, username, email, password, role_id) VALUES
-(1, 'testuser', 'test.user@test.de', '123456', 1),
+(1, 'testuser', 'test.user@fc.de', '123456', 1),
 (2, 'expireduser', 'expired.user@fc.de', '123456', 1);
 
 INSERT INTO verification_token(id, expiry_date, token, user_id) VALUES
