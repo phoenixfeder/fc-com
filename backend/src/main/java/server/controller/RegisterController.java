@@ -21,20 +21,6 @@ public class RegisterController {
     }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/checkname/{name}", method = RequestMethod.GET)
-    public @ResponseBody
-    ResponseDTO checkUsername(@PathVariable("name") String name) {
-        return registerService.checkUsername(name);
-    }
-
-    @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/checkmail/{mail}", method = RequestMethod.GET)
-    public @ResponseBody
-    ResponseDTO checkMail(@PathVariable("mail") String mail) {
-        return registerService.checkMail(mail);
-    }
-
-    @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/newuser", method = RequestMethod.POST)
     public @ResponseBody
     ResponseDTO addUser(@RequestBody RequestDTO requestDTO) {
@@ -48,9 +34,9 @@ public class RegisterController {
         return registerService.verifyUser(id, token);
     }
     @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/sendVerification/{mail}", method = RequestMethod.GET)
+    @RequestMapping(path = "/sendnewtoken", method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseDTO sendNewVerification(@PathVariable("mail") String mail) {
-        return new ResponseDTO(StatusResponse.create(StatusCode.OK));
+    ResponseDTO sendnewtoken(@RequestBody RequestDTO requestDTO) {
+        return registerService.sendNewToken(requestDTO);
     }
 }

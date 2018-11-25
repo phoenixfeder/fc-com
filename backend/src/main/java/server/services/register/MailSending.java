@@ -24,9 +24,10 @@ public class MailSending {
         return text;
     }
 
-    public void send(String mailAddress, String username, String id, String token) {
+    public void send(String mailAddress, String username, String id, String token) throws Exception {
         SimpleMailMessage email = new SimpleMailMessage();
-        email.setTo(mailAddress);
+        //TODO email.setTo(mailAddress);
+        email.setTo("flashcardcommunity@gmail.com");
         email.setSubject("Registration Confirmation");
         String text = getMailText(username, id, token);
         email.setText(text);

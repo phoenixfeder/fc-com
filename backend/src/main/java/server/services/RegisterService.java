@@ -1,6 +1,7 @@
 package server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import server.config.Lang;
 import server.config.StatusCode;
@@ -9,6 +10,7 @@ import server.entities.User;
 import server.entities.VerificationToken;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
+import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.StatusResponse;
@@ -16,6 +18,7 @@ import server.entities.dto.response.UserResponse;
 import server.entities.repositories.RoleRepository;
 import server.entities.repositories.UserRepository;
 import server.entities.repositories.VerificationTokenRepository;
+import server.exceptions.register.WrongFormatException;
 import server.services.register.CheckRegisterEntries;
 import server.services.register.MailSending;
 
@@ -28,114 +31,61 @@ public class RegisterService {
     private final RoleRepository roleRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private CheckRegisterEntries checkRegisterEntries;
+    private final PasswordEncoder passwordEncoder;
 
     private final MailSending mailSending;
 
     @Autowired
-    public RegisterService(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository verificationTokenRepository, CheckRegisterEntries checkRegisterEntries, MailSending mailSending) {
+    public RegisterService(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository verificationTokenRepository, CheckRegisterEntries checkRegisterEntries, MailSending mailSending, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.verificationTokenRepository = verificationTokenRepository;
         this.checkRegisterEntries = checkRegisterEntries;
         this.mailSending = mailSending;
-    }
-
-    public ResponseDTO checkUsername(String name) {
-        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
-
-        if (checkRegisterEntries.isUserNameTaken(name)) {
-            RegisterResponse registerResponse = new RegisterResponse();
-            registerResponse.setMessageUsername(Lang.UsernameIsTaken);
-            responseDTO.setRegisterResponse(registerResponse);
-        }
-
-        System.out.println(UUID.randomUUID());
-
-        if (name.length() < 3 || name.length() > 12) {
-            RegisterResponse registerResponse = new RegisterResponse();
-            registerResponse.setMessageUsername(Lang.UsernameTooShort);
-            responseDTO.setRegisterResponse(registerResponse);
-        }
-
-        return responseDTO;
-    }
-
-
-    public ResponseDTO checkMail(String mail) {
-        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
-
-        if (checkRegisterEntries.isEmailTaken(mail)) {
-            RegisterResponse registerResponse = new RegisterResponse();
-            registerResponse.setMessageEmail(Lang.EmailIsTaken);
-            responseDTO.setRegisterResponse(registerResponse);
-        }
-
-        return responseDTO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public ResponseDTO addUser(RequestDTO requestDTO) {
 
-        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
 
-        RegisterResponse registerResponse = new RegisterResponse();
-        responseDTO.setRegisterResponse(registerResponse);
+        RegisterResponse registerResponse;
 
-        try {
-            UserRequest userRequest = requestDTO.getRegisterRequest().getUserRequest();
-
-            if (checkRegisterEntries.isUserNameTaken(userRequest.getUsername())) {
-                responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameIsTaken);
-                responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
-            } else {
-                if(checkRegisterEntries.isUsernameIncorrect(userRequest.getUsername())){
-                    responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameSymbols);
-                    responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
-                }else{
-                    if (checkRegisterEntries.isUsernameLengthIncorrect(userRequest.getUsername())) {
-                        responseDTO.getRegisterResponse().setMessageUsername(Lang.UsernameTooShort);
-                        responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
-                    }
-                }
-
-
-            }
-
-            if (checkRegisterEntries.isEmailTaken(userRequest.getEmail())) {
-                responseDTO.getRegisterResponse().setMessageEmail(Lang.EmailIsTaken);
-                responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
-            } else {
-                if (checkRegisterEntries.isEmailIncorrect(userRequest.getEmail())) {
-                    responseDTO.getRegisterResponse().setMessageEmail(Lang.EmailFormat);
-                    responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
-                }
-            }
-
-            if (checkRegisterEntries.isPasswordLengthIncorrect(userRequest.getPassword())) {
-                responseDTO.getRegisterResponse().setMessagePassword(Lang.PasswordTooShort);
-                responseDTO.setStatusResponse(StatusResponse.create(StatusCode.REGISTERERROR));
-            }
-
-
-            if (responseDTO.getStatusResponse().isOk()) {
-                User user = new User();
-                user.insertDTOData(userRequest);
-                if (roleRepository.findById(1).isPresent()) {
-                    Role role = roleRepository.findById(1).get();
-                    user.setRole(role);
-                }
-                User newuser = userRepository.save(user);
-                VerificationToken token = verificationTokenRepository.save(new VerificationToken(newuser));
-
-                mailSending.send(newuser.getEmail(), newuser.getUsername(), String.valueOf(newuser.getId()), token.getToken());
-
-                responseDTO.getRegisterResponse().setUserResponse(new UserResponse(userRequest));
-            }
-
-        } catch (Exception e) {
+        try{
+            registerResponse = checkRegisterEntries.validate(requestDTO);
+        }catch(WrongFormatException e){
             e.printStackTrace();
-            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.FORMATERROR));
+            return new ResponseDTO(StatusResponse.create(StatusCode.FORMATERROR));
+        }
+
+        if(!registerResponse.isOk()){
+            ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.REGISTERERROR));
+            responseDTO.setRegisterResponse(registerResponse);
             return responseDTO;
         }
+
+        UserRequest userRequest = requestDTO.getRegisterRequest().getUserRequest();
+
+        User newUser = new User();
+        newUser.insertDTOData(userRequest);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        Role role = roleRepository.findById(1).orElse(null);
+        newUser.setRole(role);
+
+        User savedUser = userRepository.save(newUser);
+
+        VerificationToken token = verificationTokenRepository.save(new VerificationToken(savedUser));
+
+        try{
+            mailSending.send(savedUser.getEmail(), savedUser.getUsername(), String.valueOf(savedUser.getId()), token.getToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseDTO(StatusResponse.create(StatusCode.EMAILSENDERROR));
+        }
+
+
+        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
+        responseDTO.setRegisterResponse(registerResponse);
+        responseDTO.getRegisterResponse().setUserResponse(new UserResponse(userRequest));
 
         return responseDTO;
     }
@@ -143,37 +93,37 @@ public class RegisterService {
     public ResponseDTO verifyUser(String id, String token) {
         ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
 
-        if(id == null || token == null){
+        if (id == null || token == null) {
             responseDTO.setStatusResponse(StatusResponse.create(StatusCode.PATHERROR));
             return responseDTO;
         }
         int id_int;
-        try{
+        try {
             id_int = Integer.parseInt(id);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             responseDTO.setStatusResponse(StatusResponse.create(StatusCode.PATHERROR));
             return responseDTO;
         }
-        if(!userRepository.findById((long)id_int).isPresent()){
+        if (!userRepository.findById((long) id_int).isPresent()) {
             responseDTO.setStatusResponse(StatusResponse.create(StatusCode.VERIFYERROR));
             return responseDTO;
         }
 
-        User user = userRepository.findById((long)id_int).get();
+        User user = userRepository.findById((long) id_int).get();
 
         VerificationToken verificationToken = verificationTokenRepository.findByUser(user);
-        if(verificationToken == null){
+        if (verificationToken == null) {
             responseDTO.setStatusResponse(StatusResponse.create(StatusCode.VERIFYERROR));
             return responseDTO;
         }
 
-        if(!token.equals(verificationToken.getToken())){
+        if (!token.equals(verificationToken.getToken())) {
             responseDTO.setStatusResponse(StatusResponse.create(StatusCode.VERIFYERROR));
             return responseDTO;
         }
 
-        if(Calendar.getInstance().getTime().getTime() > verificationToken.getExpiryDate().getTime()){
+        if (Calendar.getInstance().getTime().getTime() > verificationToken.getExpiryDate().getTime()) {
             responseDTO.setStatusResponse(StatusResponse.create(StatusCode.TOKENEXPIRED));
             return responseDTO;
         }
@@ -187,5 +137,39 @@ public class RegisterService {
         responseDTO.setRegisterResponse(registerResponse);
 
         return responseDTO;
+    }
+
+    public ResponseDTO sendNewToken(RequestDTO requestDTO){
+
+        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
+
+        String email;
+
+        try{
+            email = requestDTO.getRegisterRequest().getUserRequest().getEmail();
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseDTO(StatusResponse.create(StatusCode.FORMATERROR));
+        }
+
+        User user = userRepository.findUserByEmail(email);
+
+        if(user == null){
+            return new ResponseDTO(StatusResponse.create(StatusCode.EMAILNOTINUSE));
+        }
+
+        verificationTokenRepository.delete(verificationTokenRepository.findByUser(user));
+
+        VerificationToken token = verificationTokenRepository.save(new VerificationToken(user));
+
+        try{
+            mailSending.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseDTO(StatusResponse.create(StatusCode.EMAILSENDERROR));
+        }
+
+        return responseDTO;
+
     }
 }

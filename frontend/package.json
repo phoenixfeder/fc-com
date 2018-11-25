@@ -9,13 +9,15 @@
     "cucumber": "^4.2.1",
     "eslint": "5.6.0",
     "npm": "^6.4.1",
+    "query-string": "^6.2.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.4",
     "redux": "^4.0.1",
-    "testcafe": "^0.22.0"
+    "testcafe": "^0.22.0",
+    "notistack": "0.3.7"
   },
   "scripts": {
     "start": "react-scripts start",

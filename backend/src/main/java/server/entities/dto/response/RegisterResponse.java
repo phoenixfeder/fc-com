@@ -1,5 +1,6 @@
 package server.entities.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -14,4 +15,8 @@ public class RegisterResponse {
     @JsonProperty("user")
     private UserResponse userResponse;
 
+    @JsonIgnore
+    public boolean isOk() {
+        return (messageUsername == null && messageEmail == null && messagePassword == null);
+    }
 }
