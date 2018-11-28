@@ -22,6 +22,12 @@ import CakeIcon from '@material-ui/icons/Cake'
 import HobbyIcon from '@material-ui/icons/InsertEmoticon'
 import RealNameIcon from '@material-ui/icons/Face'
 import Divider from "@material-ui/core/Divider/Divider";
+import AppBar from "@material-ui/core/es/AppBar/AppBar";
+import Tabs from "@material-ui/core/Tabs/Tabs";
+import Tab from "@material-ui/core/Tab/Tab";
+import * as PropTypes from "prop-types";
+import EditUser from "./EditUser";
+import EditAccount from "./EditAccount";
 
 const styles = theme => ({
     root: {
@@ -42,6 +48,22 @@ const styles = theme => ({
     }
 });
 
+function TabContainer(props) {
+    return (
+        <Typography component="div" style={{ padding: 8 * 3 }}>
+            {props.children}
+        </Typography>
+    );
+}
+
+TabContainer.propTypes = {
+    children: PropTypes.node.isRequired,
+};
+
+function LinkTab(props) {
+    return <Tab component="a" onClick={event => event.preventDefault()} {...props} />;
+}
+
 class EditProfile extends Component {
 
     componentDidMount(){
@@ -50,6 +72,7 @@ class EditProfile extends Component {
 
     state = {
         openCloseAccount: false,
+        value: 0,
     };
 
     handleClickOpenCloseAccount = () => {
@@ -60,160 +83,40 @@ class EditProfile extends Component {
         this.setState({openCloseAccount: false});
     };
 
+    handleChange = (event, value) => {
+        this.setState({ value });
+    };
+
     render() {
         const {classes} = this.props;
         return (
             <div className={classes.root}>
+
                 <MuiThemeProviderUI theme={lightTheme}>
+
                     <Grid container justify="center">
+
+
+
+
                         <Grid item sm={12} md={8} lg={6}>
+
+
+
                             <Grid container justify="center" spacing={16} className={classes.paper} component={Paper}
                                   elevation={2} direction={"column"}>
-                                <Grid container spacing={16}>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Typography variant="h4" component="h3">
-                                            Edit Profile
-                                        </Typography>
-                                        <Typography component="p" className={classes.headline}>
-                                            Here you can edit your profile and/or add additional information. To really
-                                            know
-                                            it is you
-                                            updating your profile, please type in your current password.<br/>
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true}>
-                                            <InputLabel>Old Password</InputLabel>
-                                            <Input type="password" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <PasswordIcon/>
-                                                </InputAdornment>
-                                            }
-                                            />
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Divider/>
-                                        <Typography component="p" className={classes.headline}>
-                                            The following information is needed to log in and won't be shown on your
-                                            profile
-                                            page.<br/>
-                                        </Typography>
-                                        <FormControl>
-                                            <InputLabel>New Password</InputLabel>
-                                            <Input type="password" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <PasswordIcon/>
-                                                </InputAdornment>
-                                            }
-                                            />
-                                            <FormHelperText><em>At least 4 characters</em></FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl>
-                                            <InputLabel>E-Mail</InputLabel>
-                                            <Input type="email" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <EMailIcon/>
-                                                </InputAdornment>
-                                            }
-                                            />
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Divider/>
-                                        <Typography component="p" className={classes.headline}>
-                                            Those information will be displayed on your profile, but aren't needed and
-                                            not
-                                            providing
-                                            those information won't lead to any disadvantages.<br/>
-                                        </Typography>
-                                        <FormControl required={false}>
-                                            <InputLabel>Real Name</InputLabel>
-                                            <Input type="text" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <RealNameIcon/>
-                                                </InputAdornment>
 
-                                            }
-                                            />
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={false}>
-                                            <InputLabel>Interest</InputLabel>
-                                            <Input multiline rowsMax="4" type="text" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <HobbyIcon/>
-                                                </InputAdornment>
+                                <Tabs fullWidth value={this.state.value} onChange={this.handleChange}>
+                                    <LinkTab label={"Edit User"} style={{textAlign:'center'}} href = "page1"/>
+                                    <LinkTab label={"Edit Account"} style={{textAlign:'center'}} href = "page2"/>
+                                </Tabs>
 
-                                            }
-                                            />
-                                            <FormHelperText><em>Max 200 characters</em></FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={false}>
-                                            <InputLabel>Date of birth</InputLabel>
-                                            <Input type="date" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <CakeIcon/>
-                                                </InputAdornment>
-                                            }
-                                            />
-                                            <FormHelperText><em>You know, a day in the past or are you Marty
-                                                McFly?</em></FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="primary">
-                                            Update Profile
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                                <Grid container>
-                                    <Grid item lg={12}>
-                                        <Typography variant="h4" component="h3">
-                                            <br/>Close Account
-                                        </Typography>
-                                        <Typography component="p" className={classes.headline}>
-                                            You want to leave us? That's okay, we promise :( But keep in mind that we
-                                            won't
-                                            be able
-                                            to restore your data at any point.<br/>
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="secondary"
-                                                onClick={this.handleClickOpenCloseAccount}>
-                                            Close Account
-                                        </Button>
-                                    </Grid>
-                                    <Dialog
-                                        open={this.state.openCloseAccount}
-                                        onClose={this.handleCloseCloseAccount}
-                                        aria-labelledby="alert-dialog-title"
-                                        aria-describedby="alert-dialog-description"
-                                    >
-                                        <DialogTitle id="alert-dialog-title">{"Are you really sure?"}</DialogTitle>
-                                        <DialogContent>
-                                            <DialogContentText id="alert-dialog-description">
-                                                By confirming this dialog message, you agree that we will delete
-                                                your account without further inspection and that you won't be able to
-                                                get your data back.
-                                            </DialogContentText>
-                                        </DialogContent>
-                                        <DialogActions>
-                                            <Button onClick={this.handleCloseCloseAccount} color="primary">
-                                                Cancel
-                                            </Button>
-                                            <Button onClick={this.handleCloseCloseAccount} color="primary" autoFocus>
-                                                OK
-                                            </Button>
-                                        </DialogActions>
-                                    </Dialog>
-                                </Grid>
+
+                                {this.state.value === 0 && <TabContainer><EditUser/></TabContainer>}
+                                {this.state.value === 1 && <TabContainer><EditAccount/></TabContainer>}
+
+
+
                             </Grid>
                         </Grid>
                     </Grid>
@@ -223,5 +126,7 @@ class EditProfile extends Component {
     }
 
 }
-
+EditProfile.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 export default withStyles(styles)(EditProfile);
