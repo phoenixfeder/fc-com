@@ -16,6 +16,7 @@ import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import EMailIcon from '@material-ui/icons/Mail';
+import {BACKEND_URL} from "../../utils/const-paths";
 
 const styles = theme => ({
     root: {
@@ -67,7 +68,7 @@ class Verify extends Component {
 
         const parameters = qs.parse(window.location.search);
 
-        fetch('http://localhost:8080/register/verify?id='+parameters.id+'&token='+parameters.token, {
+        fetch(BACKEND_URL + '/register/verify?id='+parameters.id+'&token='+parameters.token, {
             method: 'PUT',
         }).then(results => {
 
@@ -138,7 +139,7 @@ class Verify extends Component {
 
         this.setState({ loading: true })
         //TODO: Change it accordingly to the correct API endpoint
-        fetch('http://localhost:8080/register/sendnewtoken', {
+        fetch(BACKEND_URL + '/register/sendnewtoken', {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',

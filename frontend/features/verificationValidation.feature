@@ -4,6 +4,8 @@ Feature: Test of the users input at the register-page
   I want to get informed if I enter wrong entries in the registration-fields
   so that I can correct them
 
+  @only
+  @all
   @verify
   Scenario: I can verify with a valid token
     Given eI am on the "Verification" page with the parameters "?id=1&token=abcdefghij"
@@ -11,6 +13,7 @@ Feature: Test of the users input at the register-page
     And  eThe "username-field" contains "testuser"
     And  eI get the message "You are now able to login! Enjoy!"
 
+  @all
   @verify
   Scenario: I can not verify with an invalid token and get an error with the wrong email
     Given eI am on the "Verification" page with the parameters "?id=2&token=abcdefghij"
@@ -21,6 +24,7 @@ Feature: Test of the users input at the register-page
     Then eI get the error "Please enter the mail you used for our registration" in the "mail-error-field"
     And  eI get the message "Please enter the mail you used for our registration"
 
+  @all
   @verify
   Scenario: I can not verify with an invalid token but can request a new token with the correct email
       Given eI am on the "Verification" page with the parameters "?id=2&token=abcdefghij"
