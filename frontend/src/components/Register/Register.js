@@ -18,6 +18,7 @@ import Link from 'react-router-dom/es/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
+import {BACKEND_URL} from "../../utils/const-paths";
 
 //Styles to design some specific components
 const styles = theme => ({
@@ -153,7 +154,7 @@ class Register extends Component {
         }
         else {
 
-            fetch('http://localhost:8080/register/newuser', {
+            fetch(BACKEND_URL + '/register/newuser', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

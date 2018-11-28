@@ -101,7 +101,7 @@ class AppBar extends Component {
                                 <MenuIconUI/>
                             </IconButtonUI>
 
-                            <TypographyUI variant="h6" color="inherit" className={classes.grow}>
+                            <TypographyUI variant="h6" color="inherit" className={classes.grow} align={'center'}>
                                 Flashcard Community
                             </TypographyUI>
 

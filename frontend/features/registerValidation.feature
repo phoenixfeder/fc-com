@@ -7,7 +7,7 @@ Feature: Test of the users input at the register-page
     Background:
          Given I am on the "Registration" page
 
-
+  @all
     @register
     Scenario Outline: I am not allowed to enter too short or too long names
         When I enter "<name>" in the "username-field"
@@ -21,6 +21,7 @@ Feature: Test of the users input at the register-page
             | ab                         | Username must be at least 3 characters and maximal 12 characters. |
             | abcdefghijklmnopqrstuvwxyz | Username must be at least 3 characters and maximal 12 characters.  |
 
+  @all
     @register
     Scenario Outline: I have to enter the email adress in the correct format
         When I enter "<email>" in the "email-field"
@@ -34,6 +35,7 @@ Feature: Test of the users input at the register-page
             | sss.@de     |
             | aaa.aaa@ de |
 
+  @all
     @register
     Scenario Outline: I am not allowed to enter too short or too long passwords
         When I enter "<pw>" in the "password-field"
@@ -47,6 +49,7 @@ Feature: Test of the users input at the register-page
             | abc                        |
             | abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz |
 
+  @all
     @register
     Scenario: I have to enter the same password in the validate password field
         When I enter "password123" in the "password-field"
@@ -55,7 +58,7 @@ Feature: Test of the users input at the register-page
         Then I get the error "The password doesn´t match the repeated password" in the "password-repeat-error-field"
         And  I get the message "Registration failed: Invalid input"
 
-  @only
+  @all
     @register
     Scenario Outline:
       When I enter "<name>" in the "username-field"
@@ -70,6 +73,8 @@ Feature: Test of the users input at the register-page
             | testuser | new.mail@fc.de | pw123456 | Username already exists | username-error-field |
             | newname | test.user@fc.de | pw123456 | Email is already in use | email-error-field   |
 
+@only
+  @all
     @register
     Scenario:
       When I enter "newuser" in the "username-field"
