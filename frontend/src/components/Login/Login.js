@@ -16,6 +16,7 @@ import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import qs from 'query-string';
 import UsernameIcon from '@material-ui/icons/Person'
+import { BACKEND_URL } from "../../utils/const-paths";
 
 const styles = theme => ({
     root: {
@@ -36,6 +37,8 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
+
+            loading: false,
         };
     };
 
@@ -62,6 +65,36 @@ class Login extends Component {
             default:
                 break;
         }
+
+    }
+
+    handleSubmit = () => {
+
+        this.setState({ loading: true });
+
+        fetch(BACKEND_URL + '/login', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "login": {
+                    "user": {
+                        "username": this.state.username,
+                        "password": this.state.password
+                    }
+                }
+            })
+        }).then(results => {
+            return results.json();
+        }).then(result => {
+
+            this.handleSendResult(result);
+            this.setState({
+                loading: false,
+            })
+        });
 
     }
 
@@ -108,7 +141,7 @@ class Login extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <Button id="login-button" variant="contained" color="primary" disabled={false}>
+                                        <Button id="login-button" variant="contained" color="primary" disabled={false} onClick={this.handleSubmit} >
                                             Login!
                                         </Button>
                                     </Grid>
