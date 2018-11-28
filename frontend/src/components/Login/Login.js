@@ -11,7 +11,6 @@ import { lightTheme } from "../../utils/themeLight";
 import MuiThemeProviderUI from "@material-ui/core/styles/MuiThemeProvider";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import PasswordIcon from '@material-ui/icons/Lock'
-import EMailIcon from '@material-ui/icons/Mail'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import qs from 'query-string';
@@ -38,6 +37,7 @@ class Login extends Component {
             username: '',
             password: '',
 
+            isInputInvalid: false,
             loading: false,
         };
     };
@@ -98,15 +98,49 @@ class Login extends Component {
 
     }
 
+    handleSendResult(result) {
+        switch (result.status.code) {
+            case 200:
+                this.createNewSnackbar("success", 'You are now logged in, ' + result.register.user.username + '!')
+                //TODO: Create Tokens here
+                this.setState({
+                    loading: false,
+                })
+                this.props.history.push('/');
+                break;
+            case 400:
+                this.setState({
+                    isInputInvalid: true,
+                });
+
+                this.createNewSnackbar("error", "Registration failed: Either username or password is incorrect.")
+
+                break;
+            default:
+                //do something
+                this.createNewSnackbar("error", "Login failed: An unexpected error occured. Please contact a system admin")
+                break;
+        }
+    }
+
+    createNewSnackbar = (variant, message) => {
+        this.props.enqueueSnackbar({
+            message: message,
+            options: {
+                variant: variant
+            }
+        });
+    }
+
     render() {
         const { classes } = this.props;
         return (
             <div className={classes.root}>
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
-                        <Grid item xs={12} md={8} lg={4}>
+                        <Grid item xs={12} md={6} lg={4}>
                             <Paper className={classes.root} elevation={1}>
-                                <Grid container spacing={16} alignItems="center" justify="space-evenly"
+                                <Grid container spacing={16} alignItems="stretch" justify="space-evenly"
                                     direction="column">
                                     <Grid item lg={12}>
                                         <Typography variant="h3" component="h3" align="center">
@@ -118,35 +152,37 @@ class Login extends Component {
                                         </Typography>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true} error={false}>
-                                            <InputLabel>Username or E-Mail</InputLabel>
-                                            <Input id="username-input" type="text" onChange={this.handleInputChange} value={this.state.username} startAdornment={
+                                        <FormControl fullWidth={true} required={true} error={false}>
+                                            <InputLabel>Username</InputLabel>
+                                            <Input id="username-input" type="text" error={this.state.isInputInvalid} onChange={this.handleInputChange} value={this.state.username} startAdornment={
                                                 <InputAdornment position="start">
                                                     <UsernameIcon/>
                                                 </InputAdornment>
+                                                
                                             }
                                            />
+                                            <FormHelperText><em>Your username, remember: at least 3 characters!</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true} error={false}>
+                                        <FormControl fullWidth={true} required={true} error={false}>
                                             <InputLabel>Password</InputLabel>
-                                            <Input id="password-input" type="password" onChange={this.handleInputChange} value={this.state.password} startAdornment={
+                                            <Input id="password-input" type="password" error={this.state.isInputInvalid} onChange={this.handleInputChange} value={this.state.password} startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon />
                                                 </InputAdornment>
                                             }
                                             />
-                                            <FormHelperText><a href={"www.google.de"}>Forgot your password?</a></FormHelperText>
+                                            <FormHelperText><Link to="/login">Forgot your password?</Link></FormHelperText>
                                         </FormControl>
                                     </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Button id="login-button" variant="contained" color="primary" disabled={false} onClick={this.handleSubmit} >
+                                    <Grid item sm={12} md={12} lg={12} style={{ alignSelf: "center" }}>
+                                        <Button id="login-button" variant="contained" color="primary" disabled={false} onClick={this.handleSubmit}>
                                             Login!
                                         </Button>
                                     </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Typography variant="caption" className={classes.headline}>
+                                    <Grid item sm={12} md={12} lg={12} style={{ alignSelf: "center" }}>
+                                        <Typography variant="caption" className={classes.headline} >
                                             Not registered yet? <Link id="create-link" to="/register">Create an account now!</Link>
                                         </Typography>
                                     </Grid>
