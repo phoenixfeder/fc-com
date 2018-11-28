@@ -101,11 +101,13 @@ class Login extends Component {
     handleSendResult(result) {
         switch (result.status.code) {
             case 200:
-                this.createNewSnackbar("success", 'You are now logged in, ' + result.register.user.username + '!')
-                //TODO: Create Tokens here
+                this.createNewSnackbar("success", 'You are now logged in, ' + result.register.user.username + '!');
+                localStorage.setItem('username', JSON.stringify(result.user.username));
+                localStorage.setItem('token', JSON.stringify(result.user.token));
+                localStorage.setItem('uid', JSON.stringify(result.user.uid));
                 this.setState({
                     loading: false,
-                })
+                });
                 this.props.history.push('/');
                 break;
             case 400:
