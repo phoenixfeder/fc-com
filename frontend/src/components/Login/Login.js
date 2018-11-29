@@ -15,7 +15,7 @@ import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import qs from 'query-string';
 import UsernameIcon from '@material-ui/icons/Person'
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
     root: {
@@ -26,6 +26,19 @@ const styles = theme => ({
     headline: {
         paddingTop: 20,
         paddingBottom: 20
+    },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+            marginLeft: -12,
+    },
+    wrapper: {
+    margin: theme.spacing.unit,
+        position: 'relative',
+            display: 'flex',
+                alignItems: 'center',
     },
 });
 
@@ -69,37 +82,8 @@ class Login extends Component {
     }
 
     handleSubmit = (event) => {
-        this.setState({ loading: true });
+        event.preventDefault();
         this.props.onAuth(this.state.username, this.state.password);
-        
-
-    }
-
-    handleSendResult(result) {
-        switch (result.status.code) {
-            case 200:
-                this.createNewSnackbar("success", 'You are now logged in, ' + result.register.user.username + '!');
-                localStorage.setItem('username', JSON.stringify(result.user.username));
-                localStorage.setItem('token', JSON.stringify(result.user.token));
-                localStorage.setItem('uid', JSON.stringify(result.user.uid));
-                this.setState({
-                    loading: false,
-                });
-                this.props.history.push('/');
-                break;
-            case 400:
-                this.setState({
-                    isInputInvalid: true,
-                });
-
-                this.createNewSnackbar("error", "Registration failed: Either username or password is incorrect.")
-
-                break;
-            default:
-                //do something
-                this.createNewSnackbar("error", "Login failed: An unexpected error occured. Please contact a system admin")
-                break;
-        }
     }
 
     createNewSnackbar = (variant, message) => {
@@ -110,9 +94,12 @@ class Login extends Component {
             }
         });
     }
+    
+   
 
     render() {
         const { classes } = this.props;
+
         return (
             <div className={classes.root}>
                 <MuiThemeProviderUI theme={lightTheme}>
@@ -156,9 +143,14 @@ class Login extends Component {
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12} style={{ alignSelf: "center" }}>
-                                        <Button id="login-button" variant="contained" color="primary" disabled={false} onClick={this.handleSubmit}>
-                                            Login!
-                                        </Button>
+                                        <div className={classes.wrapper}>
+                                            <Button id="login-button" variant="contained" color="primary" disabled={this.props.loading}
+                                                onClick={this.handleSubmit}>
+                                                Login
+                                            </Button>
+                                            {this.props.loading &&
+                                                <CircularProgress size={24} className={classes.buttonProgress} />}
+                                        </div>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12} style={{ alignSelf: "center" }}>
                                         <Typography variant="caption" className={classes.headline} >

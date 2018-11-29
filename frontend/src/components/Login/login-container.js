@@ -6,13 +6,12 @@ import Login from "./Login";
 import * as actions from '../../actions/auth-actions';
 
 const mapStateToProps = state => {
-    return { snackbar: state.snackbars.notifications };
+    return { snackbar: state.snackbars.notifications, loading: state.auth.loading, error: state.auth.error};
 };
 
 const mapDispatchToProps = dispatch => {
-    bindActionCreators({ enqueueSnackbar }, dispatch);
-
     return {
+        enqueueSnackbar: bindActionCreators(enqueueSnackbar , dispatch),
         onAuth: (username, password) => dispatch(actions.auth(username, password)),
     };
 }
