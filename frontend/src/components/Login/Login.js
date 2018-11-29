@@ -15,7 +15,7 @@ import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
 import Link from 'react-router-dom/es/Link';
 import qs from 'query-string';
 import UsernameIcon from '@material-ui/icons/Person'
-import { BACKEND_URL } from "../../utils/const-paths";
+
 
 const styles = theme => ({
     root: {
@@ -68,33 +68,10 @@ class Login extends Component {
 
     }
 
-    handleSubmit = () => {
-
+    handleSubmit = (event) => {
         this.setState({ loading: true });
-
-        fetch(BACKEND_URL + '/login', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "login": {
-                    "user": {
-                        "username": this.state.username,
-                        "password": this.state.password
-                    }
-                }
-            })
-        }).then(results => {
-            return results.json();
-        }).then(result => {
-
-            this.handleSendResult(result);
-            this.setState({
-                loading: false,
-            })
-        });
+        this.props.onAuth(this.state.username, this.state.password);
+        
 
     }
 
