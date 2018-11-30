@@ -45,6 +45,11 @@ export const auth = (username, password) => {
         }).then(result => {
             switch(result.status.code) {
                 case 200:
+                    const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+                    localStorage.setItem('session', result.session.session);
+                    localStorage.setItem('expirationDate', expirationDate);
+                    localStorage.setItem('userId', result.session.hash);
+                    localStorage.setItem('username', result.session.username)
                     dispatch(authSuccess(result.session.session, result.session.hash, result.session.username));
                     break;
 
@@ -63,5 +68,24 @@ export const auth = (username, password) => {
         }).catch(err => {
             dispatch(authFail("This should not happen. Please contact system admin."));
         });
+    };
+};
+
+export const authCheckState = () => {
+    return dispatch => {
+        const session = localStorage.getItem('session');
+        if (!session) {
+            dispatch(logout());
+        } else {
+            const expirationDate = new Date(localStorage.getItem('expirationDate'));
+            if (expirationDate <= new Date()) {
+                dispatch(logout());
+            } else {
+                const userId = localStorage.getItem('userId');
+                const username = localStorage.getItem('username');
+                dispatch(authSuccess(session, userId, username));
+                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
+            }
+        }
     };
 };
