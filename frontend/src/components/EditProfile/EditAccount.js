@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import MuiThemeProviderUI from "@material-ui/core/styles/MuiThemeProvider";
 import {lightTheme} from "../../utils/themeLight";
 import Grid from "@material-ui/core/Grid/Grid";
-import Paper from "@material-ui/core/Paper/Paper";
 import Typography from "@material-ui/core/Typography/Typography";
 import FormControl from "@material-ui/core/FormControl/FormControl";
 import InputLabel from "@material-ui/core/InputLabel/InputLabel";
@@ -18,13 +17,7 @@ import DialogContentText from "@material-ui/core/DialogContentText/DialogContent
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import PasswordIcon from '@material-ui/icons/Lock'
 import EMailIcon from '@material-ui/icons/Mail'
-import CakeIcon from '@material-ui/icons/Cake'
-import HobbyIcon from '@material-ui/icons/InsertEmoticon'
-import RealNameIcon from '@material-ui/icons/Face'
 import Divider from "@material-ui/core/Divider/Divider";
-import AppBar from "@material-ui/core/es/AppBar/AppBar";
-import Tabs from "@material-ui/core/Tabs/Tabs";
-import Tab from "@material-ui/core/Tab/Tab";
 import * as PropTypes from "prop-types";
 
 
@@ -90,6 +83,8 @@ class EditAccount extends Component {
                 break;
             case 'newEmailInput':
                 this.setState({newEmail: event.target.value});
+                break;
+            default:
                 break;
 
         }
