@@ -11,7 +11,7 @@ export const authSuccess = (session, userId, username) => {
     console.log(session + userId + username);
     return {
         type: actionTypes.AUTH_SUCCESS,
-        idToken: session,
+        session: session,
         userId: userId,
         username: username
     };
@@ -22,6 +22,24 @@ export const authFail = (error) => {
     return {
         type: actionTypes.AUTH_FAIL,
         error: error
+    };
+};
+
+export const logout = () => {
+    localStorage.removeItem('session');
+    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    };
+};
+
+export const checkAuthTimeout = (expirationTime) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(logout());
+        }, expirationTime * 1000);
     };
 };
 
