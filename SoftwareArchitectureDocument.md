@@ -27,7 +27,11 @@
 
 ### 1.1 Purpose
 
+This document provides a comprehensive architectural overview of the system, using a number of different architectural views to depict different aspects of the system. It is intended to capture and convey the significant architectural decisions which have been made on the system.
+
 ### 1.2 Scope
+
+The scope of this SAS is to show the architecture of our FlashCardCommunity project. Illustrated are the Use-Cases, the class and data structure.
 
 ### 1.3 Definitions, Acronyms and Abbreviations
 
@@ -50,8 +54,15 @@
 | [FlashCardCommunity Blog](https://flashcardcommunity.wordpress.com/)| 2018-10-XX | Team FlashCardCommunity   |
 | [Repository on GitHub](https://github.com/phoenixfeder/fc-com)| 2018-10-XX | Team FlashCardCommunity        |
 | [SRS](./SRS.md)                      								 | 2018-10-XX | Team FlashCardCommunity   |
+| [UC Register](./UseCases/Register/Register.md)| 2018-11-18 | Team FlashCardCommunity   |
+| [UC Login](./UseCases/Login/Login.md)| 2018-11-18 | Team FlashCardCommunity   |
+| [UC Logout](./UseCases/Logout/Logout.md)| 2018-11-18 | Team FlashCardCommunity   |
+| [UC Edit Profile](./UseCases/EditProfile/EditProfile.md)| 2018-11-18 | Team FlashCardCommunity   |
+| [UC Close Account](./UseCases/CloseAccount/CloseAccount.md)| 2018-11-18 | Team FlashCardCommunity   |
 
 ### 1.5 Overview
+
+This document contains the Architectural Representation, Goals and Constraints as well as the Logical, Deployment, Implementation and Data Views.
 
 ## 2. Architectural Representation
 
