@@ -7,10 +7,11 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (token, userId, username) => {
+export const authSuccess = (session, userId, username) => {
+    console.log(session + userId + username);
     return {
         type: actionTypes.AUTH_SUCCESS,
-        idToken: token,
+        idToken: session,
         userId: userId,
         username: username
     };
@@ -27,18 +28,16 @@ export const authFail = (error) => {
 export const auth = (username, password) => {
     return dispatch => {
        dispatch(authStart());
-        fetch(BACKEND_URL + '/login', {
+        fetch(BACKEND_URL + '/login/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "login": {
-                    "user": {
-                        "username": username,
-                        "password": password
-                    }
+                "user": {
+                    username: username,
+                    password: password
                 }
             })
         }).then(results => {
@@ -46,15 +45,23 @@ export const auth = (username, password) => {
         }).then(result => {
             switch(result.status.code) {
                 case 200:
-                    dispatch(authSuccess(result.userdata));
+                    dispatch(authSuccess(result.session.session, result.session.hash, result.session.username));
+                    break;
+
+                case 404: 
+                    dispatch(authFail("Invalid username or password."))
+                    break;
+
+                case 500:
+                    dispatch(authFail("Invalid input. Are you sure that you used your username or E-Mail?"))
                     break;
 
                 default:
-                    dispatch(authFail(result.status.message));
+                    dispatch(authFail("This should not happen. Please contact system admin."));
                     break;
             }
         }).catch(err => {
-            dispatch(authFail(err));
+            dispatch(authFail("This should not happen. Please contact system admin."));
         });
     };
 };

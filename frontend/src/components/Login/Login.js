@@ -119,7 +119,7 @@ class Login extends Component {
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
                                         <FormControl fullWidth={true} required={true} error={false}>
-                                            <InputLabel>Username</InputLabel>
+                                            <InputLabel>Username or E-Mail</InputLabel>
                                             <Input id="username-input" type="text" error={this.state.isInputInvalid} onChange={this.handleInputChange} value={this.state.username} startAdornment={
                                                 <InputAdornment position="start">
                                                     <UsernameIcon/>
