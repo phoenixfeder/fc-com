@@ -7,6 +7,7 @@ import LoginContainer from '../Login/login-container'
 import RegisterContainer from "../Register/register-container";
 import VerfiyContainer from '../Verify/verify-container';
 import FAQ from '../FAQ/FAQ';
+import LogoutContainer from '../Logout/logout-container';
 
 class Main extends Component {
     render() {
@@ -20,6 +21,7 @@ class Main extends Component {
                     <Route path='/edit' component={EditProfile}/>
                     <Route path='/login' component={LoginContainer}/>
                     <Route path='/verify' component={VerfiyContainer} />
+                    <Route path='/logout' component={LogoutContainer} />
                 </Switch>
             </div>
         );
