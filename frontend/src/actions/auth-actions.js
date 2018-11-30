@@ -8,7 +8,6 @@ export const authStart = () => {
 };
 
 export const authSuccess = (session, userId, username) => {
-    console.log(session + userId + username);
     return {
         type: actionTypes.AUTH_SUCCESS,
         session: session,
@@ -54,21 +53,22 @@ export const auth = (username, password) => {
             },
             body: JSON.stringify({
                 "user": {
-                    username: username,
-                    password: password
+                    "username": username,
+                    "password": password
                 }
             })
         }).then(results => {
             return results.json();
         }).then(result => {
             switch(result.status.code) {
+                
                 case 200:
                     const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-                    localStorage.setItem('session', result.session.session);
+                    localStorage.setItem('session', result.status.session.session);
                     localStorage.setItem('expirationDate', expirationDate);
-                    localStorage.setItem('userId', result.session.hash);
-                    localStorage.setItem('username', result.session.username)
-                    dispatch(authSuccess(result.session.session, result.session.hash, result.session.username));
+                    localStorage.setItem('userId', result.status.session.hash);
+                    localStorage.setItem('username', result.status.session.username)
+                    dispatch(authSuccess(result.status.session.session, result.status.session.hash, result.status.session.username));
                     break;
 
                 case 404: 
@@ -80,6 +80,7 @@ export const auth = (username, password) => {
                     break;
 
                 default:
+                    console.log(result.status.code);
                     dispatch(authFail("This should not happen. Please contact system admin."));
                     break;
             }
