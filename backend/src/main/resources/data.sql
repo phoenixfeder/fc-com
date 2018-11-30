@@ -4,8 +4,8 @@ INSERT INTO flash_card(id, back_text, front_text, title) VALUES
 (100001, 'Lösung', 'Frage', 'TestCard');
 
 INSERT INTO user(id, username, email, password, role_id) VALUES
-(1, 'testuser', 'test.user@fc.de', '123456', 1),
-(2, 'expireduser', 'expired.user@fc.de', '123456', 1);
+(1, 'testuser', 'test.user@fc.de', '$2a$10$gba/UpsDbHZmPCMUS4LkEeO8fY53BmGfmNgrObtWQ8zcW1BYWC/Im', 1),
+(2, 'expireduser', 'expired.user@fc.de', '$2a$10$cibeyz8xZSR5Ohc.hA7n6ePfsWagaOk.VHa8VGICBiwvPywRSYttm', 1);
 
 INSERT INTO verification_token(id, expiry_date, token, user_id) VALUES
 (1, '2030-03-03 00:00:00', 'abcdefghij', 1),
