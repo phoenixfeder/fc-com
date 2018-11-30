@@ -1,4 +1,9 @@
 package server.entities.repositories;
 
-public interface SessionRepository {
+import org.springframework.data.repository.CrudRepository;
+import server.entities.Session;
+
+public interface SessionRepository extends CrudRepository<Session, Long> {
+
+    boolean existsBySession(String session);
 }
