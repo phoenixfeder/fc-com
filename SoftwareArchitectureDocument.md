@@ -66,36 +66,86 @@ This document contains the Architectural Representation, Goals and Constraints a
 
 ## 2. Architectural Representation
 
+The backend and the frontend are both developed separted from each other and only communicate over a REST API. That said, it is hard to follow one of the
+known patterns (MVC, MVP, MVVM) for the whole project. The frontend is based on the on the Redux pattern that is inspired by Facebook's Flux architecture. 
+Redux is a JavaScript library that is able to manage the applications state. 
+
+![Redux Pattern](https://cdn-images-1.medium.com/max/800/1*ZX00M-DmsrigKap7wzGoQQ.png)
+
+The so called actions are representing the interface to our backend as REST API endpoints
+are fetched here. The fetched data is then send to the reducers.
+
+For more, see [Thinking in Redux](https://hackernoon.com/thinking-in-redux-when-all-youve-known-is-mvc-c78a74d35133).
+
+The backend however represents a controller and model. It simply follows the MVC pattern, but the view is replaced by the whole Redux pattern. The controller does the endpoint mapping whereas the model represents the possible models that are needed for this project (e.g. user, flashcards).
+
 ## 3. Architectural Goals and Constraints
 
-### MVC
+Following a closer description of the front- and backend.
 
 ### Frontend
 
+While the frontend is based on ReactJS, it is enhanced by [Redux](https://en.wikipedia.org/wiki/Redux_(JavaScript_library)). In opposite to well known patterns like MVC, its dataflow is unidirectional. 
+
+* Actions: As the name may already implies, actions react to events triggered by the user. They describe what happen on such events (e.g. user tries to authenticate).
+* Reducer: A reducer specifies how to state of the application changes in response the called actions (e.g. user authenticated is now true) 
+* Store: The store contains all the states and brings them all together to provide them all over the application. 
+
 ### Backend
+
+The backend is written in Java and holds all the models that are needed (e.g. users, flashcards) and is able to provide the data with the help of a RestController. This is being developed with Springs dependency, Spring Boot. To store the data it communicatres with a MySQL database.
+
+* Model: Specific classes that represent single objects such as users or flashcards.
+* Controller: A RestController that does the mapping of the REST API endpoints.
+
 
 ## 4. Use-Case View
 
+![Relationship Model](https://github.com/phoenixfeder/fc-com/raw/master/graphics/usecases/FlashCardCommunityUseCases.png)
+
 ### 4.1 Use-Case Realizations
+
+N/A
 
 ## 5. Logical View
 
+The following section provides a graphical representation of our backend. Reasons for the missing View can be found under [Architectural Representation](#2-architectural-representation) and the following section.
 ### 5.1 Overview
 
-### 5.2 Architecturally Significant Design Packages
+Since the projects front- and backend communicate over a REST API, it is not possible to auto generate the full architecture in one diagram. 
+To be specific, React and Redux don't use classes as known from Java or other object oriented languages. The following picture describes
+the backends model and controller at least.
 
 ## 6. Process View
 
+N/A
+
 ## 7. Deployment View
+
+![Relationship Model](https://github.com/phoenixfeder/fc-com/raw/master/graphics/deployment_view.png)
 
 ## 8. Implementation View
 
+N/A
+
 ### 8.1 Overview
+
+N/A
 
 ### 8.2 Layers
 
+N/A
+
 ## 9. Data View
+
+The following graphic describes the relationship model of the in use database
+
+![Relationship Model](https://github.com/phoenixfeder/fc-com/raw/master/graphics/database_model.png)
 
 ## 10. Size and Performance
 
+N/A
+
 ## 11. Quality/Metrics
+
+TBA
