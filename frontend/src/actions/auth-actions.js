@@ -1,13 +1,16 @@
 import * as actionTypes from '../utils/const-actiontypes';
 import { BACKEND_URL } from "../utils/const-paths";
+import { enqueueSnackbar } from "./notistack-snackbar-actions";
 
 export const authStart = () => {
+    
     return {
         type: actionTypes.AUTH_START
     };
 };
 
 export const authSuccess = (session, userId, username) => {
+    //Snackbar login success
     return {
         type: actionTypes.AUTH_SUCCESS,
         session: session,
@@ -17,7 +20,7 @@ export const authSuccess = (session, userId, username) => {
 };
 
 export const authFail = (error) => {
-    console.log(error);
+    //Snackbar error
     return {
         type: actionTypes.AUTH_FAIL,
         error: error
@@ -25,10 +28,25 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
+    /*fetch(BACKEND_URL + '/login/logout', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "session": {
+                "session": localStorage.getItem('session'),
+                "hash": localStorage.getItem('userId')
+            }
+        })
+    });*/
+    
     localStorage.removeItem('session');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
     localStorage.removeItem('username');
+    //Snackbar logout success
     return {
         type: actionTypes.AUTH_LOGOUT
     };
@@ -80,7 +98,6 @@ export const auth = (username, password) => {
                     break;
 
                 default:
-                    console.log(result.status.code);
                     dispatch(authFail("This should not happen. Please contact system admin."));
                     break;
             }
