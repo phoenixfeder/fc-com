@@ -91,6 +91,46 @@ class AppBar extends Component {
         const {classes} = this.props;
         const {anchorEl} = this.state;
         const open = Boolean(anchorEl);
+
+        //Should return a array, as MenuList does not accept fragments as children
+        let menuItems = [
+            <MenuItem key="A" id="register-menu-link" component={Link} to="/register" onClick={this.handleClose}>Register</MenuItem>,
+            <MenuItem key="B" id="register-menu-link" component={Link} to="/login" onClick={this.handleClose}>Login</MenuItem>
+            ];
+        
+
+        if (this.props.isAuthenticated) {
+            menuItems = [
+                    <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit Profile</MenuItem>,
+                    <MenuItem key="B" id="register-menu-link" component={Link} to="/logout" onClick={this.handleClose}>Logout</MenuItem>
+            ];
+        }
+
+        let sidebarItems = (
+            <>
+                <MenuItem id="home-menu-link" component={Link} to="/" color="inherit"
+                    onClick={this.handleSideMenu}>
+                    Home
+                        </MenuItem>
+                <MenuItem id="hw-menu-link" component={Link} to="/helloworld" color="inherit"
+                    onClick={this.handleSideMenu}>
+                    Hello World
+                        </MenuItem>
+                <Divider />
+                <MenuItem id="faq-menu-link" component={Link} to="/faq" color="inherit"
+                    onClick={this.handleSideMenu}>
+                    FAQ
+                </MenuItem>
+            </>
+        );
+
+        if (this.props.isAuthenticated) {
+           /* sidebarItems += (
+                <>
+                </>
+            ); */
+        }
+
         return (
 
             <div className={classes.root}>
@@ -101,11 +141,16 @@ class AppBar extends Component {
                                 <MenuIconUI/>
                             </IconButtonUI>
 
-                            <TypographyUI variant="h6" color="inherit" className={classes.grow} align={'center'}>
+                            <TypographyUI variant="h6" color="inherit" className={classes.grow}>
                                 Flashcard Community
                             </TypographyUI>
 
-
+                            { this.props.isAuthenticated ? (
+                                <TypographyUI variant="subtitle2" color="inherit" className={classes.grow} align={'right'}>
+                                    { this.props.username }
+                                </TypographyUI>
+                            ) : null}
+                            
                             <div>
                                 <IconButton id="account-icon"
                                     aria-owns={open ? 'menu-appbar' : null}
@@ -129,10 +174,7 @@ class AppBar extends Component {
                                     open={open}
                                     onClose={this.handleClose}
                                 >
-                                    <MenuItem id="register-menu-link" component={Link} to="/register" onClick={this.handleClose}>Register</MenuItem>
-                                    <MenuItem id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit Profile</MenuItem>
-                                    <MenuItem id="register-menu-link" component={Link} to="/login" onClick={this.handleClose}>Login</MenuItem>
-                                    <MenuItem id="register-menu-link" component={Link} to="/logout" onClick={this.handleClose}>Logout</MenuItem>
+                                    { menuItems }
                                 </Menu>
                             </div>
                         </ToolBarUI>
@@ -153,19 +195,7 @@ class AppBar extends Component {
                         </div>
                         <Divider/>
 
-                        <MenuItem id="home-menu-link" component={Link} to="/" color="inherit"
-                                  onClick={this.handleSideMenu}>
-                            Home
-                        </MenuItem>
-                        <MenuItem id="hw-menu-link" component={Link} to="/helloworld" color="inherit"
-                                  onClick={this.handleSideMenu}>
-                            Hello World
-                        </MenuItem>
-                        <Divider/>
-                        <MenuItem id="faq-menu-link" component={Link} to="/faq" color="inherit"
-                                  onClick={this.handleSideMenu}>
-                            FAQ
-                        </MenuItem>
+                        { sidebarItems }
 
                     </Drawer>
                 </MuiThemeProviderUI>
