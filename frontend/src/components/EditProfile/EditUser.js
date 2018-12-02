@@ -15,6 +15,8 @@ import HobbyIcon from '@material-ui/icons/InsertEmoticon'
 import RealNameIcon from '@material-ui/icons/Face'
 import Divider from "@material-ui/core/Divider/Divider";
 import * as PropTypes from "prop-types";
+import qs from "query-string";
+import {BACKEND_URL} from "../../utils/const-paths";
 
 const styles = theme => ({
     root: {
@@ -35,6 +37,7 @@ const styles = theme => ({
     }
 });
 
+
 function TabContainer(props) {
     return (
         <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -51,7 +54,111 @@ TabContainer.propTypes = {
 
 class EditUser extends Component {
 
-    state = {};
+    state = {
+        realName: '',
+        isRealNameIncorrect: false,
+        realNameErrorMsg: '',
+
+        interest: '',
+        isInterestIncorrect: false,
+        interestErrorMsg: 'Max 200 characters',
+
+        birthday: '',
+        isBirthdayIncorrect: false,
+        birthdayErrorMsg: 'You know, a day in the past or are you Marty McFly?',
+
+        hasEditPermission: true,
+    };
+
+
+
+
+    componentWillMount() {
+
+        let targetUserUsername = qs.parse(window.location.search).user !== undefined ? qs.parse(window.location.search).user : this.props.username;
+        console.log(targetUserUsername);
+
+        fetch(BACKEND_URL + '/edit/getProfileData?' + 'targetUsername=' + targetUserUsername + '&ownId=' + targetUserUsername + '&token=' + targetUserUsername )
+            .then(results => {
+                return results.json();
+            })
+            .then(result => {
+
+                switch(result.status.code) {
+
+                    case 200:
+                        this.setState({realName: result.user.realName, interest: result.user.interest, birthday: result.user.birthday});
+                        break;
+
+                    default:
+                        console.log(result.status.code);
+
+                        break;
+                }
+            }).catch(err => {
+            console.log(err);
+        });
+    }
+
+
+    handleValueChange = (event) => {
+
+        switch (event.target.id) {
+            case 'date-input':
+                this.setState({birthday: event.target.value, isBirthdayIncorrect: false});
+                break;
+            case 'interest-input':
+                this.setState({interest: event.target.value, isInterestIncorrect: false});
+                break;
+            case 'realName-input':
+                this.setState({realName: event.target.value, isRealNameIncorrect: false});
+                break;
+            default:
+                break;
+        }
+    }
+
+    handleCommit = () => {
+        fetch(BACKEND_URL + '/edit/setUserData', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "user": {
+                    "realName": this.state.realName,
+                    "interest": this.state.interest,
+                    "birthday": this.state.birthday
+                }
+            })
+        }).then(results => {
+            return results.json();
+        }).then(result => {
+            switch(result.status.code) {
+                case 200:
+                    break;
+
+                default:
+                    this.setState({
+                        realName: (result.user.realName !== undefined)?result.user.realName:this.state.realName,
+                        realNameErrorMsg: (result.user.realNameErrorMsg !== undefined)?result.user.realNameErrorMsg:'',
+                        isRealNameIncorrect: (result.user.realNameErrorMsg === undefined),
+
+                        interest: (result.user.interest !== undefined)?result.user.interest:this.state.interest,
+                        interestErrorMsg:  (result.user.interestErrorMsg !== undefined)?result.user.interestErrorMsg:'Max 200 characters',
+                        isInterestIncorrect: (result.user.interestErrorMsg === undefined),
+
+                        birthday: (result.user.birthday !== undefined)?result.user.birthday:this.state.birthday,
+                        birthdayErrorMsg: (result.user.birthdayErrorMsg !== undefined)?result.user.birthdayErrorMsg:'You know, a day in the past or are you Marty McFly?',
+                        isBirthdayIncorrect: (result.user.birthdayErrorMsg === undefined),
+                    });
+                    break;
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    };
 
     render() {
         const {classes} = this.props;
@@ -66,102 +173,104 @@ class EditUser extends Component {
                         <Grid item sm={12} md={8} lg={6}>
 
 
-                            <Grid container justify="center" spacing={16}
-                                  elevation={2} direction={"column"}>
+                                <Grid container justify="center" spacing={16}
+                                      elevation={2} direction={"column"}>
 
-                                <Grid container spacing={16}>
+                                    {this.state.hasEditPermission ?
+
+                                        <Grid container spacing={16}>
+                                        <Grid item sm={12} md={12} lg={12}>
+                                            <Typography variant="h4" component="h3">
+                                                Edit User
+                                            </Typography>
+                                            <Typography component="p" className={classes.headline}>
+                                                Here you can edit your profile and/or add additional information. To
+                                                really
+                                                know
+                                                it is you
+                                                updating your profile, please type in your current password.<br/>
+                                            </Typography>
+                                        </Grid>
+
+                                        <Grid item sm={12} md={12} lg={12}>
+                                            <Divider/>
+                                            <Typography component="p" className={classes.headline}>
+                                                Those information will be displayed on your profile, but aren't needed
+                                                and
+                                                not
+                                                providing
+                                                those information won't lead to any disadvantages.<br/>
+                                            </Typography>
+                                            <FormControl required={false} error={this.state.isRealNameIncorrect}>
+                                                <InputLabel>Real Name</InputLabel>
+                                                <Input id={'realName-input'} type="text" startAdornment={
+                                                    <InputAdornment position="start">
+                                                        <RealNameIcon/>
+                                                    </InputAdornment>
+                                                }
+                                                       value={this.state.realName}
+                                                       onChange={this.handleValueChange}
+                                                />
+                                                <FormHelperText><em>{this.state.realNameErrorMsg}</em></FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item sm={12} md={12} lg={12}>
+                                            <FormControl required={false} error={this.state.isInterestIncorrect}>
+                                                <InputLabel>Interest</InputLabel>
+                                                <Input id={'interest-input'} multiline rowsMax="4" type="text"
+                                                       startAdornment={
+                                                           <InputAdornment position="start">
+                                                               <HobbyIcon/>
+                                                           </InputAdornment>
+                                                       }
+                                                       value={this.state.interest}
+                                                       onChange={this.handleValueChange}
+                                                />
+                                                <FormHelperText><em>{this.state.interestErrorMsg}</em></FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item sm={12} md={12} lg={12}>
+                                            <FormControl required={false} error={this.state.isBirthdayIncorrect}>
+                                                <InputLabel>Date of birth</InputLabel>
+                                                <Input id={'date-input'} type="date" startAdornment={
+                                                    <InputAdornment position="start">
+                                                        <CakeIcon/>
+                                                    </InputAdornment>
+                                                }
+                                                       value={this.state.birthday}
+                                                       onChange={this.handleValueChange}
+                                                />
+                                                <FormHelperText><em>{this.state.birthdayErrorMsg}</em></FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item sm={12} md={12} lg={12}>
+                                            <Button variant="contained" color="primary" onClick={this.handleCommit}>
+                                                Update Profile
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+
+                                    :
+
                                     <Grid item sm={12} md={12} lg={12}>
                                         <Typography variant="h4" component="h3">
                                             Edit User
                                         </Typography>
                                         <Typography component="p" className={classes.headline}>
-                                            Here you can edit your profile and/or add additional information. To really
-                                            know
-                                            it is you
-                                            updating your profile, please type in your current password.<br/>
+                                            You don´t have the permission to edit this user
                                         </Typography>
                                     </Grid>
-
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Divider/>
-                                        <Typography component="p" className={classes.headline}>
-                                            Those information will be displayed on your profile, but aren't needed and
-                                            not
-                                            providing
-                                            those information won't lead to any disadvantages.<br/>
-                                        </Typography>
-                                        <FormControl required={false}>
-                                            <InputLabel>Real Name</InputLabel>
-                                            <Input id={'realName-input'} type="text" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <RealNameIcon/>
-                                                </InputAdornment>
-                                            }
-                                                   value={this.state.realName}
-                                                   onChange={this.handleValueChange}
-                                            />
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={false}>
-                                            <InputLabel>Interest</InputLabel>
-                                            <Input id={'interest-input'} multiline rowsMax="4" type="text" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <HobbyIcon/>
-                                                </InputAdornment>
-                                            }
-                                                   value={this.state.interest}
-                                                   onChange={this.handleValueChange}
-                                            />
-                                            <FormHelperText><em>Max 200 characters</em></FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={false}>
-                                            <InputLabel>Date of birth</InputLabel>
-                                            <Input id={'date-input'} type="date" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <CakeIcon/>
-                                                </InputAdornment>
-                                            }
-                                                   value={this.state.birthday}
-                                                   onChange={this.handleValueChange}
-                                            />
-                                            <FormHelperText><em>You know, a day in the past or are you Marty
-                                                McFly?</em></FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="primary" onClick={() => console.log(this.state)}>
-                                            Update Profile
-                                        </Button>
-                                    </Grid>
+                                    }
                                 </Grid>
 
-                            </Grid>
                         </Grid>
+
                     </Grid>
                 </MuiThemeProviderUI>
             </div>
         );
     }
 
-    handleValueChange = (event) => {
-        switch (event.target.id) {
-            case 'date-input':
-        this.setState({birthday: event.target.value});
-                break;
-            case 'interest-input':
-                this.setState({interest: event.target.value});
-                break;
-            case 'realName-input':
-                this.setState({realName: event.target.value});
-                break;
-            default:
-                break;
-
-        }
-    }
 }
 EditUser.propTypes = {
     classes: PropTypes.object.isRequired,

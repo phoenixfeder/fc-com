@@ -8,8 +8,8 @@ import withStyles from "@material-ui/core/es/styles/withStyles";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import * as PropTypes from "prop-types";
-import EditUser from "./EditUser";
-import EditAccount from "./EditAccount";
+import EditUserContainer from "./EditUser-container";
+import EditAccountContainer from "./EditAccount-container";
 
 const styles = theme => ({
     root: {
@@ -57,13 +57,7 @@ class EditProfile extends Component {
         value: 0,
     };
 
-    handleClickOpenCloseAccount = () => {
-        this.setState({openCloseAccount: true});
-    };
 
-    handleCloseCloseAccount = () => {
-        this.setState({openCloseAccount: false});
-    };
 
     handleChange = (event, value) => {
         this.setState({ value });
@@ -78,12 +72,7 @@ class EditProfile extends Component {
 
                     <Grid container justify="center">
 
-
-
-
                         <Grid item sm={12} md={8} lg={6}>
-
-
 
                             <Grid container justify="center" spacing={16} className={classes.paper} component={Paper}
                                   elevation={2} direction={"column"}>
@@ -93,11 +82,8 @@ class EditProfile extends Component {
                                     <LinkTab label={"Edit Account"} style={{textAlign:'center'}} href = "page2"/>
                                 </Tabs>
 
-
-                                {this.state.value === 0 && <TabContainer><EditUser/></TabContainer>}
-                                {this.state.value === 1 && <TabContainer><EditAccount/></TabContainer>}
-
-
+                                {this.state.value === 0 && <TabContainer><EditUserContainer/></TabContainer>}
+                                {this.state.value === 1 && <TabContainer><EditAccountContainer/></TabContainer>}
 
                             </Grid>
                         </Grid>

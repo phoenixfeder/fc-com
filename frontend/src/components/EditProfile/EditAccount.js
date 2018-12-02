@@ -19,6 +19,8 @@ import PasswordIcon from '@material-ui/icons/Lock'
 import EMailIcon from '@material-ui/icons/Mail'
 import Divider from "@material-ui/core/Divider/Divider";
 import * as PropTypes from "prop-types";
+import {BACKEND_URL} from "../../utils/const-paths";
+import qs from "query-string";
 
 
 const styles = theme => ({
@@ -57,8 +59,16 @@ class EditAccount extends Component {
 
     state = {
         oldPassword: '',
+        oldPasswordErrorMsg: '',
+        isOldPasswordIncorrect: false,
+
         newPassword: '',
+        newPasswordErrorMsg: '6-32 characters',
+        isNewPasswordIncorrect: false,
+
         newEmail: '',
+        newEmailErrorMsg: '',
+        isNewEmailIncorrect: false,
     };
 
     handleClickOpenCloseAccount = () => {
@@ -69,20 +79,85 @@ class EditAccount extends Component {
         this.setState({openCloseAccount: false});
     };
 
+    componentWillMount() {
+        let targetUserUsername = qs.parse(window.location.search).user !== undefined ? qs.parse(window.location.search).user : this.props.username;
+
+        fetch(BACKEND_URL + '/edit/getAccountData?' + 'targetUsername=' + targetUserUsername + '&ownId=' + targetUserUsername + '&token=' + targetUserUsername )
+            .then(results => {
+                return results.json();
+            })
+            .then(result => {
+
+                switch(result.status.code) {
+
+                    case 200:
+                        this.setState({newEmail: result.user.email});
+                        break;
+
+                    default:
+                        console.log(result.status.code);
+                        break;
+                }
+            }).catch(err => {
+            console.log(err);
+        });
+    }
+
     handleSubmit = () => {
-        console.log(this.state);
+        fetch(BACKEND_URL + '/edit/setUserData', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "user": {
+                    "oldPassword": this.state.oldPassword,
+                    "newPassword": this.state.newPassword,
+                    "newEmail": this.state.newEmail
+                }
+            })
+        }).then(results => {
+            return results.json();
+        }).then(result => {
+            switch(result.status.code) {
+                case 200:
+                    break;
+
+                default:
+                    this.setState({
+                        oldPasswordErrorMsg: (result.user.oldPasswordErrorMsg !== undefined)?result.user.oldPasswordErrorMsg:'',
+                        isOldPasswordIncorrect: (result.user.oldPasswordErrorMsg === undefined),
+
+                        newPasswordErrorMsg:  (result.user.newPasswordErrorMsg !== undefined)?result.user.newPasswordErrorMsg:'6-32 characters',
+                        isNewPasswordIncorrect: (result.user.newPasswordErrorMsg === undefined),
+
+                        newEmail: (result.user.newEmail !== undefined)?result.user.newEmail:this.state.newEmail,
+                        newEmailErrorMsg: (result.user.newEmailErrorMsg !== undefined)?result.user.newEmailErrorMsg:'',
+                        isNewEmailIncorrect: (result.user.newEmailErrorMsg === undefined),
+                    });
+                    break;
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+
+        this.setState({
+            oldPassword: '',
+            newPassword: '',
+        })
     }
 
     handleInputChange = (event) => {
         switch (event.target.id) {
             case 'oldPasswordInput':
-                this.setState({oldPassword: event.target.value});
+                this.setState({oldPassword: event.target.value, isOldPasswordIncorrect: false, oldPasswordErrorMsg: ''});
                 break;
             case 'newPasswordInput':
-                this.setState({newPassword: event.target.value});
+                this.setState({newPassword: event.target.value, isNewPasswordIncorrect: false, newPasswordErrorMsg: '6-32 characters'});
                 break;
             case 'newEmailInput':
-                this.setState({newEmail: event.target.value});
+                this.setState({newEmail: event.target.value, isNewEmailIncorrect: false, newEmailErrorMsg: ''});
                 break;
             default:
                 break;
@@ -119,15 +194,17 @@ class EditAccount extends Component {
                                         </Typography>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true}>
+                                        <FormControl required={true} error={this.state.isOldPasswordIncorrect}>
                                             <InputLabel>Old Password</InputLabel>
                                             <Input id={'oldPasswordInput'} type="password" startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon/>
                                                 </InputAdornment>
                                             }
+                                                   value={this.state.oldPassword}
                                                    onChange={this.handleInputChange}
                                             />
+                                            <FormHelperText><em>{this.state.oldPasswordErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -137,28 +214,31 @@ class EditAccount extends Component {
                                             profile
                                             page.<br/>
                                         </Typography>
-                                        <FormControl>
+                                        <FormControl error={this.state.isNewPasswordIncorrect}>
                                             <InputLabel>New Password</InputLabel>
                                             <Input id={'newPasswordInput'} type="password" startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon/>
                                                 </InputAdornment>
                                             }
+                                                   value={this.state.newPassword}
                                                    onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText><em>At least 4 characters</em></FormHelperText>
+                                            <FormHelperText><em>{this.state.newPasswordErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl>
+                                        <FormControl error={this.state.isNewEmailIncorrect}>
                                             <InputLabel>E-Mail</InputLabel>
                                             <Input id={'newEmailInput'} type="email" startAdornment={
                                                 <InputAdornment position="start">
                                                     <EMailIcon/>
                                                 </InputAdornment>
                                             }
+                                                   value={this.state.newEmail}
                                                    onChange={this.handleInputChange}
                                             />
+                                            <FormHelperText><em>{this.state.newEmailErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
 
