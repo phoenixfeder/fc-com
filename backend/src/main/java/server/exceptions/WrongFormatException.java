@@ -1,4 +1,4 @@
-package server.exceptions.register;
+package server.exceptions;
 
 public class WrongFormatException extends Exception {
 }

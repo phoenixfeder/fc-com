@@ -7,7 +7,7 @@ import server.entities.dto.RequestDTO;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
 import server.entities.repositories.UserRepository;
-import server.exceptions.register.WrongFormatException;
+import server.exceptions.WrongFormatException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
