@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
+import {applyMiddleware, compose, createStore} from 'redux';
 import allReducers from './reducers/index-reducer';
 import AppContainer from './components/App/app-container';
 import {BrowserRouter} from 'react-router-dom';
@@ -20,7 +20,7 @@ const store = createStore(allReducers, composeEnhancers(
 
 ReactDOM.render(
     <Provider store={store}>
-        <SnackbarProvider maxSnack={4} anchorOrigin={{vertical: 'top', horizontal: 'center'}} autoHideDuration={100000}
+        <SnackbarProvider maxSnack={4} anchorOrigin={{vertical: 'top', horizontal: 'center'}} autoHideDuration={10}
                           action={<IconButton key="close" aria-label="Close" color="inherit">
                               <CloseIcon/>
                           </IconButton>}  >

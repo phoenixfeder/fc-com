@@ -69,6 +69,8 @@ class EditAccount extends Component {
         newEmail: '',
         newEmailErrorMsg: '',
         isNewEmailIncorrect: false,
+
+        closeAccountPassword: '',
     };
 
     handleClickOpenCloseAccount = () => {
@@ -76,7 +78,52 @@ class EditAccount extends Component {
     };
 
     handleCloseCloseAccount = () => {
-        this.setState({openCloseAccount: false});
+        this.setState({openCloseAccount: false, closeAccountPassword: ''});
+    };
+
+    handleSubmitCloseAccount = () => {
+        fetch(BACKEND_URL + '/edit/closeAccount', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "user": {
+                    "session": this.props.session,
+                    "sessionHash": this.props.sessionHash,
+                    "data":{
+                        "targetUserID": this.props.userID,
+                        "oldPassword": this.state.oldPassword,
+                        "newPassword": this.state.newPassword,
+                        "newEmail": this.state.newEmail
+                    }
+                }
+            })
+        }).then(results => {
+            return results.json();
+        }).then(result => {
+            switch(result.status.code) {
+                case 200:
+                    break;
+
+                default:
+                    this.setState({
+                        oldPasswordErrorMsg: (result.user.oldPasswordErrorMsg !== undefined)?result.user.oldPasswordErrorMsg:'',
+                        isOldPasswordIncorrect: (result.user.oldPasswordErrorMsg === undefined),
+
+                        newPasswordErrorMsg:  (result.user.newPasswordErrorMsg !== undefined)?result.user.newPasswordErrorMsg:'6-32 characters',
+                        isNewPasswordIncorrect: (result.user.newPasswordErrorMsg === undefined),
+
+                        newEmail: (result.user.newEmail !== undefined)?result.user.newEmail:this.state.newEmail,
+                        newEmailErrorMsg: (result.user.newEmailErrorMsg !== undefined)?result.user.newEmailErrorMsg:'',
+                        isNewEmailIncorrect: (result.user.newEmailErrorMsg === undefined),
+                    });
+                    break;
+            }
+        }).catch(err => {
+            console.log(err);
+        });
     };
 
     componentWillMount() {
@@ -166,7 +213,7 @@ class EditAccount extends Component {
         this.setState({
             oldPassword: '',
             newPassword: '',
-        })
+        });
     }
 
     handleInputChange = (event) => {
@@ -180,11 +227,16 @@ class EditAccount extends Component {
             case 'newEmailInput':
                 this.setState({newEmail: event.target.value, isNewEmailIncorrect: false, newEmailErrorMsg: ''});
                 break;
+            case 'closeAccountPasswordInput':
+                this.setState({closeAccountPassword: event.target.value});
+                break;
+
             default:
                 break;
 
         }
     }
+
 
     render() {
         const {classes} = this.props;
@@ -304,12 +356,22 @@ class EditAccount extends Component {
                                                 your account without further inspection and that you won't be able to
                                                 get your data back.
                                             </DialogContentText>
+
+                                            <Input id={'closeAccountPasswordInput'} type="password" startAdornment={
+                                                <InputAdornment position="start">
+                                                    <PasswordIcon/>
+                                                </InputAdornment>
+                                            }
+                                                   value={this.state.closeAccountPassword}
+                                                   onChange={this.handleInputChange}
+                                            />
+
                                         </DialogContent>
                                         <DialogActions>
                                             <Button onClick={this.handleCloseCloseAccount} color="primary">
                                                 Cancel
                                             </Button>
-                                            <Button onClick={this.handleCloseCloseAccount} color="primary" autoFocus>
+                                            <Button onClick={this.handleSubmitCloseAccount} color="primary" autoFocus>
                                                 OK
                                             </Button>
                                         </DialogActions>
