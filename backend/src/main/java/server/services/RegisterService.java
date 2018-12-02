@@ -155,6 +155,12 @@ public class RegisterService {
             return new ResponseDTO(StatusResponse.create(StatusCode.EMAILNOTINUSE));
         }
 
+        VerificationToken checkToken = verificationTokenRepository.findByUser(user);
+
+        if(checkToken.getExpiryDate().after(Calendar.getInstance().getTime())){
+            return new ResponseDTO(StatusResponse.create(StatusCode.TOKENNOTEXPIREDYET));
+        }
+
         verificationTokenRepository.delete(verificationTokenRepository.findByUser(user));
 
         VerificationToken token = verificationTokenRepository.save(new VerificationToken(user));
