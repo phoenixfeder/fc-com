@@ -116,6 +116,9 @@ Since the projects front- and backend communicate over a REST API, it is not pos
 To be specific, React and Redux don't use classes as known from Java or other object oriented languages. The following picture describes
 the backends model and controller at least.
 
+![Class Diagram](https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller.png)
+Full version: https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.png
+
 ## 6. Process View
 
 N/A
