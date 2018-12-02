@@ -60,6 +60,10 @@ public class LoginService {
             return new ResponseDTO(StatusResponse.create(StatusCode.WRONGUNORPW));
         }
 
+        if(!user.isEnabled()){
+            return new ResponseDTO(StatusResponse.create(StatusCode.USERNOTENABLED));
+        }
+
         String session;
         do{
             session = UUID.randomUUID().toString();
