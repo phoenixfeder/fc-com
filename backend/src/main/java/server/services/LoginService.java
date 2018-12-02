@@ -73,9 +73,10 @@ public class LoginService {
         sessionEntity = sessionRepository.save(sessionEntity);
 
         responseDTO.getStatusResponse().setSession(new server.entities.dto.response.Session());
-        responseDTO.getStatusResponse().getSession().setHash(String.valueOf(sessionEntity.getId()));
+        responseDTO.getStatusResponse().getSession().setHash(passwordEncoder.encode(String.valueOf(sessionEntity.getId())));
         responseDTO.getStatusResponse().getSession().setSession(session);
         responseDTO.getStatusResponse().getSession().setUsername(user.getUsername());
+        responseDTO.getStatusResponse().getSession().setId(user.getId());
 
         //TODO HIER IST ALLES KORREKT --> LOGIN
 

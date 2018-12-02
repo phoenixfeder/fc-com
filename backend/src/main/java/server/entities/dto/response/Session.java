@@ -9,4 +9,5 @@ public class Session {
     private String session;
     private String hash;
     private String username;
+    private long id;
 }
