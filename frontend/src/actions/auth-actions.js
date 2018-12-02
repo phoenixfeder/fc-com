@@ -1,5 +1,5 @@
 import * as actionTypes from '../utils/const-actiontypes';
-import { BACKEND_URL } from "../utils/const-paths";
+import {BACKEND_URL} from "../utils/const-paths";
 
 export const authStart = () => {
     return {
@@ -8,6 +8,7 @@ export const authStart = () => {
 };
 
 export const authSuccess = (session, userId, username) => {
+
     return {
         type: actionTypes.AUTH_SUCCESS,
         session: session,
@@ -66,8 +67,9 @@ export const auth = (username, password) => {
                     const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
                     localStorage.setItem('session', result.status.session.session);
                     localStorage.setItem('expirationDate', expirationDate);
-                    localStorage.setItem('userId', result.status.session.hash);
-                    localStorage.setItem('username', result.status.session.username)
+                    localStorage.setItem('userID', result.status.session.id);
+                    localStorage.setItem('username', result.status.session.username);
+                    localStorage.setItem('sessionHash', result.status.session.hash);
                     dispatch(authSuccess(result.status.session.session, result.status.session.hash, result.status.session.username));
                     break;
 

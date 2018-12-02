@@ -80,9 +80,25 @@ class EditAccount extends Component {
     };
 
     componentWillMount() {
-        let targetUserUsername = qs.parse(window.location.search).user !== undefined ? qs.parse(window.location.search).user : this.props.username;
+        let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
 
-        fetch(BACKEND_URL + '/edit/getAccountData?' + 'targetUsername=' + targetUserUsername + '&ownId=' + targetUserUsername + '&token=' + targetUserUsername )
+        fetch(BACKEND_URL + '/edit/getAccountData', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "user": {
+                    "session": this.props.session,
+                    "sessionHash": this.props.sessionHash,
+                    "userID": this.props.userID,
+                    "data":{
+                        "targetUserID": targetUserID,
+                    }
+                }
+            })
+        })
             .then(results => {
                 return results.json();
             })
@@ -104,7 +120,7 @@ class EditAccount extends Component {
     }
 
     handleSubmit = () => {
-        fetch(BACKEND_URL + '/edit/setUserData', {
+        fetch(BACKEND_URL + '/edit/setAccountData', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -112,9 +128,14 @@ class EditAccount extends Component {
             },
             body: JSON.stringify({
                 "user": {
-                    "oldPassword": this.state.oldPassword,
-                    "newPassword": this.state.newPassword,
-                    "newEmail": this.state.newEmail
+                    "session": this.props.session,
+                    "sessionHash": this.props.sessionHash,
+                    "userID": this.props.userID,
+                    "data":{
+                        "oldPassword": this.state.oldPassword,
+                        "newPassword": this.state.newPassword,
+                        "newEmail": this.state.newEmail
+                    }
                 }
             })
         }).then(results => {

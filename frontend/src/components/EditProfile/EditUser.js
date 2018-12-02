@@ -75,10 +75,26 @@ class EditUser extends Component {
 
     componentWillMount() {
 
-        let targetUserUsername = qs.parse(window.location.search).user !== undefined ? qs.parse(window.location.search).user : this.props.username;
-        console.log(targetUserUsername);
+        let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
 
-        fetch(BACKEND_URL + '/edit/getProfileData?' + 'targetUsername=' + targetUserUsername + '&ownId=' + targetUserUsername + '&token=' + targetUserUsername )
+
+        fetch(BACKEND_URL + '/edit/getProfileData', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "user": {
+                    "session": this.props.session,
+                    "sessionHash": this.props.sessionHash,
+                    "userID": this.props.userID,
+                    "data":{
+                        "targetUserID": targetUserID,
+                    }
+                }
+            })
+        })
             .then(results => {
                 return results.json();
             })
@@ -127,9 +143,14 @@ class EditUser extends Component {
             },
             body: JSON.stringify({
                 "user": {
+                "session": this.props.session,
+                "sessionHash": this.props.sessionHash,
+                "userID": this.props.userID,
+                "data":{
                     "realName": this.state.realName,
                     "interest": this.state.interest,
                     "birthday": this.state.birthday
+                    }
                 }
             })
         }).then(results => {

@@ -3,7 +3,9 @@ import EditUser from "./EditUser";
 
 const mapStateToProps = state => {
     return {
-        username: state.auth.username
+        userID: state.auth.userID,
+        sessionHash: state.auth.sessionHash,
+        session: state.auth.session,
     };
 };
 
