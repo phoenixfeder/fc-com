@@ -87,22 +87,52 @@ export const auth = (username, password) => {
                     localStorage.setItem('userId', result.status.session.hash);
                     localStorage.setItem('username', result.status.session.username)
                     dispatch(authSuccess(result.status.session.session, result.status.session.hash, result.status.session.username));
+                    dispatch(enqueueSnackbar({
+                        message: "You are now logged in, " + result.status.session.username + "!",
+                        options: {
+                            variant: "success"
+                        }
+                    }));
                     break;
 
                 case 404: 
                     dispatch(authFail("Invalid username or password."))
+                    dispatch(enqueueSnackbar({
+                        message: "Invalid username or password.",
+                        options: {
+                            variant: "error"
+                        }
+                    }));
                     break;
 
                 case 500:
                     dispatch(authFail("Invalid input. Are you sure that you used your username or E-Mail?"))
+                    dispatch(enqueueSnackbar({
+                        message: "Invalid input. Are you sure that you used your username or E-Mail?",
+                        options: {
+                            variant: "error"
+                        }
+                    }));
                     break;
 
                 default:
                     dispatch(authFail("This should not happen. Please contact system admin."));
+                    dispatch(enqueueSnackbar({
+                        message: "This should not happen. Please contact system admin.",
+                        options: {
+                            variant: "error"
+                        }
+                    }));
                     break;
             }
         }).catch(err => {
             dispatch(authFail("This should not happen. Please contact system admin."));
+            dispatch(enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            }));
         });
     };
 };
@@ -115,6 +145,12 @@ export const authCheckState = () => {
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             if (expirationDate <= new Date()) {
+                dispatch(enqueueSnackbar({
+                    message: "You are now logged out, " + localStorage.getItem('username') + "!",
+                    options: {
+                        variant: "success"
+                    }
+                }));
                 dispatch(logout());
             } else {
                 const userId = localStorage.getItem('userId');
