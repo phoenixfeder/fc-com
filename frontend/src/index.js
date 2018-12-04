@@ -20,7 +20,7 @@ const store = createStore(allReducers, composeEnhancers(
 
 ReactDOM.render(
     <Provider store={store}>
-        <SnackbarProvider maxSnack={4} anchorOrigin={{vertical: 'top', horizontal: 'center'}} autoHideDuration={10}
+        <SnackbarProvider maxSnack={4} anchorOrigin={{vertical: 'top', horizontal: 'center'}} autoHideDuration={10000}
                           action={<IconButton key="close" aria-label="Close" color="inherit">
                               <CloseIcon/>
                           </IconButton>}  >
