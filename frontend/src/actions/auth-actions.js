@@ -27,21 +27,8 @@ export const authFail = (error) => {
     };
 };
 
-export const logout = () => {
-    /*fetch(BACKEND_URL + '/login/logout', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            "session": {
-                "session": localStorage.getItem('session'),
-                "hash": localStorage.getItem('userId')
-            }
-        })
-    });*/
-    
+export const logoutNoAuth = () => {
+
     localStorage.removeItem('session');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
@@ -52,16 +39,57 @@ export const logout = () => {
     };
 };
 
+export const logout = () => {
+
+    fetch(BACKEND_URL + '/login/logout', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "authentication": {
+                "session": localStorage.getItem('session'),
+                "hash": localStorage.getItem('userId')
+            }
+        })
+    });
+    
+    return dispatch => {
+
+        dispatch(enqueueSnackbar({
+            message: "You are now logged out. See you, "  + localStorage.getItem('username') + "!",
+            options: {
+                variant: "success"
+            }
+        }));
+
+        localStorage.removeItem('session');
+        localStorage.removeItem('expirationDate');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('username');
+
+        dispatch( {
+            type: actionTypes.AUTH_LOGOUT 
+        });
+
+    };
+};
+
 export const checkAuthTimeout = (expirationTime) => {
+
     return dispatch => {
         setTimeout(() => {
             dispatch(logout());
         }, expirationTime * 1000);
     };
+
 };
 
 export const auth = (username, password) => {
+
     return dispatch => {
+
        dispatch(authStart());
         fetch(BACKEND_URL + '/login/login', {
             method: 'POST',
@@ -135,24 +163,28 @@ export const auth = (username, password) => {
                 }
             }));
         });
+
     };
+
 };
 
 export const authCheckState = () => {
+
     return dispatch => {
+
         const session = localStorage.getItem('session');
         if (!session) {
-            dispatch(logout());
+            dispatch(logoutNoAuth());
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             if (expirationDate <= new Date()) {
                 dispatch(enqueueSnackbar({
-                    message: "You are now logged out, " + localStorage.getItem('username') + "!",
+                    message: "You got logged out automatically, " + localStorage.getItem('username') + "!",
                     options: {
                         variant: "success"
                     }
                 }));
-                dispatch(logout());
+                dispatch(logoutNoAuth());
             } else {
                 const userId = localStorage.getItem('userId');
                 const username = localStorage.getItem('username');
@@ -160,5 +192,7 @@ export const authCheckState = () => {
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
             }
         }
+        
     };
+
 };
