@@ -1,6 +1,6 @@
 import * as actionTypes from '../utils/const-actiontypes';
 import { BACKEND_URL } from "../utils/const-paths";
-import { enqueueSnackbar } from "./notistack-snackbar-actions";
+import { enqueueSnackbar } from "./notistack-snackbar-actions"
 
 export const authStart = () => {
     
@@ -84,8 +84,9 @@ export const auth = (username, password) => {
                     const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
                     localStorage.setItem('session', result.status.session.session);
                     localStorage.setItem('expirationDate', expirationDate);
-                    localStorage.setItem('userId', result.status.session.hash);
-                    localStorage.setItem('username', result.status.session.username)
+                    localStorage.setItem('userID', result.status.session.id);
+                    localStorage.setItem('username', result.status.session.username);
+                    localStorage.setItem('sessionHash', result.status.session.hash);
                     dispatch(authSuccess(result.status.session.session, result.status.session.hash, result.status.session.username));
                     dispatch(enqueueSnackbar({
                         message: "You are now logged in, " + result.status.session.username + "!",

@@ -1,7 +1,7 @@
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from "redux";
-import { enqueueSnackbar } from "../../actions/notistack-snackbar-actions";
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
+import {bindActionCreators} from "redux";
+import {enqueueSnackbar} from "../../actions/notistack-snackbar-actions";
 import Login from "./Login";
 import * as actions from '../../actions/auth-actions';
 
