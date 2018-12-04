@@ -17,6 +17,7 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
+    @Column(unique = true, nullable = false)
     private String session;
 
     @OneToOne
@@ -24,6 +25,10 @@ public class Session {
     User user;
 
     private Date expiryDate;
+
+    public Session(){
+        super();
+    }
 
     public Session(String session, User user) {
         this.session = session;
@@ -36,5 +41,9 @@ public class Session {
         cal.setTime(new Timestamp(cal.getTime().getTime()));
         cal.add(Calendar.MINUTE, EXPIRATION);
         return new Date(cal.getTime().getTime());
+    }
+
+    public void updateExpireDate(){
+        this.expiryDate = createExpireDate();
     }
 }

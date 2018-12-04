@@ -6,4 +6,8 @@ import server.entities.Session;
 public interface SessionRepository extends CrudRepository<Session, Long> {
 
     boolean existsBySession(String session);
+
+    Session findBySession(String session);
+
+    void deleteBySession(String session);
 }

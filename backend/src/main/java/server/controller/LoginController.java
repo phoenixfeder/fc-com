@@ -25,8 +25,15 @@ public class LoginController {
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDTO addUser(@RequestBody RequestDTO requestDTO) {
+    ResponseDTO loginUser(@RequestBody RequestDTO requestDTO) {
         return loginService.validateLogin(requestDTO);
+    }
+
+    @CrossOrigin(origins = Config.ORIGIN_URL)
+    @RequestMapping(path = "/logout", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseDTO logoutUser(@RequestBody RequestDTO requestDTO) {
+        return loginService.logout(requestDTO);
     }
 
 }

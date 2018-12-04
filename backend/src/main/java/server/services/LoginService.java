@@ -3,6 +3,7 @@ package server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import server.config.StatusCode;
 import server.entities.Session;
 import server.entities.User;
@@ -13,21 +14,26 @@ import server.entities.dto.response.StatusResponse;
 import server.entities.repositories.SessionRepository;
 import server.entities.repositories.UserRepository;
 import server.exceptions.WrongFormatException;
+import server.services.authentication.Authentication;
 
 import java.util.UUID;
 
 @Service
+@Transactional
 public class LoginService {
 
     private final PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
     private SessionRepository sessionRepository;
 
+    private final Authentication authentication;
+
     @Autowired
-    public LoginService(PasswordEncoder passwordEncoder, UserRepository userRepository, SessionRepository sessionRepository) {
+    public LoginService(PasswordEncoder passwordEncoder, UserRepository userRepository, SessionRepository sessionRepository, Authentication authentication) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
+        this.authentication = authentication;
     }
 
     public ResponseDTO validateLogin(RequestDTO requestDTO){
@@ -79,6 +85,19 @@ public class LoginService {
         responseDTO.getStatusResponse().getSession().setId(user.getId());
 
         //TODO HIER IST ALLES KORREKT --> LOGIN
+
+
+        return responseDTO;
+    }
+
+    public ResponseDTO logout(RequestDTO requestDTO) {
+        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
+
+        if(!authentication.authenticate(requestDTO.getSession())){
+            return new ResponseDTO(StatusResponse.create(StatusCode.PERMISSIONDENIED));
+        }
+
+        sessionRepository.deleteBySession(requestDTO.getSession().getSession());
 
 
         return responseDTO;
