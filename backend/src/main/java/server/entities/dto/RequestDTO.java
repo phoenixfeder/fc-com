@@ -14,5 +14,4 @@ public class RequestDTO {
     UserRequest userRequest;
     @JsonProperty("authentication")
     Session session;
-
 }

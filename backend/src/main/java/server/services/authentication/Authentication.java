@@ -49,6 +49,5 @@ public class Authentication {
         sessionRepository.save(authenticate);
         return true;
 
-
     }
 }
