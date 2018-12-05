@@ -20,6 +20,7 @@ import server.exceptions.WrongFormatException;
 import server.services.register.CheckRegisterEntries;
 import server.services.register.MailSending;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 @Service
@@ -120,7 +121,7 @@ public class RegisterService {
             return responseDTO;
         }
 
-        if (Calendar.getInstance().getTime().getTime() > verificationToken.getExpiryDate().getTime()) {
+        if (verificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
             responseDTO.setStatusResponse(StatusResponse.create(StatusCode.TOKENEXPIRED));
             return responseDTO;
         }
@@ -157,7 +158,8 @@ public class RegisterService {
 
         VerificationToken checkToken = verificationTokenRepository.findByUser(user);
 
-        if(checkToken.getExpiryDate().after(Calendar.getInstance().getTime())){
+
+        if(checkToken.getExpiryDate().isAfter(LocalDateTime.now())){
             return new ResponseDTO(StatusResponse.create(StatusCode.TOKENNOTEXPIREDYET));
         }
 

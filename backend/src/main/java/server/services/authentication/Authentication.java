@@ -8,7 +8,7 @@ import server.entities.dto.ResponseDTO;
 import server.entities.dto.request.Session;
 import server.entities.dto.response.StatusResponse;
 import server.entities.repositories.SessionRepository;
-
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 @Component
@@ -40,7 +40,7 @@ public class Authentication {
             return false;
         }
 
-        if(authenticate.getExpiryDate().before(Calendar.getInstance().getTime())){
+        if(authenticate.getExpiryDate().isBefore(LocalDateTime.now())){
             sessionRepository.delete(authenticate);
             return false;
         }
@@ -48,7 +48,5 @@ public class Authentication {
         authenticate.updateExpireDate();
         sessionRepository.save(authenticate);
         return true;
-
-
     }
 }

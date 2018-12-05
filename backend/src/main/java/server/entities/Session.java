@@ -3,9 +3,7 @@ package server.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -21,12 +19,12 @@ public class Session {
     private String session;
 
     @OneToOne
-    @JoinColumn(nullable = false, name="user_id")
+    @JoinColumn(nullable = false, name = "user_id")
     User user;
 
-    private Date expiryDate;
+    private LocalDateTime expiryDate;
 
-    public Session(){
+    public Session() {
         super();
     }
 
@@ -36,14 +34,11 @@ public class Session {
         this.expiryDate = createExpireDate();
     }
 
-    private Date createExpireDate(){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Timestamp(cal.getTime().getTime()));
-        cal.add(Calendar.MINUTE, EXPIRATION);
-        return new Date(cal.getTime().getTime());
+    private LocalDateTime createExpireDate() {
+        return LocalDateTime.now().plusMinutes(EXPIRATION);
     }
 
-    public void updateExpireDate(){
+    public void updateExpireDate() {
         this.expiryDate = createExpireDate();
     }
 }

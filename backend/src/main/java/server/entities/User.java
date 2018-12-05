@@ -26,37 +26,33 @@ public class User {
     private boolean enabled = false;
     private String checkSum = "";
 
+    @Column(nullable = true)
     private String realName;
+    @Column(nullable = true)
     private String interest;
+    @Column(nullable = true)
     private LocalDate dateOfBirth;
 
     @ManyToOne(targetEntity = Role.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role role;
 
-    /*@ManyToMany(mappedBy = "boxUsers")
-    private Set<FlashCardBox> boxes = new HashSet<>();
-
-    @ManyToMany(mappedBy = "groupUsers")
-    private Set<UserGroup> groups = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(name = "friendships",
-    joinColumns =  @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id")
-    )
-    private Set<User> friends = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(name = "friendships",
-            joinColumns =  @JoinColumn(name = "friend_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> friendOf = new HashSet<>();*/
-
     public void insertDTOData(UserRequest userRequest) {
         this.username = userRequest.getUsername();
         this.email = userRequest.getEmail();
         this.password = userRequest.getPassword();
     }
+
+    public void updateNonSensitiveData(UserRequest userRequest) {
+        if (userRequest.getDateOfBirth() != null) {
+            this.dateOfBirth = userRequest.getDateOfBirth();
+        }
+        if (userRequest.getRealName() != null) {
+            this.realName = userRequest.getRealName();
+        }
+        if (userRequest.getInterest() != null) {
+            this.interest = userRequest.getInterest();
+        }
+    }
+
 }
