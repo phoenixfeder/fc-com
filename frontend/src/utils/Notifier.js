@@ -1,8 +1,8 @@
-import  { Component } from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { withSnackbar } from "notistack";
-import { removeSnackbar } from "../actions/notistack-snackbar-actions"
+import {Component} from "react";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {withSnackbar} from "notistack";
+import {removeSnackbar} from "../actions/notistack-snackbar-actions"
 
 class Notifier extends Component
 

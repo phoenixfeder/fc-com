@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import {BACKEND_URL, BACKEND_URL_GETFLASHCARD} from '../../utils/const-paths';
+import React, {Component} from 'react';
+import {BACKEND_URL_GETFLASHCARD} from '../../utils/const-paths';
 import Flashcard from '../Flashcard/Flashcard';
 
 class HelloWorld extends Component {
