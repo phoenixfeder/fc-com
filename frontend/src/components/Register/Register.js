@@ -226,15 +226,15 @@ class Register extends Component {
             <div className={classes.root}>
                 <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
-                        <Grid item xs={4} md={4} lg={4} >
+                        <Grid item xs={12} md={8} lg={4} >
                             <Paper className={classes.root} elevation={1}>
                                 <Grid container spacing={16} alignItems="stretch" justify="space-evenly"
                                       direction="column">
                                     <Grid item lg={12}>
-                                        <Typography variant="h3" component="h3" align="center">
+                                        <Typography variant="h3" align="center">
                                             Register
                                         </Typography>
-                                        <Typography component="p" align="center"
+                                        <Typography variant="body1" align="center"
                                                     className={classes.headline}>
                                             ... at Flashcard Community!<br/>Don't worry, we don't require unnecessary
                                             information :)<br/>
@@ -298,7 +298,7 @@ class Register extends Component {
                                                 id={"emailErrorMsgID"}><em>{this.state.emailErrorMsg}</em></FormHelperText>
                                         </FormControl>
                                     </Grid>
-                                    <Grid item sm={6} md={6} lg={6} style={{alignSelf: "center"}}>
+                                    <Grid item sm={6} md={6} lg={6} style={{ alignSelf: "center" }}>
                                         <div className={classes.wrapper}>
                                             <Button id="register-button" variant="contained" color="primary" disabled={this.state.loading}
                                                     onClick={this.handleSubmit}>
