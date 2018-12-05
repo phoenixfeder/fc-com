@@ -77,21 +77,19 @@ class EditUser extends Component {
 
         let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
 
-
-        fetch(BACKEND_URL + '/edit/getProfileData', {
+        fetch(BACKEND_URL + '/edit/getaccount', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "user": {
+                "authentication": {
                     "session": this.props.session,
-                    "sessionHash": this.props.sessionHash,
-                    "userID": this.props.userID,
-                    "data":{
-                        "targetUserID": targetUserID,
-                    }
+                    "hash": this.props.sessionHash
+                },
+                "user": {
+                    "userID": targetUserID,
                 }
             })
         })

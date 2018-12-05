@@ -118,8 +118,6 @@ export const auth = (username, password) => {
                     localStorage.setItem('userID', result.status.session.id);
                     localStorage.setItem('username', result.status.session.username);
                     localStorage.setItem('sessionHash', result.status.session.hash);
-                    console.log('Hash: ' + localStorage.getItem('sessionHash'));
-                    console.log(authSuccess(result.status.session.session, result.status.session.hash, result.status.session.id, result.status.session.username))
                     dispatch(authSuccess(result.status.session.session, result.status.session.hash, result.status.session.id, result.status.session.username));
                     dispatch(enqueueSnackbar({
                         message: "You are now logged in, " + result.status.session.username + "!",
