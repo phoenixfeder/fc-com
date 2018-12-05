@@ -11,6 +11,8 @@ public class StatusResponse {
     private int code;
     private String message;
 
+    private Session session;
+
 
     public StatusResponse(int code, String message) {
         this.code = code;

@@ -3,14 +3,12 @@ package server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import server.config.Lang;
 import server.config.StatusCode;
 import server.entities.Role;
 import server.entities.User;
 import server.entities.VerificationToken;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
-import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.StatusResponse;
@@ -18,12 +16,12 @@ import server.entities.dto.response.UserResponse;
 import server.entities.repositories.RoleRepository;
 import server.entities.repositories.UserRepository;
 import server.entities.repositories.VerificationTokenRepository;
-import server.exceptions.register.WrongFormatException;
+import server.exceptions.WrongFormatException;
 import server.services.register.CheckRegisterEntries;
 import server.services.register.MailSending;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.UUID;
 
 @Service
 public class RegisterService {
@@ -123,7 +121,7 @@ public class RegisterService {
             return responseDTO;
         }
 
-        if (Calendar.getInstance().getTime().getTime() > verificationToken.getExpiryDate().getTime()) {
+        if (verificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
             responseDTO.setStatusResponse(StatusResponse.create(StatusCode.TOKENEXPIRED));
             return responseDTO;
         }
@@ -156,6 +154,12 @@ public class RegisterService {
 
         if(user == null){
             return new ResponseDTO(StatusResponse.create(StatusCode.EMAILNOTINUSE));
+        }
+
+        VerificationToken checkToken = verificationTokenRepository.findByUser(user);
+
+        if(checkToken.getExpiryDate().isAfter(LocalDateTime.now())){
+            return new ResponseDTO(StatusResponse.create(StatusCode.TOKENNOTEXPIREDYET));
         }
 
         verificationTokenRepository.delete(verificationTokenRepository.findByUser(user));
