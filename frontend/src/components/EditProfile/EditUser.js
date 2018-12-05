@@ -158,6 +158,16 @@ class EditUser extends Component {
         }).then(result => {
             switch(result.status.code) {
                 case 200:
+                    this.setState({
+                        isRealNameIncorrect: false,
+                        realNameErrorMsg: '',
+
+                        isInterestIncorrect: false,
+                        interestErrorMsg: 'Max 200 characters',
+
+                        isBirthdayIncorrect: false,
+                        birthdayErrorMsg: 'You know, a day in the past or are you Marty McFly?',
+                    });
                     break;
 
                 default:

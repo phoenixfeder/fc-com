@@ -9,10 +9,11 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (session, userId, username) => {
+export const authSuccess = (session, hash, userId, username) => {
     //Snackbar login success
     return {
         type: actionTypes.AUTH_SUCCESS,
+        sessionHash: hash,
         session: session,
         userId: userId,
         username: username
@@ -30,6 +31,7 @@ export const authFail = (error) => {
 export const logoutNoAuth = () => {
 
     localStorage.removeItem('session');
+    localStorage.removeItem('sessionHash');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
     localStorage.removeItem('username');
@@ -50,7 +52,7 @@ export const logout = () => {
         body: JSON.stringify({
             "authentication": {
                 "session": localStorage.getItem('session'),
-                "hash": localStorage.getItem('userId')
+                "hash": localStorage.getItem('sessionHash')
             }
         })
     });
@@ -65,6 +67,7 @@ export const logout = () => {
         }));
 
         localStorage.removeItem('session');
+        localStorage.removeItem('sessionHash');
         localStorage.removeItem('expirationDate');
         localStorage.removeItem('userId');
         localStorage.removeItem('username');
@@ -115,7 +118,9 @@ export const auth = (username, password) => {
                     localStorage.setItem('userID', result.status.session.id);
                     localStorage.setItem('username', result.status.session.username);
                     localStorage.setItem('sessionHash', result.status.session.hash);
-                    dispatch(authSuccess(result.status.session.session, result.status.session.hash, result.status.session.username));
+                    console.log('Hash: ' + localStorage.getItem('sessionHash'));
+                    console.log(authSuccess(result.status.session.session, result.status.session.hash, result.status.session.id, result.status.session.username))
+                    dispatch(authSuccess(result.status.session.session, result.status.session.hash, result.status.session.id, result.status.session.username));
                     dispatch(enqueueSnackbar({
                         message: "You are now logged in, " + result.status.session.username + "!",
                         options: {
@@ -198,7 +203,8 @@ export const authCheckState = () => {
             } else {
                 const userId = localStorage.getItem('userId');
                 const username = localStorage.getItem('username');
-                dispatch(authSuccess(session, userId, username));
+                const sessionHash = localStorage.getItem('sessionHash');
+                dispatch(authSuccess(session, sessionHash, userId, username));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
             }
         }
