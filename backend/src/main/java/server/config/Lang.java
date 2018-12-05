@@ -18,4 +18,5 @@ public class Lang {
                     Config.MAILORIGIN + "?id=##userid##&token=##token##\n\n" +
                     "Happy learning!";
 
+    public static final String PasswordIncorrect = "Password is incorrect.";
 }
