@@ -110,7 +110,12 @@ class EditUser extends Component {
                         break;
                 }
             }).catch(err => {
-            console.log(err);
+            this.props.enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            });
         });
     }
 
@@ -133,22 +138,23 @@ class EditUser extends Component {
     }
 
     handleCommit = () => {
-        fetch(BACKEND_URL + '/edit/setUserData', {
-            method: 'POST',
+        console.log(this.state.birthday);
+        fetch(BACKEND_URL + '/edit/updateaccount', {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                "authentication":{
+                    "session": this.props.session,
+                    "hash": this.props.sessionHash,
+                },
                 "user": {
-                "session": this.props.session,
-                "sessionHash": this.props.sessionHash,
-                "userID": this.props.userID,
-                "data":{
+                    "userID": this.props.userID,
                     "realName": this.state.realName,
                     "interest": this.state.interest,
-                    "birthday": this.state.birthday
-                    }
+                    "dateOfBirth": this.state.birthday
                 }
             })
         }).then(results => {
@@ -185,7 +191,12 @@ class EditUser extends Component {
                     break;
             }
         }).catch(err => {
-            console.log(err);
+            this.props.enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            });
         });
     };
 

@@ -21,6 +21,7 @@ import Divider from "@material-ui/core/Divider/Divider";
 import * as PropTypes from "prop-types";
 import {BACKEND_URL} from "../../utils/const-paths";
 import qs from "query-string";
+import {enqueueSnackbar} from "../../actions/notistack-snackbar-actions";
 
 
 const styles = theme => ({
@@ -89,15 +90,13 @@ class EditAccount extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "user": {
+                "authentification":{
                     "session": this.props.session,
                     "sessionHash": this.props.sessionHash,
-                    "data":{
-                        "targetUserID": this.props.userID,
-                        "oldPassword": this.state.oldPassword,
-                        "newPassword": this.state.newPassword,
-                        "newEmail": this.state.newEmail
-                    }
+                },
+                "user": {
+                    "userID": this.props.userID,
+                    "oldPassword": this.state.closeAccountPassword,
                 }
             })
         }).then(results => {
@@ -105,19 +104,20 @@ class EditAccount extends Component {
         }).then(result => {
             switch(result.status.code) {
                 case 200:
+this.props.enqueueSnackbar({
+    message: "Your account has been closed. We will miss you, "  + localStorage.getItem('username') + "!",
+    options: {
+        variant: "success"
+    }
+});
                     break;
 
                 default:
-                    this.setState({
-                        oldPasswordErrorMsg: (result.user.oldPasswordErrorMsg !== undefined)?result.user.oldPasswordErrorMsg:'',
-                        isOldPasswordIncorrect: (result.user.oldPasswordErrorMsg === undefined),
-
-                        newPasswordErrorMsg:  (result.user.newPasswordErrorMsg !== undefined)?result.user.newPasswordErrorMsg:'6-32 characters',
-                        isNewPasswordIncorrect: (result.user.newPasswordErrorMsg === undefined),
-
-                        newEmail: (result.user.newEmail !== undefined)?result.user.newEmail:this.state.newEmail,
-                        newEmailErrorMsg: (result.user.newEmailErrorMsg !== undefined)?result.user.newEmailErrorMsg:'',
-                        isNewEmailIncorrect: (result.user.newEmailErrorMsg === undefined),
+                    this.props.enqueueSnackbar({
+                        message: "This should not happen. Please contact system admin.",
+                        options: {
+                            variant: "error"
+                        }
                     });
                     break;
             }
@@ -129,20 +129,19 @@ class EditAccount extends Component {
     componentWillMount() {
         let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
 
-        fetch(BACKEND_URL + '/edit/getAccountData', {
+        fetch(BACKEND_URL + '/edit/getaccount', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "user": {
+                "authentication":{
                     "session": this.props.session,
-                    "sessionHash": this.props.sessionHash,
+                    "hash": this.props.sessionHash,
+                },
+                "user": {
                     "userID": this.props.userID,
-                    "data":{
-                        "targetUserID": targetUserID,
-                    }
                 }
             })
         })
@@ -152,37 +151,45 @@ class EditAccount extends Component {
             .then(result => {
 
                 switch(result.status.code) {
-
                     case 200:
                         this.setState({newEmail: result.user.email});
                         break;
 
                     default:
-                        console.log(result.status.code);
+                        this.props.enqueueSnackbar({
+                            message: "This should not happen. Please contact system admin.",
+                            options: {
+                                variant: "error"
+                            }
+                        });
                         break;
                 }
             }).catch(err => {
-            console.log(err);
+            this.props.enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            });
         });
     }
 
     handleSubmit = () => {
-        fetch(BACKEND_URL + '/edit/setAccountData', {
-            method: 'POST',
+        fetch(BACKEND_URL + '/edit/updateaccount', {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "user": {
+                "authentication":{
                     "session": this.props.session,
-                    "sessionHash": this.props.sessionHash,
-                    "userID": this.props.userID,
-                    "data":{
-                        "oldPassword": this.state.oldPassword,
-                        "newPassword": this.state.newPassword,
-                        "newEmail": this.state.newEmail
-                    }
+                    "hash": this.props.sessionHash,
+                },
+                "user": {
+                    "oldPassword": this.state.oldPassword,
+                    "password": this.state.newPassword,
+                    "email": this.state.newEmail
                 }
             })
         }).then(results => {
@@ -190,6 +197,16 @@ class EditAccount extends Component {
         }).then(result => {
             switch(result.status.code) {
                 case 200:
+                    this.setState({
+                        oldPasswordErrorMsg: '',
+                        isOldPasswordIncorrect: false,
+
+                        newPasswordErrorMsg:  '6-32 characters',
+                        isNewPasswordIncorrect: false,
+
+                        newEmailErrorMsg: '',
+                        isNewEmailIncorrect: false,
+                    });
                     break;
 
                 default:
@@ -207,12 +224,12 @@ class EditAccount extends Component {
                     break;
             }
         }).catch(err => {
-            console.log(err);
-        });
-
-        this.setState({
-            oldPassword: '',
-            newPassword: '',
+            this.props.enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            });
         });
     }
 
