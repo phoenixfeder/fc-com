@@ -134,6 +134,16 @@ export const auth = (username, password) => {
                     }));
                     break;
 
+                case 405:
+                    dispatch(authFail("Your account is not verified yet."))
+                    dispatch(enqueueSnackbar({
+                        message: "Your account is not verified yet.",
+                        options: {
+                            variant: "error"
+                        }
+                    }));
+                    break;
+
                 case 500:
                     dispatch(authFail("Invalid input. Are you sure that you used your username or E-Mail?"))
                     dispatch(enqueueSnackbar({
