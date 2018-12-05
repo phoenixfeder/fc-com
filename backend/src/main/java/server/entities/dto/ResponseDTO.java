@@ -7,7 +7,6 @@ import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.StatusResponse;
 import server.entities.dto.response.UserResponse;
 
-
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseDTO {

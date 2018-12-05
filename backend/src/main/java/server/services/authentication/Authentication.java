@@ -8,7 +8,6 @@ import server.entities.dto.ResponseDTO;
 import server.entities.dto.request.Session;
 import server.entities.dto.response.StatusResponse;
 import server.entities.repositories.SessionRepository;
-
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
@@ -49,6 +48,5 @@ public class Authentication {
         authenticate.updateExpireDate();
         sessionRepository.save(authenticate);
         return true;
-
     }
 }

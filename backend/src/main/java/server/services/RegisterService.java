@@ -158,6 +158,7 @@ public class RegisterService {
 
         VerificationToken checkToken = verificationTokenRepository.findByUser(user);
 
+
         if(checkToken.getExpiryDate().isAfter(LocalDateTime.now())){
             return new ResponseDTO(StatusResponse.create(StatusCode.TOKENNOTEXPIREDYET));
         }

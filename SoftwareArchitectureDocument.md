@@ -151,4 +151,4 @@ N/A
 
 ## 11. Quality/Metrics
 
-TBA
+To ensure the quality of our frontend, we implemented UI tests with the help of Testcafé. Within, we created different scenarios to test every case that could possibly throw errors.

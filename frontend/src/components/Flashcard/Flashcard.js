@@ -7,7 +7,7 @@ class Flashcard extends Component {
 
     render() {
         return (
-            <div className="flashcard" style={{backgroundColor: FlashcardStyle.FLASHCARD_RED}}>
+            <div className="flashcard" style={{backgroundColor: FlashcardStyle.FLASHCARD_NEUTRAL}}>
                 <div className="flashcard-title">
                     {this.props.flashcard.title}
                 </div>
@@ -22,8 +22,5 @@ class Flashcard extends Component {
     
 
 }
-
-
-
 
 export default Flashcard;

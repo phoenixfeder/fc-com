@@ -77,21 +77,19 @@ class EditUser extends Component {
 
         let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
 
-
-        fetch(BACKEND_URL + '/edit/getProfileData', {
+        fetch(BACKEND_URL + '/edit/getaccount', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "user": {
+                "authentication": {
                     "session": this.props.session,
-                    "sessionHash": this.props.sessionHash,
-                    "userID": this.props.userID,
-                    "data":{
-                        "targetUserID": targetUserID,
-                    }
+                    "hash": this.props.sessionHash
+                },
+                "user": {
+                    "userID": targetUserID,
                 }
             })
         })
@@ -158,6 +156,16 @@ class EditUser extends Component {
         }).then(result => {
             switch(result.status.code) {
                 case 200:
+                    this.setState({
+                        isRealNameIncorrect: false,
+                        realNameErrorMsg: '',
+
+                        isInterestIncorrect: false,
+                        interestErrorMsg: 'Max 200 characters',
+
+                        isBirthdayIncorrect: false,
+                        birthdayErrorMsg: 'You know, a day in the past or are you Marty McFly?',
+                    });
                     break;
 
                 default:
