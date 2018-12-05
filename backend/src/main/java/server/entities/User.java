@@ -24,7 +24,9 @@ public class User {
 
     @ColumnDefault(value = "FALSE")
     private boolean enabled = false;
-    private String checkSum = "";
+
+    @ColumnDefault(value = "FALSE")
+    private boolean closedAccount = false;
 
     @Column(nullable = true)
     private String realName;
