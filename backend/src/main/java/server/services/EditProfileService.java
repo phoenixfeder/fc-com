@@ -47,12 +47,7 @@ public class EditProfileService {
         Role role = user.getRole();
 
         if (role.getId() == 2 && requestDTO.getUserRequest() != null) {
-<<<<<<< HEAD
             if (userRepository.findById(requestDTO.getUserRequest().getUserID()).isPresent()) {
-=======
-            if (userRepository.existsById(requestDTO.getUserRequest().getUserID())
-                    && userRepository.findById(requestDTO.getUserRequest().getUserID()).isPresent()) {
->>>>>>> Backend-EditAccount
                 user = userRepository.findById(requestDTO.getUserRequest().getUserID()).get();
             } else {
                 return new ResponseDTO(StatusResponse.create(StatusCode.DATANOTFOUND));
@@ -98,11 +93,7 @@ public class EditProfileService {
         UserResponse userResponse = new UserResponse();
 
 
-<<<<<<< HEAD
         if (requestDTO.getUserRequest().getOldPassword() == null || !passwordEncoder.matches(requestDTO.getUserRequest().getOldPassword(), session.getUser().getPassword())) {
-=======
-        if (requestDTO.getUserRequest().getOldPassword() == null || !passwordEncoder.matches(requestDTO.getUserRequest().getOldPassword(), user.getPassword())) {
->>>>>>> Backend-EditAccount
             userResponse.setOldPasswordErrorMsg(Lang.PasswordIncorrect);
             ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.EDITPROFILEERROR));
             responseDTO.setUserResponse(userResponse);
@@ -140,12 +131,6 @@ public class EditProfileService {
 
         userRepository.save(user);
 
-<<<<<<< HEAD
         return new ResponseDTO(StatusResponse.create(StatusCode.OK));
-=======
-        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
-        responseDTO.setUserResponse(userResponse);
-        return responseDTO;
->>>>>>> Backend-EditAccount
     }
 }
