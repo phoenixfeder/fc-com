@@ -59,6 +59,7 @@ class EditAccount extends Component {
 
     state = {
         userID: -1,
+editSelf: true,
 
         oldPassword: '',
         oldPasswordErrorMsg: '',
@@ -129,7 +130,7 @@ this.props.enqueueSnackbar({
 
     componentWillMount() {
         let userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
-        this.setState({userID: userID});
+        this.setState({userID: userID, editSelf: (userID === this.props.userID)});
 
         fetch(BACKEND_URL + '/edit/getaccount', {
             method: 'POST',
@@ -341,7 +342,7 @@ this.props.enqueueSnackbar({
                                         </Button>
                                     </Grid>
                                 </Grid>
-
+                                {this.state.editSelf?
                                 <Grid container>
 
 
@@ -397,6 +398,9 @@ this.props.enqueueSnackbar({
                                         </DialogActions>
                                     </Dialog>
                                 </Grid>
+                                    :
+                                    ''
+                                }
                             </Grid>
                         </Grid>
                     </Grid>

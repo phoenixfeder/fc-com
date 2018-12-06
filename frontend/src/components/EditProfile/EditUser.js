@@ -55,7 +55,7 @@ TabContainer.propTypes = {
 class EditUser extends Component {
 
     state = {
-        userID: 3,
+        userID: -1,
 
         realName: '',
         isRealNameIncorrect: false,
