@@ -21,7 +21,6 @@ import Divider from "@material-ui/core/Divider/Divider";
 import * as PropTypes from "prop-types";
 import {BACKEND_URL} from "../../utils/const-paths";
 import qs from "query-string";
-import {enqueueSnackbar} from "../../actions/notistack-snackbar-actions";
 
 
 const styles = theme => ({
@@ -59,14 +58,16 @@ TabContainer.propTypes = {
 class EditAccount extends Component {
 
     state = {
+        userID: -1,
+
         oldPassword: '',
         oldPasswordErrorMsg: '',
-        isOldPasswordIncorrect: false,
 
+        isOldPasswordIncorrect: false,
         newPassword: '',
         newPasswordErrorMsg: '6-32 characters',
-        isNewPasswordIncorrect: false,
 
+        isNewPasswordIncorrect: false,
         newEmail: '',
         newEmailErrorMsg: '',
         isNewEmailIncorrect: false,
@@ -95,8 +96,8 @@ class EditAccount extends Component {
                     "sessionHash": this.props.sessionHash,
                 },
                 "user": {
-                    "userID": this.props.userID,
-                    "oldPassword": this.state.closeAccountPassword,
+                    "userID": this.state.userID,
+                    "password": this.state.closeAccountPassword,
                 }
             })
         }).then(results => {
@@ -127,7 +128,8 @@ this.props.enqueueSnackbar({
     };
 
     componentWillMount() {
-        let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
+        let userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
+        this.setState({userID: userID});
 
         fetch(BACKEND_URL + '/edit/getaccount', {
             method: 'POST',
@@ -141,7 +143,7 @@ this.props.enqueueSnackbar({
                     "hash": this.props.sessionHash,
                 },
                 "user": {
-                    "userID": this.props.userID,
+                    "userID": userID,
                 }
             })
         })
@@ -187,6 +189,7 @@ this.props.enqueueSnackbar({
                     "hash": this.props.sessionHash,
                 },
                 "user": {
+                    "userID": this.state.userID,
                     "oldPassword": this.state.oldPassword,
                     "password": this.state.newPassword,
                     "email": this.state.newEmail

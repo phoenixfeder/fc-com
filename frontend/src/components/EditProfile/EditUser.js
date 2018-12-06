@@ -55,6 +55,8 @@ TabContainer.propTypes = {
 class EditUser extends Component {
 
     state = {
+        userID: 3,
+
         realName: '',
         isRealNameIncorrect: false,
         realNameErrorMsg: '',
@@ -74,8 +76,9 @@ class EditUser extends Component {
 
 
     componentWillMount() {
+        let userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
+        this.setState({userID: userID});
 
-        let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
 
         fetch(BACKEND_URL + '/edit/getaccount', {
             method: 'POST',
@@ -89,7 +92,7 @@ class EditUser extends Component {
                     "hash": this.props.sessionHash
                 },
                 "user": {
-                    "userID": targetUserID,
+                    "userID": userID,
                 }
             })
         })
@@ -121,7 +124,6 @@ class EditUser extends Component {
 
 
     handleValueChange = (event) => {
-
         switch (event.target.id) {
             case 'date-input':
                 this.setState({birthday: event.target.value, isBirthdayIncorrect: false});
@@ -138,7 +140,6 @@ class EditUser extends Component {
     }
 
     handleCommit = () => {
-        console.log(this.state.birthday);
         fetch(BACKEND_URL + '/edit/updateaccount', {
             method: 'PUT',
             headers: {
@@ -151,7 +152,7 @@ class EditUser extends Component {
                     "hash": this.props.sessionHash,
                 },
                 "user": {
-                    "userID": this.props.userID,
+                    "userID": this.state.userID,
                     "realName": this.state.realName,
                     "interest": this.state.interest,
                     "dateOfBirth": this.state.birthday

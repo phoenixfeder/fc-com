@@ -3,7 +3,7 @@ import * as actionTypes from '../utils/const-actiontypes';
 const initialState = {
     session: null,
     sessionHash: null,
-    userId: null,
+    userID: null,
     username: null,
     loading: false,
     error: null,
@@ -14,7 +14,7 @@ const authStart = ( state, action ) => {
 }
 
 const authSuccess = (state, action ) => {
-    return { ...state,  session: action.session, sessionHash: action.sessionHash, userId: action.userId, username: action.username, loading: false }
+    return { ...state,  session: action.session, sessionHash: action.sessionHash, userID: action.userID, username: action.username, loading: false }
 }
 
 const authFail = (state, action) => {
@@ -22,7 +22,7 @@ const authFail = (state, action) => {
 }
 
 const authLogout = (state, action) => {
-    return {...state, session: null, sessionHash: null, userId: null, username: null};
+    return {...state, session: null, sessionHash: null, userID: null, username: null};
 };
 
 const authReducer = (state = initialState, action) => {
