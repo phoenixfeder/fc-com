@@ -32,3 +32,8 @@ Then('rI get a login error', async function () {
     await  testController.expect(await feedbackField.exists).ok();
 });
 
+Then('rWait for one second', async function () {
+    await  testController.wait(1000);
+});
+
+

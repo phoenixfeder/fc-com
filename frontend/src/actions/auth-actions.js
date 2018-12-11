@@ -1,6 +1,6 @@
 import * as actionTypes from '../utils/const-actiontypes';
-import { BACKEND_URL } from "../utils/const-paths";
-import { enqueueSnackbar } from "./notistack-snackbar-actions"
+import {BACKEND_URL} from "../utils/const-paths";
+import {enqueueSnackbar} from "./notistack-snackbar-actions"
 
 export const authStart = () => {
     
@@ -9,13 +9,13 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (session, hash, userId, username) => {
+export const authSuccess = (session, hash, userID, username) => {
     //Snackbar login success
     return {
         type: actionTypes.AUTH_SUCCESS,
         sessionHash: hash,
         session: session,
-        userId: userId,
+        userID: userID,
         username: username
     };
 };
@@ -33,7 +33,7 @@ export const logoutNoAuth = () => {
     localStorage.removeItem('session');
     localStorage.removeItem('sessionHash');
     localStorage.removeItem('expirationDate');
-    localStorage.removeItem('userId');
+    localStorage.removeItem('userID');
     localStorage.removeItem('username');
     //Snackbar logout success
     return {
@@ -41,8 +41,31 @@ export const logoutNoAuth = () => {
     };
 };
 
-export const logout = () => {
+export const closeAccount = () => {
 
+    return dispatch => {
+
+        dispatch(enqueueSnackbar({
+            message: "Your account has been closed. We will miss you, " + localStorage.getItem('username') + "!",
+            options: {
+                variant: "success"
+            }
+        }));
+
+        localStorage.removeItem('session');
+        localStorage.removeItem('sessionHash');
+        localStorage.removeItem('expirationDate');
+        localStorage.removeItem('userID');
+        localStorage.removeItem('username');
+
+        dispatch( {
+            type: actionTypes.AUTH_CLOSE
+        });
+
+    };
+};
+
+export const logout = () => {
     fetch(BACKEND_URL + '/login/logout', {
         method: 'POST',
         headers: {
@@ -69,7 +92,7 @@ export const logout = () => {
         localStorage.removeItem('session');
         localStorage.removeItem('sessionHash');
         localStorage.removeItem('expirationDate');
-        localStorage.removeItem('userId');
+        localStorage.removeItem('userID');
         localStorage.removeItem('username');
 
         dispatch( {
@@ -199,10 +222,10 @@ export const authCheckState = () => {
                 }));
                 dispatch(logoutNoAuth());
             } else {
-                const userId = localStorage.getItem('userId');
+                const userID = localStorage.getItem('userID');
                 const username = localStorage.getItem('username');
                 const sessionHash = localStorage.getItem('sessionHash');
-                dispatch(authSuccess(session, sessionHash, userId, username));
+                dispatch(authSuccess(session, sessionHash, userID, username));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
             }
         }

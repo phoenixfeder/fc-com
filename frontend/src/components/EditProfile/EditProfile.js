@@ -10,26 +10,17 @@ import Tab from "@material-ui/core/Tab/Tab";
 import * as PropTypes from "prop-types";
 import EditUserContainer from "./EditUser-container";
 import EditAccountContainer from "./EditAccount-container";
-import qs from "query-string";
-import {BACKEND_URL} from "../../utils/const-paths";
 
 const styles = theme => ({
     root: {
         paddingTop: theme.spacing.unit * 2,
         flexGrow: 1,
     },
-    headline: {
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-    },
     paper: {
         ...theme.mixins.gutters(),
         paddingTop: theme.spacing.unit * 2,
         paddingBottom: theme.spacing.unit * 2,
     },
-    editProfileEntry: {
-        paddingTop: theme.spacing.unit * 2,
-    }
 });
 
 function TabContainer(props) {
@@ -51,51 +42,8 @@ function LinkTab(props) {
 class EditProfile extends Component {
 
     state = {
-        openCloseAccount: false,
-        hasEditPermission: false,
         value: 0,
     };
-
-    componentWillMount() {
-
-        let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
-
-        fetch(BACKEND_URL + '/edit/canEditUser', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "user": {
-                    "session": this.props.session,
-                    "sessionHash": this.props.sessionHash,
-                    "userID": this.props.userID,
-                    "data":{
-                        "targetUserID": targetUserID,
-                    }
-                }
-            })
-        }).then(results => {
-                return results.json();
-            })
-            .then(result => {
-
-                switch(result.status.code) {
-
-                    case 200:
-                        this.setState({hasEditPermission: true});
-                        break;
-
-                    default:
-                        console.log(result.status.code);
-                        break;
-                }
-            }).catch(err => {
-            console.log(err);
-        });
-        this.setState({hasEditPermission: true});
-    }
 
     componentDidMount(){
         document.title='Edit Profile';
@@ -113,11 +61,7 @@ class EditProfile extends Component {
                 <MuiThemeProviderUI theme={lightTheme}>
 
                     <Grid container justify="center">
-
-                        {this.state.hasEditPermission ?
-
                         <Grid item sm={12} md={8} lg={6}>
-
                             <Grid container justify="center" spacing={16} className={classes.paper} component={Paper}
                                   elevation={2} direction={"column"}>
 
@@ -131,19 +75,8 @@ class EditProfile extends Component {
 
                             </Grid>
                         </Grid>
-
-                        :
-
-                        <Grid item sm={12} md={12} lg={12}>
-                            <Typography variant="h4" component="h3">
-                                Edit User
-                            </Typography>
-                            <Typography component="p" className={classes.headline}>
-                                You don´t have the permission to edit this user
-                            </Typography>
-                        </Grid>
-                        }
                     </Grid>
+
                 </MuiThemeProviderUI>
             </div>
         );

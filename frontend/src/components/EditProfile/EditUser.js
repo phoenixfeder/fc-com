@@ -55,6 +55,8 @@ TabContainer.propTypes = {
 class EditUser extends Component {
 
     state = {
+        userID: -1,
+
         realName: '',
         isRealNameIncorrect: false,
         realNameErrorMsg: '',
@@ -74,8 +76,9 @@ class EditUser extends Component {
 
 
     componentWillMount() {
+        let userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
+        this.setState({userID: userID});
 
-        let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
 
         fetch(BACKEND_URL + '/edit/getaccount', {
             method: 'POST',
@@ -89,7 +92,7 @@ class EditUser extends Component {
                     "hash": this.props.sessionHash
                 },
                 "user": {
-                    "userID": targetUserID,
+                    "userID": userID,
                 }
             })
         })
@@ -105,18 +108,26 @@ class EditUser extends Component {
                         break;
 
                     default:
-                        console.log(result.status.code);
-
+                        this.props.enqueueSnackbar({
+                            message: "This should not happen. Please contact system admin.",
+                            options: {
+                                variant: "error"
+                            }
+                        });
                         break;
                 }
             }).catch(err => {
-            console.log(err);
+            this.props.enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            });
         });
     }
 
 
     handleValueChange = (event) => {
-
         switch (event.target.id) {
             case 'date-input':
                 this.setState({birthday: event.target.value, isBirthdayIncorrect: false});
@@ -133,22 +144,22 @@ class EditUser extends Component {
     }
 
     handleCommit = () => {
-        fetch(BACKEND_URL + '/edit/setUserData', {
-            method: 'POST',
+        fetch(BACKEND_URL + '/edit/updateaccount', {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                "authentication":{
+                    "session": this.props.session,
+                    "hash": this.props.sessionHash,
+                },
                 "user": {
-                "session": this.props.session,
-                "sessionHash": this.props.sessionHash,
-                "userID": this.props.userID,
-                "data":{
+                    "userID": this.state.userID,
                     "realName": this.state.realName,
                     "interest": this.state.interest,
-                    "birthday": this.state.birthday
-                    }
+                    "dateOfBirth": this.state.birthday
                 }
             })
         }).then(results => {
@@ -166,6 +177,12 @@ class EditUser extends Component {
                         isBirthdayIncorrect: false,
                         birthdayErrorMsg: 'You know, a day in the past or are you Marty McFly?',
                     });
+                    this.props.enqueueSnackbar({
+                        message: "Your user data have been updated successfully!",
+                        options: {
+                            variant: "success"
+                        }
+                    });
                     break;
 
                 default:
@@ -182,10 +199,21 @@ class EditUser extends Component {
                         birthdayErrorMsg: (result.user.birthdayErrorMsg !== undefined)?result.user.birthdayErrorMsg:'You know, a day in the past or are you Marty McFly?',
                         isBirthdayIncorrect: (result.user.birthdayErrorMsg === undefined),
                     });
+                    this.props.enqueueSnackbar({
+                        message: "Failed: Your input was invalid.",
+                        options: {
+                            variant: "error"
+                        }
+                    });
                     break;
             }
         }).catch(err => {
-            console.log(err);
+            this.props.enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            });
         });
     };
 

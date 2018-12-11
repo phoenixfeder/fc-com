@@ -14,7 +14,7 @@ Feature: Test of the users input at the register-page
         And I click on the "register-button"
         Then I get the error "<error>" in the "username-error-field"
         And  I get the message "Registration failed: Invalid input"
-
+        And Wait for one second
 
         Examples:
             | name                       | error                      |
@@ -28,6 +28,7 @@ Feature: Test of the users input at the register-page
         And I click on the "register-button"
         Then I get the error "This is not an email address." in the "email-error-field"
         And  I get the message "Registration failed: Invalid input"
+    And Wait for one second
 
         Examples:
             | email       |
@@ -43,6 +44,7 @@ Feature: Test of the users input at the register-page
         And I click on the "register-button"
         Then I get the error "Password must be at least 6 characters and maximal 32 characters." in the "password-error-field"
         And  I get the message "Registration failed: Invalid input"
+    And Wait for one second
 
         Examples:
             | pw                       |
@@ -57,6 +59,7 @@ Feature: Test of the users input at the register-page
         And I click on the "register-button"
         Then I get the error "The password doesn´t match the repeated password" in the "password-repeat-error-field"
         And  I get the message "Registration failed: Invalid input"
+    And Wait for one second
 
   @all
     @register
@@ -67,6 +70,7 @@ Feature: Test of the users input at the register-page
         And I enter "<password>" in the "password-repeat-field"
         When I click on the "register-button"
         Then I get the error "<error>" in the "<error-field>"
+    And Wait for one second
 
         Examples:
             | name | email | password | error | error-field |
@@ -84,3 +88,4 @@ Feature: Test of the users input at the register-page
         When I click on the "register-button"
         Then I get the message "Thank you, newuser, for your registration. We´ve sent a mail to new.mail@fc.de"
         And I get redirected to the "Login" page
+  And Wait for one second

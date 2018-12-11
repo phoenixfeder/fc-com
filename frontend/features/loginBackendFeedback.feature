@@ -5,25 +5,30 @@ Feature: Test of the correct feedback from the backend at the login-page
 	Background:
 		Given rI am on the "Login" page
 
-@login
+	@all
+	@login
 	Scenario Outline: I have to enter an existing username and the fitting passsword
 		When rI enter "<name>" in the "username-field"
 		And rI enter "<password>" in the "password-field"
 		And rI click on the "login-button"
 		Then rI get the message "Invalid username or password."
+		And rWait for one second
 
 		Examples:
 			| name | password |
 			| nonExistingUsername | pw123456 |
 			| username | wrongPassword |
 
+	@all
 	@login
 	Scenario:
 		When rI enter "testuser" in the "username-field"
 		And rI enter "123456" in the "password-field"
 		And rI click on the "login-button"
 		Then rI get the message "Your account is not verified yet."
+		And rWait for one second
 
+	@all
 	@login
 	Scenario:
 		When rI enter "enableduser" in the "username-field"
@@ -31,3 +36,4 @@ Feature: Test of the correct feedback from the backend at the login-page
 		And rI click on the "login-button"
 		Then rI get redirected to the "Home" page
 		And rI get the message "You are now logged in, enableduser!"
+		And rWait for one second

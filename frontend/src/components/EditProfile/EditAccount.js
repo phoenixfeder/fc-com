@@ -21,6 +21,8 @@ import Divider from "@material-ui/core/Divider/Divider";
 import * as PropTypes from "prop-types";
 import {BACKEND_URL} from "../../utils/const-paths";
 import qs from "query-string";
+import {compose} from "redux";
+import {withRouter} from "react-router-dom";
 
 
 const styles = theme => ({
@@ -58,14 +60,17 @@ TabContainer.propTypes = {
 class EditAccount extends Component {
 
     state = {
+        userID: -1,
+        editSelf: true,
+
         oldPassword: '',
         oldPasswordErrorMsg: '',
-        isOldPasswordIncorrect: false,
 
+        isOldPasswordIncorrect: false,
         newPassword: '',
         newPasswordErrorMsg: '6-32 characters',
-        isNewPasswordIncorrect: false,
 
+        isNewPasswordIncorrect: false,
         newEmail: '',
         newEmailErrorMsg: '',
         isNewEmailIncorrect: false,
@@ -82,67 +87,74 @@ class EditAccount extends Component {
     };
 
     handleSubmitCloseAccount = () => {
-        fetch(BACKEND_URL + '/edit/closeAccount', {
-            method: 'DELETE',
+        fetch(BACKEND_URL + '/edit/closeaccount', {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "user": {
+                "authentication": {
                     "session": this.props.session,
-                    "sessionHash": this.props.sessionHash,
-                    "data":{
-                        "targetUserID": this.props.userID,
-                        "oldPassword": this.state.oldPassword,
-                        "newPassword": this.state.newPassword,
-                        "newEmail": this.state.newEmail
-                    }
+                    "hash": this.props.sessionHash,
+                },
+                "user": {
+                    "oldPassword": this.state.closeAccountPassword,
                 }
             })
         }).then(results => {
             return results.json();
         }).then(result => {
-            switch(result.status.code) {
+            switch (result.status.code) {
                 case 200:
+
+                    this.props.closeAccount();
+                    this.props.history.push('/');
                     break;
-
+                case 409:
+                    this.props.enqueueSnackbar({
+                        message: "Your password was not correct.",
+                        options: {
+                            variant: "error"
+                        }
+                    });
+break;
                 default:
-                    this.setState({
-                        oldPasswordErrorMsg: (result.user.oldPasswordErrorMsg !== undefined)?result.user.oldPasswordErrorMsg:'',
-                        isOldPasswordIncorrect: (result.user.oldPasswordErrorMsg === undefined),
-
-                        newPasswordErrorMsg:  (result.user.newPasswordErrorMsg !== undefined)?result.user.newPasswordErrorMsg:'6-32 characters',
-                        isNewPasswordIncorrect: (result.user.newPasswordErrorMsg === undefined),
-
-                        newEmail: (result.user.newEmail !== undefined)?result.user.newEmail:this.state.newEmail,
-                        newEmailErrorMsg: (result.user.newEmailErrorMsg !== undefined)?result.user.newEmailErrorMsg:'',
-                        isNewEmailIncorrect: (result.user.newEmailErrorMsg === undefined),
+                    this.props.enqueueSnackbar({
+                        message: "This should not happen. Please contact system admin.",
+                        options: {
+                            variant: "error"
+                        }
                     });
                     break;
             }
         }).catch(err => {
-            console.log(err);
+            this.props.enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            });
         });
     };
 
     componentWillMount() {
-        let targetUserID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
+        let userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
+        this.setState({userID: userID, editSelf: (userID === this.props.userID)});
 
-        fetch(BACKEND_URL + '/edit/getAccountData', {
+        fetch(BACKEND_URL + '/edit/getaccount', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "user": {
+                "authentication": {
                     "session": this.props.session,
-                    "sessionHash": this.props.sessionHash,
-                    "userID": this.props.userID,
-                    "data":{
-                        "targetUserID": targetUserID,
-                    }
+                    "hash": this.props.sessionHash,
+                },
+                "user": {
+                    "userID": userID,
                 }
             })
         })
@@ -151,78 +163,113 @@ class EditAccount extends Component {
             })
             .then(result => {
 
-                switch(result.status.code) {
-
+                switch (result.status.code) {
                     case 200:
                         this.setState({newEmail: result.user.email});
                         break;
 
                     default:
-                        console.log(result.status.code);
+                        this.props.enqueueSnackbar({
+                            message: "This should not happen. Please contact system admin.",
+                            options: {
+                                variant: "error"
+                            }
+                        });
                         break;
                 }
             }).catch(err => {
-            console.log(err);
+            this.props.enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            });
         });
     }
 
     handleSubmit = () => {
-        fetch(BACKEND_URL + '/edit/setAccountData', {
-            method: 'POST',
+        fetch(BACKEND_URL + '/edit/updateaccount', {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "user": {
+                "authentication": {
                     "session": this.props.session,
-                    "sessionHash": this.props.sessionHash,
-                    "userID": this.props.userID,
-                    "data":{
-                        "oldPassword": this.state.oldPassword,
-                        "newPassword": this.state.newPassword,
-                        "newEmail": this.state.newEmail
-                    }
+                    "hash": this.props.sessionHash,
+                },
+                "user": {
+                    "userID": this.state.userID,
+                    "oldPassword": this.state.oldPassword,
+                    "password": this.state.newPassword,
+                    "email": this.state.newEmail
                 }
             })
         }).then(results => {
             return results.json();
         }).then(result => {
-            switch(result.status.code) {
+            switch (result.status.code) {
                 case 200:
+                    this.setState({
+                        oldPassword: '',
+                        oldPasswordErrorMsg: '',
+                        isOldPasswordIncorrect: false,
+
+                        newPassword: '',
+                        newPasswordErrorMsg: '6-32 characters',
+                        isNewPasswordIncorrect: false,
+
+                        newEmailErrorMsg: '',
+                        isNewEmailIncorrect: false,
+                    });
+                    this.props.enqueueSnackbar({
+                        message: "Your user data have been updated successfully!",
+                        options: {
+                            variant: "success"
+                        }
+                    });
                     break;
 
                 default:
                     this.setState({
-                        oldPasswordErrorMsg: (result.user.oldPasswordErrorMsg !== undefined)?result.user.oldPasswordErrorMsg:'',
+                        oldPasswordErrorMsg: (result.user.oldPasswordErrorMsg !== undefined) ? result.user.oldPasswordErrorMsg : '',
                         isOldPasswordIncorrect: (result.user.oldPasswordErrorMsg === undefined),
 
-                        newPasswordErrorMsg:  (result.user.newPasswordErrorMsg !== undefined)?result.user.newPasswordErrorMsg:'6-32 characters',
+                        newPasswordErrorMsg: (result.user.newPasswordErrorMsg !== undefined) ? result.user.newPasswordErrorMsg : '6-32 characters',
                         isNewPasswordIncorrect: (result.user.newPasswordErrorMsg === undefined),
 
-                        newEmail: (result.user.newEmail !== undefined)?result.user.newEmail:this.state.newEmail,
-                        newEmailErrorMsg: (result.user.newEmailErrorMsg !== undefined)?result.user.newEmailErrorMsg:'',
+                        newEmail: (result.user.newEmail !== undefined) ? result.user.newEmail : this.state.newEmail,
+                        newEmailErrorMsg: (result.user.newEmailErrorMsg !== undefined) ? result.user.newEmailErrorMsg : '',
                         isNewEmailIncorrect: (result.user.newEmailErrorMsg === undefined),
                     });
                     break;
             }
         }).catch(err => {
-            console.log(err);
-        });
-
-        this.setState({
-            oldPassword: '',
-            newPassword: '',
+            this.props.enqueueSnackbar({
+                message: "This should not happen. Please contact system admin.",
+                options: {
+                    variant: "error"
+                }
+            });
         });
     }
 
     handleInputChange = (event) => {
         switch (event.target.id) {
             case 'oldPasswordInput':
-                this.setState({oldPassword: event.target.value, isOldPasswordIncorrect: false, oldPasswordErrorMsg: ''});
+                this.setState({
+                    oldPassword: event.target.value,
+                    isOldPasswordIncorrect: false,
+                    oldPasswordErrorMsg: ''
+                });
                 break;
             case 'newPasswordInput':
-                this.setState({newPassword: event.target.value, isNewPasswordIncorrect: false, newPasswordErrorMsg: '6-32 characters'});
+                this.setState({
+                    newPassword: event.target.value,
+                    isNewPasswordIncorrect: false,
+                    newPasswordErrorMsg: '6-32 characters'
+                });
                 break;
             case 'newEmailInput':
                 this.setState({newEmail: event.target.value, isNewEmailIncorrect: false, newEmailErrorMsg: ''});
@@ -321,62 +368,68 @@ class EditAccount extends Component {
                                         </Button>
                                     </Grid>
                                 </Grid>
+                                {this.state.editSelf ?
+                                    <Grid container>
 
-                                <Grid container>
 
+                                        <Grid item lg={12}>
 
-                                    <Grid item lg={12}>
-
-                                        <Typography variant="h4" component="h3">
-                                            <br/>Close Account
-                                        </Typography>
-                                        <Typography component="p" className={classes.headline}>
-                                            You want to leave us? That's okay, we promise :( But keep in mind that we
-                                            won't
-                                            be able
-                                            to restore your data at any point.<br/>
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="secondary"
-                                                onClick={this.handleClickOpenCloseAccount}>
-                                            Close Account
-                                        </Button>
-                                    </Grid>
-                                    <Dialog
-                                        open={this.state.openCloseAccount}
-                                        onClose={this.handleCloseCloseAccount}
-                                        aria-labelledby="alert-dialog-title"
-                                        aria-describedby="alert-dialog-description"
-                                    >
-                                        <DialogTitle id="alert-dialog-title">{"Are you really sure?"}</DialogTitle>
-                                        <DialogContent>
-                                            <DialogContentText id="alert-dialog-description">
-                                                By confirming this dialog message, you agree that we will delete
-                                                your account without further inspection and that you won't be able to
-                                                get your data back.
-                                            </DialogContentText>
-
-                                            <Input id={'closeAccountPasswordInput'} type="password" startAdornment={
-                                                <InputAdornment position="start">
-                                                    <PasswordIcon/>
-                                                </InputAdornment>
-                                            }
-                                                   value={this.state.closeAccountPassword}
-                                                   onChange={this.handleInputChange}
-                                            />
-
-                                        </DialogContent>
-                                        <DialogActions>
-                                            <Button onClick={this.handleCloseCloseAccount} color="primary">
-                                                Cancel
+                                            <Typography variant="h4" component="h3">
+                                                <br/>Close Account
+                                            </Typography>
+                                            <Typography component="p" className={classes.headline}>
+                                                You want to leave us? That's okay, we promise :( But keep in mind that
+                                                we
+                                                won't
+                                                be able
+                                                to restore your data at any point.<br/>
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item sm={12} md={12} lg={12}>
+                                            <Button variant="contained" color="secondary"
+                                                    onClick={this.handleClickOpenCloseAccount}>
+                                                Close Account
                                             </Button>
-                                            <Button onClick={this.handleSubmitCloseAccount} color="primary" autoFocus>
-                                                OK
-                                            </Button>
-                                        </DialogActions>
-                                    </Dialog>
-                                </Grid>
+                                        </Grid>
+                                        <Dialog
+                                            open={this.state.openCloseAccount}
+                                            onClose={this.handleCloseCloseAccount}
+                                            aria-labelledby="alert-dialog-title"
+                                            aria-describedby="alert-dialog-description"
+                                        >
+                                            <DialogTitle id="alert-dialog-title">{"Are you really sure?"}</DialogTitle>
+                                            <DialogContent>
+                                                <DialogContentText id="alert-dialog-description">
+                                                    By confirming this dialog message, you agree that we will delete
+                                                    your account without further inspection and that you won't be able
+                                                    to
+                                                    get your data back.
+                                                </DialogContentText>
+
+                                                <Input id={'closeAccountPasswordInput'} type="password" startAdornment={
+                                                    <InputAdornment position="start">
+                                                        <PasswordIcon/>
+                                                    </InputAdornment>
+                                                }
+                                                       value={this.state.closeAccountPassword}
+                                                       onChange={this.handleInputChange}
+                                                />
+
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button onClick={this.handleCloseCloseAccount} color="primary">
+                                                    Cancel
+                                                </Button>
+                                                <Button onClick={this.handleSubmitCloseAccount} color="primary"
+                                                        autoFocus>
+                                                    OK
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>
+                                    </Grid>
+                                    :
+                                    ''
+                                }
                             </Grid>
                         </Grid>
                     </Grid>
@@ -391,4 +444,7 @@ class EditAccount extends Component {
 EditAccount.propTypes = {
     classes: PropTypes.object.isRequired,
 };
-export default withStyles(styles)(EditAccount);
+export default compose(
+    withStyles(styles),
+    withRouter,
+)(EditAccount);
