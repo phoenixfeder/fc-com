@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Switch, Route } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Home from '../Home/Home';
 import HelloWorldContainer from "../HelloWorld/helloworld-container";
 import LoginContainer from '../Login/login-container'

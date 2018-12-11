@@ -10,8 +10,6 @@ import Tab from "@material-ui/core/Tab/Tab";
 import * as PropTypes from "prop-types";
 import EditUserContainer from "./EditUser-container";
 import EditAccountContainer from "./EditAccount-container";
-import qs from "query-string";
-import {BACKEND_URL} from "../../utils/const-paths";
 
 const styles = theme => ({
     root: {

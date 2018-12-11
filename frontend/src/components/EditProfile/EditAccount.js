@@ -87,7 +87,6 @@ class EditAccount extends Component {
     };
 
     handleSubmitCloseAccount = () => {
-        console.log(this.state.closeAccountPassword + ' ' + this.props.session + ' ' + this.props.sessionHash);
         fetch(BACKEND_URL + '/edit/closeaccount', {
             method: 'PUT',
             headers: {

@@ -2,7 +2,6 @@ import {connect} from 'react-redux';
 import EditUser from "./EditUser";
 import {bindActionCreators} from "redux";
 import {enqueueSnackbar} from "../../actions/notistack-snackbar-actions";
-import EditProfile from "./EditProfile";
 
 const mapStateToProps = state => {
     return {
