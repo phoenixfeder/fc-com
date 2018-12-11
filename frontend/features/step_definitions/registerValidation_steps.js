@@ -50,3 +50,7 @@ Then('the {string} is clickable', async function(button){
 Then('I get redirected to the {string} page', async function (page) {
        await testController.wait(1000).expect(select('title').with({boundTestRun: testController}).innerText).eql(page);
     });
+
+Then('Wait for one second', async function () {
+    await  testController.wait(1000);
+});

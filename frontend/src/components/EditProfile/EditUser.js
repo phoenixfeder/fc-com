@@ -108,8 +108,12 @@ class EditUser extends Component {
                         break;
 
                     default:
-                        console.log(result.status.code);
-
+                        this.props.enqueueSnackbar({
+                            message: "This should not happen. Please contact system admin.",
+                            options: {
+                                variant: "error"
+                            }
+                        });
                         break;
                 }
             }).catch(err => {
@@ -173,6 +177,12 @@ class EditUser extends Component {
                         isBirthdayIncorrect: false,
                         birthdayErrorMsg: 'You know, a day in the past or are you Marty McFly?',
                     });
+                    this.props.enqueueSnackbar({
+                        message: "Your user data have been updated successfully!",
+                        options: {
+                            variant: "success"
+                        }
+                    });
                     break;
 
                 default:
@@ -188,6 +198,12 @@ class EditUser extends Component {
                         birthday: (result.user.birthday !== undefined)?result.user.birthday:this.state.birthday,
                         birthdayErrorMsg: (result.user.birthdayErrorMsg !== undefined)?result.user.birthdayErrorMsg:'You know, a day in the past or are you Marty McFly?',
                         isBirthdayIncorrect: (result.user.birthdayErrorMsg === undefined),
+                    });
+                    this.props.enqueueSnackbar({
+                        message: "Failed: Your input was invalid.",
+                        options: {
+                            variant: "error"
+                        }
                     });
                     break;
             }

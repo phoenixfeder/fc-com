@@ -37,3 +37,7 @@ Then('eI get the error {string} in the {string}', async function (error, field) 
     const outputField = select(field).with({boundTestRun: testController});
     await  testController.expect(await outputField.innerText).contains(error);
 });
+
+Then('eWait for one second', async function () {
+    await  testController.wait(1000);
+});

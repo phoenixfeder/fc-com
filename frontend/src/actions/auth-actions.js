@@ -41,8 +41,31 @@ export const logoutNoAuth = () => {
     };
 };
 
-export const logout = () => {
+export const closeAccount = () => {
 
+    return dispatch => {
+
+        dispatch(enqueueSnackbar({
+            message: "Your account has been closed. We will miss you, " + localStorage.getItem('username') + "!",
+            options: {
+                variant: "success"
+            }
+        }));
+
+        localStorage.removeItem('session');
+        localStorage.removeItem('sessionHash');
+        localStorage.removeItem('expirationDate');
+        localStorage.removeItem('userID');
+        localStorage.removeItem('username');
+
+        dispatch( {
+            type: actionTypes.AUTH_CLOSE
+        });
+
+    };
+};
+
+export const logout = () => {
     fetch(BACKEND_URL + '/login/logout', {
         method: 'POST',
         headers: {

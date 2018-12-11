@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import EditAccount from "./EditAccount";
 import {bindActionCreators} from "redux";
 import {enqueueSnackbar} from "../../actions/notistack-snackbar-actions";
-import EditProfile from "./EditProfile";
+import {closeAccount} from "../../actions/auth-actions";
 
 const mapStateToProps = state => {
     return {
@@ -12,7 +12,8 @@ const mapStateToProps = state => {
     };
 };
 const mapDispatchToProps = dispatch =>
-    bindActionCreators({ enqueueSnackbar }, dispatch)
+    bindActionCreators({ enqueueSnackbar, closeAccount}, dispatch)
+
 
 const EditAccountContainer = connect(mapStateToProps, mapDispatchToProps)(EditAccount);
 
