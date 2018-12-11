@@ -33,4 +33,10 @@ public class EditProfileController {
         return editProfileService.setAccountData((requestDTO));
     }
 
+    @CrossOrigin(origins = Config.ORIGIN_URL)
+    @RequestMapping(path = "/closeaccount", method = RequestMethod.PUT)
+    public @ResponseBody ResponseDTO closeAccount(@RequestBody RequestDTO requestDTO) {
+        return editProfileService.closeAccount((requestDTO));
+    }
+
 }

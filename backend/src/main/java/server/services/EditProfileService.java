@@ -61,7 +61,6 @@ public class EditProfileService {
     }
 
     public ResponseDTO setAccountData(RequestDTO requestDTO) {
-        System.out.println(requestDTO.getSession());
         if (!authentication.authenticate(requestDTO.getSession())) {
             return new ResponseDTO(StatusResponse.create(StatusCode.PERMISSIONDENIED));
         }
@@ -132,5 +131,35 @@ public class EditProfileService {
         userRepository.save(user);
 
         return new ResponseDTO(StatusResponse.create(StatusCode.OK));
+    }
+
+    public ResponseDTO closeAccount(RequestDTO requestDTO) {
+        if (!authentication.authenticate(requestDTO.getSession())) {
+            return new ResponseDTO(StatusResponse.create(StatusCode.PERMISSIONDENIED));
+        }
+
+        if (requestDTO.getUserRequest() == null) {
+            return new ResponseDTO(StatusResponse.create(StatusCode.FORMATERROR));
+        }
+
+        UserResponse userResponse = new UserResponse();
+
+        Session session = sessionRepository.findBySession(requestDTO.getSession().getSession());
+
+
+        //TODO AUSLAGERN
+        if (requestDTO.getUserRequest().getOldPassword() == null || !passwordEncoder.matches(requestDTO.getUserRequest().getOldPassword(), session.getUser().getPassword())) {
+            userResponse.setOldPasswordErrorMsg(Lang.PasswordIncorrect);
+            ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.EDITPROFILEERROR));
+            responseDTO.setUserResponse(userResponse);
+            return responseDTO;
+        }
+
+
+        sessionRepository.delete(session);
+        userRepository.delete(session.getUser());
+
+        return new ResponseDTO(StatusResponse.create(StatusCode.OK));
+
     }
 }
