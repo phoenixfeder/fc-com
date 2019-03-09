@@ -51,7 +51,7 @@ export const closeAccount = () => (dispatch) => {
 };
 
 export const logout = () => {
-  fetch(`${BACKEND_URL}'/login/logout`, {
+  fetch(`${BACKEND_URL}'login/logout`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -93,7 +93,7 @@ export const checkAuthTimeout = expirationTime => (dispatch) => {
 
 export const auth = (usernamearg, passwordarg) => (dispatch) => {
   dispatch(authStart());
-  fetch(`${BACKEND_URL}/login/login`, {
+  fetch(`${BACKEND_URL}login/login`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
