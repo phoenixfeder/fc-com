@@ -12,9 +12,9 @@ public class VerificationToken {
 
     private static final int EXPIRATION = 60 * 24;
 
-    @TableGenerator(name = "Id_generator", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "Id_val", initialValue = 100, allocationSize = 100)
+    //@TableGenerator(name = "tokenGen", table = "ID_GEN", pkColumnName = "GEN_KEY", valueColumnName = "GEN_VALUE", pkColumnValue = "TOKEN_ID", initialValue = 100, allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Id_generator")
+    //@GeneratedValue(strategy = GenerationType.TABLE, generator = "tokenGen")
     private long id;
 
     private String token;

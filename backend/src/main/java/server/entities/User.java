@@ -10,9 +10,9 @@ import java.time.LocalDate;
 @Entity
 @Data
 public class User {
-    @TableGenerator(name = "Id_generator", table = "ID_GEN", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "Id_gen", initialValue = 100000, allocationSize = 100)
+    //@TableGenerator(name = "userGen", table = "ID_GEN", pkColumnName = "GEN_KEY", valueColumnName = "GEN_VALUE", pkColumnValue = "USER_ID", initialValue = 100, allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Id_generator")
+    //@GeneratedValue(strategy = GenerationType.TABLE, generator = "userGen")
     private long id;
 
     @Column(unique = true, nullable = false)
