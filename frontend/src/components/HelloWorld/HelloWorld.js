@@ -42,12 +42,13 @@ class HelloWorld extends Component {
   };
 
   componentWillMount() {
-    const { updateFlashcard, flashcard } = this.props;
+    const { updateFlashcard } = this.props;
     fetch(BACKEND_URL_GETFLASHCARD(100000))
       .then(results => results.json())
     // .then(result => this.props.updateFlashcard(result))
       .then((result) => {
         updateFlashcard(result);
+        const { flashcard } = this.props;
         this.setState({ flashcardCopy: flashcard });
       });
   }
@@ -66,7 +67,7 @@ class HelloWorld extends Component {
   }
 
   render() {
-    const { classes, flashcard } = this.props;
+    const { classes } = this.props;
     const { flashcardCopy } = this.state;
     return (
       <div className={classes.root} id="helloworld">
@@ -87,7 +88,7 @@ class HelloWorld extends Component {
                 <Typography variant="body1" align="center">Just a small presentation about how a flashcard could look like. This is not mobile responsive yet!</Typography>
               </Grid>
               <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
-                <Flashcard flashcard={flashcard} />
+                <Flashcard flashcard={flashcardCopy} />
               </Grid>
               <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                 <Button
