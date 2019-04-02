@@ -56,6 +56,15 @@ TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+const propTypes = {
+  classes: PropTypes.object.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
+  history: PropTypes.func.isRequired,
+  closeAccount: PropTypes.func.isRequired,
+  session: PropTypes.string.isRequired,
+  sessionHash: PropTypes.string.isRequired,
+  userID: PropTypes.number.isRequired,
+};
 
 class EditAccount extends Component {
   state = {
@@ -73,7 +82,6 @@ class EditAccount extends Component {
     newEmail: '',
     newEmailErrorMsg: '',
     isNewEmailIncorrect: false,
-
     closeAccountPassword: '',
   };
 
@@ -114,8 +122,7 @@ class EditAccount extends Component {
             });
             break;
         }
-      }).catch((err) => {
-        console.log(err);
+      }).catch(() => {
         enqueueSnackbar({
           message: 'This should not happen. Please contact system admin.',
           options: {
@@ -134,7 +141,13 @@ class EditAccount extends Component {
     };
 
     handleSubmitCloseAccount = () => {
-      const { enqueueSnackbar, history, closeAccount, session, sessionHash } = this.props;
+      const {
+        enqueueSnackbar,
+        history,
+        closeAccount,
+        session,
+        sessionHash,
+      } = this.props;
       const { closeAccountPassword } = this.state;
       fetch(`${BACKEND_URL}/edit/closeaccount`, {
         method: 'PUT',
@@ -175,8 +188,7 @@ class EditAccount extends Component {
             });
             break;
         }
-      }).catch((err) => {
-        console.log(err);
+      }).catch(() => {
         enqueueSnackbar({
           message: 'This should not happen. Please contact system admin.',
           options: {
@@ -189,8 +201,6 @@ class EditAccount extends Component {
     handleSubmit = () => {
       const {
         enqueueSnackbar,
-        history,
-        closeAccount,
         session,
         sessionHash,
       } = this.props;
@@ -255,8 +265,7 @@ class EditAccount extends Component {
             });
             break;
         }
-      }).catch((err) => {
-        console.log(err);
+      }).catch(() => {
         enqueueSnackbar({
           message: 'This should not happen. Please contact system admin.',
           options: {
@@ -327,10 +336,7 @@ class EditAccount extends Component {
                     <Grid item sm={12} md={12} lg={12}>
                       <Typography variant="h4" component="h3">Edit Account</Typography>
                       <Typography component="p" className={classes.headline}>
-                        Here you can edit your profile and/or add additional information. To really
-                        know
-                        it is you
-                        updating your profile, please type in your current password.
+                        {'Here you can edit your profile and/or add additional information. To really know it is you updating your profile, please type in your current password.'}
                         <br />
                       </Typography>
                     </Grid>
@@ -349,16 +355,16 @@ class EditAccount extends Component {
                           onChange={this.handleInputChange}
                         />
                         <FormHelperText>
-                          <em>{oldPasswordErrorMsg}</em>
+                          <em>
+                            {oldPasswordErrorMsg}
+                          </em>
                         </FormHelperText>
                       </FormControl>
                     </Grid>
                     <Grid item sm={12} md={12} lg={12}>
                       <Divider />
                       <Typography component="p" className={classes.headline}>
-                        The following information is needed to log in and will not be shown on your
-                        profile
-                        page.
+                        {' The following information is needed to log in and will not be shown on your profile page.'}
                         <br />
                       </Typography>
                       <FormControl error={isNewPasswordIncorrect}>
@@ -375,7 +381,9 @@ class EditAccount extends Component {
                           onChange={this.handleInputChange}
                         />
                         <FormHelperText>
-                          <em>{newPasswordErrorMsg}</em>
+                          <em>
+                            {newPasswordErrorMsg}
+                          </em>
                         </FormHelperText>
                       </FormControl>
                     </Grid>
@@ -394,13 +402,15 @@ class EditAccount extends Component {
                           onChange={this.handleInputChange}
                         />
                         <FormHelperText>
-                          <em>{newEmailErrorMsg}</em>
+                          <em>
+                            {newEmailErrorMsg}
+                          </em>
                         </FormHelperText>
                       </FormControl>
                     </Grid>
                     <Grid item sm={12} md={12} lg={12}>
                       <Button variant="contained" color="primary" onClick={this.handleSubmit}>
-                        Update Profile
+                        {'Update Profile'}
                       </Button>
                     </Grid>
                   </Grid>
@@ -409,14 +419,10 @@ class EditAccount extends Component {
                       <Grid item lg={12}>
                         <Typography variant="h4" component="h3">
                           <br />
-                          Close Account
+                          {'Close Account'}
                         </Typography>
                         <Typography component="p" className={classes.headline}>
-                          You want to leave us? That is okay, we promise :( But keep in mind that
-                          we
-                          will not
-                          be able
-                          to restore your data at any point.
+                          {'You want to leave us? That is okay, we promise :( But keep in mind that we will not be able to restore your data at any point.'}
                           <br />
                         </Typography>
                       </Grid>
@@ -426,7 +432,7 @@ class EditAccount extends Component {
                           color="secondary"
                           onClick={this.handleClickOpenCloseAccount}
                         >
-                          Close Account
+                          {'Close Account'}
                         </Button>
                       </Grid>
                       <Dialog
@@ -440,10 +446,7 @@ class EditAccount extends Component {
                         </DialogTitle>
                         <DialogContent>
                           <DialogContentText id="alert-dialog-description">
-                            By confirming this dialog message, you agree that we will delete
-                            your account without further inspection and that you will not be able
-                            to
-                            get your data back.
+                            {'By confirming this dialog message, you agree that we will delete your account without further inspection and that you will not be able to get your data back.'}
                           </DialogContentText>
                           <Input
                             id="closeAccountPasswordInput"
@@ -459,14 +462,14 @@ class EditAccount extends Component {
                         </DialogContent>
                         <DialogActions>
                           <Button onClick={this.handleCloseCloseAccount} color="primary">
-                              Cancel
+                            {'Cancel'}
                           </Button>
                           <Button
                             onClick={this.handleSubmitCloseAccount}
                             color="primary"
                             autoFocus
                           >
-                            OK
+                            {'OK'}
                           </Button>
                         </DialogActions>
                       </Dialog>
@@ -481,9 +484,7 @@ class EditAccount extends Component {
     }
 }
 
-EditAccount.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+EditAccount.propTypes = propTypes;
 
 export default compose(
   withStyles(styles),

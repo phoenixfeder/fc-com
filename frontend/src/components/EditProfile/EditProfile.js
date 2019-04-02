@@ -74,8 +74,12 @@ class EditProfile extends Component {
                   <LinkTab label="Edit User" style={{ textAlign: 'center' }} href="page1" />
                   <LinkTab label="Edit Account" style={{ textAlign: 'center' }} href="page2" />
                 </Tabs>
-                { value === 0 && <TabContainer><EditUserContainer /></TabContainer> }
-                { value === 1 && <TabContainer><EditAccountContainer /></TabContainer> }
+                { value === 0 && <TabContainer>
+                  <EditUserContainer />
+                </TabContainer> }
+                { value === 1 && <TabContainer>
+                  <EditAccountContainer />
+                </TabContainer> }
               </Grid>
             </Grid>
           </Grid>

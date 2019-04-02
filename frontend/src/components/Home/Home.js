@@ -52,7 +52,9 @@ class Home extends Component {
                 <Typography variant="h3" align="center">Home Page</Typography>
               </Grid>
               <Grid item lg={12}>
-                <Typography variant="body1" align="center">Im currently just a placeholder. Soon there will be more to see!</Typography>
+                <Typography variant="body1" align="center">
+                  {'Im currently just a placeholder. Soon there will be more to see!'}
+                </Typography>
               </Grid>
             </Grid>
           </Grid>

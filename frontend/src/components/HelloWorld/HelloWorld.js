@@ -98,7 +98,7 @@ class HelloWorld extends Component {
                   style={{ align: 'center' }}
                   onClick={() => { this.setTextToBackText(flashcardCopy); this.forceUpdate(); }}
                 >
-                  Turn around
+                  {'Turn around'}
                 </Button>
               </Grid>
             </Grid>

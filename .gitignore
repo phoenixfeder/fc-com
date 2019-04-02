@@ -1,5 +1,6 @@
-#idea
+#IDE
 .idea/
+.vscode/
 
 #backend
 backend/out/
