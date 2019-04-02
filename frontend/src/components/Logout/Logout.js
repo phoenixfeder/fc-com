@@ -1,7 +1,11 @@
-import * as PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import * as PropTypes from 'prop-types';
 
+const propTypes = {
+  onLogout: PropTypes.func.isRequired,
+};
 class Logout extends Component {
   componentDidMount() {
     this.props.onLogout();
@@ -12,8 +16,6 @@ class Logout extends Component {
   }
 }
 
-export default Logout;
+Logout.propTypes = propTypes;
 
-Logout.propTypes = {
-  onLogout: PropTypes.func.isRequired,
-};
+export default Logout;

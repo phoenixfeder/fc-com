@@ -1,22 +1,20 @@
-import Button from '@material-ui/core/Button/Button';
-import Divider from '@material-ui/core/Divider/Divider';
-import withStyles from '@material-ui/core/es/styles/withStyles';
-import FormControl from '@material-ui/core/FormControl/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
+import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid/Grid';
+import Typography from '@material-ui/core/Typography/Typography';
+import FormControl from '@material-ui/core/FormControl/FormControl';
+import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Input from '@material-ui/core/Input/Input';
 import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel/InputLabel';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
-import Typography from '@material-ui/core/Typography/Typography';
+import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
+import Button from '@material-ui/core/Button/Button';
+import withStyles from '@material-ui/core/es/styles/withStyles';
 import CakeIcon from '@material-ui/icons/Cake';
-import RealNameIcon from '@material-ui/icons/Face';
 import HobbyIcon from '@material-ui/icons/InsertEmoticon';
+import RealNameIcon from '@material-ui/icons/Face';
+import Divider from '@material-ui/core/Divider/Divider';
 import * as PropTypes from 'prop-types';
 import qs from 'query-string';
-import React, { Component } from 'react';
 import { BACKEND_URL } from '../../utils/const-paths';
-import { lightTheme } from '../../utils/themeLight';
 
 const styles = theme => ({
   root: {
@@ -37,7 +35,6 @@ const styles = theme => ({
   },
 });
 
-
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -50,9 +47,15 @@ TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+const propTypes = {
+  classes: PropTypes.object.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
+  session: PropTypes.string.isRequired,
+  sessionHash: PropTypes.string.isRequired,
+  userID: PropTypes.number.isRequired,
+};
 
 class EditUser extends Component {
-
   state = {
     userID: -1,
 
@@ -73,9 +76,10 @@ class EditUser extends Component {
 
 
   componentWillMount() {
+    const { enqueueSnackbar, session, sessionHash } = this.props;
+
     const userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
     this.setState({ userID });
-
 
     fetch(`${BACKEND_URL}/edit/getaccount`, {
       method: 'POST',
@@ -85,38 +89,32 @@ class EditUser extends Component {
       },
       body: JSON.stringify({
         authentication: {
-          session: this.props.session,
-          hash: this.props.sessionHash,
+          session,
+          hash: sessionHash,
         },
         user: {
           userID,
         },
       }),
-    })
-      .then(results => results.json())
-      .then(result => {
 
-        switch (result.status.code) {
+    }).then(results => results.json(),
+    ).then(result => {
+      switch (result.status.code) {
+        case 200:
+          this.setState({ realName: result.user.realName, interest: result.user.interest, birthday: result.user.birthday });
+          break;
 
-          case 200:
-            this.setState({
-              realName: result.user.realName,
-              interest: result.user.interest,
-              birthday: result.user.birthday,
-            });
-            break;
-
-          default:
-            this.props.enqueueSnackbar({
-              message: 'This should not happen. Please contact system admin.',
-              options: {
-                variant: 'error',
-              },
-            });
-            break;
-        }
-      }).catch(err => {
-      this.props.enqueueSnackbar({
+        default:
+          enqueueSnackbar({
+            message: 'This should not happen. Please contact system admin.',
+            options: {
+              variant: 'error',
+            },
+          });
+          break;
+      }
+    }).catch(() => {
+      enqueueSnackbar({
         message: 'This should not happen. Please contact system admin.',
         options: {
           variant: 'error',
@@ -125,79 +123,7 @@ class EditUser extends Component {
     });
   }
 
-  handleCommit = () => {
-    fetch(`${BACKEND_URL}/edit/updateaccount`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        authentication: {
-          session: this.props.session,
-          hash: this.props.sessionHash,
-        },
-        user: {
-          userID: this.state.userID,
-          realName: this.state.realName,
-          interest: this.state.interest,
-          dateOfBirth: this.state.birthday,
-        },
-      }),
-    }).then(results => results.json()).then(result => {
-      switch (result.status.code) {
-        case 200:
-          this.setState({
-            isRealNameIncorrect: false,
-            realNameErrorMsg: '',
-
-            isInterestIncorrect: false,
-            interestErrorMsg: 'Max 200 characters',
-
-            isBirthdayIncorrect: false,
-            birthdayErrorMsg: 'You know, a day in the past or are you Marty McFly?',
-          });
-          this.props.enqueueSnackbar({
-            message: 'Your user data have been updated successfully!',
-            options: {
-              variant: 'success',
-            },
-          });
-          break;
-
-        default:
-          this.setState({
-            realName: (result.user.realName !== undefined) ? result.user.realName : this.state.realName,
-            realNameErrorMsg: (result.user.realNameErrorMsg !== undefined) ? result.user.realNameErrorMsg : '',
-            isRealNameIncorrect: (result.user.realNameErrorMsg === undefined),
-
-            interest: (result.user.interest !== undefined) ? result.user.interest : this.state.interest,
-            interestErrorMsg: (result.user.interestErrorMsg !== undefined) ? result.user.interestErrorMsg : 'Max 200 characters',
-            isInterestIncorrect: (result.user.interestErrorMsg === undefined),
-
-            birthday: (result.user.birthday !== undefined) ? result.user.birthday : this.state.birthday,
-            birthdayErrorMsg: (result.user.birthdayErrorMsg !== undefined) ? result.user.birthdayErrorMsg : 'You know, a day in the past or are you Marty McFly?',
-            isBirthdayIncorrect: (result.user.birthdayErrorMsg === undefined),
-          });
-          this.props.enqueueSnackbar({
-            message: 'Failed: Your input was invalid.',
-            options: {
-              variant: 'error',
-            },
-          });
-          break;
-      }
-    }).catch(err => {
-      this.props.enqueueSnackbar({
-        message: 'This should not happen. Please contact system admin.',
-        options: {
-          variant: 'error',
-        },
-      });
-    });
-  };
-
-  handleValueChange = (event) => {
+ handleValueChange = (event) => {
     switch (event.target.id) {
       case 'date-input':
         this.setState({ birthday: event.target.value, isBirthdayIncorrect: false });
@@ -211,6 +137,84 @@ class EditUser extends Component {
       default:
         break;
     }
+  }
+
+  handleCommit = () => {
+    const { enqueueSnackbar, session, sessionHash } = this.props;
+    fetch(`${BACKEND_URL}/edit/updateaccount`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        authentication: {
+          session,
+          hash: sessionHash,
+        },
+        user: {
+          userID: this.state.userID,
+          realName: this.state.realName,
+          interest: this.state.interest,
+          dateOfBirth: this.state.birthday,
+        },
+      }),
+
+    }).then(results => results.json(),
+    ).then(result => {
+      switch (result.status.code) {
+        case 200:
+          this.setState({
+            isRealNameIncorrect: false,
+            realNameErrorMsg: '',
+
+            isInterestIncorrect: false,
+            interestErrorMsg: 'Max 200 characters',
+
+            isBirthdayIncorrect: false,
+            birthdayErrorMsg: 'You know, a day in the past or are you Marty McFly?',
+          });
+
+          enqueueSnackbar({
+            message: 'Your user data have been updated successfully!',
+            options: {
+              variant: 'success',
+            },
+          });
+          break;
+
+        default:
+
+          this.setState(prevState => ({
+            realName: (result.user.realName !== undefined) ? result.user.realName : prevState.realName,
+            realNameErrorMsg: (result.user.realNameErrorMsg !== undefined) ? result.user.realNameErrorMsg : '',
+            isRealNameIncorrect: (result.user.realNameErrorMsg === undefined),
+
+            interest: (result.user.interest !== undefined) ? result.user.interest : prevState.interest,
+            interestErrorMsg: (result.user.interestErrorMsg !== undefined) ? result.user.interestErrorMsg : 'Max 200 characters',
+            isInterestIncorrect: (result.user.interestErrorMsg === undefined),
+
+            birthday: (result.user.birthday !== undefined) ? result.user.birthday : prevState.birthday,
+            birthdayErrorMsg: (result.user.birthdayErrorMsg !== undefined) ? result.user.birthdayErrorMsg : 'You know, a day in the past or are you Marty McFly?',
+            isBirthdayIncorrect: (result.user.birthdayErrorMsg === undefined),
+          }));
+          enqueueSnackbar({
+            message: 'Failed: Your input was invalid.',
+            options: {
+              variant: 'error',
+            },
+          });
+          break;
+      }
+
+    }).catch(() => {
+      enqueueSnackbar({
+        message: 'This should not happen. Please contact system admin.',
+        options: {
+          variant: 'error',
+        },
+      });
+    });
   };
 
   render() {
@@ -218,158 +222,120 @@ class EditUser extends Component {
     return (
       <div className={classes.root}>
 
-        <MuiThemeProviderUI theme={lightTheme}>
-
-          <Grid container justify="center">
-
-
-            <Grid item sm={12} md={8} lg={6}>
-
-
-              <Grid
-                container
-                justify="center"
-                spacing={16}
-                elevation={2}
-                direction="column"
-              >
-
-                {this.state.hasEditPermission
-
-                  ? <Grid container spacing={16}>
-                    <Grid item sm={12} md={12} lg={12}>
-                      <Typography variant="h4" component="h3">
-
-
-                        Edit User
-                      </Typography>
-                      <Typography component="p" className={classes.headline}>
-
-
-                        Here you can edit your profile and/or add additional information. To
-                        really
-                        know
-                        it is you
-                        updating your profile, please type in your current password.
-                        <br />
-                      </Typography>
-                    </Grid>
-
-                    <Grid item sm={12} md={12} lg={12}>
-                      <Divider />
-                      <Typography component="p" className={classes.headline}>
-
-
-                        Those information will be displayed on your profile, but aren´t needed
-                        and
-                        not
-                        providing
-                        those information won´t lead to any disadvantages.
-                        <br />
-                      </Typography>
-                      <FormControl required={false} error={this.state.isRealNameIncorrect}>
-                        <InputLabel>Real Name</InputLabel>
-                        <Input
-                          id="realName-input"
-                          type="text"
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <RealNameIcon />
-                            </InputAdornment>
-                          }
-                          value={this.state.realName}
-                          onChange={this.handleValueChange}
-                        />
-                        <FormHelperText>
-                          <em>
-                            {this.state.realNameErrorMsg}
-                          </em>
-                        </FormHelperText>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={12} md={12} lg={12}>
-                      <FormControl required={false} error={this.state.isInterestIncorrect}>
-                        <InputLabel>Interest</InputLabel>
-                        <Input
-                          id="interest-input"
-                          multiline
-                          rowsMax="4"
-                          type="text"
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <HobbyIcon />
-                            </InputAdornment>
-                          }
-                          value={this.state.interest}
-                          onChange={this.handleValueChange}
-                        />
-                        <FormHelperText>
-                          <em>
-                            {this.state.interestErrorMsg}
-                          </em>
-                        </FormHelperText>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={12} md={12} lg={12}>
-                      <FormControl required={false} error={this.state.isBirthdayIncorrect}>
-                        <InputLabel>Date of birth</InputLabel>
-                        <Input
-                          id="date-input"
-                          type="date"
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <CakeIcon />
-                            </InputAdornment>
-                          }
-                          value={this.state.birthday}
-                          onChange={this.handleValueChange}
-                        />
-                        <FormHelperText>
-                          <em>
-                            {this.state.birthdayErrorMsg}
-                          </em>
-                        </FormHelperText>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={12} md={12} lg={12}>
-                      <Button variant="contained" color="primary" onClick={this.handleCommit}>
-
-
-                        Update Profile
-                      </Button>
-                    </Grid>
-                  </Grid>
-
-                  : <Grid item sm={12} md={12} lg={12}>
+        <Grid container justify="center">
+          <Grid item sm={12} md={8} lg={6}>
+            <Grid
+              container
+              justify="center"
+              spacing={16}
+              elevation={2}
+              direction="column"
+            >
+              { this.state.hasEditPermission ? (
+                <Grid container spacing={16}>
+                  <Grid item sm={12} md={12} lg={12}>
                     <Typography variant="h4" component="h3">
-
-
-                      Edit User
+                      {'Edit User'}
                     </Typography>
                     <Typography component="p" className={classes.headline}>
-
-
-                      You don´t have the permission to edit this user
+                      {'Here you can edit your profile and/or add additional information. To really know it is you updating your profile, please type in your current password.'}
+                      <br />
                     </Typography>
                   </Grid>
-                }
-              </Grid>
-
+                  <Grid item sm={12} md={12} lg={12}>
+                    <Divider/>
+                    <Typography component="p" className={classes.headline}>
+                      {'Those information will be displayed on your profile, but are not needed and not providingthose information will not lead to any disadvantages.'}
+                      <br />
+                    </Typography>
+                    <FormControl required={false} error={this.state.isRealNameIncorrect}>
+                      <InputLabel>Real Name</InputLabel>
+                      <Input
+                        id="realName-input"
+                        type="text"
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <RealNameIcon />
+                          </InputAdornment>
+                        }
+                        value={this.state.realName}
+                        onChange={this.handleValueChange}
+                      />
+                      <FormHelperText>
+                        <em>
+                          {this.state.realNameErrorMsg}
+                        </em>
+                      </FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item sm={12} md={12} lg={12}>
+                    <FormControl required={false} error={this.state.isInterestIncorrect}>
+                      <InputLabel>Interest</InputLabel>
+                      <Input
+                        id="interest-input"
+                        multiline
+                        rowsMax="4"
+                        type="text"
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <HobbyIcon />
+                          </InputAdornment>
+                        }
+                        value={this.state.interest}
+                        onChange={this.handleValueChange}
+                      />
+                      <FormHelperText>
+                        <em>
+                          {this.state.interestErrorMsg}
+                        </em>
+                      </FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item sm={12} md={12} lg={12}>
+                    <FormControl required={false} error={this.state.isBirthdayIncorrect}>
+                      <InputLabel>Date of birth</InputLabel>
+                      <Input
+                        id="date-input"
+                        type="date"
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <CakeIcon />
+                          </InputAdornment>
+                        }
+                        value={this.state.birthday}
+                        onChange={this.handleValueChange}
+                      />
+                      <FormHelperText>
+                        <em>
+                          {this.state.birthdayErrorMsg}
+                        </em>
+                      </FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item sm={12} md={12} lg={12}>
+                    <Button variant="contained" color="primary" onClick={this.handleCommit}>
+                      {'Update Profile'}
+                    </Button>
+                  </Grid>
+                </Grid>
+              ) : (
+                <Grid item sm={12} md={12} lg={12}>
+                  <Typography variant="h4" component="h3">
+                    {'Edit User'}
+                  </Typography>
+                  <Typography component="p" className={classes.headline}>
+                    {'You do not have the permission to edit this user'}
+                  </Typography>
+                </Grid>
+              )}
             </Grid>
-
           </Grid>
-        </MuiThemeProviderUI>
+        </Grid>
       </div>
     );
   }
-
 }
 
-EditUser.propTypes = {
-  classes: PropTypes.object.isRequired,
-  session: PropTypes.string.isRequired,
-  sessionHash: PropTypes.string.isRequired,
-  userID: PropTypes.number.isRequired,
-  enqueueSnackbar: PropTypes.func.isRequired,
-};
+EditUser.propTypes = propTypes;
+
 export default withStyles(styles)(EditUser);

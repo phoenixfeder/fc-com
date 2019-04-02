@@ -1,3 +1,11 @@
+import React, { Component } from 'react';
+import Grid from '@material-ui/core/Grid/Grid';
+import Typography from '@material-ui/core/Typography/Typography';
+import FormControl from '@material-ui/core/FormControl/FormControl';
+import InputLabel from '@material-ui/core/InputLabel/InputLabel';
+import Input from '@material-ui/core/Input/Input';
+import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
+import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
 import Button from '@material-ui/core/Button/Button';
 import Dialog from '@material-ui/core/Dialog/Dialog';
 import DialogActions from '@material-ui/core/DialogActions/DialogActions';
@@ -20,7 +28,6 @@ import * as PropTypes from 'prop-types';
 import qs from 'query-string';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
 import { BACKEND_URL } from '../../utils/const-paths';
 import { lightTheme } from '../../utils/themeLight';
 
@@ -413,7 +420,7 @@ class EditAccount extends Component {
                     </Button>
                   </Grid>
                 </Grid>
-                {editSelf ? (
+                { editSelf ? (
                   <Grid container>
                     <Grid item lg={12}>
                       <Typography variant="h4" component="h3">

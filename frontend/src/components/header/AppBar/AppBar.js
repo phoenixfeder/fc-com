@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import AppBarUI from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider/Divider';
 import Drawer from '@material-ui/core/Drawer/Drawer';
@@ -9,12 +10,15 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import ToolBarUI from '@material-ui/core/Toolbar';
 import TypographyUI from '@material-ui/core/Typography';
-import AccountIcon from '@material-ui/icons/AccountCircle';
-import MenuIconUI from '@material-ui/icons/Menu';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import Link from 'react-router-dom/es/Link';
-import { lightTheme } from '../../../utils/themeLight';
+import Menu from '@material-ui/core/Menu/Menu';
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import MenuItem from '@material-ui/core/MenuItem/MenuItem';
+import AccountIcon from '@material-ui/icons/AccountCircle';
+import Drawer from '@material-ui/core/Drawer/Drawer';
+import Divider from '@material-ui/core/Divider/Divider';
 
 const drawerWidth = 240;
 
@@ -66,90 +70,154 @@ const styles = theme => ({
   },
 });
 
+const propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  classes: PropTypes.object.isRequired,
+  username: PropTypes.string,
+};
+
+const defaultPropTypes = {
+  username: '',
+};
+
+
 class AppBar extends Component {
+    state = {
+      anchorEl: null,
+      sidebarOpen: false,
+    };
 
-  state = {
-    auth: true,
-    anchorEl: null,
-    sidebarOpen: false,
-  };
+    handleAccountMenu = event => {
+      this.setState({ anchorEl: event.currentTarget });
+    };
 
-  handleAccountMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  handleSideMenu = () => {
-    this.setState({ sidebarOpen: !this.state.sidebarOpen });
-  };
-
-  render() {
-    const { classes } = this.props;
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
-
-    // Should return a array, as MenuList does not accept fragments as children
-    let menuItems = [
-      <MenuItem key="A" id="register-menu-link" component={Link} to="/register" onClick={this.handleClose}>Register</MenuItem>,
-      <MenuItem key="B" id="register-menu-link" component={Link} to="/login" onClick={this.handleClose}>Login</MenuItem>,
-    ];
-
-
-    if (this.props.isAuthenticated) {
-      menuItems = [
-        <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit
-          Profile</MenuItem>,
-        <MenuItem key="B" id="register-menu-link" component={Link} to="/logout" onClick={this.handleClose}>Logout</MenuItem>,
-      ];
+    handleSideMenu = () => {
+      this.setState(prevState => ({ sidebarOpen: !prevState.sidebarOpen }));
     }
 
-    const sidebarItems = (
-      <>
-        <MenuItem
-          id="home-menu-link"
-          component={Link}
-          to="/"
-          color="inherit"
-          onClick={this.handleSideMenu}
-        >
+    handleClose = () => {
+      this.setState({ anchorEl: null });
+    };
+
+    render() {
+      const { classes } = this.props;
+      const { anchorEl } = this.state;
+      const open = Boolean(anchorEl);
+
+      // Should return a array, as MenuList does not accept fragments as children
+      let menuItems = [
+        <MenuItem key="A" id="register-menu-link" component={Link} to="/register" onClick={this.handleClose}>Register</MenuItem>,
+        <MenuItem key="B" id="register-menu-link" component={Link} to="/login" onClick={this.handleClose}>Login</MenuItem>,
+      ];
 
 
-          Home
-        </MenuItem>
-        <MenuItem
-          id="hw-menu-link"
-          component={Link}
-          to="/helloworld"
-          color="inherit"
-          onClick={this.handleSideMenu}
-        >
+      if (this.props.isAuthenticated) {
+        menuItems = [
+          <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit Profile</MenuItem>,
+          <MenuItem key="B" id="register-menu-link" component={Link} to="/logout" onClick={this.handleClose}>Logout</MenuItem>,
+        ];
+      }
 
+      const sidebarItems = (
+        <>
+          <MenuItem
+            id="home-menu-link"
+            component={Link}
+            to="/"
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {'Home'}
+          </MenuItem>
+          <MenuItem
+            id="hw-menu-link"
+            component={Link}
+            to="/helloworld"
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {'Hello World'}
+          </MenuItem>
+          <Divider />
+          <MenuItem
+            id="faq-menu-link"
+            component={Link}
+            to="/faq"
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {'FAQ'}
+          </MenuItem>
+        </>
+      );
 
-          Hello World
-        </MenuItem>
-        <Divider />
-        <MenuItem
-          id="faq-menu-link"
-          component={Link}
-          to="/faq"
-          color="inherit"
-          onClick={this.handleSideMenu}
-        >
+      if (this.props.isAuthenticated) {
+        /* sidebarItems += (
+                <>
+                </>
+            ); */
+      }
 
-
-          FAQ
-        </MenuItem>
-      </>
-    );
-
-    if (this.props.isAuthenticated) {
-      /* sidebarItems += (
-              <>
-              </>
-          ); */
+      return (
+        <div className={classes.root}>
+          <AppBarUI position="static" color="primary" className={classes.appBar}>
+            <ToolBarUI>
+              <IconButtonUI color="inherit" className={classes.menuButton} onClick={this.handleSideMenu}>
+                <MenuIconUI/>
+              </IconButtonUI>
+              <TypographyUI variant="h6" color="inherit" className={classes.grow}>
+                {'Flashcard Community'}
+              </TypographyUI>
+              { this.props.isAuthenticated ? (
+                <TypographyUI variant="subtitle2" color="inherit" className={classes.grow} align="right">
+                  { this.props.username }
+                </TypographyUI>
+              ) : null}
+              <div>
+                <IconButton
+                  id="account-icon"
+                  aria-owns={open ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleAccountMenu}
+                  color="inherit"
+                >
+                  <AccountIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  { menuItems }
+                </Menu>
+              </div>
+            </ToolBarUI>
+          </AppBarUI>
+          {/* TODO : User own SideBar-Component instead of Drawer */}
+          <Drawer
+            className={classes.drawer}
+            variant="persistent"
+            anchor="left"
+            open={this.state.sidebarOpen}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <div className={classes.drawerHeader} />
+            <Divider/>
+            { sidebarItems }
+          </Drawer>
+        </div>
+      );
     }
 
     return (
@@ -227,11 +295,8 @@ class AppBar extends Component {
   }
 }
 
-AppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  username: PropTypes.string.isRequired,
-};
+
+AppBar.propTypes = propTypes;
+AppBar.defaultProps = defaultPropTypes;
 
 export default withStyles(styles, { withTheme: true })(AppBar);
