@@ -228,23 +228,14 @@ class Register extends Component {
                 direction="column"
               >
                 <Grid item lg={12}>
-                  <Typography variant="h3" align="center">
-
-
-                    Register
-                  </Typography>
+                  <Typography variant="h3" align="center">Register</Typography>
                   <Typography
                     variant="body1"
                     align="center"
                     className={classes.headline}
-                  >
-
-
-                    ... at Flashcard Community!
+                  >... at Flashcard Community!
                     <br />
-
-
-                    Don't worry, we don't require unnecessary
+                    Don´t worry, we don´t require unnecessary
                     information :)
                     <br />
                   </Typography>
@@ -345,8 +336,6 @@ class Register extends Component {
                       disabled={this.state.loading}
                       onClick={this.handleSubmit}
                     >
-
-
                       Register now!
                     </Button>
                     {this.state.loading
@@ -355,12 +344,9 @@ class Register extends Component {
                 </Grid>
                 <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                   <Typography variant="caption" className={classes.headline}>
-
-
                     Got an account already?
                     <Link id="link-login" to="/login">Sign in!</Link>
                   </Typography>
-
                 </Grid>
               </Grid>
             </Paper>

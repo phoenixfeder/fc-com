@@ -41,10 +41,6 @@ class HelloWorld extends Component {
     },
   };
 
-  componentDidMount() {
-    document.title = 'HelloWorld';
-  }
-
   componentWillMount() {
     const { updateFlashcard } = this.props;
     fetch(BACKEND_URL_GETFLASHCARD(100000))
@@ -56,6 +52,19 @@ class HelloWorld extends Component {
         this.setState({ flashcardCopy: flashcard });
       });
   }
+
+  componentDidMount() {
+    document.title = 'HelloWorld';
+  }
+
+  setTextToBackText = (flashcard) => {
+    const { flashcardCopy } = this.state;
+    const oldText = flashcard.frontText;
+    const flashcardDeepCopy = Object.assign({}, flashcardCopy);
+    flashcardDeepCopy.frontText = flashcard.backText;
+    flashcardDeepCopy.backText = oldText;
+    this.setState({ flashcardCopy: flashcardDeepCopy });
+  };
 
   render() {
     const { classes } = this.props;
@@ -76,12 +85,8 @@ class HelloWorld extends Component {
             >
               <Grid item lg={12}>
                 <Typography variant="h3" align="center">Hello World</Typography>
-                <Typography variant="body1" align="center">
-
-
-                  Just a small presentation about how a flashcard could look
-                  like. This is not mobile responsive yet!
-                </Typography>
+                <Typography variant="body1" align="center">Just a small presentation about how a flashcard could look
+                  like. This is not mobile responsive yet!</Typography>
               </Grid>
               <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                 <Flashcard flashcard={flashcardCopy} />
@@ -107,14 +112,6 @@ class HelloWorld extends Component {
     );
   }
 
-  setTextToBackText = (flashcard) => {
-    const { flashcardCopy } = this.state;
-    const oldText = flashcard.frontText;
-    const flashcardDeepCopy = Object.assign({}, flashcardCopy);
-    flashcardDeepCopy.frontText = flashcard.backText;
-    flashcardDeepCopy.backText = oldText;
-    this.setState({ flashcardCopy: flashcardDeepCopy });
-  };
 }
 
 HelloWorld.propTypes = propTypes;

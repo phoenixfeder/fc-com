@@ -12,9 +12,9 @@ import AccountIcon from '@material-ui/icons/AccountCircle';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Link from 'react-router-dom/es/Link';
-import { lightTheme } from '../../../utils/themeLight';
 import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import MenuIconUI from '@material-ui/icons/Menu';
+import { lightTheme } from '../../../utils/themeLight';
 
 const drawerWidth = 240;
 
@@ -109,12 +109,7 @@ class AppBar extends Component {
 
     if (this.props.isAuthenticated) {
       menuItems = [
-        <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>
-
-
-          Edit
-          Profile
-        </MenuItem>,
+        <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit Profile</MenuItem>,
         <MenuItem key="B" id="register-menu-link" component={Link} to="/logout" onClick={this.handleClose}>Logout</MenuItem>,
       ];
     }
@@ -168,11 +163,7 @@ class AppBar extends Component {
                 <MenuIconUI />
               </IconButtonUI>
 
-              <TypographyUI variant="h6" color="inherit" className={classes.grow}>
-
-
-                Flashcard Community
-              </TypographyUI>
+              <TypographyUI variant="h6" color="inherit" className={classes.grow}>Flashcard Community</TypographyUI>
 
               {this.props.isAuthenticated ? (
                 <TypographyUI variant="subtitle2" color="inherit" className={classes.grow} align="right">

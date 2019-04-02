@@ -105,18 +105,12 @@ class Login extends Component {
                 direction="column"
               >
                 <Grid item lg={12}>
-                  <Typography variant="h3" component="h3" align="center">
-
-
-                    Login
-                  </Typography>
+                  <Typography variant="h3" component="h3" align="center">Login</Typography>
                   <Typography
                     component="p"
                     align="center"
                     className={classes.headline}
                   >
-
-
                     ... we are glad to see you again!
                     <br />
                   </Typography>
@@ -171,8 +165,6 @@ class Login extends Component {
                       disabled={this.props.loading}
                       onClick={this.handleSubmit}
                     >
-
-
                       Login
                     </Button>
                     {this.props.loading
@@ -181,8 +173,6 @@ class Login extends Component {
                 </Grid>
                 <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                   <Typography variant="caption" className={classes.headline}>
-
-
                     Not registered yet?
                     <Link id="create-link" to="/register">Create an account now!</Link>
                   </Typography>
@@ -202,5 +192,4 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  onAuth: PropTypes.func.isRequired,
 };

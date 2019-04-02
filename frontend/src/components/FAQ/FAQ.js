@@ -49,20 +49,10 @@ class FAQ extends Component {
             >
               <Grid item lg={12}>
                 <Typography variant="h3" align="center">Friendly Asked Questions</Typography>
-                <Typography variant="body1" align="center">
-
-
-                  Here you will be able to find answers to a lot of possible
-                  questions!
-                </Typography>
+                <Typography variant="body1" align="center">Here you will be able to find answers to a lot of possible questions!</Typography>
               </Grid>
               <Grid item lg={12}>
-                <Typography variant="body1" align="center">
-
-
-                  Im currently just a placeholder. Soon there will be more to
-                  see!
-                </Typography>
+                <Typography variant="body1" align="center">Im currently just a placeholder. Soon there will be more to see!</Typography>
               </Grid>
             </Grid>
           </Grid>

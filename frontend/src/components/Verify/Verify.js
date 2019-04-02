@@ -15,7 +15,10 @@ import qs from 'query-string';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { BACKEND_URL } from '../../utils/const-paths';
+import {
+  BACKEND_URL,
+  BACKEND_URL_ACCOUNT_VERIFY,
+} from '../../utils/const-paths';
 
 const styles = theme => ({
   root: {
@@ -71,7 +74,7 @@ class Verify extends Component {
     document.title = 'Verify';
     const parameters = qs.parse(window.location.search);
 
-    fetch(`${BACKEND_URL}/register/verify?id=${parameters.id}&token=${parameters.token}`, {
+    fetch(BACKEND_URL_ACCOUNT_VERIFY(parameters), {
       method: 'PUT',
     }).then(results => results.json(),
     ).then(result => {

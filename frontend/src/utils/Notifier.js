@@ -10,6 +10,12 @@ class Notifier extends Component {
     displayed: [],
   };
 
+  storeDisplayed = key => {
+    this.setState(({ displayed }) => ({
+      displayed: [...displayed, key],
+    }));
+  };
+
   render() {
     const { notifications, enqueueSnackbar, removeSnackbar } = this.props;
     const { displayed } = this.state;
@@ -30,11 +36,6 @@ class Notifier extends Component {
     return null;
   }
 
-  storeDisplayed = key => {
-    this.setState(({ displayed }) => ({
-      displayed: [...displayed, key],
-    }));
-  };
 }
 
 const mapStateToProps = store => ({
