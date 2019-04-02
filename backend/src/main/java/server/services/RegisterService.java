@@ -21,7 +21,6 @@ import server.services.register.CheckRegisterEntries;
 import server.services.register.MailSending;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 @Service
 public class RegisterService {
@@ -92,7 +91,7 @@ public class RegisterService {
         ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
 
         if (id == null || token == null) {
-            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.PATHERROR));
+            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.MISSINGPARAMS));
             return responseDTO;
         }
         int id_int;
@@ -100,7 +99,7 @@ public class RegisterService {
             id_int = Integer.parseInt(id);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.PATHERROR));
+            responseDTO.setStatusResponse(StatusResponse.create(StatusCode.MISSINGPARAMS));
             return responseDTO;
         }
         if (!userRepository.findById((long) id_int).isPresent()) {
