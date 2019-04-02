@@ -6,7 +6,6 @@ import withStyles from '@material-ui/core/es/styles/withStyles';
 import Tabs from '@material-ui/core/Tabs/Tabs';
 import Tab from '@material-ui/core/Tab/Tab';
 import * as PropTypes from 'prop-types';
-import { lightTheme } from '../../utils/themeLight';
 import EditUserContainer from './EditUser-container';
 import EditAccountContainer from './EditAccount-container';
 
@@ -39,6 +38,9 @@ function LinkTab(props) {
   return <Tab component="a" onClick={event => event.preventDefault()} {...props} />;
 }
 
+const propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 class EditProfile extends Component {
   state = {
     value: 0,
@@ -57,36 +59,35 @@ class EditProfile extends Component {
     const { value } = this.state;
     return (
       <div className={classes.root}>
-          <Grid container justify="center">
-            <Grid item sm={12} md={8} lg={6}>
-              <Grid
-                container
-                justify="center"
-                spacing={16}
-                className={classes.paper}
-                component={Paper}
-                elevation={2}
-                direction="column"
-              >
-                <Tabs fullWidth value={value} onChange={this.handleChange}>
-                  <LinkTab label="Edit User" style={{ textAlign: 'center' }} href="page1" />
-                  <LinkTab label="Edit Account" style={{ textAlign: 'center' }} href="page2" />
-                </Tabs>
-                { value === 0 && <TabContainer>
-                  <EditUserContainer />
-                </TabContainer> }
-                { value === 1 && <TabContainer>
-                  <EditAccountContainer />
-                </TabContainer> }
-              </Grid>
+        <Grid container justify="center">
+          <Grid item sm={12} md={8} lg={6}>
+            <Grid
+              container
+              justify="center"
+              spacing={16}
+              className={classes.paper}
+              component={Paper}
+              elevation={2}
+              direction="column"
+            >
+              <Tabs variant="fullWidth" value={value} onChange={this.handleChange}>
+                <LinkTab label="Edit User" style={{ textAlign: 'center' }} href="page1" />
+                <LinkTab label="Edit Account" style={{ textAlign: 'center' }} href="page2" />
+              </Tabs>
+              { value === 0 && <TabContainer>
+                <EditUserContainer />
+              </TabContainer> }
+              { value === 1 && <TabContainer>
+                <EditAccountContainer />
+              </TabContainer> }
             </Grid>
           </Grid>
+        </Grid>
       </div>
     );
   }
 }
 
-EditProfile.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+EditProfile.propTypes = propTypes;
+
 export default withStyles(styles)(EditProfile);

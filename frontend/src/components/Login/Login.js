@@ -7,8 +7,6 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button/Button";
-import {lightTheme} from "../../utils/themeLight";
-import MuiThemeProviderUI from "@material-ui/core/styles/MuiThemeProvider";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import PasswordIcon from '@material-ui/icons/Lock'
 import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
@@ -102,7 +100,6 @@ class Login extends Component {
 
         return (
             <div className={classes.root}>
-                <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
                         <Grid item xs={12} md={6} lg={4}>
                             <Paper className={classes.root} elevation={1}>
@@ -161,7 +158,6 @@ class Login extends Component {
                             </Paper>
                         </Grid>
                     </Grid>
-                </MuiThemeProviderUI>
             </div>
         );
     }

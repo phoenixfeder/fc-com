@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import qs from 'query-string';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import withStyles from '@material-ui/core/es/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
@@ -16,7 +15,6 @@ import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
 import EMailIcon from '@material-ui/icons/Mail';
 import * as PropTypes from 'prop-types';
-import { lightTheme } from '../../utils/themeLight';
 import { BACKEND_URL } from '../../utils/const-paths';
 
 const styles = theme => ({
@@ -53,7 +51,7 @@ const styles = theme => ({
 const propTypes = {
   classes: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
-  history: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 class Verify extends Component {
@@ -189,82 +187,80 @@ class Verify extends Component {
 
     return (
       <div className={classes.root}>
-        <MuiThemeProviderUI theme={lightTheme}>
-          <Grid container alignContent="center" justify="center">
-            <Grid item xs={12} md={8} lg={4}>
-              <Paper elevation={1}>
-                <Grid
-                  container
-                  spacing={16}
-                  alignItems="center"
-                  justify="center"
-                  style={{ minHeight: '100px' }}
-                  direction="column"
-                >
-                  <Grid item lg={12} style={{ textAlign: 'center' }}>
-                    {!this.state.tokenOutdated ? (
-                      <div>
-                        <Typography
-                          component="p"
-                          align="center"
-                          className={classes.headline}
+        <Grid container alignContent="center" justify="center">
+          <Grid item xs={12} md={8} lg={4}>
+            <Paper elevation={1}>
+              <Grid
+                container
+                spacing={16}
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: '100px' }}
+                direction="column"
+              >
+                <Grid item lg={12} style={{ textAlign: 'center' }}>
+                  {!this.state.tokenOutdated ? (
+                    <div>
+                      <Typography
+                        component="p"
+                        align="center"
+                        className={classes.headline}
+                      >
+                        {'We are validating your registration - please wait!'}
+                      </Typography>
+                      <CircularProgress className={classes.progress} />
+                    </div>
+                  ) : (
+                    <div>
+                      <Typography
+                        component="p"
+                        align="center"
+                        className={classes.headline}
+                      >
+                        {'Woops, it seems like your token is outdated. Resend it now!'}
+                      </Typography>
+                      <FormControl
+                        fullWidth
+                        required
+                        error={this.state.isEmailInvalid}
+                      >
+                        <InputLabel>E-Mail</InputLabel>
+                        <Input
+                          id="user-mail-input"
+                          type="email"
+                          value={this.state.email}
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <EMailIcon />
+                            </InputAdornment>
+                        }
+                          onChange={this.handleMailChange}
+                        />
+                        <FormHelperText id="mail-error-field">
+                          <em>
+                            {this.state.emailErrorMsg}
+                          </em>
+                        </FormHelperText>
+                      </FormControl>
+                      <div className={classes.wrapper}>
+                        <Button
+                          id="resend-button"
+                          variant="contained"
+                          color="primary"
+                          disabled={this.state.loading}
+                          onClick={this.handleSubmit}
                         >
-                          {'We are validating your registration - please wait!'}
-                        </Typography>
-                        <CircularProgress className={classes.progress} />
+                          {'Resend token now!'}
+                        </Button>
+                        {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                       </div>
-                    ) : (
-                      <div>
-                        <Typography
-                          component="p"
-                          align="center"
-                          className={classes.headline}
-                        >
-                          {'Woops, it seems like your token is outdated. Resend it now!'}
-                        </Typography>
-                        <FormControl
-                          fullWidth
-                          required
-                          error={this.state.isEmailInvalid}
-                        >
-                          <InputLabel>E-Mail</InputLabel>
-                          <Input
-                            id="user-mail-input"
-                            type="email"
-                            value={this.state.email}
-                            startAdornment={
-                              <InputAdornment position="start">
-                                <EMailIcon />
-                              </InputAdornment>
-                          }
-                            onChange={this.handleMailChange}
-                          />
-                          <FormHelperText id="mail-error-field">
-                            <em>
-                              {this.state.emailErrorMsg}
-                            </em>
-                          </FormHelperText>
-                        </FormControl>
-                        <div className={classes.wrapper}>
-                          <Button
-                            id="resend-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={this.state.loading}
-                            onClick={this.handleSubmit}
-                          >
-                            {'Resend token now!'}
-                          </Button>
-                          {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-                        </div>
-                      </div>
-                    )}
-                  </Grid>
+                    </div>
+                  )}
                 </Grid>
-              </Paper>
-            </Grid>
+              </Grid>
+            </Paper>
           </Grid>
-        </MuiThemeProviderUI>
+        </Grid>
       </div>
     );
   }

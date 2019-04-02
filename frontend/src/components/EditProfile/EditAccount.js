@@ -20,7 +20,6 @@ import * as PropTypes from 'prop-types';
 import qs from 'query-string';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { lightTheme } from '../../utils/themeLight';
 import { BACKEND_URL } from '../../utils/const-paths';
 
 const styles = theme => ({

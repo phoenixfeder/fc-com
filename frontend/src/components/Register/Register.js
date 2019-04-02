@@ -7,8 +7,6 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button/Button";
-import {lightTheme} from "../../utils/themeLight";
-import MuiThemeProviderUI from "@material-ui/core/styles/MuiThemeProvider";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import UsernameIcon from '@material-ui/icons/Person'
 import PasswordIcon from '@material-ui/icons/Lock'
@@ -224,7 +222,6 @@ class Register extends Component {
         return (
 
             <div className={classes.root}>
-                <MuiThemeProviderUI theme={lightTheme}>
                     <Grid container alignContent="center" justify="center">
                         <Grid item xs={12} md={8} lg={4} >
                             <Paper className={classes.root} elevation={1}>
@@ -318,7 +315,6 @@ class Register extends Component {
                             </Paper>
                         </Grid>
                     </Grid>
-                </MuiThemeProviderUI>
             </div>
 
 

@@ -6,7 +6,6 @@ import IconButtonUI from '@material-ui/core/IconButton';
 import TypographyUI from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import Link from 'react-router-dom/es/Link';
 import Menu from '@material-ui/core/Menu/Menu';
 import IconButton from '@material-ui/core/IconButton/IconButton';
@@ -14,7 +13,6 @@ import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import Drawer from '@material-ui/core/Drawer/Drawer';
 import Divider from '@material-ui/core/Divider/Divider';
-import { lightTheme } from '../../../utils/themeLight';
 
 const drawerWidth = 240;
 
@@ -155,64 +153,62 @@ class AppBar extends Component {
 
       return (
         <div className={classes.root}>
-          <MuiThemeProviderUI theme={lightTheme}>
-            <AppBarUI position="static" color="primary" className={classes.appBar}>
-              <ToolBarUI>
-                <IconButtonUI color="inherit" className={classes.menuButton} onClick={this.handleSideMenu}>
-                  <MenuIconUI/>
-                </IconButtonUI>
-                <TypographyUI variant="h6" color="inherit" className={classes.grow}>
-                  {'Flashcard Community'}
+          <AppBarUI position="static" color="primary" className={classes.appBar}>
+            <ToolBarUI>
+              <IconButtonUI color="inherit" className={classes.menuButton} onClick={this.handleSideMenu}>
+                <MenuIconUI/>
+              </IconButtonUI>
+              <TypographyUI variant="h6" color="inherit" className={classes.grow}>
+                {'Flashcard Community'}
+              </TypographyUI>
+              { this.props.isAuthenticated ? (
+                <TypographyUI variant="subtitle2" color="inherit" className={classes.grow} align="right">
+                  { this.props.username }
                 </TypographyUI>
-                { this.props.isAuthenticated ? (
-                  <TypographyUI variant="subtitle2" color="inherit" className={classes.grow} align="right">
-                    { this.props.username }
-                  </TypographyUI>
-                ) : null}
-                <div>
-                  <IconButton
-                    id="account-icon"
-                    aria-owns={open ? 'menu-appbar' : null}
-                    aria-haspopup="true"
-                    onClick={this.handleAccountMenu}
-                    color="inherit"
-                  >
-                    <AccountIcon />
-                  </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={this.handleClose}
-                  >
-                    { menuItems }
-                  </Menu>
-                </div>
-              </ToolBarUI>
-            </AppBarUI>
-            {/* TODO : User own SideBar-Component instead of Drawer */}
-            <Drawer
-              className={classes.drawer}
-              variant="persistent"
-              anchor="left"
-              open={this.state.sidebarOpen}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              <div className={classes.drawerHeader} />
-              <Divider/>
-              { sidebarItems }
-            </Drawer>
-          </MuiThemeProviderUI>
+              ) : null}
+              <div>
+                <IconButton
+                  id="account-icon"
+                  aria-owns={open ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleAccountMenu}
+                  color="inherit"
+                >
+                  <AccountIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  { menuItems }
+                </Menu>
+              </div>
+            </ToolBarUI>
+          </AppBarUI>
+          {/* TODO : User own SideBar-Component instead of Drawer */}
+          <Drawer
+            className={classes.drawer}
+            variant="persistent"
+            anchor="left"
+            open={this.state.sidebarOpen}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <div className={classes.drawerHeader} />
+            <Divider/>
+            { sidebarItems }
+          </Drawer>
         </div>
       );
     }
