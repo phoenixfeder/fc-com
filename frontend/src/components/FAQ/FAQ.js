@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   Grid,
   Paper,
   Typography,
   withStyles,
 } from '@material-ui/core/';
+import * as PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 const propTypes = {
   classes: PropTypes.object.isRequired,
@@ -49,10 +49,12 @@ class FAQ extends Component {
             >
               <Grid item lg={12}>
                 <Typography variant="h3" align="center">Friendly Asked Questions</Typography>
-                <Typography variant="body1" align="center">Here you will be able to find answers to a lot of possible questions!</Typography>
+                <Typography variant="body1" align="center">Here you will be able to find answers to a lot of possible
+                  questions!</Typography>
               </Grid>
               <Grid item lg={12}>
-                <Typography variant="body1" align="center">Im currently just a placeholder. Soon there will be more to see!</Typography>
+                <Typography variant="body1" align="center">Im currently just a placeholder. Soon there will be more to
+                  see!</Typography>
               </Grid>
             </Grid>
           </Grid>

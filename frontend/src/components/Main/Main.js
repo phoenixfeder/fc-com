@@ -7,7 +7,11 @@ import LoginContainer from '../Login/login-container';
 import RegisterContainer from '../Register/register-container';
 import VerfiyContainer from '../Verify/verify-container';
 import FAQ from '../FAQ/FAQ';
+import HelloWorldContainer from '../HelloWorld/helloworld-container';
+import Home from '../Home/Home';
+import LoginContainer from '../Login/login-container';
 import LogoutContainer from '../Logout/logout-container';
+
 import EditProfileContainer from '../EditProfile/EditProfile-container';
 
 const propTypes = {
@@ -19,6 +23,7 @@ class Main extends Component {
   componentDidMount() {
     this.props.onTryAutoSignup();
   }
+
 
   render() {
     let routes = (
@@ -41,6 +46,7 @@ class Main extends Component {
           <Route path="/edit" component={EditProfileContainer} />
           <Route path="/faq" component={FAQ}/>
           <Route path="/helloworld" component={HelloWorldContainer}/>
+
           <Route component={Home} />
         </Switch>
       );

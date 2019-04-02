@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid/Grid';
 import Paper from '@material-ui/core/Paper/Paper';
-import Typography from '@material-ui/core/Typography/Typography';
-import withStyles from '@material-ui/core/es/styles/withStyles';
-import Tabs from '@material-ui/core/Tabs/Tabs';
+import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import Tab from '@material-ui/core/Tab/Tab';
+import Tabs from '@material-ui/core/Tabs/Tabs';
+import Typography from '@material-ui/core/Typography/Typography';
 import * as PropTypes from 'prop-types';
 import EditUserContainer from './EditUser-container';
 import EditAccountContainer from './EditAccount-container';
+import EditUserContainer from './EditUser-container';
 
 const styles = theme => ({
   root: {
@@ -25,7 +26,7 @@ function TabContainer(props) {
   const { children } = props;
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
-      { children }
+      {children}
     </Typography>
   );
 }

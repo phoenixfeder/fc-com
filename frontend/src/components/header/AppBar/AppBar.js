@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import AppBarUI from '@material-ui/core/AppBar';
-import ToolBarUI from '@material-ui/core/Toolbar';
-import MenuIconUI from '@material-ui/icons/Menu';
+import Divider from '@material-ui/core/Divider/Divider';
+import Drawer from '@material-ui/core/Drawer/Drawer';
 import IconButtonUI from '@material-ui/core/IconButton';
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import Menu from '@material-ui/core/Menu/Menu';
+import MenuItem from '@material-ui/core/MenuItem/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
+import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
+import ToolBarUI from '@material-ui/core/Toolbar';
 import TypographyUI from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -73,6 +79,7 @@ const propTypes = {
 const defaultPropTypes = {
   username: '',
 };
+
 
 class AppBar extends Component {
     state = {
@@ -212,7 +219,82 @@ class AppBar extends Component {
         </div>
       );
     }
+
+    return (
+
+      <div className={classes.root}>
+        <MuiThemeProviderUI theme={lightTheme}>
+          <AppBarUI position="static" color="primary" className={classes.appBar}>
+            <ToolBarUI>
+              <IconButtonUI color="inherit" className={classes.menuButton} onClick={this.handleSideMenu}>
+                <MenuIconUI />
+              </IconButtonUI>
+
+              <TypographyUI variant="h6" color="inherit" className={classes.grow}>
+
+
+                Flashcard Community
+              </TypographyUI>
+
+              {this.props.isAuthenticated ? (
+                <TypographyUI variant="subtitle2" color="inherit" className={classes.grow} align="right">
+                  {this.props.username}
+                </TypographyUI>
+              ) : null}
+
+              <div>
+                <IconButton
+                  id="account-icon"
+                  aria-owns={open ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleAccountMenu}
+                  color="inherit"
+                >
+                  <AccountIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  {menuItems}
+                </Menu>
+              </div>
+            </ToolBarUI>
+          </AppBarUI>
+
+          {/* TODO : User own SideBar-Component instead of Drawer */}
+
+          <Drawer
+            className={classes.drawer}
+            variant="persistent"
+            anchor="left"
+            open={this.state.sidebarOpen}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <div className={classes.drawerHeader} />
+            <Divider />
+
+            {sidebarItems}
+
+          </Drawer>
+        </MuiThemeProviderUI>
+      </div>
+    );
+  }
 }
+
 
 AppBar.propTypes = propTypes;
 AppBar.defaultProps = defaultPropTypes;

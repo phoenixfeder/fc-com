@@ -54,6 +54,7 @@ const propTypes = {
   sessionHash: PropTypes.string.isRequired,
   userID: PropTypes.number.isRequired,
 };
+
 class EditUser extends Component {
   state = {
     userID: -1,
@@ -72,6 +73,7 @@ class EditUser extends Component {
 
     hasEditPermission: true,
   };
+
 
   componentWillMount() {
     const { enqueueSnackbar, session, sessionHash } = this.props;
@@ -94,6 +96,7 @@ class EditUser extends Component {
           userID,
         },
       }),
+
     }).then(results => results.json(),
     ).then(result => {
       switch (result.status.code) {
@@ -120,8 +123,7 @@ class EditUser extends Component {
     });
   }
 
-
-  handleValueChange = (event) => {
+ handleValueChange = (event) => {
     switch (event.target.id) {
       case 'date-input':
         this.setState({ birthday: event.target.value, isBirthdayIncorrect: false });
@@ -139,7 +141,6 @@ class EditUser extends Component {
 
   handleCommit = () => {
     const { enqueueSnackbar, session, sessionHash } = this.props;
-
     fetch(`${BACKEND_URL}/edit/updateaccount`, {
       method: 'PUT',
       headers: {
@@ -158,6 +159,7 @@ class EditUser extends Component {
           dateOfBirth: this.state.birthday,
         },
       }),
+
     }).then(results => results.json(),
     ).then(result => {
       switch (result.status.code) {
@@ -172,6 +174,7 @@ class EditUser extends Component {
             isBirthdayIncorrect: false,
             birthdayErrorMsg: 'You know, a day in the past or are you Marty McFly?',
           });
+
           enqueueSnackbar({
             message: 'Your user data have been updated successfully!',
             options: {
@@ -181,6 +184,7 @@ class EditUser extends Component {
           break;
 
         default:
+
           this.setState(prevState => ({
             realName: (result.user.realName !== undefined) ? result.user.realName : prevState.realName,
             realNameErrorMsg: (result.user.realNameErrorMsg !== undefined) ? result.user.realNameErrorMsg : '',
@@ -202,6 +206,7 @@ class EditUser extends Component {
           });
           break;
       }
+
     }).catch(() => {
       enqueueSnackbar({
         message: 'This should not happen. Please contact system admin.',
@@ -216,6 +221,7 @@ class EditUser extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
+
         <Grid container justify="center">
           <Grid item sm={12} md={8} lg={6}>
             <Grid

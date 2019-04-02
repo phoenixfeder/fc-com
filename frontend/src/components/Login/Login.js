@@ -14,75 +14,97 @@ import Link from 'react-router-dom/es/Link';
 import qs from 'query-string';
 import UsernameIcon from '@material-ui/icons/Person'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import withStyles from '@material-ui/core/es/styles/withStyles';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
+import Grid from '@material-ui/core/Grid';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
+import Paper from '@material-ui/core/Paper';
+import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
+import Typography from '@material-ui/core/Typography';
+import PasswordIcon from '@material-ui/icons/Lock';
+import UsernameIcon from '@material-ui/icons/Person';
+import * as PropTypes from 'prop-types';
+import qs from 'query-string';
+import React, { Component } from 'react';
+import Link from 'react-router-dom/es/Link';
+import { lightTheme } from '../../utils/themeLight';
 
 const styles = theme => ({
-    root: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-    },
-    headline: {
-        paddingTop: 20,
-        paddingBottom: 20
-    },
-    buttonProgress: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        marginTop: -12,
-            marginLeft: -12,
-    },
-    wrapper: {
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+  },
+  headline: {
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  wrapper: {
     margin: theme.spacing.unit,
-        position: 'relative',
-            display: 'flex',
-                alignItems: 'center',
-    },
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+  },
 });
 
 class Login extends Component {
-    
-    constructor() {
-        super();
-        this.state = {
-            username: '',
-            password: '',
 
-            isInputInvalid: false,
-            loading: false,
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+
+      isInputInvalid: false,
+      loading: false,
     };
+  }
 
-    componentDidMount() {
-        document.title='Login';
-        //Get username from URL
-        this.setState({ username: qs.parse(window.location.search).username !== undefined ? qs.parse(window.location.search).username : ''})
+  componentDidMount() {
+    document.title = 'Login';
+    // Get username from URL
+    this.setState({ username: qs.parse(window.location.search).username !== undefined ? qs.parse(window.location.search).username : '' });
+  }
+
+  createNewSnackbar = (variant, message) => {
+    this.props.enqueueSnackbar({
+      message,
+      options: {
+        variant,
+      },
+    });
+  };
+
+  // Handles input changes
+  handleInputChange = (event) => {
+
+    // Depends on the input field that changed
+    switch (event.target.id) {
+
+      case 'username-input':
+        this.setState({ username: event.target.value });
+        break;
+
+      case 'password-input':
+        this.setState({ password: event.target.value });
+        break;
+
+      default:
+        break;
     }
 
-    //Handles input changes
-    handleInputChange = (event) => {
+  };
 
-        //Depends on the input field that changed
-        switch (event.target.id) {
-
-            case "username-input":
-                this.setState({ username: event.target.value, });
-                break;
-
-            case "password-input":
-                this.setState({ password: event.target.value, });
-                break;
-
-            default:
-                break;
-        }
-
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        this.props.onAuth(this.state.username, this.state.password);
-    }
 
     createNewSnackbar = (variant, message) => {
         this.props.enqueueSnackbar({
@@ -164,3 +186,10 @@ class Login extends Component {
 }
 
 export default withStyles(styles)(Login);
+
+Login.propTypes = {
+  classes: PropTypes.object.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  onAuth: PropTypes.func.isRequired,
+};

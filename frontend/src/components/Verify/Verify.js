@@ -54,6 +54,7 @@ const propTypes = {
   history: PropTypes.object.isRequired,
 };
 
+
 class Verify extends Component {
   constructor() {
     super();
@@ -65,7 +66,6 @@ class Verify extends Component {
       loading: false,
     };
   }
-
   componentDidMount() {
     document.title = 'Verify';
     const parameters = qs.parse(window.location.search);
@@ -94,13 +94,13 @@ class Verify extends Component {
             },
           });
           break;
-
         case 402:
           document.title = 'Request new token';
           this.props.enqueueSnackbar({
             message: 'Your token has expired',
             options: {
               variant: 'error',
+
             },
           });
           this.setState({ tokenOutdated: true });
@@ -124,6 +124,7 @@ class Verify extends Component {
 
       }
     });
+
   }
 
   handleMailChange = (event) => {
@@ -145,6 +146,7 @@ class Verify extends Component {
           },
         },
       }),
+
     }).then(results => results.json(),
     ).then(result => {
       switch (result.status.code) {
@@ -166,6 +168,7 @@ class Verify extends Component {
               variant: 'error',
             },
           });
+
           this.setState({ loading: false, emailErrorMsg: 'Please enter the mail you used for our registration', isEmailInvalid: true });
           break;
 
@@ -180,6 +183,7 @@ class Verify extends Component {
           break;
       }
     });
+
   }
 
   render() {
@@ -187,6 +191,7 @@ class Verify extends Component {
 
     return (
       <div className={classes.root}>
+
         <Grid container alignContent="center" justify="center">
           <Grid item xs={12} md={8} lg={4}>
             <Paper elevation={1}>
@@ -269,3 +274,4 @@ class Verify extends Component {
 Verify.propTypes = propTypes;
 
 export default compose(withStyles(styles), withRouter)(Verify);
+

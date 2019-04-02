@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Main from './Main';
 import * as actions from '../../actions/auth-actions';
+import Main from './Main';
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.session !== null,
