@@ -58,7 +58,6 @@ TabContainer.propTypes = {
 
 
 class EditAccount extends Component {
-
   state = {
     userID: -1,
     editSelf: true,
@@ -79,50 +78,49 @@ class EditAccount extends Component {
   };
 
   componentWillMount() {
+    const { enqueueSnackbar, session, sessionHash } = this.props;
     const userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
-    this.setState({ userID: userID, editSelf: (userID === this.props.userID) });
+    this.setState({ userID, editSelf: (userID === this.props.userID) });
 
-    fetch(BACKEND_URL + '/edit/getaccount', {
+    fetch(`${BACKEND_URL}/edit/getaccount`, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        'authentication': {
-          'session': this.props.session,
-          'hash': this.props.sessionHash,
+        authentication: {
+          session,
+          hash: sessionHash,
         },
-        'user': {
-          'userID': userID,
-        }
-      })
+        user: {
+          userID,
+        },
+      }),
     })
-      .then(results => {
-        return results.json();
-      })
-      .then(result => {
-
+      .then(results => results.json())
+      .then((result) => {
         switch (result.status.code) {
           case 200:
             this.setState({ newEmail: result.user.email });
             break;
 
           default:
-            this.props.enqueueSnackbar({
+            enqueueSnackbar({
               message: 'This should not happen. Please contact system admin.',
               options: {
-                variant: 'error'
-              }
+                variant: 'error',
+              },
             });
             break;
         }
-      }).catch(err => {
-        this.props.enqueueSnackbar({
+      }).catch((err) => {
+        console.log(err);
+        enqueueSnackbar({
           message: 'This should not happen. Please contact system admin.',
           options: {
-            variant: 'error'
-          }
+            variant: 'error',
+          },
         });
       });
   }
@@ -136,24 +134,23 @@ class EditAccount extends Component {
     };
 
     handleSubmitCloseAccount = () => {
-      fetch(BACKEND_URL + '/edit/closeaccount', {
+      const { enqueueSnackbar, session, sessionHash } = this.props;
+      fetch(`${BACKEND_URL}/edit/closeaccount`, {
         method: 'PUT',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          'authentication': {
-            'session': this.props.session,
-            'hash': this.props.sessionHash,
+          authentication: {
+            session,
+            hash: sessionHash,
           },
-          'user': {
-            'oldPassword': this.state.closeAccountPassword,
-          }
-        })
-      }).then(results => {
-        return results.json();
-      }).then(result => {
+          user: {
+            oldPassword: this.state.closeAccountPassword,
+          },
+        }),
+      }).then((results) => results.json()).then((result) => {
         switch (result.status.code) {
           case 200:
 
@@ -164,53 +161,50 @@ class EditAccount extends Component {
             this.props.enqueueSnackbar({
               message: 'Your password was not correct.',
               options: {
-                variant: 'error'
-              }
+                variant: 'error',
+              },
             });
             break;
           default:
             this.props.enqueueSnackbar({
               message: 'This should not happen. Please contact system admin.',
               options: {
-                variant: 'error'
-              }
+                variant: 'error',
+              },
             });
             break;
         }
-      }).catch(err => {
+      }).catch((err) => {
         this.props.enqueueSnackbar({
           message: 'This should not happen. Please contact system admin.',
           options: {
-            variant: 'error'
-          }
+            variant: 'error',
+          },
         });
       });
     };
 
-    
 
     handleSubmit = () => {
-      fetch(BACKEND_URL + '/edit/updateaccount', {
+      fetch(`${BACKEND_URL  }/edit/updateaccount`, {
         method: 'PUT',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          'authentication': {
-            'session': this.props.session,
-            'hash': this.props.sessionHash,
+          authentication: {
+            session: this.props.session,
+            hash: this.props.sessionHash,
           },
-          'user': {
-            'userID': this.state.userID,
-            'oldPassword': this.state.oldPassword,
-            'password': this.state.newPassword,
-            'email': this.state.newEmail
-          }
-        })
-      }).then(results => {
-        return results.json();
-      }).then(result => {
+          user: {
+            userID: this.state.userID,
+            oldPassword: this.state.oldPassword,
+            password: this.state.newPassword,
+            email: this.state.newEmail,
+          },
+        }),
+      }).then((results) => results.json()).then((result) => {
         switch (result.status.code) {
           case 200:
             this.setState({
@@ -228,8 +222,8 @@ class EditAccount extends Component {
             this.props.enqueueSnackbar({
               message: 'Your user data have been updated successfully!',
               options: {
-                variant: 'success'
-              }
+                variant: 'success',
+              },
             });
             break;
 
@@ -247,12 +241,12 @@ class EditAccount extends Component {
             });
             break;
         }
-      }).catch(err => {
+      }).catch((err) => {
         this.props.enqueueSnackbar({
           message: 'This should not happen. Please contact system admin.',
           options: {
-            variant: 'error'
-          }
+            variant: 'error',
+          },
         });
       });
     }
@@ -263,14 +257,14 @@ class EditAccount extends Component {
           this.setState({
             oldPassword: event.target.value,
             isOldPasswordIncorrect: false,
-            oldPasswordErrorMsg: ''
+            oldPasswordErrorMsg: '',
           });
           break;
         case 'newPasswordInput':
           this.setState({
             newPassword: event.target.value,
             isNewPasswordIncorrect: false,
-            newPasswordErrorMsg: '6-32 characters'
+            newPasswordErrorMsg: '6-32 characters',
           });
           break;
         case 'newEmailInput':
@@ -282,7 +276,6 @@ class EditAccount extends Component {
 
         default:
           break;
-
       }
     }
 
@@ -290,147 +283,190 @@ class EditAccount extends Component {
     render() {
       const { classes } = this.props;
       return (
-            <div className={classes.root}>
+        <div className={classes.root}>
 
-                <MuiThemeProviderUI theme={lightTheme}>
+              <MuiThemeProviderUI theme={lightTheme}>
 
-                    <Grid container justify="center">
-
-
-                        <Grid item sm={12} md={8} lg={6}>
+                  <Grid container justify="center">
 
 
-                            <Grid container justify="center" spacing={16}
-                                  elevation={2} direction={'column'}>
+                      <Grid item sm={12} md={8} lg={6}>
 
-                                <Grid container spacing={16}>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Typography variant="h4" component="h3">
+
+                          <Grid
+container
+justify="center"
+spacing={16}
+                              elevation={2}
+direction={'column'}
+                            >
+
+                              <Grid container spacing={16}>
+                                  <Grid item sm={12} md={12} lg={12}>
+                                      <Typography variant="h4" component="h3">
+
                                             Edit Account
-                                        </Typography>
-                                        <Typography component="p" className={classes.headline}>
+</Typography>
+                                      <Typography component="p" className={classes.headline}>
+
                                             Here you can edit your profile and/or add additional information. To really
                                             know
                                             it is you
-                                            updating your profile, please type in your current password.<br/>
+                                            updating your profile, please type in your current password.
+<br/>
                                         </Typography>
                                     </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl required={true} error={this.state.isOldPasswordIncorrect}>
-                                            <InputLabel>Old Password</InputLabel>
-                                            <Input id={'oldPasswordInput'} type="password" startAdornment={
+                                  <Grid item sm={12} md={12} lg={12}>
+                                      <FormControl required error={this.state.isOldPasswordIncorrect}>
+                                          <InputLabel>Old Password</InputLabel>
+                                          <Input
+id={'oldPasswordInput'}
+type="password"
+startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon/>
                                                 </InputAdornment>
                                             }
-                                                   value={this.state.oldPassword}
-                                                   onChange={this.handleInputChange}
+                                              value={this.state.oldPassword}
+                                              onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText><em>{this.state.oldPasswordErrorMsg}</em></FormHelperText>
+                                          <FormHelperText>
+<em>{this.state.oldPasswordErrorMsg}</em>
+</FormHelperText>
                                         </FormControl>
                                     </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Divider/>
-                                        <Typography component="p" className={classes.headline}>
+                                  <Grid item sm={12} md={12} lg={12}>
+                                      <Divider />
+                                      <Typography component="p" className={classes.headline}>
+
                                             The following information is needed to log in and won't be shown on your
                                             profile
-                                            page.<br/>
+                                            page.
+<br/>
                                         </Typography>
-                                        <FormControl error={this.state.isNewPasswordIncorrect}>
-                                            <InputLabel>New Password</InputLabel>
-                                            <Input id={'newPasswordInput'} type="password" startAdornment={
+                                      <FormControl error={this.state.isNewPasswordIncorrect}>
+                                          <InputLabel>New Password</InputLabel>
+                                          <Input
+id={'newPasswordInput'}
+type="password"
+startAdornment={
                                                 <InputAdornment position="start">
                                                     <PasswordIcon/>
                                                 </InputAdornment>
                                             }
-                                                   value={this.state.newPassword}
-                                                   onChange={this.handleInputChange}
+                                              value={this.state.newPassword}
+                                              onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText><em>{this.state.newPasswordErrorMsg}</em></FormHelperText>
+                                          <FormHelperText>
+<em>{this.state.newPasswordErrorMsg}</em>
+</FormHelperText>
                                         </FormControl>
                                     </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl error={this.state.isNewEmailIncorrect}>
-                                            <InputLabel>E-Mail</InputLabel>
-                                            <Input id={'newEmailInput'} type="email" startAdornment={
+                                  <Grid item sm={12} md={12} lg={12}>
+                                      <FormControl error={this.state.isNewEmailIncorrect}>
+                                          <InputLabel>E-Mail</InputLabel>
+                                          <Input
+id={'newEmailInput'}
+type="email"
+startAdornment={
                                                 <InputAdornment position="start">
                                                     <EMailIcon/>
                                                 </InputAdornment>
                                             }
-                                                   value={this.state.newEmail}
-                                                   onChange={this.handleInputChange}
+                                              value={this.state.newEmail}
+                                              onChange={this.handleInputChange}
                                             />
-                                            <FormHelperText><em>{this.state.newEmailErrorMsg}</em></FormHelperText>
+                                          <FormHelperText>
+<em>{this.state.newEmailErrorMsg}</em>
+</FormHelperText>
                                         </FormControl>
                                     </Grid>
 
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <Button variant="contained" color="primary" onClick={this.handleSubmit}>
+                                  <Grid item sm={12} md={12} lg={12}>
+                                      <Button variant="contained" color="primary" onClick={this.handleSubmit}>
+
                                             Update Profile
-                                        </Button>
+</Button>
                                     </Grid>
                                 </Grid>
-                                {this.state.editSelf ?
-                                    <Grid container>
+                              {this.state.editSelf
+                                    ? <Grid container>
 
 
-                                        <Grid item lg={12}>
+                                      <Grid item lg={12}>
 
-                                            <Typography variant="h4" component="h3">
-                                                <br/>Close Account
-                                            </Typography>
-                                            <Typography component="p" className={classes.headline}>
+                                          <Typography variant="h4" component="h3">
+                                              <br />
+Close Account
+</Typography>
+                                          <Typography component="p" className={classes.headline}>
+
                                                 You want to leave us? That's okay, we promise :( But keep in mind that
                                                 we
                                                 won't
                                                 be able
-                                                to restore your data at any point.<br/>
+                                                to restore your data at any point.
+<br/>
                                             </Typography>
                                         </Grid>
-                                        <Grid item sm={12} md={12} lg={12}>
-                                            <Button variant="contained" color="secondary"
-                                                    onClick={this.handleClickOpenCloseAccount}>
+                                      <Grid item sm={12} md={12} lg={12}>
+                                          <Button
+variant="contained"
+color="secondary"
+                                              onClick={this.handleClickOpenCloseAccount}
+                                            >
+
                                                 Close Account
-                                            </Button>
+</Button>
                                         </Grid>
-                                        <Dialog
-                                            open={this.state.openCloseAccount}
-                                            onClose={this.handleCloseCloseAccount}
-                                            aria-labelledby="alert-dialog-title"
-                                            aria-describedby="alert-dialog-description"
+                                      <Dialog
+                                          open={this.state.openCloseAccount}
+                                          onClose={this.handleCloseCloseAccount}
+                                          aria-labelledby="alert-dialog-title"
+                                          aria-describedby="alert-dialog-description"
                                         >
-                                            <DialogTitle id="alert-dialog-title">{'Are you really sure?'}</DialogTitle>
-                                            <DialogContent>
-                                                <DialogContentText id="alert-dialog-description">
+                                          <DialogTitle id="alert-dialog-title">
+{'Are you really sure?'}
+</DialogTitle>
+                                          <DialogContent>
+                                              <DialogContentText id="alert-dialog-description">
+
                                                     By confirming this dialog message, you agree that we will delete
                                                     your account without further inspection and that you won't be able
                                                     to
                                                     get your data back.
-                                                </DialogContentText>
+</DialogContentText>
 
-                                                <Input id={'closeAccountPasswordInput'} type="password" startAdornment={
+                                              <Input
+id={'closeAccountPasswordInput'}
+type="password"
+startAdornment={
                                                     <InputAdornment position="start">
                                                         <PasswordIcon/>
                                                     </InputAdornment>
                                                 }
-                                                       value={this.state.closeAccountPassword}
-                                                       onChange={this.handleInputChange}
+                                                  value={this.state.closeAccountPassword}
+                                                  onChange={this.handleInputChange}
                                                 />
 
                                             </DialogContent>
-                                            <DialogActions>
-                                                <Button onClick={this.handleCloseCloseAccount} color="primary">
+                                          <DialogActions>
+                                              <Button onClick={this.handleCloseCloseAccount} color="primary">
+
                                                     Cancel
-                                                </Button>
-                                                <Button onClick={this.handleSubmitCloseAccount} color="primary"
-                                                        autoFocus>
+</Button>
+                                              <Button
+onClick={this.handleSubmitCloseAccount}
+color="primary"
+                                                  autoFocus
+                                                >
+
                                                     OK
-                                                </Button>
+</Button>
                                             </DialogActions>
                                         </Dialog>
                                     </Grid>
-                                  :
-                                  ''
+                                  :                                  ''
                                 }
                             </Grid>
                         </Grid>
@@ -439,8 +475,6 @@ class EditAccount extends Component {
             </div>
       );
     }
-
-
 }
 
 EditAccount.propTypes = {
