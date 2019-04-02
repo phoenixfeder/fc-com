@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import Grid from '@material-ui/core/Grid/Grid';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
@@ -58,7 +57,6 @@ class EditProfile extends Component {
     const { value } = this.state;
     return (
       <div className={classes.root}>
-        <MuiThemeProviderUI theme={lightTheme}>
           <Grid container justify="center">
             <Grid item sm={12} md={8} lg={6}>
               <Grid
@@ -83,7 +81,6 @@ class EditProfile extends Component {
               </Grid>
             </Grid>
           </Grid>
-        </MuiThemeProviderUI>
       </div>
     );
   }

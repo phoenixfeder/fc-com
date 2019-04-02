@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import MuiThemeProviderUI from "@material-ui/core/styles/MuiThemeProvider";
+import React, { Component } from 'react';
 import {lightTheme} from "../../utils/themeLight";
 import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";

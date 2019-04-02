@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import Grid from '@material-ui/core/Grid/Grid';
 import Typography from '@material-ui/core/Typography/Typography';
 import FormControl from '@material-ui/core/FormControl/FormControl';
@@ -322,163 +321,161 @@ class EditAccount extends Component {
       } = this.state;
       return (
         <div className={classes.root}>
-          <MuiThemeProviderUI theme={lightTheme}>
-            <Grid container justify="center">
-              <Grid item sm={12} md={8} lg={6}>
-                <Grid
-                  container
-                  justify="center"
-                  spacing={16}
-                  elevation={2}
-                  direction="column"
-                >
-                  <Grid container spacing={16}>
-                    <Grid item sm={12} md={12} lg={12}>
-                      <Typography variant="h4" component="h3">Edit Account</Typography>
+          <Grid container justify="center">
+            <Grid item sm={12} md={8} lg={6}>
+              <Grid
+                container
+                justify="center"
+                spacing={16}
+                elevation={2}
+                direction="column"
+              >
+                <Grid container spacing={16}>
+                  <Grid item sm={12} md={12} lg={12}>
+                    <Typography variant="h4" component="h3">Edit Account</Typography>
+                    <Typography component="p" className={classes.headline}>
+                      {'Here you can edit your profile and/or add additional information. To really know it is you updating your profile, please type in your current password.'}
+                      <br />
+                    </Typography>
+                  </Grid>
+                  <Grid item sm={12} md={12} lg={12}>
+                    <FormControl required error={isOldPasswordIncorrect}>
+                      <InputLabel>Old Password</InputLabel>
+                      <Input
+                        id="oldPasswordInput"
+                        type="password"
+                        startAdornment={(
+                          <InputAdornment position="start">
+                            <PasswordIcon />
+                          </InputAdornment>
+                        )}
+                        value={oldPassword}
+                        onChange={this.handleInputChange}
+                      />
+                      <FormHelperText>
+                        <em>
+                          {oldPasswordErrorMsg}
+                        </em>
+                      </FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item sm={12} md={12} lg={12}>
+                    <Divider />
+                    <Typography component="p" className={classes.headline}>
+                      {' The following information is needed to log in and will not be shown on your profile page.'}
+                      <br />
+                    </Typography>
+                    <FormControl error={isNewPasswordIncorrect}>
+                      <InputLabel>New Password</InputLabel>
+                      <Input
+                        id="newPasswordInput"
+                        type="password"
+                        startAdornment={(
+                          <InputAdornment position="start">
+                            <PasswordIcon />
+                          </InputAdornment>
+                        )}
+                        value={newPassword}
+                        onChange={this.handleInputChange}
+                      />
+                      <FormHelperText>
+                        <em>
+                          {newPasswordErrorMsg}
+                        </em>
+                      </FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item sm={12} md={12} lg={12}>
+                    <FormControl error={isNewEmailIncorrect}>
+                      <InputLabel>E-Mail</InputLabel>
+                      <Input
+                        id="newEmailInput"
+                        type="email"
+                        startAdornment={(
+                          <InputAdornment position="start">
+                            <EMailIcon />
+                          </InputAdornment>
+                        )}
+                        value={newEmail}
+                        onChange={this.handleInputChange}
+                      />
+                      <FormHelperText>
+                        <em>
+                          {newEmailErrorMsg}
+                        </em>
+                      </FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item sm={12} md={12} lg={12}>
+                    <Button variant="contained" color="primary" onClick={this.handleSubmit}>
+                      {'Update Profile'}
+                    </Button>
+                  </Grid>
+                </Grid>
+                { editSelf ? (
+                  <Grid container>
+                    <Grid item lg={12}>
+                      <Typography variant="h4" component="h3">
+                        <br />
+                        {'Close Account'}
+                      </Typography>
                       <Typography component="p" className={classes.headline}>
-                        {'Here you can edit your profile and/or add additional information. To really know it is you updating your profile, please type in your current password.'}
+                        {'You want to leave us? That is okay, we promise :( But keep in mind that we will not be able to restore your data at any point.'}
                         <br />
                       </Typography>
                     </Grid>
                     <Grid item sm={12} md={12} lg={12}>
-                      <FormControl required error={isOldPasswordIncorrect}>
-                        <InputLabel>Old Password</InputLabel>
-                        <Input
-                          id="oldPasswordInput"
-                          type="password"
-                          startAdornment={(
-                            <InputAdornment position="start">
-                              <PasswordIcon />
-                            </InputAdornment>
-                          )}
-                          value={oldPassword}
-                          onChange={this.handleInputChange}
-                        />
-                        <FormHelperText>
-                          <em>
-                            {oldPasswordErrorMsg}
-                          </em>
-                        </FormHelperText>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={12} md={12} lg={12}>
-                      <Divider />
-                      <Typography component="p" className={classes.headline}>
-                        {' The following information is needed to log in and will not be shown on your profile page.'}
-                        <br />
-                      </Typography>
-                      <FormControl error={isNewPasswordIncorrect}>
-                        <InputLabel>New Password</InputLabel>
-                        <Input
-                          id="newPasswordInput"
-                          type="password"
-                          startAdornment={(
-                            <InputAdornment position="start">
-                              <PasswordIcon />
-                            </InputAdornment>
-                          )}
-                          value={newPassword}
-                          onChange={this.handleInputChange}
-                        />
-                        <FormHelperText>
-                          <em>
-                            {newPasswordErrorMsg}
-                          </em>
-                        </FormHelperText>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={12} md={12} lg={12}>
-                      <FormControl error={isNewEmailIncorrect}>
-                        <InputLabel>E-Mail</InputLabel>
-                        <Input
-                          id="newEmailInput"
-                          type="email"
-                          startAdornment={(
-                            <InputAdornment position="start">
-                              <EMailIcon />
-                            </InputAdornment>
-                          )}
-                          value={newEmail}
-                          onChange={this.handleInputChange}
-                        />
-                        <FormHelperText>
-                          <em>
-                            {newEmailErrorMsg}
-                          </em>
-                        </FormHelperText>
-                      </FormControl>
-                    </Grid>
-                    <Grid item sm={12} md={12} lg={12}>
-                      <Button variant="contained" color="primary" onClick={this.handleSubmit}>
-                        {'Update Profile'}
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={this.handleClickOpenCloseAccount}
+                      >
+                        {'Close Account'}
                       </Button>
                     </Grid>
-                  </Grid>
-                  { editSelf ? (
-                    <Grid container>
-                      <Grid item lg={12}>
-                        <Typography variant="h4" component="h3">
-                          <br />
-                          {'Close Account'}
-                        </Typography>
-                        <Typography component="p" className={classes.headline}>
-                          {'You want to leave us? That is okay, we promise :( But keep in mind that we will not be able to restore your data at any point.'}
-                          <br />
-                        </Typography>
-                      </Grid>
-                      <Grid item sm={12} md={12} lg={12}>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={this.handleClickOpenCloseAccount}
-                        >
-                          {'Close Account'}
+                    <Dialog
+                      open={openCloseAccount}
+                      onClose={this.handleCloseCloseAccount}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        {'Are you really sure?'}
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          {'By confirming this dialog message, you agree that we will delete your account without further inspection and that you will not be able to get your data back.'}
+                        </DialogContentText>
+                        <Input
+                          id="closeAccountPasswordInput"
+                          type="password"
+                          startAdornment={(
+                            <InputAdornment position="start">
+                              <PasswordIcon />
+                            </InputAdornment>
+                          )}
+                          value={closeAccountPassword}
+                          onChange={this.handleInputChange}
+                        />
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={this.handleCloseCloseAccount} color="primary">
+                          {'Cancel'}
                         </Button>
-                      </Grid>
-                      <Dialog
-                        open={openCloseAccount}
-                        onClose={this.handleCloseCloseAccount}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                      >
-                        <DialogTitle id="alert-dialog-title">
-                          {'Are you really sure?'}
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            {'By confirming this dialog message, you agree that we will delete your account without further inspection and that you will not be able to get your data back.'}
-                          </DialogContentText>
-                          <Input
-                            id="closeAccountPasswordInput"
-                            type="password"
-                            startAdornment={(
-                              <InputAdornment position="start">
-                                <PasswordIcon />
-                              </InputAdornment>
-                            )}
-                            value={closeAccountPassword}
-                            onChange={this.handleInputChange}
-                          />
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={this.handleCloseCloseAccount} color="primary">
-                            {'Cancel'}
-                          </Button>
-                          <Button
-                            onClick={this.handleSubmitCloseAccount}
-                            color="primary"
-                            autoFocus
-                          >
-                            {'OK'}
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
-                    </Grid>
-                  ) : '' }
-                </Grid>
+                        <Button
+                          onClick={this.handleSubmitCloseAccount}
+                          color="primary"
+                          autoFocus
+                        >
+                          {'OK'}
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </Grid>
+                ) : '' }
               </Grid>
             </Grid>
-          </MuiThemeProviderUI>
+          </Grid>
         </div>
       );
     }
