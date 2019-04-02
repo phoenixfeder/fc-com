@@ -1,293 +1,295 @@
-import React, {Component} from 'react';
-import MuiThemeProviderUI from "@material-ui/core/styles/MuiThemeProvider";
-import {lightTheme} from "../../utils/themeLight";
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography/Typography";
-import FormControl from "@material-ui/core/FormControl/FormControl";
-import InputLabel from "@material-ui/core/InputLabel/InputLabel";
-import Input from "@material-ui/core/Input/Input";
-import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
-import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
-import Button from "@material-ui/core/Button/Button";
-import withStyles from "@material-ui/core/es/styles/withStyles";
-import DialogActions from "@material-ui/core/DialogActions/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import PasswordIcon from '@material-ui/icons/Lock'
-import EMailIcon from '@material-ui/icons/Mail'
-import Divider from "@material-ui/core/Divider/Divider";
-import * as PropTypes from "prop-types";
-import {BACKEND_URL} from "../../utils/const-paths";
-import qs from "query-string";
-import {compose} from "redux";
-import {withRouter} from "react-router-dom";
-
+import React, { Component } from 'react';
+import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
+import Grid from '@material-ui/core/Grid/Grid';
+import Typography from '@material-ui/core/Typography/Typography';
+import FormControl from '@material-ui/core/FormControl/FormControl';
+import InputLabel from '@material-ui/core/InputLabel/InputLabel';
+import Input from '@material-ui/core/Input/Input';
+import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
+import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
+import Button from '@material-ui/core/Button/Button';
+import withStyles from '@material-ui/core/es/styles/withStyles';
+import DialogActions from '@material-ui/core/DialogActions/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText/DialogContentText';
+import Dialog from '@material-ui/core/Dialog/Dialog';
+import PasswordIcon from '@material-ui/icons/Lock';
+import EMailIcon from '@material-ui/icons/Mail';
+import Divider from '@material-ui/core/Divider/Divider';
+import * as PropTypes from 'prop-types';
+import qs from 'query-string';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { lightTheme } from '../../utils/themeLight';
+import { BACKEND_URL } from '../../utils/const-paths';
 
 const styles = theme => ({
-    root: {
-        paddingTop: theme.spacing.unit * 2,
-        flexGrow: 1,
-    },
-    headline: {
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-    },
-    paper: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-    },
-    editProfileEntry: {
-        paddingTop: theme.spacing.unit * 2,
-    }
+  root: {
+    paddingTop: theme.spacing.unit * 2,
+    flexGrow: 1,
+  },
+  headline: {
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+  },
+  paper: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+  },
+  editProfileEntry: {
+    paddingTop: theme.spacing.unit * 2,
+  },
 });
 
 function TabContainer(props) {
-    return (
-        <Typography component="div" style={{padding: 8 * 3}}>
-            {props.children}
-        </Typography>
-    );
+  const { children } = props;
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      { children }
+    </Typography>
+  );
 }
 
 TabContainer.propTypes = {
-    children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 
 class EditAccount extends Component {
 
-    state = {
-        userID: -1,
-        editSelf: true,
+  state = {
+    userID: -1,
+    editSelf: true,
 
-        oldPassword: '',
-        oldPasswordErrorMsg: '',
+    oldPassword: '',
+    oldPasswordErrorMsg: '',
 
-        isOldPasswordIncorrect: false,
-        newPassword: '',
-        newPasswordErrorMsg: '6-32 characters',
+    isOldPasswordIncorrect: false,
+    newPassword: '',
+    newPasswordErrorMsg: '6-32 characters',
 
-        isNewPasswordIncorrect: false,
-        newEmail: '',
-        newEmailErrorMsg: '',
-        isNewEmailIncorrect: false,
+    isNewPasswordIncorrect: false,
+    newEmail: '',
+    newEmailErrorMsg: '',
+    isNewEmailIncorrect: false,
 
-        closeAccountPassword: '',
-    };
+    closeAccountPassword: '',
+  };
 
-    handleClickOpenCloseAccount = () => {
-        this.setState({openCloseAccount: true});
-    };
+  componentWillMount() {
+    const userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
+    this.setState({ userID: userID, editSelf: (userID === this.props.userID) });
+
+    fetch(BACKEND_URL + '/edit/getaccount', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'authentication': {
+          'session': this.props.session,
+          'hash': this.props.sessionHash,
+        },
+        'user': {
+          'userID': userID,
+        }
+      })
+    })
+      .then(results => {
+        return results.json();
+      })
+      .then(result => {
+
+        switch (result.status.code) {
+          case 200:
+            this.setState({ newEmail: result.user.email });
+            break;
+
+          default:
+            this.props.enqueueSnackbar({
+              message: 'This should not happen. Please contact system admin.',
+              options: {
+                variant: 'error'
+              }
+            });
+            break;
+        }
+      }).catch(err => {
+        this.props.enqueueSnackbar({
+          message: 'This should not happen. Please contact system admin.',
+          options: {
+            variant: 'error'
+          }
+        });
+      });
+  }
+
+  handleClickOpenCloseAccount = () => {
+    this.setState({ openCloseAccount: true });
+  };
 
     handleCloseCloseAccount = () => {
-        this.setState({openCloseAccount: false, closeAccountPassword: ''});
+      this.setState({ openCloseAccount: false, closeAccountPassword: '' });
     };
 
     handleSubmitCloseAccount = () => {
-        fetch(BACKEND_URL + '/edit/closeaccount', {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "authentication": {
-                    "session": this.props.session,
-                    "hash": this.props.sessionHash,
-                },
-                "user": {
-                    "oldPassword": this.state.closeAccountPassword,
-                }
-            })
-        }).then(results => {
-            return results.json();
-        }).then(result => {
-            switch (result.status.code) {
-                case 200:
+      fetch(BACKEND_URL + '/edit/closeaccount', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          'authentication': {
+            'session': this.props.session,
+            'hash': this.props.sessionHash,
+          },
+          'user': {
+            'oldPassword': this.state.closeAccountPassword,
+          }
+        })
+      }).then(results => {
+        return results.json();
+      }).then(result => {
+        switch (result.status.code) {
+          case 200:
 
-                    this.props.closeAccount();
-                    this.props.history.push('/');
-                    break;
-                case 409:
-                    this.props.enqueueSnackbar({
-                        message: "Your password was not correct.",
-                        options: {
-                            variant: "error"
-                        }
-                    });
-break;
-                default:
-                    this.props.enqueueSnackbar({
-                        message: "This should not happen. Please contact system admin.",
-                        options: {
-                            variant: "error"
-                        }
-                    });
-                    break;
-            }
-        }).catch(err => {
+            this.props.closeAccount();
+            this.props.history.push('/');
+            break;
+          case 409:
             this.props.enqueueSnackbar({
-                message: "This should not happen. Please contact system admin.",
-                options: {
-                    variant: "error"
-                }
+              message: 'Your password was not correct.',
+              options: {
+                variant: 'error'
+              }
             });
+            break;
+          default:
+            this.props.enqueueSnackbar({
+              message: 'This should not happen. Please contact system admin.',
+              options: {
+                variant: 'error'
+              }
+            });
+            break;
+        }
+      }).catch(err => {
+        this.props.enqueueSnackbar({
+          message: 'This should not happen. Please contact system admin.',
+          options: {
+            variant: 'error'
+          }
         });
+      });
     };
 
-    componentWillMount() {
-        let userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
-        this.setState({userID: userID, editSelf: (userID === this.props.userID)});
-
-        fetch(BACKEND_URL + '/edit/getaccount', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "authentication": {
-                    "session": this.props.session,
-                    "hash": this.props.sessionHash,
-                },
-                "user": {
-                    "userID": userID,
-                }
-            })
-        })
-            .then(results => {
-                return results.json();
-            })
-            .then(result => {
-
-                switch (result.status.code) {
-                    case 200:
-                        this.setState({newEmail: result.user.email});
-                        break;
-
-                    default:
-                        this.props.enqueueSnackbar({
-                            message: "This should not happen. Please contact system admin.",
-                            options: {
-                                variant: "error"
-                            }
-                        });
-                        break;
-                }
-            }).catch(err => {
-            this.props.enqueueSnackbar({
-                message: "This should not happen. Please contact system admin.",
-                options: {
-                    variant: "error"
-                }
-            });
-        });
-    }
+    
 
     handleSubmit = () => {
-        fetch(BACKEND_URL + '/edit/updateaccount', {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "authentication": {
-                    "session": this.props.session,
-                    "hash": this.props.sessionHash,
-                },
-                "user": {
-                    "userID": this.state.userID,
-                    "oldPassword": this.state.oldPassword,
-                    "password": this.state.newPassword,
-                    "email": this.state.newEmail
-                }
-            })
-        }).then(results => {
-            return results.json();
-        }).then(result => {
-            switch (result.status.code) {
-                case 200:
-                    this.setState({
-                        oldPassword: '',
-                        oldPasswordErrorMsg: '',
-                        isOldPasswordIncorrect: false,
+      fetch(BACKEND_URL + '/edit/updateaccount', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          'authentication': {
+            'session': this.props.session,
+            'hash': this.props.sessionHash,
+          },
+          'user': {
+            'userID': this.state.userID,
+            'oldPassword': this.state.oldPassword,
+            'password': this.state.newPassword,
+            'email': this.state.newEmail
+          }
+        })
+      }).then(results => {
+        return results.json();
+      }).then(result => {
+        switch (result.status.code) {
+          case 200:
+            this.setState({
+              oldPassword: '',
+              oldPasswordErrorMsg: '',
+              isOldPasswordIncorrect: false,
 
-                        newPassword: '',
-                        newPasswordErrorMsg: '6-32 characters',
-                        isNewPasswordIncorrect: false,
+              newPassword: '',
+              newPasswordErrorMsg: '6-32 characters',
+              isNewPasswordIncorrect: false,
 
-                        newEmailErrorMsg: '',
-                        isNewEmailIncorrect: false,
-                    });
-                    this.props.enqueueSnackbar({
-                        message: "Your user data have been updated successfully!",
-                        options: {
-                            variant: "success"
-                        }
-                    });
-                    break;
-
-                default:
-                    this.setState({
-                        oldPasswordErrorMsg: (result.user.oldPasswordErrorMsg !== undefined) ? result.user.oldPasswordErrorMsg : '',
-                        isOldPasswordIncorrect: (result.user.oldPasswordErrorMsg === undefined),
-
-                        newPasswordErrorMsg: (result.user.newPasswordErrorMsg !== undefined) ? result.user.newPasswordErrorMsg : '6-32 characters',
-                        isNewPasswordIncorrect: (result.user.newPasswordErrorMsg === undefined),
-
-                        newEmail: (result.user.newEmail !== undefined) ? result.user.newEmail : this.state.newEmail,
-                        newEmailErrorMsg: (result.user.newEmailErrorMsg !== undefined) ? result.user.newEmailErrorMsg : '',
-                        isNewEmailIncorrect: (result.user.newEmailErrorMsg === undefined),
-                    });
-                    break;
-            }
-        }).catch(err => {
-            this.props.enqueueSnackbar({
-                message: "This should not happen. Please contact system admin.",
-                options: {
-                    variant: "error"
-                }
+              newEmailErrorMsg: '',
+              isNewEmailIncorrect: false,
             });
+            this.props.enqueueSnackbar({
+              message: 'Your user data have been updated successfully!',
+              options: {
+                variant: 'success'
+              }
+            });
+            break;
+
+          default:
+            this.setState({
+              oldPasswordErrorMsg: (result.user.oldPasswordErrorMsg !== undefined) ? result.user.oldPasswordErrorMsg : '',
+              isOldPasswordIncorrect: (result.user.oldPasswordErrorMsg === undefined),
+
+              newPasswordErrorMsg: (result.user.newPasswordErrorMsg !== undefined) ? result.user.newPasswordErrorMsg : '6-32 characters',
+              isNewPasswordIncorrect: (result.user.newPasswordErrorMsg === undefined),
+
+              newEmail: (result.user.newEmail !== undefined) ? result.user.newEmail : this.state.newEmail,
+              newEmailErrorMsg: (result.user.newEmailErrorMsg !== undefined) ? result.user.newEmailErrorMsg : '',
+              isNewEmailIncorrect: (result.user.newEmailErrorMsg === undefined),
+            });
+            break;
+        }
+      }).catch(err => {
+        this.props.enqueueSnackbar({
+          message: 'This should not happen. Please contact system admin.',
+          options: {
+            variant: 'error'
+          }
         });
+      });
     }
 
     handleInputChange = (event) => {
-        switch (event.target.id) {
-            case 'oldPasswordInput':
-                this.setState({
-                    oldPassword: event.target.value,
-                    isOldPasswordIncorrect: false,
-                    oldPasswordErrorMsg: ''
-                });
-                break;
-            case 'newPasswordInput':
-                this.setState({
-                    newPassword: event.target.value,
-                    isNewPasswordIncorrect: false,
-                    newPasswordErrorMsg: '6-32 characters'
-                });
-                break;
-            case 'newEmailInput':
-                this.setState({newEmail: event.target.value, isNewEmailIncorrect: false, newEmailErrorMsg: ''});
-                break;
-            case 'closeAccountPasswordInput':
-                this.setState({closeAccountPassword: event.target.value});
-                break;
+      switch (event.target.id) {
+        case 'oldPasswordInput':
+          this.setState({
+            oldPassword: event.target.value,
+            isOldPasswordIncorrect: false,
+            oldPasswordErrorMsg: ''
+          });
+          break;
+        case 'newPasswordInput':
+          this.setState({
+            newPassword: event.target.value,
+            isNewPasswordIncorrect: false,
+            newPasswordErrorMsg: '6-32 characters'
+          });
+          break;
+        case 'newEmailInput':
+          this.setState({ newEmail: event.target.value, isNewEmailIncorrect: false, newEmailErrorMsg: '' });
+          break;
+        case 'closeAccountPasswordInput':
+          this.setState({ closeAccountPassword: event.target.value });
+          break;
 
-            default:
-                break;
+        default:
+          break;
 
-        }
+      }
     }
 
 
     render() {
-        const {classes} = this.props;
-        return (
+      const { classes } = this.props;
+      return (
             <div className={classes.root}>
 
                 <MuiThemeProviderUI theme={lightTheme}>
@@ -299,7 +301,7 @@ break;
 
 
                             <Grid container justify="center" spacing={16}
-                                  elevation={2} direction={"column"}>
+                                  elevation={2} direction={'column'}>
 
                                 <Grid container spacing={16}>
                                     <Grid item sm={12} md={12} lg={12}>
@@ -397,7 +399,7 @@ break;
                                             aria-labelledby="alert-dialog-title"
                                             aria-describedby="alert-dialog-description"
                                         >
-                                            <DialogTitle id="alert-dialog-title">{"Are you really sure?"}</DialogTitle>
+                                            <DialogTitle id="alert-dialog-title">{'Are you really sure?'}</DialogTitle>
                                             <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
                                                     By confirming this dialog message, you agree that we will delete
@@ -427,24 +429,24 @@ break;
                                             </DialogActions>
                                         </Dialog>
                                     </Grid>
-                                    :
-                                    ''
+                                  :
+                                  ''
                                 }
                             </Grid>
                         </Grid>
                     </Grid>
                 </MuiThemeProviderUI>
             </div>
-        );
+      );
     }
 
 
 }
 
 EditAccount.propTypes = {
-    classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 export default compose(
-    withStyles(styles),
-    withRouter,
+  withStyles(styles),
+  withRouter,
 )(EditAccount);
