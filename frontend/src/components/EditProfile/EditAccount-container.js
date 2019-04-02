@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import EditAccount from './EditAccount';
-import { enqueueSnackbar } from '../../actions/notistack-snackbar-actions';
 import { closeAccount } from '../../actions/auth-actions';
+import { enqueueSnackbar } from '../../actions/notistack-snackbar-actions';
+import EditAccount from './EditAccount';
 
 const mapStateToProps = state => ({
   userID: state.auth.userID,

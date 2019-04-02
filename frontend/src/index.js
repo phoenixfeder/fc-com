@@ -1,17 +1,21 @@
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
+import CloseIcon from '@material-ui/icons/Close';
+import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyMiddleware, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { SnackbarProvider } from 'notistack';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import { BrowserRouter } from 'react-router-dom';
-import './index.css';
-import * as serviceWorker from './serviceWorker';
-import allReducers from './reducers/index-reducer';
+import {
+  applyMiddleware,
+  compose,
+  createStore,
+} from 'redux';
+import thunk from 'redux-thunk';
 import AppContainer from './components/App/app-container';
+import './index.css';
+import allReducers from './reducers/index-reducer';
+import * as serviceWorker from './serviceWorker';
 import { lightTheme } from './utils/themeLight';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // eslint-disable-line

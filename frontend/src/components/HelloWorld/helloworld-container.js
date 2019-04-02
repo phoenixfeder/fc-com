@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import HelloWorld from './HelloWorld';
 import { flashCardGotten } from '../../actions/flashcard-action';
+import HelloWorld from './HelloWorld';
 
 const mapStateToProps = state => ({ flashcard: state.flashcards.flashcard });
 

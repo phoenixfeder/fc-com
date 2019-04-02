@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
+import withStyles from '@material-ui/core/es/styles/withStyles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Paper from '@material-ui/core/Paper/Paper';
-import Typography from '@material-ui/core/Typography/Typography';
-import withStyles from '@material-ui/core/es/styles/withStyles';
-import Tabs from '@material-ui/core/Tabs/Tabs';
+import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import Tab from '@material-ui/core/Tab/Tab';
+import Tabs from '@material-ui/core/Tabs/Tabs';
+import Typography from '@material-ui/core/Typography/Typography';
 import * as PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { lightTheme } from '../../utils/themeLight';
-import EditUserContainer from './EditUser-container';
 import EditAccountContainer from './EditAccount-container';
+import EditUserContainer from './EditUser-container';
 
 const styles = theme => ({
   root: {
@@ -27,7 +27,7 @@ function TabContainer(props) {
   const { children } = props;
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
-      { children }
+      {children}
     </Typography>
   );
 }
@@ -74,12 +74,12 @@ class EditProfile extends Component {
                   <LinkTab label="Edit User" style={{ textAlign: 'center' }} href="page1" />
                   <LinkTab label="Edit Account" style={{ textAlign: 'center' }} href="page2" />
                 </Tabs>
-                { value === 0 && <TabContainer>
+                {value === 0 && <TabContainer>
                   <EditUserContainer />
-                </TabContainer> }
-                { value === 1 && <TabContainer>
+                </TabContainer>}
+                {value === 1 && <TabContainer>
                   <EditAccountContainer />
-                </TabContainer> }
+                </TabContainer>}
               </Grid>
             </Grid>
           </Grid>

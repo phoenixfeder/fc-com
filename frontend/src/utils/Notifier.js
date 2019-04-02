@@ -1,52 +1,55 @@
-import {Component} from "react";
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
-import {withSnackbar} from "notistack";
-import {removeSnackbar} from "../actions/notistack-snackbar-actions"
+import { withSnackbar } from 'notistack';
+import * as PropTypes from 'prop-types';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { removeSnackbar } from '../actions/notistack-snackbar-actions';
 
-class Notifier extends Component
+class Notifier extends Component {
+  state = {
+    displayed: [],
+  };
 
+  render() {
+    const { notifications, enqueueSnackbar, removeSnackbar } = this.props;
+    const { displayed } = this.state;
 
-{
-    state = {
-        displayed: []
-    };
+    notifications.forEach(notification => {
+      setTimeout(() => {
+        // If notification already displayed, abort
+        if (displayed.indexOf(notification.key) > -1) return;
+        // Display notification using notistack
+        enqueueSnackbar(notification.message, notification.options);
+        // Add notification's key to the local state
+        this.storeDisplayed(notification.key);
+        // Dispatch action to remove the notification from the redux store
+        removeSnackbar(notification.key);
+      }, 1);
+    });
 
-    storeDisplayed = key => {
-        this.setState(({ displayed }) => ({
-            displayed: [...displayed, key]
-        }));
-    };
+    return null;
+  }
 
-    render() {
-        const { notifications, enqueueSnackbar, removeSnackbar } = this.props;
-        const { displayed } = this.state;
-
-        notifications.forEach(notification => {
-            setTimeout(() => {
-                // If notification already displayed, abort
-                if (displayed.indexOf(notification.key) > -1) return;
-                // Display notification using notistack
-                enqueueSnackbar(notification.message, notification.options);
-                // Add notification's key to the local state
-                this.storeDisplayed(notification.key);
-                // Dispatch action to remove the notification from the redux store
-                removeSnackbar(notification.key);
-            }, 1);
-        });
-
-        return null;
-    }
+  storeDisplayed = key => {
+    this.setState(({ displayed }) => ({
+      displayed: [...displayed, key],
+    }));
+  };
 }
 
 const mapStateToProps = store => ({
-    notifications: store.snackbars.notifications
+  notifications: store.snackbars.notifications,
 });
 
-const mapDispatchToProps = dispatch =>
-    bindActionCreators({ removeSnackbar }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ removeSnackbar }, dispatch);
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps,
 )(withSnackbar(Notifier));
+
+Notifier.propTypes = {
+  notifications: PropTypes.object.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
+  removeSnackbar: PropTypes.func.isRequired,
+};

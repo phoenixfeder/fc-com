@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   Grid,
   Paper,
@@ -7,6 +5,8 @@ import {
   withStyles,
 } from '@material-ui/core/';
 import Button from '@material-ui/core/Button/Button';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { BACKEND_URL_GETFLASHCARD } from '../../utils/const-paths';
 import Flashcard from '../Flashcard/Flashcard';
 
@@ -41,29 +41,20 @@ class HelloWorld extends Component {
     },
   };
 
+  componentDidMount() {
+    document.title = 'HelloWorld';
+  }
+
   componentWillMount() {
     const { updateFlashcard } = this.props;
     fetch(BACKEND_URL_GETFLASHCARD(100000))
       .then(results => results.json())
-    // .then(result => this.props.updateFlashcard(result))
+      // .then(result => this.props.updateFlashcard(result))
       .then((result) => {
         updateFlashcard(result);
         const { flashcard } = this.props;
         this.setState({ flashcardCopy: flashcard });
       });
-  }
-
-  componentDidMount() {
-    document.title = 'HelloWorld';
-  }
-
-  setTextToBackText = (flashcard) => {
-    const { flashcardCopy } = this.state;
-    const oldText = flashcard.frontText;
-    const flashcardDeepCopy = Object.assign({}, flashcardCopy);
-    flashcardDeepCopy.frontText = flashcard.backText;
-    flashcardDeepCopy.backText = oldText;
-    this.setState({ flashcardCopy: flashcardDeepCopy });
   }
 
   render() {
@@ -85,7 +76,8 @@ class HelloWorld extends Component {
             >
               <Grid item lg={12}>
                 <Typography variant="h3" align="center">Hello World</Typography>
-                <Typography variant="body1" align="center">Just a small presentation about how a flashcard could look like. This is not mobile responsive yet!</Typography>
+                <Typography variant="body1" align="center">Just a small presentation about how a flashcard could look
+                  like. This is not mobile responsive yet!</Typography>
               </Grid>
               <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                 <Flashcard flashcard={flashcardCopy} />
@@ -96,7 +88,10 @@ class HelloWorld extends Component {
                   variant="contained"
                   color="primary"
                   style={{ align: 'center' }}
-                  onClick={() => { this.setTextToBackText(flashcardCopy); this.forceUpdate(); }}
+                  onClick={() => {
+                    this.setTextToBackText(flashcardCopy);
+                    this.forceUpdate();
+                  }}
                 >
                   {'Turn around'}
                 </Button>
@@ -107,6 +102,15 @@ class HelloWorld extends Component {
       </div>
     );
   }
+
+  setTextToBackText = (flashcard) => {
+    const { flashcardCopy } = this.state;
+    const oldText = flashcard.frontText;
+    const flashcardDeepCopy = Object.assign({}, flashcardCopy);
+    flashcardDeepCopy.frontText = flashcard.backText;
+    flashcardDeepCopy.backText = oldText;
+    this.setState({ flashcardCopy: flashcardDeepCopy });
+  };
 }
 
 HelloWorld.propTypes = propTypes;
