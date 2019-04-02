@@ -134,7 +134,8 @@ class EditAccount extends Component {
     };
 
     handleSubmitCloseAccount = () => {
-      const { enqueueSnackbar, session, sessionHash } = this.props;
+      const { enqueueSnackbar, history, closeAccount, session, sessionHash } = this.props;
+      const { closeAccountPassword } = this.state;
       fetch(`${BACKEND_URL}/edit/closeaccount`, {
         method: 'PUT',
         headers: {
@@ -147,18 +148,18 @@ class EditAccount extends Component {
             hash: sessionHash,
           },
           user: {
-            oldPassword: this.state.closeAccountPassword,
+            oldPassword: closeAccountPassword,
           },
         }),
       }).then((results) => results.json()).then((result) => {
         switch (result.status.code) {
           case 200:
 
-            this.props.closeAccount();
-            this.props.history.push('/');
+            closeAccount();
+            history.push('/');
             break;
           case 409:
-            this.props.enqueueSnackbar({
+            enqueueSnackbar({
               message: 'Your password was not correct.',
               options: {
                 variant: 'error',
@@ -166,7 +167,7 @@ class EditAccount extends Component {
             });
             break;
           default:
-            this.props.enqueueSnackbar({
+            enqueueSnackbar({
               message: 'This should not happen. Please contact system admin.',
               options: {
                 variant: 'error',
@@ -175,7 +176,8 @@ class EditAccount extends Component {
             break;
         }
       }).catch((err) => {
-        this.props.enqueueSnackbar({
+        console.log(err);
+        enqueueSnackbar({
           message: 'This should not happen. Please contact system admin.',
           options: {
             variant: 'error',
@@ -184,9 +186,21 @@ class EditAccount extends Component {
       });
     };
 
-
     handleSubmit = () => {
-      fetch(`${BACKEND_URL  }/edit/updateaccount`, {
+      const {
+        enqueueSnackbar,
+        history,
+        closeAccount,
+        session,
+        sessionHash,
+      } = this.props;
+      const {
+        userID,
+        oldPassword,
+        newPassword,
+        newEmail,
+      } = this.state;
+      fetch(`${BACKEND_URL}/edit/updateaccount`, {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -194,17 +208,17 @@ class EditAccount extends Component {
         },
         body: JSON.stringify({
           authentication: {
-            session: this.props.session,
-            hash: this.props.sessionHash,
+            session,
+            hash: sessionHash,
           },
           user: {
-            userID: this.state.userID,
-            oldPassword: this.state.oldPassword,
-            password: this.state.newPassword,
-            email: this.state.newEmail,
+            userID,
+            oldPassword,
+            password: newPassword,
+            email: newEmail,
           },
         }),
-      }).then((results) => results.json()).then((result) => {
+      }).then(results => results.json()).then((result) => {
         switch (result.status.code) {
           case 200:
             this.setState({
@@ -219,7 +233,7 @@ class EditAccount extends Component {
               newEmailErrorMsg: '',
               isNewEmailIncorrect: false,
             });
-            this.props.enqueueSnackbar({
+            enqueueSnackbar({
               message: 'Your user data have been updated successfully!',
               options: {
                 variant: 'success',
@@ -235,14 +249,15 @@ class EditAccount extends Component {
               newPasswordErrorMsg: (result.user.newPasswordErrorMsg !== undefined) ? result.user.newPasswordErrorMsg : '6-32 characters',
               isNewPasswordIncorrect: (result.user.newPasswordErrorMsg === undefined),
 
-              newEmail: (result.user.newEmail !== undefined) ? result.user.newEmail : this.state.newEmail,
+              newEmail: (result.user.newEmail !== undefined) ? result.user.newEmail : newEmail,
               newEmailErrorMsg: (result.user.newEmailErrorMsg !== undefined) ? result.user.newEmailErrorMsg : '',
               isNewEmailIncorrect: (result.user.newEmailErrorMsg === undefined),
             });
             break;
         }
       }).catch((err) => {
-        this.props.enqueueSnackbar({
+        console.log(err);
+        enqueueSnackbar({
           message: 'This should not happen. Please contact system admin.',
           options: {
             variant: 'error',
@@ -282,197 +297,186 @@ class EditAccount extends Component {
 
     render() {
       const { classes } = this.props;
+      const {
+        editSelf,
+        oldPassword,
+        newPassword,
+        newEmail,
+        isNewEmailIncorrect,
+        newPasswordErrorMsg,
+        closeAccountPassword,
+        isNewPasswordIncorrect,
+        isOldPasswordIncorrect,
+        oldPasswordErrorMsg,
+        newEmailErrorMsg,
+        openCloseAccount,
+      } = this.state;
       return (
         <div className={classes.root}>
-
-              <MuiThemeProviderUI theme={lightTheme}>
-
-                  <Grid container justify="center">
-
-
-                      <Grid item sm={12} md={8} lg={6}>
-
-
-                          <Grid
-container
-justify="center"
-spacing={16}
-                              elevation={2}
-direction={'column'}
-                            >
-
-                              <Grid container spacing={16}>
-                                  <Grid item sm={12} md={12} lg={12}>
-                                      <Typography variant="h4" component="h3">
-
-                                            Edit Account
-</Typography>
-                                      <Typography component="p" className={classes.headline}>
-
-                                            Here you can edit your profile and/or add additional information. To really
-                                            know
-                                            it is you
-                                            updating your profile, please type in your current password.
-<br/>
-                                        </Typography>
-                                    </Grid>
-                                  <Grid item sm={12} md={12} lg={12}>
-                                      <FormControl required error={this.state.isOldPasswordIncorrect}>
-                                          <InputLabel>Old Password</InputLabel>
-                                          <Input
-id={'oldPasswordInput'}
-type="password"
-startAdornment={
-                                                <InputAdornment position="start">
-                                                    <PasswordIcon/>
-                                                </InputAdornment>
-                                            }
-                                              value={this.state.oldPassword}
-                                              onChange={this.handleInputChange}
-                                            />
-                                          <FormHelperText>
-<em>{this.state.oldPasswordErrorMsg}</em>
-</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                  <Grid item sm={12} md={12} lg={12}>
-                                      <Divider />
-                                      <Typography component="p" className={classes.headline}>
-
-                                            The following information is needed to log in and won't be shown on your
-                                            profile
-                                            page.
-<br/>
-                                        </Typography>
-                                      <FormControl error={this.state.isNewPasswordIncorrect}>
-                                          <InputLabel>New Password</InputLabel>
-                                          <Input
-id={'newPasswordInput'}
-type="password"
-startAdornment={
-                                                <InputAdornment position="start">
-                                                    <PasswordIcon/>
-                                                </InputAdornment>
-                                            }
-                                              value={this.state.newPassword}
-                                              onChange={this.handleInputChange}
-                                            />
-                                          <FormHelperText>
-<em>{this.state.newPasswordErrorMsg}</em>
-</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                  <Grid item sm={12} md={12} lg={12}>
-                                      <FormControl error={this.state.isNewEmailIncorrect}>
-                                          <InputLabel>E-Mail</InputLabel>
-                                          <Input
-id={'newEmailInput'}
-type="email"
-startAdornment={
-                                                <InputAdornment position="start">
-                                                    <EMailIcon/>
-                                                </InputAdornment>
-                                            }
-                                              value={this.state.newEmail}
-                                              onChange={this.handleInputChange}
-                                            />
-                                          <FormHelperText>
-<em>{this.state.newEmailErrorMsg}</em>
-</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-
-                                  <Grid item sm={12} md={12} lg={12}>
-                                      <Button variant="contained" color="primary" onClick={this.handleSubmit}>
-
-                                            Update Profile
-</Button>
-                                    </Grid>
-                                </Grid>
-                              {this.state.editSelf
-                                    ? <Grid container>
-
-
-                                      <Grid item lg={12}>
-
-                                          <Typography variant="h4" component="h3">
-                                              <br />
-Close Account
-</Typography>
-                                          <Typography component="p" className={classes.headline}>
-
-                                                You want to leave us? That's okay, we promise :( But keep in mind that
-                                                we
-                                                won't
-                                                be able
-                                                to restore your data at any point.
-<br/>
-                                            </Typography>
-                                        </Grid>
-                                      <Grid item sm={12} md={12} lg={12}>
-                                          <Button
-variant="contained"
-color="secondary"
-                                              onClick={this.handleClickOpenCloseAccount}
-                                            >
-
-                                                Close Account
-</Button>
-                                        </Grid>
-                                      <Dialog
-                                          open={this.state.openCloseAccount}
-                                          onClose={this.handleCloseCloseAccount}
-                                          aria-labelledby="alert-dialog-title"
-                                          aria-describedby="alert-dialog-description"
-                                        >
-                                          <DialogTitle id="alert-dialog-title">
-{'Are you really sure?'}
-</DialogTitle>
-                                          <DialogContent>
-                                              <DialogContentText id="alert-dialog-description">
-
-                                                    By confirming this dialog message, you agree that we will delete
-                                                    your account without further inspection and that you won't be able
-                                                    to
-                                                    get your data back.
-</DialogContentText>
-
-                                              <Input
-id={'closeAccountPasswordInput'}
-type="password"
-startAdornment={
-                                                    <InputAdornment position="start">
-                                                        <PasswordIcon/>
-                                                    </InputAdornment>
-                                                }
-                                                  value={this.state.closeAccountPassword}
-                                                  onChange={this.handleInputChange}
-                                                />
-
-                                            </DialogContent>
-                                          <DialogActions>
-                                              <Button onClick={this.handleCloseCloseAccount} color="primary">
-
-                                                    Cancel
-</Button>
-                                              <Button
-onClick={this.handleSubmitCloseAccount}
-color="primary"
-                                                  autoFocus
-                                                >
-
-                                                    OK
-</Button>
-                                            </DialogActions>
-                                        </Dialog>
-                                    </Grid>
-                                  :                                  ''
-                                }
-                            </Grid>
-                        </Grid>
+          <MuiThemeProviderUI theme={lightTheme}>
+            <Grid container justify="center">
+              <Grid item sm={12} md={8} lg={6}>
+                <Grid
+                  container
+                  justify="center"
+                  spacing={16}
+                  elevation={2}
+                  direction="column"
+                >
+                  <Grid container spacing={16}>
+                    <Grid item sm={12} md={12} lg={12}>
+                      <Typography variant="h4" component="h3">Edit Account</Typography>
+                      <Typography component="p" className={classes.headline}>
+                        Here you can edit your profile and/or add additional information. To really
+                        know
+                        it is you
+                        updating your profile, please type in your current password.
+                        <br />
+                      </Typography>
                     </Grid>
-                </MuiThemeProviderUI>
-            </div>
+                    <Grid item sm={12} md={12} lg={12}>
+                      <FormControl required error={isOldPasswordIncorrect}>
+                        <InputLabel>Old Password</InputLabel>
+                        <Input
+                          id="oldPasswordInput"
+                          type="password"
+                          startAdornment={(
+                            <InputAdornment position="start">
+                              <PasswordIcon />
+                            </InputAdornment>
+                          )}
+                          value={oldPassword}
+                          onChange={this.handleInputChange}
+                        />
+                        <FormHelperText>
+                          <em>{oldPasswordErrorMsg}</em>
+                        </FormHelperText>
+                      </FormControl>
+                    </Grid>
+                    <Grid item sm={12} md={12} lg={12}>
+                      <Divider />
+                      <Typography component="p" className={classes.headline}>
+                        The following information is needed to log in and will not be shown on your
+                        profile
+                        page.
+                        <br />
+                      </Typography>
+                      <FormControl error={isNewPasswordIncorrect}>
+                        <InputLabel>New Password</InputLabel>
+                        <Input
+                          id="newPasswordInput"
+                          type="password"
+                          startAdornment={(
+                            <InputAdornment position="start">
+                              <PasswordIcon />
+                            </InputAdornment>
+                          )}
+                          value={newPassword}
+                          onChange={this.handleInputChange}
+                        />
+                        <FormHelperText>
+                          <em>{newPasswordErrorMsg}</em>
+                        </FormHelperText>
+                      </FormControl>
+                    </Grid>
+                    <Grid item sm={12} md={12} lg={12}>
+                      <FormControl error={isNewEmailIncorrect}>
+                        <InputLabel>E-Mail</InputLabel>
+                        <Input
+                          id="newEmailInput"
+                          type="email"
+                          startAdornment={(
+                            <InputAdornment position="start">
+                              <EMailIcon />
+                            </InputAdornment>
+                          )}
+                          value={newEmail}
+                          onChange={this.handleInputChange}
+                        />
+                        <FormHelperText>
+                          <em>{newEmailErrorMsg}</em>
+                        </FormHelperText>
+                      </FormControl>
+                    </Grid>
+                    <Grid item sm={12} md={12} lg={12}>
+                      <Button variant="contained" color="primary" onClick={this.handleSubmit}>
+                        Update Profile
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  { editSelf ? (
+                    <Grid container>
+                      <Grid item lg={12}>
+                        <Typography variant="h4" component="h3">
+                          <br />
+                          Close Account
+                        </Typography>
+                        <Typography component="p" className={classes.headline}>
+                          You want to leave us? That is okay, we promise :( But keep in mind that
+                          we
+                          will not
+                          be able
+                          to restore your data at any point.
+                          <br />
+                        </Typography>
+                      </Grid>
+                      <Grid item sm={12} md={12} lg={12}>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={this.handleClickOpenCloseAccount}
+                        >
+                          Close Account
+                        </Button>
+                      </Grid>
+                      <Dialog
+                        open={openCloseAccount}
+                        onClose={this.handleCloseCloseAccount}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {'Are you really sure?'}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            By confirming this dialog message, you agree that we will delete
+                            your account without further inspection and that you will not be able
+                            to
+                            get your data back.
+                          </DialogContentText>
+                          <Input
+                            id="closeAccountPasswordInput"
+                            type="password"
+                            startAdornment={(
+                              <InputAdornment position="start">
+                                <PasswordIcon />
+                              </InputAdornment>
+                            )}
+                            value={closeAccountPassword}
+                            onChange={this.handleInputChange}
+                          />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={this.handleCloseCloseAccount} color="primary">
+                              Cancel
+                          </Button>
+                          <Button
+                            onClick={this.handleSubmitCloseAccount}
+                            color="primary"
+                            autoFocus
+                          >
+                            OK
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </Grid>
+                  ) : '' }
+                </Grid>
+              </Grid>
+            </Grid>
+          </MuiThemeProviderUI>
+        </div>
       );
     }
 }
@@ -480,6 +484,7 @@ color="primary"
 EditAccount.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
 export default compose(
   withStyles(styles),
   withRouter,
