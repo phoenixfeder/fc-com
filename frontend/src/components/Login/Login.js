@@ -1,18 +1,4 @@
-import React, {Component} from 'react';
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/es/styles/withStyles";
-import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import Button from "@material-ui/core/Button/Button";
-import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
-import PasswordIcon from '@material-ui/icons/Lock'
-import FormHelperText from "@material-ui/core/FormHelperText/FormHelperText";
-import Link from 'react-router-dom/es/Link';
-import qs from 'query-string';
-import UsernameIcon from '@material-ui/icons/Person'
+import Button from '@material-ui/core/Button/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import withStyles from '@material-ui/core/es/styles/withStyles';
 import FormControl from '@material-ui/core/FormControl';
@@ -22,7 +8,6 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import Typography from '@material-ui/core/Typography';
 import PasswordIcon from '@material-ui/icons/Lock';
 import UsernameIcon from '@material-ui/icons/Person';
@@ -30,7 +15,6 @@ import * as PropTypes from 'prop-types';
 import qs from 'query-string';
 import React, { Component } from 'react';
 import Link from 'react-router-dom/es/Link';
-import { lightTheme } from '../../utils/themeLight';
 
 const styles = theme => ({
   root: {
@@ -105,84 +89,111 @@ class Login extends Component {
 
   };
 
+  render() {
+    const { classes } = this.props;
 
-    createNewSnackbar = (variant, message) => {
-        this.props.enqueueSnackbar({
-            message: message,
-            options: {
-                variant: variant
-            }
-        });
-    }
-    
-   
+    return (
+      <div className={classes.root}>
+        <Grid container alignContent="center" justify="center">
+          <Grid item xs={12} md={6} lg={4}>
+            <Paper className={classes.root} elevation={1}>
+              <Grid
+                container
+                spacing={16}
+                alignItems="stretch"
+                justify="space-evenly"
+                direction="column"
+              >
+                <Grid item lg={12}>
+                  <Typography variant="h3" component="h3" align="center">
 
-    render() {
-        const { classes } = this.props;
 
-        return (
-            <div className={classes.root}>
-                    <Grid container alignContent="center" justify="center">
-                        <Grid item xs={12} md={6} lg={4}>
-                            <Paper className={classes.root} elevation={1}>
-                                <Grid container spacing={16} alignItems="stretch" justify="space-evenly"
-                                    direction="column">
-                                    <Grid item lg={12}>
-                                        <Typography variant="h3" component="h3" align="center">
-                                            Login
-                                        </Typography>
-                                        <Typography component="p" align="center"
-                                            className={classes.headline}>
-                                            ... we are glad to see you again!<br />
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl fullWidth={true} required={true} error={false}>
-                                            <InputLabel>Username or E-Mail</InputLabel>
-                                            <Input id="username-input" type="text" error={this.state.isInputInvalid} onChange={this.handleInputChange} value={this.state.username} startAdornment={
-                                                <InputAdornment position="start">
-                                                    <UsernameIcon/>
-                                                </InputAdornment>
-                                                
-                                            }
-                                           />
-                                            <FormHelperText><em>Your username, remember: at least 3 characters!</em></FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12}>
-                                        <FormControl fullWidth={true} required={true} error={false}>
-                                            <InputLabel>Password</InputLabel>
-                                            <Input id="password-input" type="password" error={this.state.isInputInvalid} onChange={this.handleInputChange} value={this.state.password} startAdornment={
-                                                <InputAdornment position="start">
-                                                    <PasswordIcon />
-                                                </InputAdornment>
-                                            }
-                                            />
-                                            <FormHelperText><Link to="/login">Forgot your password?</Link></FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12} style={{ alignSelf: "center" }}>
-                                        <div className={classes.wrapper}>
-                                            <Button id="login-button" variant="contained" color="primary" disabled={this.props.loading}
-                                                onClick={this.handleSubmit}>
-                                                Login
-                                            </Button>
-                                            {this.props.loading &&
-                                                <CircularProgress size={24} className={classes.buttonProgress} />}
-                                        </div>
-                                    </Grid>
-                                    <Grid item sm={12} md={12} lg={12} style={{ alignSelf: "center" }}>
-                                        <Typography variant="caption" className={classes.headline} >
-                                            Not registered yet? <Link id="create-link" to="/register">Create an account now!</Link>
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                            </Paper>
-                        </Grid>
-                    </Grid>
-            </div>
-        );
-    }
+                    Login
+                  </Typography>
+                  <Typography
+                    component="p"
+                    align="center"
+                    className={classes.headline}
+                  >
+
+
+                    ... we are glad to see you again!
+                    <br />
+                  </Typography>
+                </Grid>
+                <Grid item sm={12} md={12} lg={12}>
+                  <FormControl fullWidth required error={false}>
+                    <InputLabel>Username or E-Mail</InputLabel>
+                    <Input
+                      id="username-input"
+                      type="text"
+                      error={this.state.isInputInvalid}
+                      onChange={this.handleInputChange}
+                      value={this.state.username}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <UsernameIcon />
+                        </InputAdornment>
+
+                      }
+                    />
+                    <FormHelperText>
+                      <em>Your username, remember: at least 3 characters!</em>
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid item sm={12} md={12} lg={12}>
+                  <FormControl fullWidth required error={false}>
+                    <InputLabel>Password</InputLabel>
+                    <Input
+                      id="password-input"
+                      type="password"
+                      error={this.state.isInputInvalid}
+                      onChange={this.handleInputChange}
+                      value={this.state.password}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <PasswordIcon />
+                        </InputAdornment>
+                      }
+                    />
+                    <FormHelperText>
+                      <Link to="/login">Forgot your password?</Link>
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
+                  <div className={classes.wrapper}>
+                    <Button
+                      id="login-button"
+                      variant="contained"
+                      color="primary"
+                      disabled={this.props.loading}
+                      onClick={this.handleSubmit}
+                    >
+
+
+                      Login
+                    </Button>
+                    {this.props.loading
+                    && <CircularProgress size={24} className={classes.buttonProgress} />}
+                  </div>
+                </Grid>
+                <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
+                  <Typography variant="caption" className={classes.headline}>
+
+
+                    Not registered yet?
+                    <Link id="create-link" to="/register">Create an account now!</Link>
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(Login);

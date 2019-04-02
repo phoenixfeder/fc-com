@@ -76,8 +76,12 @@ class HelloWorld extends Component {
             >
               <Grid item lg={12}>
                 <Typography variant="h3" align="center">Hello World</Typography>
-                <Typography variant="body1" align="center">Just a small presentation about how a flashcard could look
-                  like. This is not mobile responsive yet!</Typography>
+                <Typography variant="body1" align="center">
+
+
+                  Just a small presentation about how a flashcard could look
+                  like. This is not mobile responsive yet!
+                </Typography>
               </Grid>
               <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                 <Flashcard flashcard={flashcardCopy} />

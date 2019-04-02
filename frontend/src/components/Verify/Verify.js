@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import qs from 'query-string';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import withStyles from '@material-ui/core/es/styles/withStyles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button/Button';
-import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import withStyles from '@material-ui/core/es/styles/withStyles';
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
+import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
+import InputLabel from '@material-ui/core/InputLabel';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import EMailIcon from '@material-ui/icons/Mail';
 import * as PropTypes from 'prop-types';
+import qs from 'query-string';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import { BACKEND_URL } from '../../utils/const-paths';
 
 const styles = theme => ({
@@ -66,6 +66,7 @@ class Verify extends Component {
       loading: false,
     };
   }
+
   componentDidMount() {
     document.title = 'Verify';
     const parameters = qs.parse(window.location.search);
@@ -128,8 +129,12 @@ class Verify extends Component {
   }
 
   handleMailChange = (event) => {
-    this.setState({ email: event.target.value, emailErrorMsg: 'The E-Mail you used for registration.', isEmailInvalid: false });
-  }
+    this.setState({
+      email: event.target.value,
+      emailErrorMsg: 'The E-Mail you used for registration.',
+      isEmailInvalid: false,
+    });
+  };
 
   handleSubmit = () => {
     this.setState({ loading: true });
@@ -169,7 +174,11 @@ class Verify extends Component {
             },
           });
 
-          this.setState({ loading: false, emailErrorMsg: 'Please enter the mail you used for our registration', isEmailInvalid: true });
+          this.setState({
+            loading: false,
+            emailErrorMsg: 'Please enter the mail you used for our registration',
+            isEmailInvalid: true,
+          });
           break;
 
         default:
@@ -184,7 +193,7 @@ class Verify extends Component {
       }
     });
 
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -238,7 +247,7 @@ class Verify extends Component {
                             <InputAdornment position="start">
                               <EMailIcon />
                             </InputAdornment>
-                        }
+                          }
                           onChange={this.handleMailChange}
                         />
                         <FormHelperText id="mail-error-field">
@@ -274,4 +283,3 @@ class Verify extends Component {
 Verify.propTypes = propTypes;
 
 export default compose(withStyles(styles), withRouter)(Verify);
-

@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid/Grid';
-import Typography from '@material-ui/core/Typography/Typography';
+import Button from '@material-ui/core/Button/Button';
+import Divider from '@material-ui/core/Divider/Divider';
+import withStyles from '@material-ui/core/es/styles/withStyles';
 import FormControl from '@material-ui/core/FormControl/FormControl';
-import InputLabel from '@material-ui/core/InputLabel/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
+import Grid from '@material-ui/core/Grid/Grid';
 import Input from '@material-ui/core/Input/Input';
 import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
-import Button from '@material-ui/core/Button/Button';
-import withStyles from '@material-ui/core/es/styles/withStyles';
+import InputLabel from '@material-ui/core/InputLabel/InputLabel';
+import Typography from '@material-ui/core/Typography/Typography';
 import CakeIcon from '@material-ui/icons/Cake';
-import HobbyIcon from '@material-ui/icons/InsertEmoticon';
 import RealNameIcon from '@material-ui/icons/Face';
-import Divider from '@material-ui/core/Divider/Divider';
+import HobbyIcon from '@material-ui/icons/InsertEmoticon';
 import * as PropTypes from 'prop-types';
 import qs from 'query-string';
+import React, { Component } from 'react';
 import { BACKEND_URL } from '../../utils/const-paths';
 
 const styles = theme => ({
@@ -101,7 +101,11 @@ class EditUser extends Component {
     ).then(result => {
       switch (result.status.code) {
         case 200:
-          this.setState({ realName: result.user.realName, interest: result.user.interest, birthday: result.user.birthday });
+          this.setState({
+            realName: result.user.realName,
+            interest: result.user.interest,
+            birthday: result.user.birthday,
+          });
           break;
 
         default:
@@ -121,22 +125,6 @@ class EditUser extends Component {
         },
       });
     });
-  }
-
- handleValueChange = (event) => {
-    switch (event.target.id) {
-      case 'date-input':
-        this.setState({ birthday: event.target.value, isBirthdayIncorrect: false });
-        break;
-      case 'interest-input':
-        this.setState({ interest: event.target.value, isInterestIncorrect: false });
-        break;
-      case 'realName-input':
-        this.setState({ realName: event.target.value, isRealNameIncorrect: false });
-        break;
-      default:
-        break;
-    }
   }
 
   handleCommit = () => {
@@ -217,6 +205,22 @@ class EditUser extends Component {
     });
   };
 
+  handleValueChange = (event) => {
+    switch (event.target.id) {
+      case 'date-input':
+        this.setState({ birthday: event.target.value, isBirthdayIncorrect: false });
+        break;
+      case 'interest-input':
+        this.setState({ interest: event.target.value, isInterestIncorrect: false });
+        break;
+      case 'realName-input':
+        this.setState({ realName: event.target.value, isRealNameIncorrect: false });
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -231,7 +235,7 @@ class EditUser extends Component {
               elevation={2}
               direction="column"
             >
-              { this.state.hasEditPermission ? (
+              {this.state.hasEditPermission ? (
                 <Grid container spacing={16}>
                   <Grid item sm={12} md={12} lg={12}>
                     <Typography variant="h4" component="h3">
@@ -243,7 +247,7 @@ class EditUser extends Component {
                     </Typography>
                   </Grid>
                   <Grid item sm={12} md={12} lg={12}>
-                    <Divider/>
+                    <Divider />
                     <Typography component="p" className={classes.headline}>
                       {'Those information will be displayed on your profile, but are not needed and not providingthose information will not lead to any disadvantages.'}
                       <br />

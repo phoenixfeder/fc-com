@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import withStyles from '@material-ui/core/es/styles/withStyles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Paper from '@material-ui/core/Paper/Paper';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import Tab from '@material-ui/core/Tab/Tab';
 import Tabs from '@material-ui/core/Tabs/Tabs';
 import Typography from '@material-ui/core/Typography/Typography';
 import * as PropTypes from 'prop-types';
-import EditUserContainer from './EditUser-container';
+import React, { Component } from 'react';
 import EditAccountContainer from './EditAccount-container';
 import EditUserContainer from './EditUser-container';
 
@@ -42,6 +41,7 @@ function LinkTab(props) {
 const propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
 class EditProfile extends Component {
   state = {
     value: 0,
@@ -75,12 +75,12 @@ class EditProfile extends Component {
                 <LinkTab label="Edit User" style={{ textAlign: 'center' }} href="page1" />
                 <LinkTab label="Edit Account" style={{ textAlign: 'center' }} href="page2" />
               </Tabs>
-              { value === 0 && <TabContainer>
+              {value === 0 && <TabContainer>
                 <EditUserContainer />
-              </TabContainer> }
-              { value === 1 && <TabContainer>
+              </TabContainer>}
+              {value === 1 && <TabContainer>
                 <EditAccountContainer />
-              </TabContainer> }
+              </TabContainer>}
             </Grid>
           </Grid>
         </Grid>

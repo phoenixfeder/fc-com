@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
-import Home from '../Home/Home';
-import HelloWorldContainer from '../HelloWorld/helloworld-container';
-import LoginContainer from '../Login/login-container';
-import RegisterContainer from '../Register/register-container';
-import VerfiyContainer from '../Verify/verify-container';
+import React, { Component } from 'react';
+import {
+  Route,
+  Switch,
+} from 'react-router-dom';
+
+import EditProfileContainer from '../EditProfile/EditProfile-container';
 import FAQ from '../FAQ/FAQ';
 import HelloWorldContainer from '../HelloWorld/helloworld-container';
 import Home from '../Home/Home';
 import LoginContainer from '../Login/login-container';
 import LogoutContainer from '../Logout/logout-container';
-
-import EditProfileContainer from '../EditProfile/EditProfile-container';
+import RegisterContainer from '../Register/register-container';
+import VerfiyContainer from '../Verify/verify-container';
 
 const propTypes = {
   onTryAutoSignup: PropTypes.func.isRequired,
@@ -28,7 +28,7 @@ class Main extends Component {
   render() {
     let routes = (
       <Switch>
-        <Route exact path="/" component={Home}/>
+        <Route exact path="/" component={Home} />
         <Route path="/login" component={LoginContainer} />
         <Route path="/register" component={RegisterContainer} />
         <Route path="/faq" component={FAQ} />
@@ -41,11 +41,11 @@ class Main extends Component {
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
-          <Route exact path="/" component={Home}/>
+          <Route exact path="/" component={Home} />
           <Route path="/logout" component={LogoutContainer} />
           <Route path="/edit" component={EditProfileContainer} />
-          <Route path="/faq" component={FAQ}/>
-          <Route path="/helloworld" component={HelloWorldContainer}/>
+          <Route path="/faq" component={FAQ} />
+          <Route path="/helloworld" component={HelloWorldContainer} />
 
           <Route component={Home} />
         </Switch>
@@ -54,7 +54,7 @@ class Main extends Component {
 
     return (
       <div>
-        { routes }
+        {routes}
       </div>
     );
   }
