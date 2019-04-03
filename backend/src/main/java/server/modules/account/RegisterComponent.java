@@ -10,9 +10,9 @@ import server.entities.VerificationToken;
 import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
-import server.entities.repositories.RoleRepository;
-import server.entities.repositories.UserRepository;
-import server.entities.repositories.VerificationTokenRepository;
+import server.modules.dbConnector.RoleConnector;
+import server.modules.dbConnector.TokenConnector;
+import server.modules.dbConnector.UserConnector;
 import server.modules.utils.Mail;
 
 import java.util.regex.Matcher;
@@ -21,26 +21,27 @@ import java.util.regex.Pattern;
 @Component
 public class RegisterComponent {
 
-    final private PasswordEncoder passwordEncoder;
-    final private Mail mail;
+    private final PasswordEncoder passwordEncoder;
+    private final Mail mail;
+    private final UserConnector userConnector;
+    private final TokenConnector tokenConnector;
+    private final RoleConnector roleConnector;
 
-
-    //TODO Connectoren verwenden
-    final private UserRepository userRepository;
-    final private RoleRepository roleRepository;
-    final private VerificationTokenRepository verificationTokenRepository;
+//    final private UserRepository userRepository;
+//    final private RoleRepository roleRepository;
+//    final private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-    public RegisterComponent(PasswordEncoder passwordEncoder, Mail mail, UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository verificationTokenRepository) {
+    public RegisterComponent(PasswordEncoder passwordEncoder, Mail mail, UserConnector userConnector, RoleConnector roleConnector, TokenConnector tokenConnector) {
         this.passwordEncoder = passwordEncoder;
         this.mail = mail;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.verificationTokenRepository = verificationTokenRepository;
+        this.userConnector = userConnector;
+        this.roleConnector = roleConnector;
+        this.tokenConnector = tokenConnector;
     }
 
     public boolean isUserNameTaken(String name) {
-        return userRepository.findUserByUsername(name) != null;
+        return userConnector.getUserByName(name) != null;
     }
 
     public boolean isUsernameLengthIncorrect(String name) {
@@ -54,7 +55,7 @@ public class RegisterComponent {
     }
 
     public boolean isEmailTaken(String email) {
-        return userRepository.findUserByEmail(email) != null;
+        return userConnector.getUserByEmail(email) != null;
     }
 
     public boolean isEmailIncorrect(String mail) {
@@ -110,16 +111,16 @@ public class RegisterComponent {
         User newUser = new User();
         newUser.insertDTOData(userRequest);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        Role role = roleRepository.findById(1).orElse(null);
+        Role role = roleConnector.findById(1);
         newUser.setRole(role);
-        User savedUser = userRepository.save(newUser);
-        VerificationToken token = verificationTokenRepository.save(new VerificationToken(savedUser));
+        userConnector.save(newUser);
+        tokenConnector.save(new VerificationToken(newUser));
 
-        return savedUser;
+        return newUser;
     }
 
     public boolean sendVerificationMail(User user){
-        VerificationToken token = verificationTokenRepository.findByUser(user);
+        VerificationToken token = tokenConnector.getTokenByUser(user);
         try {
             mail.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
         }catch(Exception e){

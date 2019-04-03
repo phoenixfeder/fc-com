@@ -19,6 +19,14 @@ public class UserConnector {
         return userRepository.findById(id).orElse(null);
     }
 
+    public User getUserByName(String name) {
+        return userRepository.findUserByUsername(name);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
     public User save(User user){
         return userRepository.save(user);
     }
