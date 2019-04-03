@@ -50,7 +50,6 @@ class Login extends Component {
       password: '',
 
       isInputInvalid: false,
-      loading: false,
     };
   }
 
@@ -88,6 +87,11 @@ class Login extends Component {
     }
 
   };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.onAuth(this.state.username, this.state.password);
+  }
 
   render() {
     const { classes } = this.props;
@@ -192,4 +196,5 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
+  onAuth: PropTypes.func.isRequired,
 };

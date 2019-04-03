@@ -50,7 +50,7 @@ export default connect(
 )(withSnackbar(Notifier));
 
 Notifier.propTypes = {
-  notifications: PropTypes.object.isRequired,
+  notifications: PropTypes.array.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
   removeSnackbar: PropTypes.func.isRequired,
 };

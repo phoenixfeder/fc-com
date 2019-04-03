@@ -172,7 +172,7 @@ class Register extends Component {
   };
 
   // Handles submit button
-  handleSubmit = (event) => {
+  handleSubmit = () => {
 
     this.setState({ loading: true });
 
@@ -186,8 +186,8 @@ class Register extends Component {
       this.createNewSnackbar('error', 'Registration failed: Invalid input');
 
     } else {
-
-      fetch(BACKEND_URL_ACCOUNT_NEW, {
+      console.log(BACKEND_URL_ACCOUNT_NEW);
+      fetch(`${BACKEND_URL_ACCOUNT_NEW}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

@@ -74,7 +74,7 @@ class Verify extends Component {
     document.title = 'Verify';
     const parameters = qs.parse(window.location.search);
 
-    fetch(BACKEND_URL_ACCOUNT_VERIFY(parameters), {
+    fetch(`${BACKEND_URL_ACCOUNT_VERIFY}?id=${parameters.id}&token=${parameters.token}`, {
       method: 'PUT',
     }).then(results => results.json(),
     ).then(result => {
