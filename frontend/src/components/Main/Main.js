@@ -14,11 +14,6 @@ import LogoutContainer from '../Logout/logout-container';
 import RegisterContainer from '../Register/register-container';
 import VerfiyContainer from '../Verify/verify-container';
 
-const propTypes = {
-  onTryAutoSignup: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-};
-
 class Main extends Component {
   componentDidMount() {
     this.props.onTryAutoSignup();
@@ -60,6 +55,9 @@ class Main extends Component {
   }
 }
 
-Main.propTypes = propTypes;
+Main.propTypes = {
+  onTryAutoSignup: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+};
 
 export default Main;

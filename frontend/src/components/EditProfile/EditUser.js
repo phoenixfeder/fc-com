@@ -47,14 +47,6 @@ TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const propTypes = {
-  classes: PropTypes.object.isRequired,
-  enqueueSnackbar: PropTypes.func.isRequired,
-  session: PropTypes.string.isRequired,
-  sessionHash: PropTypes.string.isRequired,
-  userID: PropTypes.number.isRequired,
-};
-
 class EditUser extends Component {
   state = {
     userID: -1,
@@ -340,6 +332,12 @@ class EditUser extends Component {
   }
 }
 
-EditUser.propTypes = propTypes;
+EditUser.propTypes = {
+  classes: PropTypes.object.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
+  session: PropTypes.string.isRequired,
+  sessionHash: PropTypes.string.isRequired,
+  userID: PropTypes.number.isRequired,
+};
 
 export default withStyles(styles)(EditUser);

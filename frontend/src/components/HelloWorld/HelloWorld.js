@@ -7,14 +7,11 @@ import {
 import Button from '@material-ui/core/Button/Button';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { BACKEND_URL_GETFLASHCARD } from '../../utils/const-paths';
+import {
+  BACKEND_URL_ACCOUNT_VERIFY,
+  BACKEND_URL_GETFLASHCARD,
+} from '../../utils/const-paths';
 import Flashcard from '../Flashcard/Flashcard';
-
-const propTypes = {
-  updateFlashcard: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
-  flashcard: PropTypes.object.isRequired,
-};
 
 const styles = theme => ({
   root: {
@@ -55,6 +52,7 @@ class HelloWorld extends Component {
 
   componentDidMount() {
     document.title = 'HelloWorld';
+    console.log(BACKEND_URL_ACCOUNT_VERIFY({ id: 1, token: 2 }));
   }
 
   setTextToBackText = (flashcard) => {
@@ -114,6 +112,10 @@ class HelloWorld extends Component {
 
 }
 
-HelloWorld.propTypes = propTypes;
+HelloWorld.propTypes = {
+  updateFlashcard: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  flashcard: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(HelloWorld);

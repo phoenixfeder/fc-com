@@ -38,10 +38,6 @@ function LinkTab(props) {
   return <Tab component="a" onClick={event => event.preventDefault()} {...props} />;
 }
 
-const propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
 class EditProfile extends Component {
   state = {
     value: 0,
@@ -89,6 +85,8 @@ class EditProfile extends Component {
   }
 }
 
-EditProfile.propTypes = propTypes;
+EditProfile.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(EditProfile);

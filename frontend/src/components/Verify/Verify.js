@@ -16,9 +16,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import {
-  BACKEND_URL,
-  BACKEND_URL_ACCOUNT_VERIFY,
-} from '../../utils/const-paths';
+  fetchNewVerifyToken,
+  fetchVerify,
+} from '../../actions/register-actions';
 
 const styles = theme => ({
   root: {
@@ -51,13 +51,6 @@ const styles = theme => ({
   },
 });
 
-const propTypes = {
-  classes: PropTypes.object.isRequired,
-  enqueueSnackbar: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-};
-
-
 class Verify extends Component {
   constructor() {
     super();
@@ -74,10 +67,7 @@ class Verify extends Component {
     document.title = 'Verify';
     const parameters = qs.parse(window.location.search);
 
-    fetch(`${BACKEND_URL_ACCOUNT_VERIFY}?id=${parameters.id}&token=${parameters.token}`, {
-      method: 'PUT',
-    }).then(results => results.json(),
-    ).then(result => {
+    fetchVerify(parameters, (result) => {
       switch (result.status.code) {
         case 200:
           this.props.enqueueSnackbar({
@@ -141,22 +131,7 @@ class Verify extends Component {
 
   handleSubmit = () => {
     this.setState({ loading: true });
-    fetch(`${BACKEND_URL}/register/sendnewtoken`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        register: {
-          user: {
-            email: this.state.email,
-          },
-        },
-      }),
-
-    }).then(results => results.json(),
-    ).then(result => {
+    fetchNewVerifyToken(this.state, (result) => {
       switch (result.status.code) {
         case 200:
           this.props.enqueueSnackbar({
@@ -191,7 +166,11 @@ class Verify extends Component {
               variant: 'error',
             },
           });
-          this.setState({ loading: false, emailErrorMsg: 'error', isEmailInvalid: true });
+          this.setState({
+            loading: false,
+            emailErrorMsg: 'error',
+            isEmailInvalid: true,
+          });
           break;
       }
     });
@@ -283,6 +262,10 @@ class Verify extends Component {
   }
 }
 
-Verify.propTypes = propTypes;
+Verify.propTypes = {
+  classes: PropTypes.object.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+};
 
 export default compose(withStyles(styles), withRouter)(Verify);

@@ -17,7 +17,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Link from 'react-router-dom/es/Link';
 import { compose } from 'redux';
-import { BACKEND_URL_ACCOUNT_NEW } from '../../utils/const-paths';
+import { fetchRegister } from '../../actions/register-actions';
 
 // Styles to design some specific components
 const styles = theme => ({
@@ -186,28 +186,9 @@ class Register extends Component {
       this.createNewSnackbar('error', 'Registration failed: Invalid input');
 
     } else {
-      console.log(BACKEND_URL_ACCOUNT_NEW);
-      fetch(`${BACKEND_URL_ACCOUNT_NEW}`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          register: {
-            user: {
-              username: this.state.username,
-              email: this.state.mail,
-              password: this.state.password,
-            },
-          },
-        }),
-      }).then(results => results.json()).then(result => {
-
+      fetchRegister(this.state, (result) => {
+        this.setState({ loading: false });
         this.handleSendResult(result);
-        this.setState({
-          loading: false,
-        });
       });
     }
   };

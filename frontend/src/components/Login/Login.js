@@ -91,7 +91,7 @@ class Login extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.onAuth(this.state.username, this.state.password);
-  }
+  };
 
   render() {
     const { classes } = this.props;

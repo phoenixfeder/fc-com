@@ -8,10 +8,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 
-const propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
 const styles = theme => ({
   root: {
     paddingTop: theme.spacing.unit * 2,
@@ -64,6 +60,8 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = propTypes;
+Home.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(Home);

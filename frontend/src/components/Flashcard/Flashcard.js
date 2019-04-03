@@ -3,13 +3,6 @@ import React, { Component } from 'react';
 import * as FlashcardStyle from '../../utils/const-flashcard';
 import './flashcard.css';
 
-const propTypes = {
-  flashcard: PropTypes.shape({
-    title: PropTypes.string,
-    frontText: PropTypes.string,
-  }).isRequired,
-};
-
 class Flashcard extends Component {
   state = {};
 
@@ -28,6 +21,11 @@ class Flashcard extends Component {
   }
 }
 
-Flashcard.propTypes = propTypes;
+Flashcard.propTypes = {
+  flashcard: PropTypes.shape({
+    title: PropTypes.string,
+    frontText: PropTypes.string,
+  }).isRequired,
+};
 
 export default Flashcard;

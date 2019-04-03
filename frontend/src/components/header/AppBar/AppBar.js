@@ -66,17 +66,6 @@ const styles = theme => ({
   },
 });
 
-const propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-  classes: PropTypes.object.isRequired,
-  username: PropTypes.string,
-};
-
-const defaultPropTypes = {
-  username: '',
-};
-
-
 class AppBar extends Component {
   state = {
     anchorEl: null,
@@ -225,7 +214,14 @@ class AppBar extends Component {
 }
 
 
-AppBar.propTypes = propTypes;
-AppBar.defaultProps = defaultPropTypes;
+AppBar.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  classes: PropTypes.object.isRequired,
+  username: PropTypes.string,
+};
+
+AppBar.defaultProps = {
+  username: '',
+};
 
 export default withStyles(styles, { withTheme: true })(AppBar);
