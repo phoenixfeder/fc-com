@@ -10,6 +10,7 @@ import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.UserResponse;
+import server.exceptions.WrongFormatException;
 import server.modules.dbConnector.TokenConnector;
 import server.modules.dbConnector.UserConnector;
 import server.modules.utils.DTOVerifier;
@@ -37,11 +38,11 @@ public class AccountService {
     }
 
 
-    public ResponseDTO newAccount(RequestDTO requestDTO) {
+    public ResponseDTO newAccount(RequestDTO requestDTO) throws Exception{
 
         // Format Check
         if (!dtoVerifier.isFormatForRegisterCorrect(requestDTO)) {
-            return StatusDTO.FORMATERROR();
+            throw new WrongFormatException();
         }
 
         //Entries Check
@@ -72,7 +73,7 @@ public class AccountService {
 
     }
 
-    public void deleteAccount() {
+    public void closeAccount() {
 
     }
 

@@ -22,7 +22,7 @@ public class AccountController {
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/new", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDTO addUser(@RequestBody RequestDTO requestDTO) {
+    ResponseDTO addUser(@RequestBody RequestDTO requestDTO) throws Exception{
         return accountService.newAccount((requestDTO));
     }
 
