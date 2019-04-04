@@ -30,8 +30,7 @@ public class TokenComponent {
 
     }
 
-    public boolean hasTokenExpired(String token){
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+    public boolean hasTokenExpired(VerificationToken verificationToken){
         return verificationToken.getExpiryDate().isBefore(LocalDateTime.now());
     }
 }

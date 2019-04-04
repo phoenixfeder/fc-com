@@ -98,7 +98,7 @@ public class AccountService {
         }
 
         //Verify Time
-        if(tokenComponent.hasTokenExpired(requestToken)){
+        if(tokenComponent.hasTokenExpired(token)){
             return StatusDTO.TOKENEXPIRED();
         }
 
