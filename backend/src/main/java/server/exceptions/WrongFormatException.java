@@ -1,4 +1,4 @@
 package server.exceptions;
 
-public class WrongFormatException extends Exception {
+public class WrongFormatException extends FccExcpetion {
 }

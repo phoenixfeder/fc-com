@@ -37,4 +37,16 @@ public class StatusDTO {
     public static ResponseDTO VERIFYERROR() {
         return new ResponseDTO(StatusResponse.create(StatusCode.VERIFYERROR));
     }
+
+    public static ResponseDTO EMAILNOTINUSEERROR() {
+        return new ResponseDTO(StatusResponse.create(StatusCode.EMAILNOTINUSE));
+    }
+
+    public static ResponseDTO TOKENNOTEXPIREDERROR() {
+        return new ResponseDTO(StatusResponse.create(StatusCode.TOKENNOTEXPIREDYET));
+    }
+
+    public static ResponseDTO USERENABLEDERROR() {
+        return new ResponseDTO(StatusResponse.create(StatusCode.USERENABLEDERROR));
+    }
 }

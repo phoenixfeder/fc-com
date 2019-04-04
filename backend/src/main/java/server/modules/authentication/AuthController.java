@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import server.config.Config;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
+import server.exceptions.FccExcpetion;
 
 @Controller
 @RequestMapping("/authentication")
@@ -21,7 +22,7 @@ public class AuthController {
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDTO loginUser(@RequestBody RequestDTO requestDTO) throws Exception {
+    ResponseDTO loginUser(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
         return authService.login(requestDTO);
     }
 

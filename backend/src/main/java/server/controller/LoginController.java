@@ -8,6 +8,7 @@ import server.config.StatusCode;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.entities.dto.response.StatusResponse;
+import server.exceptions.WrongFormatException;
 import server.services.LoginService;
 
 @Controller
@@ -25,7 +26,7 @@ public class LoginController {
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDTO loginUser(@RequestBody RequestDTO requestDTO) {
+    ResponseDTO loginUser(@RequestBody RequestDTO requestDTO) throws WrongFormatException {
         return loginService.validateLogin(requestDTO);
     }
 

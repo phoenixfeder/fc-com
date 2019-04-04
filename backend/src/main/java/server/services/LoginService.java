@@ -38,7 +38,7 @@ public class LoginService {
         this.authentication = authentication;
     }
 
-    public ResponseDTO validateLogin(RequestDTO requestDTO){
+    public ResponseDTO validateLogin(RequestDTO requestDTO) throws WrongFormatException{
         ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.OK));
         UserRequest userRequest;
         try{

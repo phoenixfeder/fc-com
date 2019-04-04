@@ -10,16 +10,16 @@ import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.UserResponse;
-import server.exceptions.WrongFormatException;
+import server.exceptions.*;
 import server.modules.dbConnector.TokenConnector;
 import server.modules.dbConnector.UserConnector;
-import server.modules.utils.DTOVerifier;
 import server.modules.utils.StatusDTO;
+
+import java.time.LocalDateTime;
 
 @Service
 public class AccountService {
 
-    private final DTOVerifier dtoVerifier;
     private final RegisterComponent registerComponent;
     private final TokenComponent tokenComponent;
 
@@ -28,8 +28,7 @@ public class AccountService {
 
 
     @Autowired
-    public AccountService(DTOVerifier dtoVerifier, RegisterComponent registerComponent, TokenComponent tokenComponent, UserConnector userConnector, TokenConnector tokenConnector) {
-        this.dtoVerifier = dtoVerifier;
+    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, UserConnector userConnector, TokenConnector tokenConnector) {
         this.registerComponent = registerComponent;
         this.tokenComponent = tokenComponent;
 
@@ -38,19 +37,19 @@ public class AccountService {
     }
 
 
-    public ResponseDTO newAccount(RequestDTO requestDTO) throws Exception{
-
-        // Format Check
-        if (!dtoVerifier.isFormatForRegisterCorrect(requestDTO)) {
+    public ResponseDTO newAccount(RequestDTO requestDTO) throws FccExcpetion {
+        //Entries Check
+        RegisterRequest registerRequest;
+        RegisterResponse registerResponse;
+        try {
+            registerRequest = requestDTO.getRegisterRequest();
+            registerResponse = registerComponent.checkEntriesAndGetResponse(registerRequest);
+        }catch(Exception e){
             throw new WrongFormatException();
         }
 
-        //Entries Check
-        RegisterRequest registerRequest = requestDTO.getRegisterRequest();
-        RegisterResponse registerResponse = registerComponent.checkEntriesAndGetResponse(registerRequest);
-
         if (!registerResponse.isOk()) {
-            return StatusDTO.REGISTERERROR(registerResponse);
+            throw new RegisterErrorException(registerResponse);
         }
 
         //Create new User
@@ -59,7 +58,7 @@ public class AccountService {
 
         //Send Mail
         if (!registerComponent.sendVerificationMail(savedUser)) {
-            return StatusDTO.EMAILSENDERROR();
+            throw new EmailSendException();
         }
 
         //Return Response
@@ -116,5 +115,37 @@ public class AccountService {
         return responseDTO;
 
 
+    }
+
+    public ResponseDTO sendNewToken(RequestDTO requestDTO) throws FccExcpetion {
+
+        //Format Check
+        String mail;
+        try{
+            mail = requestDTO.getRegisterRequest().getUserRequest().getEmail();
+        }catch(NullPointerException e){
+            throw new WrongFormatException();
+        }
+
+        //Get User
+        User user = userConnector.getUserByEmail(mail);
+        if(user == null) throw new EmailNotInUseException();
+
+        //Get Token
+        VerificationToken verificationToken = tokenConnector.getTokenByUser(user);
+        if(verificationToken == null) throw new UserEnabledException();
+
+        if(verificationToken.getExpiryDate().isAfter(LocalDateTime.now())){
+            throw new TokenNotExpiredException();
+        }
+
+        tokenConnector.delete(verificationToken);
+        tokenConnector.save(new VerificationToken(user));
+
+        if (!registerComponent.sendVerificationMail(user)) {
+            throw new EmailSendException();
+        }
+
+        return StatusDTO.OK();
     }
 }

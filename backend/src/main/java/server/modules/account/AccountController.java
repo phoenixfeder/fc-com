@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import server.config.Config;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
+import server.exceptions.EmailSendException;
+import server.exceptions.FccExcpetion;
+import server.exceptions.RegisterErrorException;
+import server.exceptions.WrongFormatException;
 
 @Controller
 @RequestMapping("/account")
@@ -22,7 +26,7 @@ public class AccountController {
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/new", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDTO addUser(@RequestBody RequestDTO requestDTO) throws Exception{
+    ResponseDTO addUser(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
         return accountService.newAccount((requestDTO));
     }
 
@@ -33,13 +37,14 @@ public class AccountController {
         return accountService.verifyAccount(id, token);
     }
 
-    /*@CrossOrigin(origins = Config.ORIGIN_URL)
+    @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/resettoken", method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseDTO sendnewtoken(@RequestBody RequestDTO requestDTO) {
-        return registerService.sendNewToken(requestDTO);
+    ResponseDTO sendnewtoken(@RequestBody RequestDTO requestDTO) throws FccExcpetion{
+        return accountService.sendNewToken(requestDTO);
     }
 
+    /*
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/get", method = RequestMethod.POST)
     public @ResponseBody
