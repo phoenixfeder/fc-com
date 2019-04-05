@@ -93,15 +93,24 @@ The frontend provides an user interface for the users to interact with and is ab
 
 ### 3.2.1 User system
 At registration, the data provided by the user is stored in the backend. It is needed to log in, edit the profile and also provides the basis for a permission-system. 
+According use cases are:
 - [Register Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/Register/Register.md)
+- [Login Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)
+- [Logout Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)
 - [Edit Profile Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/EditProfile/EditProfile.md)
+- [Close Account Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)
 
 ### 3.2.3 Flashcard boxes
 Data related to single flashcard boxes contain references to individual flashcards. A user can give permissions to other users so they're able to use the same flashcard box as well. 
 A user is able to learn with those boxes using different methods.
+According use cases are:
+- [Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
+- [Share Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
 
 ### 3.2.4 Flashcards
 A flashcard data is composed of a virtual front- and backpage. For a better overview, flashcards can only be accessed from a individual flashcard boxes.
+According use cases are:
+- [Flashcards](Link coming)
 
 ### 3.2.5 Statistics
 Statistics contains information about the learning progress of individual flashcard boxes and is saved per single user, not per box.
