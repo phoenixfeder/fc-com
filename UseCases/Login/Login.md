@@ -6,6 +6,8 @@ A short overview of the use case including first mock-ups.
 ### 1.1 Brief Description
 A visitor will be able to log in to his account by providing his username and password. 
 To log in is needed to use the full functionality of our platform.
+According feature file:
+- [loginBackendFeedback.feature](https://github.com/phoenixfeder/fc-com/blob/master/frontend/features/loginBackendFeedback.feature)
 
 ### 1.2 Mock-up
 

@@ -5,7 +5,10 @@
 A short overview of the use case including first mock-ups.
 ### 1.1 Brief Description
 A visitor will be able to register on our site by providing a username, a password and an 
-E-mail address. It is needed to use our platform.
+E-mail address. It is needed to use our platform. 
+According feature file:
+- [registerValidation.feature](https://github.com/phoenixfeder/fc-com/blob/master/frontend/features/registerValidation.feature)
+- [verficationValidation.feature](https://github.com/phoenixfeder/fc-com/blob/master/frontend/features/verificationValidation.feature)
 
 ### 1.2 Mock-up
 
