@@ -1,40 +1,35 @@
-package server.controller;
+package server.modules.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.config.Config;
-import server.config.StatusCode;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
-import server.entities.dto.response.StatusResponse;
-import server.exceptions.WrongFormatException;
-import server.services.LoginService;
+import server.exceptions.FccExcpetion;
 
 @Controller
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/authentication")
+public class AuthController {
 
-    private final LoginService loginService;
+    private final AuthService authService;
 
     @Autowired
-    public LoginController(LoginService loginService) {
-        this.loginService = loginService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
-
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDTO loginUser(@RequestBody RequestDTO requestDTO) throws WrongFormatException {
-        return loginService.validateLogin(requestDTO);
+    ResponseDTO loginUser(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
+        return authService.login(requestDTO);
     }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
     public @ResponseBody
     ResponseDTO logoutUser(@RequestBody RequestDTO requestDTO) {
-        return loginService.logout(requestDTO);
+        return authService.logout(requestDTO);
     }
-
 }

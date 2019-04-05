@@ -9,3 +9,5 @@ backend/target/
 #frontend
 frontend/build
 frontend/node_modules
+
+backend/\.DS_Store

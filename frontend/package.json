@@ -10,6 +10,7 @@
     "cucumber": "^5.1.0",
     "notistack": "0.5.0",
     "npm": "^6.9.0",
+    "prop-types": "^15.7.2",
     "query-string": "^6.3.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
