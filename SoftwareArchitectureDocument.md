@@ -64,6 +64,7 @@ The scope of this SAS is to show the architecture of our FlashCardCommunity proj
 | [UC Flashcardboxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)| 2019-04-05 | Team FlashCardCommunity FlashCardCommunity   |
 | [UC Sharing](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
 | [UC Learning](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
+| [UC FAQ](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
 
 ### 1.5 Overview
 

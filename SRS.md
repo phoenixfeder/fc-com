@@ -90,6 +90,8 @@ After data is requested from the frontend and the user is allowed to do so, the 
 
 ## 3.2 Functionality – User Interface
 The frontend provides an user interface for the users to interact with and is able to request data from the data backend. The following subsections explain the types of data the frontend can request.
+According uses cases are:
+- [FAQ](Link coming)
 
 ### 3.2.1 User system
 At registration, the data provided by the user is stored in the backend. It is needed to log in, edit the profile and also provides the basis for a permission-system. 
