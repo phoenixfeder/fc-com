@@ -42,7 +42,7 @@ export const fetchVerify = (parameters, callback) => {
 };
 
 export const fetchNewVerifyToken = (state, callback) => {
-
+  console.log(state);
   fetch(BACKEND_URL_REGISTER_NEW_VERIFICATION_TOKEN, {
     method: 'PUT',
     headers: {
@@ -52,7 +52,7 @@ export const fetchNewVerifyToken = (state, callback) => {
     body: JSON.stringify({
       register: {
         user: {
-          email: this.state.email,
+          email: state.email,
         },
       },
     }),

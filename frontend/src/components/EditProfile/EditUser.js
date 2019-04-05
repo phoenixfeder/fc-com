@@ -14,7 +14,7 @@ import HobbyIcon from '@material-ui/icons/InsertEmoticon';
 import * as PropTypes from 'prop-types';
 import qs from 'query-string';
 import React, { Component } from 'react';
-import { BACKEND_URL } from '../../utils/const-paths';
+import { BACKEND_URL, BACKEND_URL_EDIT_GET_ACCOUNT, BACKEND_URL_EDIT_UPDATE_ACCOUNT } from '../../utils/const-paths';
 
 const styles = theme => ({
   root: {
@@ -73,7 +73,7 @@ class EditUser extends Component {
     const userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
     this.setState({ userID });
 
-    fetch(`${BACKEND_URL}/edit/getaccount`, {
+    fetch(BACKEND_URL_EDIT_GET_ACCOUNT, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -121,7 +121,7 @@ class EditUser extends Component {
 
   handleCommit = () => {
     const { enqueueSnackbar, session, sessionHash } = this.props;
-    fetch(`${BACKEND_URL}/edit/updateaccount`, {
+    fetch(BACKEND_URL_EDIT_UPDATE_ACCOUNT, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',

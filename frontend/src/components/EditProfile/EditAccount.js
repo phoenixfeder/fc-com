@@ -21,7 +21,7 @@ import qs from 'query-string';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { BACKEND_URL } from '../../utils/const-paths';
+import { fetchCloseAccount, fetchGetAccountData, fetchUpdateAccount } from '../../actions/edit-actions';
 import { lightTheme } from '../../utils/themeLight';
 
 const styles = theme => ({
@@ -76,50 +76,27 @@ class EditAccount extends Component {
   };
 
   componentWillMount() {
-    const { enqueueSnackbar, session, sessionHash } = this.props;
+    const { enqueueSnackbar } = this.props;
     const userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
     this.setState({ userID, editSelf: (userID === this.props.userID) });
 
-    fetch(`${BACKEND_URL}/edit/getaccount`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        authentication: {
-          session,
-          hash: sessionHash,
-        },
-        user: {
-          userID,
-        },
-      }),
-    })
-      .then(results => results.json())
-      .then((result) => {
-        switch (result.status.code) {
-          case 200:
-            this.setState({ newEmail: result.user.email });
-            break;
+    fetchGetAccountData({ ...this.props, userID }, (result) => {
 
-          default:
-            enqueueSnackbar({
-              message: 'This should not happen. Please contact system admin.',
-              options: {
-                variant: 'error',
-              },
-            });
-            break;
-        }
-      }).catch(() => {
-        enqueueSnackbar({
-          message: 'This should not happen. Please contact system admin.',
-          options: {
-            variant: 'error',
-          },
-        });
-      });
+      switch (result.status.code) {
+        case 200:
+          this.setState({ newEmail: result.user.email });
+          break;
+
+        default:
+          enqueueSnackbar({
+            message: 'This should not happen. Please contact system admin.',
+            options: {
+              variant: 'error',
+            },
+          });
+          break;
+      }
+    });
   }
 
   handleClickOpenCloseAccount = () => {
@@ -147,7 +124,7 @@ class EditAccount extends Component {
         });
         break;
       case 'newEmailInput':
-        this.setState({ newEmail: event.target.value, isNewEmailIncorrect: false, newEmailErrorMsg: '' });
+        this.setState({ newEmail: event.target.value.toLowerCase(), isNewEmailIncorrect: false, newEmailErrorMsg: '' });
         break;
       case 'closeAccountPasswordInput':
         this.setState({ closeAccountPassword: event.target.value });
@@ -161,34 +138,13 @@ class EditAccount extends Component {
   handleSubmit = () => {
     const {
       enqueueSnackbar,
-      session,
-      sessionHash,
     } = this.props;
     const {
-      userID,
-      oldPassword,
-      newPassword,
       newEmail,
     } = this.state;
-    fetch(`${BACKEND_URL}/edit/updateaccount`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        authentication: {
-          session,
-          hash: sessionHash,
-        },
-        user: {
-          userID,
-          oldPassword,
-          password: newPassword,
-          email: newEmail,
-        },
-      }),
-    }).then(results => results.json()).then((result) => {
+    fetchUpdateAccount({ ...this.state, ...this.props }, (result) => {
+
+
       switch (result.status.code) {
         case 200:
           this.setState({
@@ -225,13 +181,6 @@ class EditAccount extends Component {
           });
           break;
       }
-    }).catch(() => {
-      enqueueSnackbar({
-        message: 'This should not happen. Please contact system admin.',
-        options: {
-          variant: 'error',
-        },
-      });
     });
   };
 
@@ -240,26 +189,9 @@ class EditAccount extends Component {
       enqueueSnackbar,
       history,
       closeAccount,
-      session,
-      sessionHash,
     } = this.props;
     const { closeAccountPassword } = this.state;
-    fetch(`${BACKEND_URL}/edit/closeaccount`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        authentication: {
-          session,
-          hash: sessionHash,
-        },
-        user: {
-          oldPassword: closeAccountPassword,
-        },
-      }),
-    }).then((results) => results.json()).then((result) => {
+    fetchCloseAccount({ ...this.props, closeAccountPassword }, (result) => {
       switch (result.status.code) {
         case 200:
 

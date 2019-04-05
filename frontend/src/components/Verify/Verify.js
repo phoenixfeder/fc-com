@@ -132,6 +132,7 @@ class Verify extends Component {
   handleSubmit = () => {
     this.setState({ loading: true });
     fetchNewVerifyToken(this.state, (result) => {
+      console.log(result);
       switch (result.status.code) {
         case 200:
           this.props.enqueueSnackbar({
