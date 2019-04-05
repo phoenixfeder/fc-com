@@ -102,10 +102,11 @@ According use cases are:
 
 ### 3.2.3 Flashcard boxes
 Data related to single flashcard boxes contain references to individual flashcards. A user can give permissions to other users so they're able to use the same flashcard box as well. 
-A user is able to learn with those boxes using different methods.
+A user is able to learn with those boxes.
 According use cases are:
 - [Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
 - [Share Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
+- [Learning](Link coming)
 
 ### 3.2.4 Flashcards
 A flashcard data is composed of a virtual front- and backpage. For a better overview, flashcards can only be accessed from a individual flashcard boxes.
@@ -184,6 +185,7 @@ components and can reuse them all over the application. Such a component could b
 import a React framework called Material-UI that provides a lot of pre-defined components. Its design based on, oh wonder, the Material-Design. The development will
 take place with the newest version of JavaScript. Fortunately, our development environment is able to compile it to the lower version of JavaScript. Thus, we can
 use the newest features without having to worry about browser compatibility. 
+Furthermore we will extend ReactJS with Redux. Redux allows us to keep track of state changes in the frontend and is able to notify other components about it. For further reading see [here](https://github.com/phoenixfeder/fc-com/blob/master/SoftwareArchitectureDocument.md#2-architectural-representation).
 
 ### 3.8.3 Supported Platforms 
 Since FlashCardCommunity will be a web application the user only needs a modern web browser and a stable internet connection. With modern web browser we mean the

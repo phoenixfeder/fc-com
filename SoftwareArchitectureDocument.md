@@ -8,6 +8,7 @@
     - [References](#14-references)
     - [Overview](#15-overview)
 - [Architectural Representation](#2-architectural-representation)
+    - [Technologies Used](#21-technologies-used)
 - [Architectural Goals and Constraints](#3-architectural-goals-and-constraints)
 - [Use-Case View](#4-use-case-view)
     - [Use-Case Realizations](#41-use-case-realizations)
@@ -54,11 +55,15 @@ The scope of this SAS is to show the architecture of our FlashCardCommunity proj
 | [FlashCardCommunity Blog](https://flashcardcommunity.wordpress.com/)| 2018-10-XX | Team FlashCardCommunity   |
 | [Repository on GitHub](https://github.com/phoenixfeder/fc-com)| 2018-10-XX | Team FlashCardCommunity        |
 | [SRS](./SRS.md)                      								 | 2018-10-XX | Team FlashCardCommunity   |
-| [UC Register](./UseCases/Register/Register.md)| 2018-11-18 | Team FlashCardCommunity   |
-| [UC Login](./UseCases/Login/Login.md)| 2018-11-18 | Team FlashCardCommunity   |
-| [UC Logout](./UseCases/Logout/Logout.md)| 2018-11-18 | Team FlashCardCommunity   |
-| [UC Edit Profile](./UseCases/EditProfile/EditProfile.md)| 2018-11-18 | Team FlashCardCommunity   |
-| [UC Close Account](./UseCases/CloseAccount/CloseAccount.md)| 2018-11-18 | Team FlashCardCommunity   |
+| [UC Register](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Register/Register.md)| 2018-11-18 | Team FlashCardCommunity   |
+| [UC Login](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)| 2018-11-18 | Team FlashCardCommunity   |
+| [UC Logout](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)| 2018-11-18 | Team FlashCardCommunity   |
+| [UC Edit Profile](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/EditProfile/EditProfile.md)| 2018-11-18 | Team FlashCardCommunity |
+| [UC Close Account](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)| 2018-11-18 | Team FlashCardCommunity
+| [UC Flashcards](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
+| [UC Flashcardboxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)| 2019-04-05 | Team FlashCardCommunity FlashCardCommunity   |
+| [UC Sharing](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
+| [UC Learning](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
 
 ### 1.5 Overview
 
@@ -78,6 +83,22 @@ are fetched here. The fetched data is then send to the reducers.
 For more, see [Thinking in Redux](https://hackernoon.com/thinking-in-redux-when-all-youve-known-is-mvc-c78a74d35133).
 
 The backend however represents a controller and model. It simply follows the MVC pattern, but the view is replaced by the whole Redux pattern. The controller does the endpoint mapping whereas the model represents the possible models that are needed for this project (e.g. user, flashcards).
+
+## 2.1 Technologies used
+Our two main technologies used are described in the following.
+
+### Spring Boot (Backend)
+Spring Boot is built on top of the Java Spring framework and provides the developer with helpful features to create and run web applications. In our case, a REST Web Service
+which represents the interface between our front- and backend. As we want to benefit from the newest features of Java 10, the platform this service will be hosted on 
+needs to support Java 10 or higher.
+
+### ReactJS (Frontend)
+ReactJS helps building interactive UIs that can be updated dynamically and therefore eliminate the need to refresh the web application. One can also develop single 
+components and can reuse them all over the application. Such a component could be a login form, a profile card or anything else one wants to reuse. We are going to 
+import a React framework called Material-UI that provides a lot of pre-defined components. Its design based on, oh wonder, the Material-Design. The development will
+take place with the newest version of JavaScript. Fortunately, our development environment is able to compile it to the lower version of JavaScript. Thus, we can
+use the newest features without having to worry about browser compatibility. 
+Furthermore we will extend ReactJS with Redux. Redux allows us to keep track of state changes in the frontend and is able to notify other components about it.
 
 ## 3. Architectural Goals and Constraints
 
