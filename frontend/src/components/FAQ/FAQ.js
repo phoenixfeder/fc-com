@@ -67,6 +67,11 @@ class FAQ extends Component {
 
                 </List>
               </Grid>
+              <Grid item lg={12}>
+                <Typography variant="body1" align="center">You did not find an answer to your question? </Typography>
+                <Typography variant="body1" align="center">Then contact us directly at</Typography>
+                <Typography variant="body1" align="center"> <a href="mailto:flashcardcommunity@gmail.com">flashcardcommunity@gmail.com</a> </Typography>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
