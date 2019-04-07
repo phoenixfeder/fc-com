@@ -9,7 +9,7 @@ A user can start a new learning session. He can select which flashcardbox he wan
 
 ### 1.2 Mock-up
 
-![Mockup Large](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Learning/Learning_Mockup.png)
+![Mockup Large](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/Learning/Learning_Mockup.jpg)
 
 ## 2. Flow of Events
 A flowchart about what happens on each side of the application for this specific use case.
