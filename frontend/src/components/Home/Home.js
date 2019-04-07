@@ -1,16 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   Grid,
   Paper,
   Typography,
   withStyles,
 } from '@material-ui/core/';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-
-const propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 const styles = theme => ({
   root: {
@@ -52,7 +48,9 @@ class Home extends Component {
                 <Typography variant="h3" align="center">Home Page</Typography>
               </Grid>
               <Grid item lg={12}>
-                <Typography variant="body1" align="center">Im currently just a placeholder. Soon there will be more to see!</Typography>
+                <Typography variant="body1" align="center">
+                  {'Im currently just a placeholder. Soon there will be more to see!'}
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -62,6 +60,8 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = propTypes;
+Home.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(Home);

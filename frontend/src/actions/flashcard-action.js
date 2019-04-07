@@ -5,6 +5,4 @@ export const flashCardGotten = flashcard => ({
   payload: flashcard,
 });
 
-export const updateFlashcard = () => ({
-
-});
+export const updateFlashcard = () => ({});

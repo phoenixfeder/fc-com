@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   Grid,
   Paper,
@@ -7,14 +5,13 @@ import {
   withStyles,
 } from '@material-ui/core/';
 import Button from '@material-ui/core/Button/Button';
-import { BACKEND_URL_GETFLASHCARD } from '../../utils/const-paths';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import {
+  BACKEND_URL_ACCOUNT_VERIFY,
+  BACKEND_URL_GETFLASHCARD,
+} from '../../utils/const-paths';
 import Flashcard from '../Flashcard/Flashcard';
-
-const propTypes = {
-  updateFlashcard: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
-  flashcard: PropTypes.object.isRequired,
-};
 
 const styles = theme => ({
   root: {
@@ -45,7 +42,7 @@ class HelloWorld extends Component {
     const { updateFlashcard } = this.props;
     fetch(BACKEND_URL_GETFLASHCARD(100000))
       .then(results => results.json())
-    // .then(result => this.props.updateFlashcard(result))
+      // .then(result => this.props.updateFlashcard(result))
       .then((result) => {
         updateFlashcard(result);
         const { flashcard } = this.props;
@@ -55,6 +52,7 @@ class HelloWorld extends Component {
 
   componentDidMount() {
     document.title = 'HelloWorld';
+    console.log(BACKEND_URL_ACCOUNT_VERIFY({ id: 1, token: 2 }));
   }
 
   setTextToBackText = (flashcard) => {
@@ -64,7 +62,7 @@ class HelloWorld extends Component {
     flashcardDeepCopy.frontText = flashcard.backText;
     flashcardDeepCopy.backText = oldText;
     this.setState({ flashcardCopy: flashcardDeepCopy });
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -85,7 +83,8 @@ class HelloWorld extends Component {
             >
               <Grid item lg={12}>
                 <Typography variant="h3" align="center">Hello World</Typography>
-                <Typography variant="body1" align="center">Just a small presentation about how a flashcard could look like. This is not mobile responsive yet!</Typography>
+                <Typography variant="body1" align="center">Just a small presentation about how a flashcard could look
+                  like. This is not mobile responsive yet!</Typography>
               </Grid>
               <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                 <Flashcard flashcard={flashcardCopy} />
@@ -96,9 +95,12 @@ class HelloWorld extends Component {
                   variant="contained"
                   color="primary"
                   style={{ align: 'center' }}
-                  onClick={() => { this.setTextToBackText(flashcardCopy); this.forceUpdate(); }}
+                  onClick={() => {
+                    this.setTextToBackText(flashcardCopy);
+                    this.forceUpdate();
+                  }}
                 >
-                  Turn around
+                  {'Turn around'}
                 </Button>
               </Grid>
             </Grid>
@@ -107,8 +109,13 @@ class HelloWorld extends Component {
       </div>
     );
   }
+
 }
 
-HelloWorld.propTypes = propTypes;
+HelloWorld.propTypes = {
+  updateFlashcard: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  flashcard: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(HelloWorld);

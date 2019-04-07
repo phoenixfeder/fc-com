@@ -1,18 +1,14 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { flashCardGotten } from '../../actions/flashcard-action';
 import HelloWorld from './HelloWorld';
-import {flashCardGotten} from '../../actions/flashcard-action';
 
-const mapStateToProps = state => {
-    return { flashcard: state.flashcards.flashcard };
-};
+const mapStateToProps = state => ({ flashcard: state.flashcards.flashcard });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        updateFlashcard: (flashcard) => {
-            dispatch(flashCardGotten(flashcard));
-        }
-    };
-};
+const mapDispatchToProps = dispatch => ({
+  updateFlashcard: (flashcard) => {
+    dispatch(flashCardGotten(flashcard));
+  },
+});
 
 const HelloWorldContainer = connect(mapStateToProps, mapDispatchToProps)(HelloWorld);
 
