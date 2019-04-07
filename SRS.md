@@ -91,7 +91,7 @@ After data is requested from the frontend and the user is allowed to do so, the 
 ## 3.2 Functionality – User Interface
 The frontend provides an user interface for the users to interact with and is able to request data from the data backend. The following subsections explain the types of data the frontend can request.
 According uses cases are:
-- [FAQ](Link coming)
+- [FAQ](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FAQ/FAQ.md)
 
 ### 3.2.1 User system
 At registration, the data provided by the user is stored in the backend. It is needed to log in, edit the profile and also provides the basis for a permission-system. 
@@ -107,13 +107,13 @@ Data related to single flashcard boxes contain references to individual flashcar
 A user is able to learn with those boxes.
 According use cases are:
 - [Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
-- [Share Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
-- [Learning](Link coming)
+- [Share Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md)
+- [Learning](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Learning/Learning.md)
 
 ### 3.2.4 Flashcards
 A flashcard data is composed of a virtual front- and backpage. For a better overview, flashcards can only be accessed from a individual flashcard boxes.
 According use cases are:
-- [Flashcards](Link coming)
+- [Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)
 
 ### 3.2.5 Statistics
 Statistics contains information about the learning progress of individual flashcard boxes and is saved per single user, not per box.

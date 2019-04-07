@@ -60,11 +60,11 @@ The scope of this SAS is to show the architecture of our FlashCardCommunity proj
 | [UC Logout](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)| 2018-11-18 | Team FlashCardCommunity   |
 | [UC Edit Profile](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/EditProfile/EditProfile.md)| 2018-11-18 | Team FlashCardCommunity |
 | [UC Close Account](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)| 2018-11-18 | Team FlashCardCommunity
-| [UC Flashcards](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
-| [UC Flashcardboxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)| 2019-04-05 | Team FlashCardCommunity FlashCardCommunity   |
-| [UC Sharing](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
-| [UC Learning](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
-| [UC FAQ](Link coming)| 2019-XX-05 | Team FlashCardCommunity FlashCardCommunity   |
+| [UC Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)|  2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
+| [UC Flashcardboxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)|  2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
+| [UC Sharing](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md)| 2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
+| [UC Learning](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Learning/Learning.md)|  2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
+| [UC FAQ](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FAQ/FAQ.md)| 2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
 
 ### 1.5 Overview
 
