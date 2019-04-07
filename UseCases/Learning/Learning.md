@@ -27,8 +27,15 @@ A short overview of what is required to conduct this use case.
 ### 4.1 Log in
 The user needs to be logged in to start a new learning session.
  
+### 4.2 Existing Flashcards
+The user needs to have at least one flashcardbox with flashcards in it to learn with the selected box.
+ 
 ## 5. Postconditions
 Description of what is required after the user submitted the form.
+
+### 5.1 Storing statistics
+The statistics of the learning session need to be stored in the database.
+This way the frequency of learning certain flashcards can be adjusted accordingly to the progress.
 
 ## 6. Extension Points
 N/A
