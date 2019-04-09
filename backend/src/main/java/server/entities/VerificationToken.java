@@ -25,9 +25,9 @@ public class VerificationToken {
 
     private LocalDateTime expiryDate;
 
-    //TODO NICHT SICHER OB DAS GEBRAUCHT WIRD
-    //public VerificationToken() {
-    //}
+    public VerificationToken() {
+        super();
+    }
 
     public VerificationToken(User user) {
         this.user = user;
