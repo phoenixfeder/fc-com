@@ -3,8 +3,7 @@ package server.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -18,8 +17,14 @@ public class FlashCardBox {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    LocalDateTime creationDate;
+
+    @Column(nullable = false)
+    LocalDateTime lastChanged;
+
     @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
-    @JoinColumn(name="owner")
+    @JoinColumn(name = "owner")
     private User owner;
 
 }

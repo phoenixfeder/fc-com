@@ -42,7 +42,7 @@ public class AccountService {
 
         //Entries Check
         RegisterRequest registerRequest = DTOContentParser.getRegisterRequest(requestDTO);
-        UserRequest userRequest = DTOContentParser.getUserRequest(registerRequest);
+        UserRequest userRequest = DTOContentParser.getRegisterUserRequest(registerRequest);
         RegisterResponse registerResponse = registerComponent.checkEntriesAndGetResponse(userRequest);
 
         //Create new User
@@ -109,9 +109,6 @@ public class AccountService {
 
     public ResponseDTO sendNewToken(RequestDTO requestDTO) throws FccExcpetion {
 
-        //Format Check
-        //RegisterRequest registerRequest = DTOContentParser.getRegisterRequest(requestDTO);
-        //UserRequest userRequest = DTOContentParser.getUserRequest(registerRequest);
         String mail = DTOContentParser.getMail(requestDTO);
 
         //Get User

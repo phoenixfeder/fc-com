@@ -52,4 +52,16 @@ public class ExceptionController{
         System.out.println("Permission denied");
         return StatusDTO.PERMISSIONEDENIED();
     }
+
+    @ExceptionHandler({WrongUsernameOrPasswordException.class})
+    public @ResponseBody ResponseDTO wrongUsernameOrPassword(){
+        System.out.println("Wrong Username or Password Error");
+        return StatusDTO.WRONGUSERNAMEORPASSWORD();
+    }
+
+    @ExceptionHandler({UserNotEnabledException.class})
+    public @ResponseBody ResponseDTO userNotEnabledException(){
+        System.out.println("User is not enabled Error");
+        return StatusDTO.USERISNOTENABLEDERROR();
+    }
 }

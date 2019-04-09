@@ -1,4 +1,4 @@
 package server.exceptions;
 
-public class WrongUsernameOrPasswordException {
+public class WrongUsernameOrPasswordException extends FccExcpetion {
 }

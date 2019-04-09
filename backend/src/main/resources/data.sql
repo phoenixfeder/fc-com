@@ -16,6 +16,7 @@ INSERT INTO verification_token(id, expiry_date, token, user_id) VALUES
 (1, '2030-03-03 00:00:00', 'abcdefghij', 1),
 (2, '2010-03-03 00:00:00', 'abcdefghij', 2);
 
-INSERT INTO flash_card_box(id, title, description, owner) VALUES
-(1, 'Deutsch', 'Goethes Faust im Arsch', 3),
-(2, 'English', 'Basics', 3);
+INSERT INTO flash_card_box(id, title, description, owner, creation_date, last_changed) VALUES
+(1, 'Deutsch', 'Goethes Faust im Arsch', 3, '2019-04-09 16:00:00', '2019-04-09 16:00:00'),
+(2, 'English', 'Basics', 3,'2019-04-09 16:00:00','2019-04-09 16:00:00'),
+(3, 'Chemie', 'Meth für Anfänger', 3,'2019-04-09 16:00:00','2019-04-09 16:00:00');                                               ;

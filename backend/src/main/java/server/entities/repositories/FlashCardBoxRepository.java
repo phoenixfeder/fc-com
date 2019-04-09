@@ -2,6 +2,10 @@ package server.entities.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import server.entities.FlashCardBox;
+import server.entities.User;
 
-public interface FlashCardBoxRepository extends CrudRepository<FlashCardBox, Integer> {
+import java.util.List;
+
+public interface FlashCardBoxRepository extends CrudRepository<FlashCardBox, Long> {
+    List<FlashCardBox> getAllByOwner(User user);
 }
