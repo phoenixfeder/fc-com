@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import FlashcardboxCreateModal from './FlashcardboxCreateModal';
 
 const styles = theme => ({
   root: {
@@ -53,6 +54,7 @@ class Flashcardboxes extends Component {
             >
               <Grid item lg={12}>
                 <Typography variant="h3" align="center">My Flashcardboxes</Typography>
+                <FlashcardboxCreateModal/>
               </Grid>
             </Grid>
           </Grid>
