@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Flashcardboxes from './Flashcardboxes';
 
-const HelloWorldContainer = connect(null, null)(Flashcardboxes);
+const FlashcardboxesContainer = connect(null, null)(Flashcardboxes);
 
-export default HelloWorldContainer;
+export default FlashcardboxesContainer;
