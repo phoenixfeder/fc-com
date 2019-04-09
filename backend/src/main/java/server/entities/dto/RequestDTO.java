@@ -16,15 +16,4 @@ public class RequestDTO {
     UserRequest userRequest;
     @JsonProperty("authentication")
     Session session;
-
-    public UserRequest getUserInRegisterRequest() throws WrongFormatException {
-
-        try{
-            return registerRequest.getUserRequest();
-        }catch(NullPointerException e){
-            throw new WrongFormatException();
-        }
-    }
-
-
 }

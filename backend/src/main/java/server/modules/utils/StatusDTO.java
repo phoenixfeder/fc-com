@@ -49,4 +49,27 @@ public class StatusDTO {
     public static ResponseDTO USERENABLEDERROR() {
         return new ResponseDTO(StatusResponse.create(StatusCode.USERENABLEDERROR));
     }
+
+    public static ResponseDTO PERMISSIONEDENIED() {
+        return new ResponseDTO(StatusResponse.create(StatusCode.PERMISSIONDENIED));
+    }
+
+    public static ResponseDTO WRONGUSERNAMEORPASSWORD() {
+        return new ResponseDTO(StatusResponse.create(StatusCode.WRONGUNORPW));
+    }
+
+    public static ResponseDTO USERISNOTENABLEDERROR() {
+        return new ResponseDTO(StatusResponse.create(StatusCode.USERNOTENABLED));
+    }
+
+    public static ResponseDTO OKWITHSESSION(String hash, String session, String username, long id) {
+        ResponseDTO responseDTO = OK();
+        responseDTO.getStatusResponse().setSession(new server.entities.dto.response.Session());
+        responseDTO.getStatusResponse().getSession().setHash(hash);
+        responseDTO.getStatusResponse().getSession().setSession(session);
+        responseDTO.getStatusResponse().getSession().setUsername(username);
+        responseDTO.getStatusResponse().getSession().setId(id);
+
+        return responseDTO;
+    }
 }

@@ -3,6 +3,7 @@ package server.entities.entitieToDTOTransfer;
 import server.entities.FlashCard;
 import server.entities.dto.FlashCardDTO;
 
+@Deprecated
 public class FlashCardToDTO {
     public static FlashCardDTO transfer(FlashCard flashCard) {
         FlashCardDTO flashCardDTO = new FlashCardDTO();

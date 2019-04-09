@@ -13,6 +13,7 @@ import server.entities.dto.response.UserResponse;
 import server.exceptions.*;
 import server.modules.dbConnector.TokenConnector;
 import server.modules.dbConnector.UserConnector;
+import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
 import java.time.LocalDateTime;
@@ -38,28 +39,17 @@ public class AccountService {
 
 
     public ResponseDTO newAccount(RequestDTO requestDTO) throws FccExcpetion {
-        //Entries Check
-        RegisterRequest registerRequest;
-        RegisterResponse registerResponse;
-        try {
-            registerRequest = requestDTO.getRegisterRequest();
-            registerResponse = registerComponent.checkEntriesAndGetResponse(registerRequest);
-        }catch(Exception e){
-            throw new WrongFormatException();
-        }
 
-        if (!registerResponse.isOk()) {
-            throw new RegisterErrorException(registerResponse);
-        }
+        //Entries Check
+        RegisterRequest registerRequest = DTOContentParser.getRegisterRequest(requestDTO);
+        UserRequest userRequest = DTOContentParser.getRegisterUserRequest(registerRequest);
+        RegisterResponse registerResponse = registerComponent.checkEntriesAndGetResponse(userRequest);
 
         //Create new User
-        UserRequest userRequest = registerRequest.getUserRequest();
         User savedUser = registerComponent.createNewUser(userRequest);
 
         //Send Mail
-        if (!registerComponent.sendVerificationMail(savedUser)) {
-            throw new EmailSendException();
-        }
+        registerComponent.sendVerificationMail(savedUser);
 
         //Return Response
         ResponseDTO responseDTO = StatusDTO.OK();
@@ -119,13 +109,7 @@ public class AccountService {
 
     public ResponseDTO sendNewToken(RequestDTO requestDTO) throws FccExcpetion {
 
-        //Format Check
-        String mail;
-        try{
-            mail = requestDTO.getRegisterRequest().getUserRequest().getEmail();
-        }catch(NullPointerException e){
-            throw new WrongFormatException();
-        }
+        String mail = DTOContentParser.getMail(requestDTO);
 
         //Get User
         User user = userConnector.getUserByEmail(mail);
@@ -142,9 +126,7 @@ public class AccountService {
         tokenConnector.delete(verificationToken);
         tokenConnector.save(new VerificationToken(user));
 
-        if (!registerComponent.sendVerificationMail(user)) {
-            throw new EmailSendException();
-        }
+        registerComponent.sendVerificationMail(user);
 
         return StatusDTO.OK();
     }
