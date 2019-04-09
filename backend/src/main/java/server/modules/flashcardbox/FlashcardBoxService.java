@@ -9,10 +9,26 @@ import server.modules.utils.StatusDTO;
 @Service
 public class FlashcardBoxService {
     public ResponseDTO addBox(RequestDTO requestDTO) throws FccExcpetion {
+
+        //User = authenticate
+
+        //format check
+
+        //reate Box, set Owner
+
         return StatusDTO.OK();
     }
 
     public ResponseDTO getBox(RequestDTO requestDTO) throws FccExcpetion {
+
+        //User = authenticate
+
+        //format check
+
+        //Get Boxes where User == owner and Viewable Rights
+
+        //Return List DTO
+
         return StatusDTO.OK();
     }
 

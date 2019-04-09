@@ -6,6 +6,7 @@ import server.entities.dto.request.UserRequest;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Data
@@ -38,6 +39,10 @@ public class User {
     @ManyToOne(targetEntity = Role.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @ManyToMany(targetEntity = FlashCardBox.class, cascade = CascadeType.ALL)
+    @JoinColumn(name="viewableBoxes")
+    private Set<FlashCardBox> viewableBoxes;
 
     public void insertDTOData(UserRequest userRequest) {
         this.username = userRequest.getUsername();

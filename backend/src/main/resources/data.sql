@@ -15,3 +15,7 @@ INSERT INTO user(id, username, email, password, role_id, enabled, date_of_birth)
 INSERT INTO verification_token(id, expiry_date, token, user_id) VALUES
 (1, '2030-03-03 00:00:00', 'abcdefghij', 1),
 (2, '2010-03-03 00:00:00', 'abcdefghij', 2);
+
+INSERT INTO flash_card_box(id, title, description, owner) VALUES
+(1, 'Deutsch', 'Goethes Faust im Arsch', 3),
+(2, 'English', 'Basics', 3);

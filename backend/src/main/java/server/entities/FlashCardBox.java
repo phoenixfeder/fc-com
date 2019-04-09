@@ -13,23 +13,13 @@ public class FlashCardBox {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
+    private String description;
 
-
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "FlashCardsInFlashCardBox",
-            joinColumns = {@JoinColumn(name = "flash_card_box_id")},
-            inverseJoinColumns = {@JoinColumn(name = "flash_card_id")}
-    )
-    private Set<FlashCard> cards = new HashSet<>();
-
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "FlashCardBoxOwnedByUser",
-            joinColumns = {@JoinColumn(name = "flash_card_box_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
-    )
-    private Set<FlashCard> boxUsers = new HashSet<>();
+    @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+    @JoinColumn(name="owner")
+    private User owner;
 
 }
