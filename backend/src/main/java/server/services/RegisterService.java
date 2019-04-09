@@ -22,6 +22,7 @@ import server.services.register.MailSending;
 
 import java.time.LocalDateTime;
 
+@Deprecated
 @Service
 public class RegisterService {
     private final UserRepository userRepository;

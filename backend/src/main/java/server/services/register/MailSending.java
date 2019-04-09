@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import server.config.Lang;
 
+@Deprecated
 @Component
 public class MailSending {
 

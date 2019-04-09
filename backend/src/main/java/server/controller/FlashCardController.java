@@ -7,6 +7,7 @@ import server.config.Config;
 import server.entities.dto.FlashCardDTO;
 import server.services.FlashCardService;
 
+@Deprecated
 @Controller
 @RequestMapping("/flashcard")
 public class FlashCardController {

@@ -11,6 +11,7 @@ import server.entities.dto.response.StatusResponse;
 import server.exceptions.WrongFormatException;
 import server.services.LoginService;
 
+@Deprecated
 @Controller
 @RequestMapping("/login")
 public class LoginController {
