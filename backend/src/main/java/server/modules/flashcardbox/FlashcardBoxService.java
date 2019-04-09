@@ -1,20 +1,32 @@
 package server.modules.flashcardbox;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.exceptions.FccExcpetion;
+import server.modules.authentication.Authenticator;
 import server.modules.utils.StatusDTO;
 
 @Service
 public class FlashcardBoxService {
+
+    private final Authenticator authenticator;
+
+    @Autowired
+    public FlashcardBoxService(Authenticator authenticator) {
+        this.authenticator = authenticator;
+    }
+
     public ResponseDTO addBox(RequestDTO requestDTO) throws FccExcpetion {
 
         //User = authenticate
+        User user = authenticator.authenticate(requestDTO);
 
         //format check
 
-        //reate Box, set Owner
+        //Create Box, set Owner
 
         return StatusDTO.OK();
     }
@@ -22,6 +34,7 @@ public class FlashcardBoxService {
     public ResponseDTO getBox(RequestDTO requestDTO) throws FccExcpetion {
 
         //User = authenticate
+        User user = authenticator.authenticate(requestDTO);
 
         //format check
 

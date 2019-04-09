@@ -46,4 +46,10 @@ public class ExceptionController{
         System.out.println("User enabled Error");
         return StatusDTO.USERENABLEDERROR();
     }
+
+    @ExceptionHandler({PermissionDeniedException.class})
+    public @ResponseBody ResponseDTO permissionDenied(){
+        System.out.println("Permission denied");
+        return StatusDTO.PERMISSIONEDENIED();
+    }
 }

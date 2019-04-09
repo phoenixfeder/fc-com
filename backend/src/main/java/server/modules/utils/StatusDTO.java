@@ -49,4 +49,8 @@ public class StatusDTO {
     public static ResponseDTO USERENABLEDERROR() {
         return new ResponseDTO(StatusResponse.create(StatusCode.USERENABLEDERROR));
     }
+
+    public static ResponseDTO PERMISSIONEDENIED() {
+        return new ResponseDTO(StatusResponse.create(StatusCode.PERMISSIONDENIED));
+    }
 }
