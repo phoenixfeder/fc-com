@@ -9,7 +9,7 @@ A user can share flashcard boxes so an other user gets permission to watch this 
 
 ### 1.2 Mock-up
 
-t.b.a.
+![Mockup](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxesMockup.png)
 
 ## 2. Flow of Events
 A flowchart about what happens on each side of the application for this specific use case.
