@@ -13,6 +13,7 @@ import LoginContainer from '../Login/login-container';
 import LogoutContainer from '../Logout/logout-container';
 import RegisterContainer from '../Register/register-container';
 import VerfiyContainer from '../Verify/verify-container';
+import FlashcardboxesContainer from '../Flashcardboxes/flashcardboxes-container';
 
 class Main extends Component {
   componentDidMount() {
@@ -41,7 +42,7 @@ class Main extends Component {
           <Route path="/edit" component={EditProfileContainer} />
           <Route path="/faq" component={FAQ} />
           <Route path="/helloworld" component={HelloWorldContainer} />
-
+          <Route path="/boxes" component={FlashcardboxesContainer} />
           <Route component={Home} />
         </Switch>
       );

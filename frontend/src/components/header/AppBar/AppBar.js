@@ -103,7 +103,7 @@ class AppBar extends Component {
       ];
     }
 
-    const sidebarItems = (
+    let sidebarItems = (
       <>
         <MenuItem
           id="home-menu-link"
@@ -137,10 +137,47 @@ class AppBar extends Component {
     );
 
     if (this.props.isAuthenticated) {
-      /* sidebarItems += (
-              <>
-              </>
-          ); */
+      sidebarItems = (
+        <>
+          <MenuItem
+            id="home-menu-link"
+            component={Link}
+            to="/"
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {'Home'}
+          </MenuItem>
+          <MenuItem
+            id="home-menu-link"
+            component={Link}
+            to="/boxes"
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {'Flashcardboxes'}
+          </MenuItem>
+          <MenuItem
+            id="hw-menu-link"
+            component={Link}
+            to="/helloworld"
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {'Hello World'}
+          </MenuItem>
+          <Divider />
+          <MenuItem
+            id="faq-menu-link"
+            component={Link}
+            to="/faq"
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {'FAQ'}
+          </MenuItem>
+        </>
+      );
     }
 
     return (
