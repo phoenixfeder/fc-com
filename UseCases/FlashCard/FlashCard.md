@@ -1,4 +1,4 @@
-# Use-Case Specification: Edit Profile
+# Use-Case Specification: Flashcard
 
 
 ## 1. General
@@ -14,7 +14,7 @@ A user can manage the Flashcards in their Boxes.
 A flowchart about what happens on each side of the application for this specific use case.
 ### 2.1 Basic Flow
 
-TBA
+![Flashcardbox Flowchart](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/FlashCard/flashcardFlowchart.png)
 
 	
 ## 3. Special Requirements
