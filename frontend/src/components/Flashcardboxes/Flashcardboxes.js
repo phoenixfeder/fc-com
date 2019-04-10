@@ -16,25 +16,12 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
-  paper: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-  },
-  infoChipSuccess: {
-    margin: theme.spacing.unit / 2,
-    backgroundColor: '#43a047',
-  },
-  infoChip: {
-    margin: theme.spacing.unit / 2,
-  },
 });
 
 class Flashcardboxes extends Component {
-  state = {
-  };
 
   componentWillMount() {
+    this.props.getFlashcardboxes(this.props.auth);
   }
 
   componentDidMount() {
@@ -42,23 +29,17 @@ class Flashcardboxes extends Component {
   }
 
   renderCards = () => {
-    const cards = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < 30; i++) {
-      const successRate = Math.floor(Math.random() * Math.floor(100));
-      const amountCards = Math.floor(Math.random() * Math.floor(1000));
-      cards.push((
-        <Grid item xs={6} md={4} lg={3} key={i}>
-          <Flashcardbox
-            title="Title"
-            amount={amountCards}
-            successRate={successRate}
-            description="Im a description of a very cool flashcardbox and my author made me extra long for testing purposes only."
-          />
-        </Grid>
-      ));
-    }
-    return cards;
+    this.props.boxes.map(box => (
+      <Grid item xs={6} md={4} lg={3} key={box.id}>
+        <Flashcardbox
+          title={box.title}
+          amount={box.flashcards}
+          lastchanged={box.lastchanged}
+          created={box.created}
+          description={box.description}
+        />
+      </Grid>
+    ));
   }
 
   render() {
@@ -83,6 +64,9 @@ class Flashcardboxes extends Component {
 
 Flashcardboxes.propTypes = {
   classes: PropTypes.object.isRequired,
+  getFlashcardboxes: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  boxes: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(Flashcardboxes);

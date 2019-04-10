@@ -1,6 +1,18 @@
 import { connect } from 'react-redux';
 import Flashcardboxes from './Flashcardboxes';
+import * as actions from '../../actions/flashcardboxes-actions';
 
-const FlashcardboxesContainer = connect(null, null)(Flashcardboxes);
+const mapStateToProps = state => ({
+  loading: state.flashcardboxes.loading,
+  boxes: state.flashcardboxes.boxes,
+  error: state.flashcardboxes.error,
+  auth: state.auth,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getFlashcardboxes: () => dispatch(actions.getFlashcardboxes()),
+});
+
+const FlashcardboxesContainer = connect(mapStateToProps, mapDispatchToProps)(Flashcardboxes);
 
 export default FlashcardboxesContainer;

@@ -1,5 +1,5 @@
 import * as actionTypes from '../utils/const-actiontypes';
-import { BACKEND_URL, BACKEND_URL_LOGIN, BACKEND_URL_LOGOUT } from '../utils/const-paths';
+import { BACKEND_URL_LOGIN, BACKEND_URL_LOGOUT } from '../utils/const-paths';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
 
 export const authStart = () => ({
