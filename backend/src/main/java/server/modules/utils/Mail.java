@@ -24,7 +24,7 @@ public class Mail {
         return text;
     }
 
-    public void send(String mailAddress, String username, String id, String token) throws Exception {
+    public void send(String mailAddress, String username, String id, String token) {
         SimpleMailMessage email = new SimpleMailMessage();
         //TODO email.setTo(mailAddress);
         email.setTo("flashcardcommunity@gmail.com");
