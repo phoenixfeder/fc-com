@@ -2,6 +2,7 @@ package server.modules.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import server.config.StatusCode;
 import server.entities.User;
 import server.entities.VerificationToken;
 import server.entities.dto.RequestDTO;
@@ -9,6 +10,7 @@ import server.entities.dto.ResponseDTO;
 import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
+import server.entities.dto.response.StatusResponse;
 import server.entities.dto.response.UserResponse;
 import server.exceptions.*;
 import server.modules.authentication.Authenticator;
@@ -65,8 +67,8 @@ public class AccountService {
         return responseDTO;
     }
 
-    public void editAccount() {
-
+    public void editAccount(RequestDTO requestDTO) throws FccExcpetion{
+        User user = authenticator.authenticate(requestDTO);
     }
 
     public ResponseDTO closeAccount(RequestDTO requestDTO) throws FccExcpetion{
@@ -144,5 +146,13 @@ public class AccountService {
         registerComponent.sendVerificationMail(user);
 
         return StatusDTO.OK();
+    }
+
+    public ResponseDTO getAccount(RequestDTO requestDTO) throws FccExcpetion{
+        User user = authenticator.authenticate(requestDTO);
+
+        ResponseDTO responseDTO = StatusDTO.OK();
+        responseDTO.setUserResponse(new UserResponse(user));
+        return responseDTO;
     }
 }

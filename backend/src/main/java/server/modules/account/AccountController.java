@@ -44,14 +44,15 @@ public class AccountController {
         return accountService.sendNewToken(requestDTO);
     }
 
-    /*
+
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/get", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDTO getAccountData(@RequestBody RequestDTO requestDTO) {
-        return editProfileService.getAccountData((requestDTO));
+    ResponseDTO getAccountData(@RequestBody RequestDTO requestDTO) throws FccExcpetion{
+        return accountService.getAccount((requestDTO));
     }
 
+    /*
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/update", method = RequestMethod.PUT)
     public @ResponseBody ResponseDTO setAccountData(@RequestBody RequestDTO requestDTO) {
