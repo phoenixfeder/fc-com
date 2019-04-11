@@ -1,9 +1,6 @@
 import {
   Button,
   Dialog,
-  Grid,
-  Paper,
-  Typography,
   withStyles,
 } from '@material-ui/core';
 import red from '@material-ui/core/colors/red';

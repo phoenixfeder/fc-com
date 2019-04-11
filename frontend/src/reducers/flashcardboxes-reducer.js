@@ -14,7 +14,7 @@ const getBoxesStart = state => ({ ...state, loading: true });
 
 const getBoxesSuccess = (state, action) => ({
   ...state,
-  boxes: action.flashcardboxes,
+  boxes: action.boxes,
   loading: false,
 });
 

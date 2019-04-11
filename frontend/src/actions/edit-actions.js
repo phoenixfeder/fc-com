@@ -37,7 +37,7 @@ export const fetchUpdateAccount = (state, callback) => {
        options: {
          variant: 'error',
        },
-     });*/
+     }); */
   });
 };
 

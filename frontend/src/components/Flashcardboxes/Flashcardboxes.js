@@ -29,20 +29,27 @@ class Flashcardboxes extends Component {
     document.title = 'Flashcardboxes';
   }
 
-  renderCards = () => {
-    this.props.boxes.map(box => (
-      <Grid item xs={6} md={4} lg={3} key={box.id}>
-        <Flashcardbox
-          id={box.id}
-          title={box.title}
-          amount={box.flashcards}
-          lastchanged={box.lastchanged}
-          created={box.created}
-          description={box.description}
-        />
+  renderCards = () => (
+    <Grid container direction="row" justify="space-evenly" spacing={16}>
+      {
+        this.props.boxes.map(box => (
+          <Grid item xs={6} md={4} lg={3} key={box.id}>
+            <Flashcardbox
+              id={box.id}
+              title={box.title}
+              amount={box.flashcards}
+              lastchanged={box.lastchanged}
+              created={box.created}
+              description={box.description}
+            />
+          </Grid>
+        ))
+      }
+      <Grid item xs={6} md={4} lg={3}>
+        <FlashcardboxCreateModal />
       </Grid>
-    ));
-  }
+    </Grid>
+  );
 
   render() {
     const { classes } = this.props;
@@ -54,11 +61,8 @@ class Flashcardboxes extends Component {
               {'My Flashcardboxes'}
             </Typography>
           </Grid>
-          <Grid container direction="row" justify="space-evenly" spacing={16}>
-            { this.renderCards() }
-          </Grid>
+          { this.renderCards() }
         </Grid>
-        <FlashcardboxCreateModal />
       </div>
     );
   }
