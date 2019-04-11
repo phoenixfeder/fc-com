@@ -2,6 +2,7 @@ package server.modules.dbConnector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import server.entities.Session;
 import server.entities.User;
 import server.entities.repositories.SessionRepository;
@@ -35,6 +36,7 @@ public class SessionConnector {
         return sessionRepository.findBySession(session);
     }
 
+    @Transactional
     public void deleteByUser(User user) {
         sessionRepository.deleteByUser(user);
     }

@@ -51,7 +51,7 @@ public class Authenticator {
             authenticate.updateExpireDate();
             authenticate = sessionConnector.save(authenticate);
 
-            return userConnector.getUserByID(authenticate.getId());
+            return userConnector.getUserByID(authenticate.getUser().getId());
 
         } catch (Exception e) {
             throw new PermissionDeniedException();

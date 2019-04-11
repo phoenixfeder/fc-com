@@ -38,7 +38,7 @@ public class AuthService {
     public ResponseDTO login(RequestDTO requestDTO) throws FccExcpetion {
         UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
         User user = userConnector.getUserByNameOrEmail(userRequest);
-        if(authenticator.isPasswordCorrect(user, userRequest.getPassword())){
+        if(!authenticator.isPasswordCorrect(user, userRequest.getPassword())){
             throw new WrongUsernameOrPasswordException();
         }
 
