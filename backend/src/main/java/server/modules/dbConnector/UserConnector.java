@@ -48,4 +48,8 @@ public class UserConnector {
         }
         return user;
     }
+
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
 }

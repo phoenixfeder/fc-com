@@ -72,4 +72,8 @@ public class StatusDTO {
 
         return responseDTO;
     }
+
+    public static ResponseDTO WRONGPASSWORDERROR() {
+        return new ResponseDTO(StatusResponse.create(StatusCode.WRONGPASSWORDERROR));
+    }
 }

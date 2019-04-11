@@ -64,4 +64,10 @@ public class ExceptionController{
         System.out.println("User is not enabled Error");
         return StatusDTO.USERISNOTENABLEDERROR();
     }
+
+    @ExceptionHandler({WrongPasswordException.class})
+    public @ResponseBody ResponseDTO wrongPasswordException(){
+        System.out.println("Wrong Password Error");
+        return StatusDTO.WRONGPASSWORDERROR();
+    }
 }

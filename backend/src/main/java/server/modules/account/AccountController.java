@@ -56,12 +56,12 @@ public class AccountController {
     @RequestMapping(path = "/update", method = RequestMethod.PUT)
     public @ResponseBody ResponseDTO setAccountData(@RequestBody RequestDTO requestDTO) {
         return editProfileService.setAccountData((requestDTO));
-    }
+    }*/
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/close", method = RequestMethod.PUT)
-    public @ResponseBody ResponseDTO closeAccount(@RequestBody RequestDTO requestDTO) {
-        return editProfileService.closeAccount((requestDTO));
-    }*/
+    public @ResponseBody ResponseDTO closeAccount(@RequestBody RequestDTO requestDTO) throws FccExcpetion{
+        return accountService.closeAccount(requestDTO);
+    }
 
 }

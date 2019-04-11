@@ -11,6 +11,8 @@ import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.UserResponse;
 import server.exceptions.*;
+import server.modules.authentication.Authenticator;
+import server.modules.dbConnector.SessionConnector;
 import server.modules.dbConnector.TokenConnector;
 import server.modules.dbConnector.UserConnector;
 import server.modules.utils.DTOContentParser;
@@ -24,19 +26,24 @@ public class AccountService {
     private final RegisterComponent registerComponent;
     private final TokenComponent tokenComponent;
 
+    private final Authenticator authenticator;
+
     private final UserConnector userConnector;
     private final TokenConnector tokenConnector;
+    private final SessionConnector sessionConnector;
 
 
     @Autowired
-    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, UserConnector userConnector, TokenConnector tokenConnector) {
+    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector) {
         this.registerComponent = registerComponent;
         this.tokenComponent = tokenComponent;
 
+        this.authenticator = authenticator;
+
         this.userConnector = userConnector;
         this.tokenConnector = tokenConnector;
+        this.sessionConnector = sessionConnector;
     }
-
 
     public ResponseDTO newAccount(RequestDTO requestDTO) throws FccExcpetion {
 
@@ -62,12 +69,22 @@ public class AccountService {
 
     }
 
-    public void closeAccount() {
+    public ResponseDTO closeAccount(RequestDTO requestDTO) throws FccExcpetion{
+        User user = authenticator.authenticate(requestDTO);
 
+        if(!authenticator.isPasswordCorrect(user, DTOContentParser.getUserRequest(requestDTO).getOldPassword())){
+            throw new WrongPasswordException();
+        }
+
+        sessionConnector.deleteByUser(user);
+        userConnector.delete(user);
+
+        return StatusDTO.OK();
     }
 
     public ResponseDTO verifyAccount(String requestId, String requestToken) {
         //Format Check
+        //TODO Noch unschön
         if (requestId == null || requestToken == null) {
             return StatusDTO.MISSINGPARAMS();
         }
@@ -103,8 +120,6 @@ public class AccountService {
         registerResponse.setUserResponse(new UserResponse(user.getUsername()));
         responseDTO.setRegisterResponse(registerResponse);
         return responseDTO;
-
-
     }
 
     public ResponseDTO sendNewToken(RequestDTO requestDTO) throws FccExcpetion {
