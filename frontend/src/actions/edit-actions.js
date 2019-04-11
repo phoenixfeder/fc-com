@@ -68,7 +68,7 @@ export const fetchGetAccountData = (state, callback) => {
         },
       });
     },
-  );
+    );
 };
 
 export const fetchCloseAccount = (state, callback) => {
