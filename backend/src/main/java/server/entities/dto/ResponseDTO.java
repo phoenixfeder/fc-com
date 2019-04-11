@@ -22,8 +22,7 @@ public class ResponseDTO {
     private UserResponse userResponse;
 
     @JsonProperty("flashcardboxes")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<Box> boxes = new ArrayList<>();
+    private List<Box> boxes;
 
     public ResponseDTO(StatusResponse statusResponse) {
         this.statusResponse = statusResponse;

@@ -7,13 +7,13 @@ import server.config.Lang;
 import server.entities.Role;
 import server.entities.User;
 import server.entities.VerificationToken;
-import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
 import server.exceptions.EmailSendException;
 import server.exceptions.FccExcpetion;
 import server.exceptions.RegisterErrorException;
 import server.exceptions.WrongFormatException;
+import server.modules.authentication.Authenticator;
 import server.modules.dbConnector.RoleConnector;
 import server.modules.dbConnector.TokenConnector;
 import server.modules.dbConnector.UserConnector;
@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 @Component
 public class RegisterComponent {
 
-    private final PasswordEncoder passwordEncoder;
+    private final Authenticator authenticator;
     private final Mail mail;
     private final UserConnector userConnector;
     private final TokenConnector tokenConnector;
@@ -36,8 +36,8 @@ public class RegisterComponent {
 //    final private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-    public RegisterComponent(PasswordEncoder passwordEncoder, Mail mail, UserConnector userConnector, RoleConnector roleConnector, TokenConnector tokenConnector) {
-        this.passwordEncoder = passwordEncoder;
+    public RegisterComponent(Authenticator authenticator, Mail mail, UserConnector userConnector, RoleConnector roleConnector, TokenConnector tokenConnector) {
+        this.authenticator = authenticator;
         this.mail = mail;
         this.userConnector = userConnector;
         this.roleConnector = roleConnector;
@@ -120,11 +120,16 @@ public class RegisterComponent {
     public User createNewUser(UserRequest userRequest) {
         User newUser = new User();
         newUser.insertDTOData(userRequest);
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        newUser.setPassword(authenticator.encodePassword(newUser.getPassword()));
         Role role = roleConnector.findById(1);
         newUser.setRole(role);
+        //TODO: DELETE DEBUG
+        VerificationToken verificationToken = new VerificationToken(newUser);
+        if(newUser.getUsername().equals("debugUser")){
+            verificationToken.setToken("debugging");
+        }
         userConnector.save(newUser);
-        tokenConnector.save(new VerificationToken(newUser));
+        tokenConnector.save(verificationToken);
 
         return newUser;
     }
@@ -134,6 +139,7 @@ public class RegisterComponent {
         try {
             mail.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
         }catch(Exception e){
+            e.printStackTrace();
             throw new EmailSendException();
         }
     }

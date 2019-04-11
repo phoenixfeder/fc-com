@@ -22,7 +22,6 @@ import java.util.UUID;
 
 @Deprecated
 @Service
-@Transactional
 public class LoginService {
 
     private final PasswordEncoder passwordEncoder;

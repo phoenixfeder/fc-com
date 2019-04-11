@@ -27,38 +27,37 @@ public class AuthService {
     private final Authenticator authenticator;
     private final SessionConnector sessionConnector;
     private final UserConnector userConnector;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthService(Authenticator authenticator, SessionConnector sessionConnector, UserConnector userConnector, PasswordEncoder passwordEncoder) {
+    public AuthService(Authenticator authenticator, SessionConnector sessionConnector, UserConnector userConnector) {
         this.authenticator = authenticator;
         this.sessionConnector = sessionConnector;
         this.userConnector = userConnector;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public ResponseDTO login(RequestDTO requestDTO) throws FccExcpetion {
         UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
         User user = userConnector.getUserByNameOrEmail(userRequest);
-        if(!passwordEncoder.matches(userRequest.getPassword(), user.getPassword())){
+        if(!authenticator.isPasswordCorrect(user, userRequest.getPassword())){
             throw new WrongUsernameOrPasswordException();
         }
+
         if(!user.isEnabled()){
             throw new UserNotEnabledException();
         }
+
         String session;
         do{
             session = UUID.randomUUID().toString();
         }while(sessionConnector.existsBySession(session));
         Session newSession = sessionConnector.save(new Session(session, user));
 
-        return StatusDTO.OKWITHSESSION(passwordEncoder.encode(
-                String.valueOf(newSession.getId())), session, user.getUsername(), user.getId());
+        return StatusDTO.OKWITHSESSION(authenticator.encodePassword(String.valueOf(newSession.getId())), session, user.getUsername(), user.getId());
     }
 
     public ResponseDTO logout(RequestDTO requestDTO) throws FccExcpetion {
         User user = authenticator.authenticate(requestDTO);
-        sessionConnector.deleteBySession(requestDTO.getSession().getSession());
+        sessionConnector.deleteByUser(user);
         return StatusDTO.OK();
     }
 }
