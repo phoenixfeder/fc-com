@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Flashcardbox from './Flashcardbox';
+import FlashcardboxCreateModal from './FlashcardboxCreateModal';
 
 const styles = theme => ({
   root: {
