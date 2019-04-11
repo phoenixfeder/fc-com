@@ -32,6 +32,7 @@ class Flashcardboxes extends Component {
     this.props.boxes.map(box => (
       <Grid item xs={6} md={4} lg={3} key={box.id}>
         <Flashcardbox
+          id={box.id}
           title={box.title}
           amount={box.flashcards}
           lastchanged={box.lastchanged}
@@ -65,7 +66,6 @@ class Flashcardboxes extends Component {
 Flashcardboxes.propTypes = {
   classes: PropTypes.object.isRequired,
   getFlashcardboxes: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
   boxes: PropTypes.array.isRequired,
 };
 

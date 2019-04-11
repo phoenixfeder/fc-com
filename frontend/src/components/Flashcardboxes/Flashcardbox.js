@@ -42,8 +42,6 @@ const styles = theme => ({
 });
 
 class Flashcardbox extends Component {
-  state = {
-  };
 
   componentWillMount() {
   }

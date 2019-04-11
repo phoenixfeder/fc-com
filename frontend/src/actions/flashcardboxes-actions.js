@@ -25,17 +25,15 @@ export const getBoxesFail = errorarg => ({
 
 export const getFlashcardboxes = () => dispatch => {
   dispatch(getBoxesStart());
-  fetch(BACKEND_URL_FLASHCARDBOXES, {
+  fetch('https://app.fakejson.com/q/cEPrDHGJ?token=zH_70fgIC2mlLCSqcTQ9HQ', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      authObject,
-    }),
   }).then(results => {
     results.json();
+    console.log(results);
   }).then(result => {
     switch (result.status.code) {
       case 200:
@@ -52,6 +50,7 @@ export const getFlashcardboxes = () => dispatch => {
         break;
     }
   }).catch(err => {
+    console.log(err);
     dispatch(getBoxesFail(err));
     dispatch(enqueueSnackbar({
       message: 'This should not happen. Please contact system admin.',
