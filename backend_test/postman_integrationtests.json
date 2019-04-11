@@ -1,0 +1,462 @@
+{
+	"info": {
+		"_postman_id": "f6d83867-313e-47cd-a4d8-0104f848c0b0",
+		"name": "FCC_Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Server",
+			"item": [
+				{
+					"name": "ServerOnlineTest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0dcd363a-723d-4d6a-9d26-159e9694b512",
+								"exec": [
+									"pm.test(\"Server is online\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/debug/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"debug",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Account: Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1dc99707-1393-40cb-9bf9-730892eab4d0",
+								"exec": [
+									"pm.test(\"Create Account 'debugUser'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"    pm.expect(jsonData.register.user.username).to.eql(\"debugUser\");",
+									"    ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"register\": {\n\t\t\"user\": {\n\t\t\t\"username\":\"debugUser\",\n\t\t\t\"email\": \"flashcardcommunity@gmail.com\",\n\t\t\t\"password\": \"123456\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/account/new",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account: Create again Fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1dc99707-1393-40cb-9bf9-730892eab4d0",
+								"exec": [
+									"pm.test(\"Create another Account 'debugUser' should not work\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"register\": {\n\t\t\"user\": {\n\t\t\t\"username\":\"debugUser\",\n\t\t\t\"email\": \"flashcardcommunity@gmail.com\",\n\t\t\t\"password\": \"123456\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/account/new",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account: Verify",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ed65aa19-4ff6-474e-89dc-e7108c52df0b",
+								"exec": [
+									"pm.test(\"debugUser can be verified\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"    pm.expect(jsonData.register.user.username).to.eql(\"debugUser\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/account/verify?id=100001&token=debugging",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "100001"
+								},
+								{
+									"key": "token",
+									"value": "debugging"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account: Verify Verified Fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ed65aa19-4ff6-474e-89dc-e7108c52df0b",
+								"exec": [
+									"pm.test(\"debugUser cannot to be verified again\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/account/verify?id=100001&token=debugging",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "100001"
+								},
+								{
+									"key": "token",
+									"value": "debugging"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login: Not verified",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4bb30d2b-e7ef-4c9c-8c0f-947f764feb71",
+								"exec": [
+									"pm.test(\"Not enabled User can't login\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(405);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":{\n\t\t\t\"username\": \"testuser\",\n\t\t\t\"password\": \"123456\"\n\t\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/authentication/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login: debugUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f12f9661-ff68-4a27-bc17-d59fa930f511",
+								"exec": [
+									"",
+									"pm.test(\"debugUser can login\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"    pm.expect(jsonData.status.session.username).to.eql(\"debugUser\");",
+									"    pm.environment.set(\"user_session\", jsonData.status.session.session);",
+									"    pm.environment.set(\"user_hash\", jsonData.status.session.hash);",
+									"    pm.environment.set(\"user_id\", jsonData.status.session.id);",
+									"});",
+									"pm.environment.set(\"variable_key\", \"variable_value\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":{\n\t\t\t\"username\": \"debugUser\",\n\t\t\t\"password\": \"123456\"\n\t\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/authentication/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login: Get Account Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8ba75310-54a5-4f4c-b4b2-7915b3ac5317",
+								"exec": [
+									"pm.test(\"debugUser can see his account data\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"    pm.expect(jsonData.user.username).to.eql(\"debugUser\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"authentication\":{\n\t\t\"session\": \"{{user_session}}\",\n        \"hash\": \"{{user_hash}}\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/account/get",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Logout",
+			"item": [
+				{
+					"name": "Logout: debugUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3bbe1cbb-dbb8-4fcc-a87f-abc61dfdb653",
+								"exec": [
+									"pm.test(\"debugUser can logout\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"authentication\":{\n\t\t\"session\": \"{{user_session}}\",\n        \"hash\": \"{{user_hash}}\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/authentication/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"authentication",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e5c6cde2-0204-4703-9d37-a6ba6f4ffd94",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "b198966e-4566-45ca-bd63-558c784a91d1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "58bb810e-a368-4142-ac9c-e4a46d815856",
+			"key": "url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
