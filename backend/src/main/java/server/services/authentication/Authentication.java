@@ -11,6 +11,7 @@ import server.entities.repositories.SessionRepository;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
+@Deprecated
 @Component
 public class Authentication {
     final

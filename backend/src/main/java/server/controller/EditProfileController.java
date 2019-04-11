@@ -10,6 +10,7 @@ import server.entities.dto.ResponseDTO;
 import server.entities.dto.response.StatusResponse;
 import server.services.EditProfileService;
 
+@Deprecated
 @Controller
 @RequestMapping("/edit")
 public class EditProfileController {

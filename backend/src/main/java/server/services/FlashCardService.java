@@ -6,6 +6,7 @@ import server.entities.entitieToDTOTransfer.FlashCardToDTO;
 import server.entities.repositories.FlashCardRepository;
 import server.exceptions.NoFlashCardWithIDException;
 
+@Deprecated
 @Service
 public class FlashCardService {
     private final FlashCardRepository flashCardRepository;
