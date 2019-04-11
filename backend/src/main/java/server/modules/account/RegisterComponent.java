@@ -123,8 +123,13 @@ public class RegisterComponent {
         newUser.setPassword(authenticator.encodePassword(newUser.getPassword()));
         Role role = roleConnector.findById(1);
         newUser.setRole(role);
+        //TODO: DELETE DEBUG
+        VerificationToken verificationToken = new VerificationToken(newUser);
+        if(newUser.getUsername().equals("debugUser")){
+            verificationToken.setToken("debugging");
+        }
         userConnector.save(newUser);
-        tokenConnector.save(new VerificationToken(newUser));
+        tokenConnector.save(verificationToken);
 
         return newUser;
     }
@@ -134,6 +139,7 @@ public class RegisterComponent {
         try {
             mail.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
         }catch(Exception e){
+            e.printStackTrace();
             throw new EmailSendException();
         }
     }

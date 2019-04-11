@@ -69,6 +69,7 @@ public class AccountService {
 
     public void editAccount(RequestDTO requestDTO) throws FccExcpetion{
         User user = authenticator.authenticate(requestDTO);
+
     }
 
     public ResponseDTO closeAccount(RequestDTO requestDTO) throws FccExcpetion{
