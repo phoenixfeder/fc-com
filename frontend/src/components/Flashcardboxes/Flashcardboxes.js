@@ -22,7 +22,7 @@ const styles = theme => ({
 class Flashcardboxes extends Component {
 
   componentWillMount() {
-    this.props.getFlashcardboxes(this.props.auth);
+    this.props.getFlashcardboxes();
   }
 
   componentDidMount() {
@@ -58,6 +58,7 @@ class Flashcardboxes extends Component {
             { this.renderCards() }
           </Grid>
         </Grid>
+        <FlashcardboxCreateModal />
       </div>
     );
   }

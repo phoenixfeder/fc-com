@@ -1,13 +1,11 @@
 import {
   Button,
   Dialog,
-} from '@material-ui/core';
-import {
   Grid,
   Paper,
   Typography,
   withStyles,
-} from '@material-ui/core/';
+} from '@material-ui/core';
 import red from '@material-ui/core/colors/red';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
