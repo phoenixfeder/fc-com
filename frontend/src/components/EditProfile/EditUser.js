@@ -14,7 +14,7 @@ import HobbyIcon from '@material-ui/icons/InsertEmoticon';
 import * as PropTypes from 'prop-types';
 import qs from 'query-string';
 import React, { Component } from 'react';
-import { BACKEND_URL, BACKEND_URL_EDIT_GET_ACCOUNT, BACKEND_URL_EDIT_UPDATE_ACCOUNT } from '../../utils/const-paths';
+import { BACKEND_URL_EDIT_GET_ACCOUNT, BACKEND_URL_EDIT_UPDATE_ACCOUNT } from '../../utils/const-paths';
 
 const styles = theme => ({
   root: {
