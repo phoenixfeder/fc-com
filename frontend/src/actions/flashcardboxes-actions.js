@@ -96,7 +96,7 @@ export const createFlashcardbox = flashcardbox => dispatch => {
   }).then(results => results.json()).then(result => {
     switch (result.status.code) {
       case 200:
-        dispatch(createBoxSuccess(result.flashcardbox));
+        dispatch(createBoxSuccess(result.flashcardboxes));
         break;
 
       default:

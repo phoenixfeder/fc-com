@@ -32,7 +32,7 @@ const createBoxStart = state => ({ ...state, createLoading: true });
 
 const createBoxSuccess = (state, action) => ({
   ...state,
-  boxes: state.boxes.push(action.box),
+  boxes: state.boxes.concat(action.box),
   loading: false,
 });
 

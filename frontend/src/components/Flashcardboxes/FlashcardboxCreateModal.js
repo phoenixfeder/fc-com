@@ -39,6 +39,7 @@ const styles = theme => ({
   },
 });
 
+/*
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -49,11 +50,13 @@ function getModalStyle() {
     transform: `translate(-${top}%, -${left}%)`,
   };
 }
+*/
 
 class FlashcardboxCreateModal extends Component {
   state = {
     open: false,
     fcb_name: '',
+    fcb_description: '',
   };
 
   componentWillMount() {
@@ -71,19 +74,22 @@ class FlashcardboxCreateModal extends Component {
     this.setState({
       open: false,
       fcb_name: '',
+      fcb_description: '',
     });
   };
 
   handleCreate = () => {
     const flashcardbox = {
-      flashcardbox: {
+      flashcardboxes: {
         name: this.state.fcb_name,
+        fcb_description: this.state.fcb_description,
       },
     };
     this.props.createFunc(flashcardbox);
     this.setState({
       open: false,
       fcb_name: '',
+      fcb_description: '',
     });
   };
 
@@ -91,6 +97,7 @@ class FlashcardboxCreateModal extends Component {
     this.setState({
       open: true,
       fcb_name: '',
+      fcb_description: '',
     });
   };
 
