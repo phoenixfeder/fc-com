@@ -73,7 +73,7 @@ export const fetchGetAccountData = (state, callback) => {
 
 export const fetchCloseAccount = (state, callback) => {
   fetch(BACKEND_URL_EDIT_CLOSE_ACCOUNT, {
-    method: 'PUT',
+    method: 'DELETE',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
