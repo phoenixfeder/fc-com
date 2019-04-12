@@ -60,7 +60,7 @@ public class AccountController {
     }*/
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/close", method = RequestMethod.PUT)
+    @RequestMapping(path = "/close", method = RequestMethod.DELETE)
     public @ResponseBody ResponseDTO closeAccount(@RequestBody RequestDTO requestDTO) throws FccExcpetion{
         return accountService.closeAccount(requestDTO);
     }
