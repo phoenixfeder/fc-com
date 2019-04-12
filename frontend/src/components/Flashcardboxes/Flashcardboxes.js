@@ -46,7 +46,7 @@ class Flashcardboxes extends Component {
         ))
       }
       <Grid item xs={6} md={4} lg={3}>
-        <FlashcardboxCreateModal />
+        <FlashcardboxCreateModal createFunc={this.props.createFlashcardbox} />
       </Grid>
     </Grid>
   );
@@ -73,6 +73,7 @@ Flashcardboxes.propTypes = {
   classes: PropTypes.object.isRequired,
   getFlashcardboxes: PropTypes.func.isRequired,
   boxes: PropTypes.array.isRequired,
+  createFlashcardbox: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Flashcardboxes);

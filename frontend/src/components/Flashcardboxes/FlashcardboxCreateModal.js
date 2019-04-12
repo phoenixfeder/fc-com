@@ -75,7 +75,12 @@ class FlashcardboxCreateModal extends Component {
   };
 
   handleCreate = () => {
-    console.log('Created' + this.state.fcb_name);
+    const flashcardbox = {
+      flashcardbox: {
+        name: this.state.fcb_name,
+      },
+    };
+    this.props.createFunc(flashcardbox);
     this.setState({
       open: false,
       fcb_name: '',
@@ -100,7 +105,8 @@ class FlashcardboxCreateModal extends Component {
 
       <div>
         <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          <Icon className={classNames(classes.icon, 'fas fa-plus')} />Open Modal
+          <Icon className={classNames(classes.icon, 'fas fa-plus')} />
+          {'Open Modal'}
         </Button>
         <Dialog
           open={this.state.open}
@@ -110,7 +116,7 @@ class FlashcardboxCreateModal extends Component {
           <DialogTitle id="form-dialog-title">Create new FlashCardBox</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please enter a name for your new flashcardbox
+              {'Please enter a name for your new flashcardbox'}
             </DialogContentText>
             <TextField
               autoFocus
@@ -122,21 +128,29 @@ class FlashcardboxCreateModal extends Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} style={{
-              color: 'white',
-              backgroundColor: 'grey',
-              top: 10,
-              right: 5,
-            }}>
-              <Icon className={classNames(classes.icon, 'far fa-times-circle')} />Cancel
+            <Button
+              onClick={this.handleClose}
+              style={{
+                color: 'white',
+                backgroundColor: 'grey',
+                top: 10,
+                right: 5,
+              }}
+            >
+              <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
+              {'Cancel'}
             </Button>
-            <Button onClick={this.handleCreate} style={{
-              color: 'white',
-              backgroundColor: '#039be5',
-              top: 10,
-              left: 5,
-            }}>
-              <Icon className={classNames(classes.icon, 'far fa-save')} />Create
+            <Button
+              onClick={this.handleCreate}
+              style={{
+                color: 'white',
+                backgroundColor: '#039be5',
+                top: 10,
+                left: 5,
+              }}
+            >
+              <Icon className={classNames(classes.icon, 'far fa-save')} />
+              {'Create'}
             </Button>
           </DialogActions>
         </Dialog>
@@ -149,6 +163,7 @@ class FlashcardboxCreateModal extends Component {
 
 FlashcardboxCreateModal.propTypes = {
   classes: PropTypes.object.isRequired,
+  createFunc: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(FlashcardboxCreateModal);
