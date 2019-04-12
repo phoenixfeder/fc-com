@@ -26,6 +26,7 @@ public class VerificationToken {
     private LocalDateTime expiryDate;
 
     public VerificationToken() {
+        super();
     }
 
     public VerificationToken(User user) {

@@ -3,7 +3,9 @@ package server.modules.dbConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import server.entities.User;
+import server.entities.dto.request.UserRequest;
 import server.entities.repositories.UserRepository;
+import server.exceptions.WrongUsernameOrPasswordException;
 
 @Component
 public class UserConnector {
@@ -35,4 +37,19 @@ public class UserConnector {
         return userRepository.findById(id).isPresent();
     }
 
+    public User getUserByNameOrEmail(UserRequest userRequest) throws WrongUsernameOrPasswordException {
+        String username = userRequest.getUsername();
+        User user = getUserByName(username);
+        if(user == null){
+            user = getUserByEmail(username);
+        }
+        if(user == null){
+            throw new WrongUsernameOrPasswordException();
+        }
+        return user;
+    }
+
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
 }

@@ -42,8 +42,6 @@ const styles = theme => ({
 });
 
 class Flashcardbox extends Component {
-  state = {
-  };
 
   componentWillMount() {
   }
@@ -68,7 +66,7 @@ class Flashcardbox extends Component {
             color="textSecondary"
             gutterBottom
           >
-            {'Flashcardbox'}
+            {`Flashcardbox, created ${this.props.created}`}
           </Typography>
           <Typography variant="h5" component="h2">
             { this.props.title }
@@ -101,7 +99,8 @@ Flashcardbox.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
-  successRate: PropTypes.number,
+  successRate: PropTypes.string,
+  created: PropTypes.string.isRequired,
 };
 
 Flashcardbox.defaultProps = {

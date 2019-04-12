@@ -6,7 +6,6 @@ const mapStateToProps = state => ({
   loading: state.flashcardboxes.loading,
   boxes: state.flashcardboxes.boxes,
   error: state.flashcardboxes.error,
-  auth: state.auth,
 });
 
 const mapDispatchToProps = dispatch => ({

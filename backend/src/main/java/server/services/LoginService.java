@@ -20,8 +20,8 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.UUID;
 
+@Deprecated
 @Service
-@Transactional
 public class LoginService {
 
     private final PasswordEncoder passwordEncoder;

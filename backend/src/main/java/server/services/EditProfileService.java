@@ -17,6 +17,7 @@ import server.entities.repositories.UserRepository;
 import server.services.authentication.Authentication;
 import server.services.register.CheckRegisterEntries;
 
+@Deprecated
 @Service
 public class EditProfileService {
 

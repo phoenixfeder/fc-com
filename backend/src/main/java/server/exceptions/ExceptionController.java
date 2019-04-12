@@ -46,4 +46,28 @@ public class ExceptionController{
         System.out.println("User enabled Error");
         return StatusDTO.USERENABLEDERROR();
     }
+
+    @ExceptionHandler({PermissionDeniedException.class})
+    public @ResponseBody ResponseDTO permissionDenied(){
+        System.out.println("Permission denied");
+        return StatusDTO.PERMISSIONEDENIED();
+    }
+
+    @ExceptionHandler({WrongUsernameOrPasswordException.class})
+    public @ResponseBody ResponseDTO wrongUsernameOrPassword(){
+        System.out.println("Wrong Username or Password Error");
+        return StatusDTO.WRONGUSERNAMEORPASSWORD();
+    }
+
+    @ExceptionHandler({UserNotEnabledException.class})
+    public @ResponseBody ResponseDTO userNotEnabledException(){
+        System.out.println("User is not enabled Error");
+        return StatusDTO.USERISNOTENABLEDERROR();
+    }
+
+    @ExceptionHandler({WrongPasswordException.class})
+    public @ResponseBody ResponseDTO wrongPasswordException(){
+        System.out.println("Wrong Password Error");
+        return StatusDTO.WRONGPASSWORDERROR();
+    }
 }

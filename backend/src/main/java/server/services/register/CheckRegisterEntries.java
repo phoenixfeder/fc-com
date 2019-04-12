@@ -12,6 +12,7 @@ import server.exceptions.WrongFormatException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Deprecated
 @Component
 public class CheckRegisterEntries {
 

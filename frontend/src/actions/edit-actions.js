@@ -37,7 +37,7 @@ export const fetchUpdateAccount = (state, callback) => {
        options: {
          variant: 'error',
        },
-     });*/
+     }); */
   });
 };
 
@@ -68,7 +68,7 @@ export const fetchGetAccountData = (state, callback) => {
         },
       });
     },
-  );
+    );
 };
 
 export const fetchCloseAccount = (state, callback) => {

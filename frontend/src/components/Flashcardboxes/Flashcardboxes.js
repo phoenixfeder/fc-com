@@ -22,26 +22,34 @@ const styles = theme => ({
 class Flashcardboxes extends Component {
 
   componentWillMount() {
-    this.props.getFlashcardboxes(this.props.auth);
+    this.props.getFlashcardboxes();
   }
 
   componentDidMount() {
     document.title = 'Flashcardboxes';
   }
 
-  renderCards = () => {
-    this.props.boxes.map(box => (
-      <Grid item xs={6} md={4} lg={3} key={box.id}>
-        <Flashcardbox
-          title={box.title}
-          amount={box.flashcards}
-          lastchanged={box.lastchanged}
-          created={box.created}
-          description={box.description}
-        />
+  renderCards = () => (
+    <Grid container direction="row" justify="space-evenly" spacing={16}>
+      {
+        this.props.boxes.map(box => (
+          <Grid item xs={6} md={4} lg={3} key={box.id}>
+            <Flashcardbox
+              id={box.id}
+              title={box.title}
+              amount={box.flashcards}
+              lastchanged={box.lastchanged}
+              created={box.created}
+              description={box.description}
+            />
+          </Grid>
+        ))
+      }
+      <Grid item xs={6} md={4} lg={3}>
+        <FlashcardboxCreateModal />
       </Grid>
-    ));
-  }
+    </Grid>
+  );
 
   render() {
     const { classes } = this.props;
@@ -53,9 +61,7 @@ class Flashcardboxes extends Component {
               {'My Flashcardboxes'}
             </Typography>
           </Grid>
-          <Grid container direction="row" justify="space-evenly" spacing={16}>
-            { this.renderCards() }
-          </Grid>
+          { this.renderCards() }
         </Grid>
       </div>
     );
@@ -66,7 +72,6 @@ class Flashcardboxes extends Component {
 Flashcardboxes.propTypes = {
   classes: PropTypes.object.isRequired,
   getFlashcardboxes: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
   boxes: PropTypes.array.isRequired,
 };
 
