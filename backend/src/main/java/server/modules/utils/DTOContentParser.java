@@ -77,4 +77,12 @@ public class DTOContentParser {
         }
         return requestDTO.getFlashCardBoxRequest().getId();
     }
+
+    public static String getOldPassword(RequestDTO requestDTO) throws WrongFormatException{
+        try {
+            return requestDTO.getUserRequest().getOldPassword();
+        }catch(Exception e){
+            throw new WrongFormatException();
+        }
+    }
 }

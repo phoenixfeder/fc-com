@@ -32,4 +32,9 @@ public class FlashCardBoxConnector {
     public void deleteByIdAndUser(User user, Long id) {
         flashCardBoxRepository.deleteByOwnerAndId(user, id);
     }
+
+    @Transactional
+    public void deleteByUser(User user) {
+        flashCardBoxRepository.deleteAllByOwner(user);
+    }
 }

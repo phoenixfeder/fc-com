@@ -36,11 +36,11 @@ public class User {
     @Column(nullable = true)
     private LocalDate dateOfBirth;
 
-    @ManyToOne(targetEntity = Role.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Role.class)
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @ManyToMany(targetEntity = FlashCardBox.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = FlashCardBox.class)
     @JoinColumn(name="viewableBoxes")
     private Set<FlashCardBox> viewableBoxes;
 
