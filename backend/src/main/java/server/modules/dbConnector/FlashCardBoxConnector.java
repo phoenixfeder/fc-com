@@ -2,6 +2,7 @@ package server.modules.dbConnector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import server.entities.FlashCard;
 import server.entities.FlashCardBox;
 import server.entities.User;
 import server.entities.repositories.FlashCardBoxRepository;
@@ -20,5 +21,9 @@ public class FlashCardBoxConnector {
 
     public List<FlashCardBox> getAllBoxFromUser(User user){
         return flashCardBoxRepository.getAllByOwner(user);
+    }
+
+    public FlashCardBox save(FlashCardBox flashCardBox) {
+        return flashCardBoxRepository.save(flashCardBox);
     }
 }
