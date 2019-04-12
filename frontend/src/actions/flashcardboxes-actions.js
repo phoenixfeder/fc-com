@@ -79,7 +79,6 @@ export const createBoxFail = errorarg => ({
 
 export const createFlashcardbox = flashcardbox => dispatch => {
   const authState = store.getState().auth;
-  const boxToAdd = flashcardbox.flashcardboxes;
   dispatch(createBoxStart());
   fetch(BACKEND_URL_CREATE_FLASHCARDBOX, {
     method: 'POST',

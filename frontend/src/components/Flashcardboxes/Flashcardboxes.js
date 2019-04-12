@@ -45,7 +45,7 @@ class Flashcardboxes extends Component {
           </Grid>
         ))
       }
-      <Grid item xs={6} md={4} lg={3}>
+      <Grid item xs={6} md={4} lg={3} align="center">
         <FlashcardboxCreateModal createFunc={this.props.createFlashcardbox} />
       </Grid>
     </Grid>

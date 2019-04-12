@@ -1,15 +1,17 @@
 import {
-  Button,
+  Fab,
   Dialog,
   withStyles,
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Icon,
+  TextField,
+  DialogTitle,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import red from '@material-ui/core/colors/red';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Icon from '@material-ui/core/Icon';
-import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import PropTypes from 'prop-types';
@@ -111,10 +113,9 @@ class FlashcardboxCreateModal extends Component {
     return (
 
       <div>
-        <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          <Icon className={classNames(classes.icon, 'fas fa-plus')} />
-          {'Open Modal'}
-        </Button>
+        <Fab color="primary" aria-label="Add" onClick={this.handleOpen} className={classes.fab}>
+          <AddIcon />
+        </Fab>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
