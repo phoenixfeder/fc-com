@@ -81,8 +81,8 @@ class FlashcardboxCreateModal extends Component {
   handleCreate = () => {
     const flashcardbox = {
       flashcardboxes: {
-        name: this.state.fcb_name,
-        fcb_description: this.state.fcb_description,
+        title: this.state.fcb_name,
+        description: this.state.fcb_description,
       },
     };
     this.props.createFunc(flashcardbox);

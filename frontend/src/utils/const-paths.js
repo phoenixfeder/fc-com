@@ -21,6 +21,6 @@ export const BACKEND_URL_EDIT_GET_ACCOUNT = `${BACKEND_URL}edit/getaccount`;
 export const BACKEND_URL_EDIT_UPDATE_ACCOUNT = `${BACKEND_URL}edit/updateaccount`;
 export const BACKEND_URL_EDIT_CLOSE_ACCOUNT = `${BACKEND_URL}edit/closeaccount`;
 
-export const BACKEND_URL_LOGOUT = `${BACKEND_URL}'login/logout`;
+export const BACKEND_URL_LOGOUT = `${BACKEND_URL}'authentication/logout`;
 
-export const BACKEND_URL_LOGIN = `${BACKEND_URL}login/login`;
+export const BACKEND_URL_LOGIN = `${BACKEND_URL}authentication/login`;
