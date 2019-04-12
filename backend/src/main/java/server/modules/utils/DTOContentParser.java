@@ -70,4 +70,11 @@ public class DTOContentParser {
         }
         return flashCardBoxRequest;
     }
+
+    public static Long getFlashCardBoxID(RequestDTO requestDTO) throws WrongFormatException {
+        if(requestDTO.getFlashCardBoxRequest() == null){
+            throw new WrongFormatException();
+        }
+        return requestDTO.getFlashCardBoxRequest().getId();
+    }
 }

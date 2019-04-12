@@ -34,7 +34,7 @@ public class FlashCardBox {
     @Column(nullable = false)
     LocalDateTime lastChanged;
 
-    @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "owner")
     private User owner;
 
