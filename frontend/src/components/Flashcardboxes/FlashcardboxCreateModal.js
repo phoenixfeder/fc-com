@@ -80,8 +80,8 @@ class FlashcardboxCreateModal extends Component {
 
   handleCreate = () => {
     const flashcardbox = {
-        title: this.state.fcb_name,
-        description: this.state.fcb_description,
+      title: this.state.fcb_name,
+      description: this.state.fcb_description,
     };
     this.props.createFunc(flashcardbox);
     this.setState({
@@ -100,11 +100,9 @@ class FlashcardboxCreateModal extends Component {
   };
 
   handleChange = (e) => {
-    console.log(e.target);
     this.setState({
-    [e.target.id]:e.target.value,
-  })
-    ;
+      [e.target.id]: e.target.value,
+    });
   };
 
   render() {
@@ -141,7 +139,7 @@ class FlashcardboxCreateModal extends Component {
               label="description"
               type="text"
               fullWidth
-              variant={'outlined'}
+              variant="outlined"
               multiline
               rows={4}
               rowsMax={8}

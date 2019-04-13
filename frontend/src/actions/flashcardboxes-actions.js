@@ -80,7 +80,6 @@ export const createBoxFail = errorarg => ({
 export const createFlashcardbox = flashcardbox => dispatch => {
   const authState = store.getState().auth;
   dispatch(createBoxStart());
-  console.log(flashcardbox.flashcardboxes);
   fetch(BACKEND_URL_CREATE_FLASHCARDBOX, {
     method: 'POST',
     headers: {
@@ -98,7 +97,6 @@ export const createFlashcardbox = flashcardbox => dispatch => {
       },
     }),
   }).then(results => results.json()).then(result => {
-    console.log(result);
     switch (result.status.code) {
       case 200:
         dispatch(createBoxSuccess(result.flashcardboxes));
@@ -115,6 +113,5 @@ export const createFlashcardbox = flashcardbox => dispatch => {
         break;
     }
   }).catch(err => {
-    console.log(err);
   });
 };
