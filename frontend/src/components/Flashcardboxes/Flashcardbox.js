@@ -66,7 +66,7 @@ class Flashcardbox extends Component {
             color="textSecondary"
             gutterBottom
           >
-            {`Flashcardbox, created ${this.props.created}`}
+            {`Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
           </Typography>
           <Typography variant="h5" component="h2">
             { this.props.title }

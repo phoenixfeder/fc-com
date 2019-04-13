@@ -13,7 +13,7 @@ import LoginContainer from '../Login/login-container';
 import LogoutContainer from '../Logout/logout-container';
 import RegisterContainer from '../Register/register-container';
 import VerfiyContainer from '../Verify/verify-container';
-import FlashcardboxesContainer from '../FlashCardBoxes/flashcardboxes-container';
+import FlashcardboxesContainer from '../Flashcardboxes/flashcardboxes-container';
 
 class Main extends Component {
   componentDidMount() {

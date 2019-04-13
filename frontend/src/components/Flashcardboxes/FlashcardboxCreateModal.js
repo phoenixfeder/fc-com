@@ -1,18 +1,16 @@
 import {
-  Fab,
-  Dialog,
-  withStyles,
   Button,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  Icon,
-  TextField,
   DialogTitle,
+  Fab,
+  TextField,
+  withStyles,
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import red from '@material-ui/core/colors/red';
-import classNames from 'classnames';
+import AddIcon from '@material-ui/icons/Add';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -82,10 +80,8 @@ class FlashcardboxCreateModal extends Component {
 
   handleCreate = () => {
     const flashcardbox = {
-      flashcardboxes: {
         title: this.state.fcb_name,
         description: this.state.fcb_description,
-      },
     };
     this.props.createFunc(flashcardbox);
     this.setState({
@@ -104,7 +100,11 @@ class FlashcardboxCreateModal extends Component {
   };
 
   handleChange = (e) => {
-    this.setState({ fcb_name: e.target.value });
+    console.log(e.target);
+    this.setState({
+    [e.target.id]:e.target.value,
+  })
+    ;
   };
 
   render() {
@@ -124,15 +124,28 @@ class FlashcardboxCreateModal extends Component {
           <DialogTitle id="form-dialog-title">Create new FlashCardBox</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {'Please enter a name for your new flashcardbox'}
+              {'Please enter a name and a description for your new flashcardbox'}
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
-              id="name"
+              id="fcb_name"
               label="name"
               type="text"
               fullWidth
+              onChange={this.handleChange}
+            />
+            <TextField
+              margin="dense"
+              id="fcb_description"
+              label="description"
+              type="text"
+              fullWidth
+              variant={'outlined'}
+              multiline
+              rows={4}
+              rowsMax={8}
+              onChange={this.handleChange}
             />
           </DialogContent>
           <DialogActions>
@@ -141,11 +154,8 @@ class FlashcardboxCreateModal extends Component {
               style={{
                 color: 'white',
                 backgroundColor: 'grey',
-                top: 10,
-                right: 5,
               }}
             >
-              <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
               {'Cancel'}
             </Button>
             <Button
@@ -153,11 +163,8 @@ class FlashcardboxCreateModal extends Component {
               style={{
                 color: 'white',
                 backgroundColor: '#039be5',
-                top: 10,
-                left: 5,
               }}
             >
-              <Icon className={classNames(classes.icon, 'far fa-save')} />
               {'Create'}
             </Button>
           </DialogActions>
