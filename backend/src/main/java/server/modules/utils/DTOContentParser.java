@@ -2,6 +2,7 @@ package server.modules.utils;
 
 import server.entities.FlashCardBox;
 import server.entities.dto.RequestDTO;
+import server.entities.dto.request.FlashCardBoxRequest;
 import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.Box;
@@ -60,5 +61,28 @@ public class DTOContentParser {
             boxes.add(new Box(flashcardBox.getId(), flashcardBox.getTitle(), flashcardBox.getDescription(), flashcardBox.getCreationDate(), flashcardBox.getLastChanged()));
         }
         return boxes;
+    }
+
+    public static FlashCardBoxRequest getFlashCardBox(RequestDTO requestDTO) throws WrongFormatException {
+        FlashCardBoxRequest flashCardBoxRequest = requestDTO.getFlashCardBoxRequest();
+        if(flashCardBoxRequest == null || flashCardBoxRequest.getTitle() == null || flashCardBoxRequest.getDescription() == null){
+            throw new WrongFormatException();
+        }
+        return flashCardBoxRequest;
+    }
+
+    public static Long getFlashCardBoxID(RequestDTO requestDTO) throws WrongFormatException {
+        if(requestDTO.getFlashCardBoxRequest() == null){
+            throw new WrongFormatException();
+        }
+        return requestDTO.getFlashCardBoxRequest().getId();
+    }
+
+    public static String getOldPassword(RequestDTO requestDTO) throws WrongFormatException{
+        try {
+            return requestDTO.getUserRequest().getOldPassword();
+        }catch(Exception e){
+            throw new WrongFormatException();
+        }
     }
 }

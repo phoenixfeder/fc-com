@@ -16,7 +16,4 @@ public class FlashCard {
     private String title;
     private String frontText;
     private String backText;
-
-    //@ManyToMany(mappedBy = "cards")
-    //Set<FlashCardBox> boxes = new HashSet<>();
 }

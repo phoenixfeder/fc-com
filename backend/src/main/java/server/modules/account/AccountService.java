@@ -2,7 +2,6 @@ package server.modules.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import server.config.StatusCode;
 import server.entities.User;
 import server.entities.VerificationToken;
 import server.entities.dto.RequestDTO;
@@ -10,10 +9,10 @@ import server.entities.dto.ResponseDTO;
 import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.RegisterResponse;
-import server.entities.dto.response.StatusResponse;
 import server.entities.dto.response.UserResponse;
 import server.exceptions.*;
 import server.modules.authentication.Authenticator;
+import server.modules.dbConnector.FlashCardBoxConnector;
 import server.modules.dbConnector.SessionConnector;
 import server.modules.dbConnector.TokenConnector;
 import server.modules.dbConnector.UserConnector;
@@ -33,10 +32,11 @@ public class AccountService {
     private final UserConnector userConnector;
     private final TokenConnector tokenConnector;
     private final SessionConnector sessionConnector;
+    private final FlashCardBoxConnector flashCardBoxConnector;
 
 
     @Autowired
-    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector) {
+    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector, FlashCardBoxConnector flashCardBoxConnector) {
         this.registerComponent = registerComponent;
         this.tokenComponent = tokenComponent;
 
@@ -45,6 +45,7 @@ public class AccountService {
         this.userConnector = userConnector;
         this.tokenConnector = tokenConnector;
         this.sessionConnector = sessionConnector;
+        this.flashCardBoxConnector = flashCardBoxConnector;
     }
 
     public ResponseDTO newAccount(RequestDTO requestDTO) throws FccExcpetion {
@@ -75,11 +76,12 @@ public class AccountService {
     public ResponseDTO closeAccount(RequestDTO requestDTO) throws FccExcpetion{
         User user = authenticator.authenticate(requestDTO);
 
-        if(!authenticator.isPasswordCorrect(user, DTOContentParser.getUserRequest(requestDTO).getOldPassword())){
+        if(!authenticator.isPasswordCorrect(user, DTOContentParser.getOldPassword(requestDTO))){
             throw new WrongPasswordException();
         }
 
         sessionConnector.deleteByUser(user);
+        flashCardBoxConnector.deleteByUser(user);
         userConnector.delete(user);
 
         return StatusDTO.OK();

@@ -27,4 +27,12 @@ public class ResponseDTO {
     public ResponseDTO(StatusResponse statusResponse) {
         this.statusResponse = statusResponse;
     }
+
+    public void setBoxes(Box box){
+        boxes = new ArrayList<>();
+        boxes.add(box);
+    }
+    public void setBoxes(List<Box> box){
+        boxes = box;
+    }
 }
