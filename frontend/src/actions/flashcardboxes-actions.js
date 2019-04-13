@@ -92,8 +92,8 @@ export const createFlashcardbox = flashcardbox => dispatch => {
         hash: authState.sessionHash,
       },
       flashcardboxes: {
-        title: 'Hallo',
-        description: 'Welt',
+        title: flashcardbox.title,
+        description: flashcardbox.description,
       },
     }),
   }).then(results => results.json()).then(result => {
@@ -113,6 +113,5 @@ export const createFlashcardbox = flashcardbox => dispatch => {
         break;
     }
   }).catch(err => {
-    console.log(err);
   });
 };
