@@ -54,9 +54,8 @@ const deleteBoxStart = state => ({ ...state, deleteLoading: true });
 
 const deleteBoxSuccess = (state, action) => {
   const indexToRemove = state.boxes.map(box => box.id).indexOf(action.id);
-  const newBoxesArray = state.boxes;
+  const newBoxesArray = Array.from(state.boxes); // Deep copy so Redux can detect changes
   newBoxesArray.splice(indexToRemove, 1);
-
   return ({
     ...state,
     boxes: newBoxesArray,
@@ -74,7 +73,7 @@ const editBoxStart = state => ({ ...state, editLoading: true });
 
 const editBoxSuccess = (state, action) => {
   const indexToEdit = state.boxes.map(box => box.id).indexOf(action.flashcardbox.id);
-  const newBoxesArray = state.boxes;
+  const newBoxesArray = Array.from(state.boxes); // Deep copy so Redux can detect changes
   newBoxesArray[indexToEdit] = action.flashcardbox;
 
   return ({

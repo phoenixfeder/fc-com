@@ -142,7 +142,7 @@ export const deleteFlashcardbox = id => dispatch => {
   const authState = store.getState().auth;
   dispatch(deleteBoxStart());
   fetch(BACKEND_URL_DELETE_FLASHCARDBOX, {
-    method: 'POST',
+    method: 'DELETE',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

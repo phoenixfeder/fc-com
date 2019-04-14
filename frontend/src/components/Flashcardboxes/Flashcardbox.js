@@ -52,6 +52,7 @@ class Flashcardbox extends Component {
 
   handleDelete = () => {
     this.props.deleteFlashcardbox(this.props.id);
+    this.setState({ deleteOpen: false });
   };
 
   deleteDialogOpen = () => {
@@ -64,6 +65,7 @@ class Flashcardbox extends Component {
 
   handleEdit = (flashcardbox) => {
     this.props.editFlashcardbox(flashcardbox);
+    this.setState({ editOpen: false });
   };
 
   editDialogOpen = () => {
