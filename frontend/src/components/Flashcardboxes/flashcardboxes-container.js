@@ -3,11 +3,10 @@ import Flashcardboxes from './Flashcardboxes';
 import * as actions from '../../actions/flashcardboxes-actions';
 
 const mapStateToProps = state => ({
-  loading: state.flashcardboxes.loading,
+  getLoading: state.flashcardboxes.loading,
   createLoading: state.flashcardboxes.createLoading,
   boxes: state.flashcardboxes.boxes,
   error: state.flashcardboxes.error,
-  createError: state.flashcardboxes.errorLoading,
 });
 
 const mapDispatchToProps = dispatch => ({

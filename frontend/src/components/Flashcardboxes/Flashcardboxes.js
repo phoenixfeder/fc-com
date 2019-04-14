@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Flashcardbox from './Flashcardbox';
+import Flashcardbox from './flashcardbox-container';
 import FlashcardboxCreateModal from './FlashcardboxCreateModal';
 
 const styles = theme => ({

@@ -17,6 +17,8 @@ import {
 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import FlashcardboxDeleteModal from './FlashcardboxDeleteModal';
+import FlashcardboxEditModal from './FlashcardboxEditModal';
 
 const styles = theme => ({
   root: {
@@ -43,10 +45,33 @@ const styles = theme => ({
 
 class Flashcardbox extends Component {
 
-  componentWillMount() {
+  state = {
+    deleteOpen: false,
+    editOpen: false,
   }
 
-  componentDidMount() {
+  handleDelete = () => {
+    this.props.deleteFlashcardbox(this.props.id);
+  };
+
+  deleteDialogOpen = () => {
+    this.setState({ deleteOpen: true });
+  }
+
+  deleteDialogClose = () => {
+    this.setState({ deleteOpen: false });
+  }
+
+  handleEdit = (flashcardbox) => {
+    this.props.editFlashcardbox(flashcardbox);
+  };
+
+  editDialogOpen = () => {
+    this.setState({ editOpen: true });
+  }
+
+  editDialogClose = () => {
+    this.setState({ editOpen: false });
   }
 
   render() {
@@ -59,36 +84,57 @@ class Flashcardbox extends Component {
     }
 
     return (
-      <Card>
-        <CardContent>
-          <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
-          >
-            {`Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
-          </Typography>
-          <Typography variant="h5" component="h2">
-            { this.props.title }
-          </Typography>
-          <Typography component="p">
-            { this.props.description }
-          </Typography>
-          {successChip}
-          <Chip label={`${this.props.amount} cards`} className={classes.infoChip} icon={<FileCopy />} color="primary" />
-        </CardContent>
-        <CardActions disableActionSpacing>
-          <Button size="medium">Learn</Button>
-          <div style={{ width: '100%', textAlign: 'right' }}>
-            <IconButton aria-label="Share">
-              <Edit />
-            </IconButton>
-            <IconButton aria-label="Edit Flashcardbox">
-              <Delete />
-            </IconButton>
-          </div>
-        </CardActions>
-      </Card>
+      <div>
+        <Card>
+          <CardContent>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
+              {`Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
+            </Typography>
+            <Typography variant="h5" component="h2">
+              { this.props.title }
+            </Typography>
+            <Typography component="p">
+              { this.props.description }
+            </Typography>
+            {successChip}
+            <Chip label={`${this.props.amount} cards`} className={classes.infoChip} icon={<FileCopy />} color="primary" />
+          </CardContent>
+          <CardActions disableActionSpacing>
+            <Button size="medium">Learn</Button>
+            <div style={{ width: '100%', textAlign: 'right' }}>
+              <IconButton
+                aria-label="Edit Flashcardbox"
+                onClick={() => this.editDialogOpen()}
+              >
+                <Edit />
+              </IconButton>
+              <IconButton
+                aria-label="Delete Flashcardbox"
+                onClick={() => this.deleteDialogOpen()}
+              >
+                <Delete />
+              </IconButton>
+            </div>
+          </CardActions>
+        </Card>
+        <FlashcardboxDeleteModal
+          title={this.props.title}
+          open={this.state.deleteOpen}
+          handleDelete={this.handleDelete}
+          handleClose={this.deleteDialogClose}
+        />
+        <FlashcardboxEditModal
+          title={this.props.title}
+          description={this.props.description}
+          open={this.state.editOpen}
+          handleEdit={this.handleEdit}
+          handleClose={this.editDialogClose}
+        />
+      </div>
     );
   }
 
@@ -101,6 +147,9 @@ Flashcardbox.propTypes = {
   amount: PropTypes.number.isRequired,
   successRate: PropTypes.string,
   created: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  deleteFlashcardbox: PropTypes.func.isRequired,
+  editFlashcardbox: PropTypes.func.isRequired,
 };
 
 Flashcardbox.defaultProps = {

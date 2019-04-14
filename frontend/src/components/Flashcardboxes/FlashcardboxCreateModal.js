@@ -7,50 +7,10 @@ import {
   DialogTitle,
   Fab,
   TextField,
-  withStyles,
 } from '@material-ui/core';
-import red from '@material-ui/core/colors/red';
 import AddIcon from '@material-ui/icons/Add';
-import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-
-const styles = theme => ({
-  paper: {
-    position: 'absolute',
-    width: theme.spacing.unit * 50,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-  },
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  icon: {
-    margin: theme.spacing.unit * 2,
-  },
-  iconHover: {
-    margin: theme.spacing.unit * 2,
-    '&:hover': {
-      color: red[800],
-    },
-  },
-});
-
-/*
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-*/
 
 class FlashcardboxCreateModal extends Component {
   state = {
@@ -58,17 +18,6 @@ class FlashcardboxCreateModal extends Component {
     fcb_name: '',
     fcb_description: '',
   };
-
-  componentWillMount() {
-  }
-
-  componentDidMount() {
-    document.title = 'Flashcardboxes';
-    loadCSS(
-      'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
-      document.querySelector('#insertion-point-jss'),
-    );
-  }
 
   handleClose = () => {
     this.setState({
@@ -106,12 +55,9 @@ class FlashcardboxCreateModal extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-
     return (
-
       <div>
-        <Fab color="primary" aria-label="Add" onClick={this.handleOpen} className={classes.fab}>
+        <Fab color="primary" aria-label="Add" onClick={this.handleOpen}>
           <AddIcon />
         </Fab>
         <Dialog
@@ -128,7 +74,7 @@ class FlashcardboxCreateModal extends Component {
               autoFocus
               margin="dense"
               id="fcb_name"
-              label="name"
+              label="Title"
               type="text"
               fullWidth
               onChange={this.handleChange}
@@ -136,10 +82,9 @@ class FlashcardboxCreateModal extends Component {
             <TextField
               margin="dense"
               id="fcb_description"
-              label="description"
+              label="Description"
               type="text"
               fullWidth
-              variant="outlined"
               multiline
               rows={4}
               rowsMax={8}
@@ -149,19 +94,13 @@ class FlashcardboxCreateModal extends Component {
           <DialogActions>
             <Button
               onClick={this.handleClose}
-              style={{
-                color: 'white',
-                backgroundColor: 'grey',
-              }}
+              color="secondary"
             >
               {'Cancel'}
             </Button>
             <Button
               onClick={this.handleCreate}
-              style={{
-                color: 'white',
-                backgroundColor: '#039be5',
-              }}
+              color="primary"
             >
               {'Create'}
             </Button>
@@ -175,8 +114,7 @@ class FlashcardboxCreateModal extends Component {
 }
 
 FlashcardboxCreateModal.propTypes = {
-  classes: PropTypes.object.isRequired,
   createFunc: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(FlashcardboxCreateModal);
+export default FlashcardboxCreateModal;
