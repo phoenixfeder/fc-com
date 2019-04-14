@@ -5,47 +5,15 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Fab,
   TextField,
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 class FlashcardboxCreateModal extends Component {
   state = {
-    open: false,
     fcb_name: '',
     fcb_description: '',
-  };
-
-  handleClose = () => {
-    this.setState({
-      open: false,
-      fcb_name: '',
-      fcb_description: '',
-    });
-  };
-
-  handleCreate = () => {
-    const flashcardbox = {
-      title: this.state.fcb_name,
-      description: this.state.fcb_description,
-    };
-    this.props.createFunc(flashcardbox);
-    this.setState({
-      open: false,
-      fcb_name: '',
-      fcb_description: '',
-    });
-  };
-
-  handleOpen = () => {
-    this.setState({
-      open: true,
-      fcb_name: '',
-      fcb_description: '',
-    });
   };
 
   handleChange = (e) => {
@@ -57,11 +25,8 @@ class FlashcardboxCreateModal extends Component {
   render() {
     return (
       <div>
-        <Fab color="primary" aria-label="Add" onClick={this.handleOpen}>
-          <AddIcon />
-        </Fab>
         <Dialog
-          open={this.state.open}
+          open={this.props.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
@@ -93,13 +58,19 @@ class FlashcardboxCreateModal extends Component {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={this.handleClose}
+              onClick={() => this.props.handleClose()}
               color="secondary"
             >
               {'Cancel'}
             </Button>
             <Button
-              onClick={this.handleCreate}
+              onClick={() => {
+                const flashcardbox = {
+                  title: this.state.fcb_name,
+                  description: this.state.fcb_description,
+                };
+                this.props.handleCreate(flashcardbox);
+              }}
               color="primary"
             >
               {'Create'}
@@ -114,7 +85,9 @@ class FlashcardboxCreateModal extends Component {
 }
 
 FlashcardboxCreateModal.propTypes = {
-  createFunc: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleCreate: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
 };
 
 export default FlashcardboxCreateModal;

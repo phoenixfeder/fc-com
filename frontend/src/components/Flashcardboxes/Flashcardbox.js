@@ -21,10 +21,6 @@ import FlashcardboxDeleteModal from './FlashcardboxDeleteModal';
 import FlashcardboxEditModal from './FlashcardboxEditModal';
 
 const styles = theme => ({
-  root: {
-    paddingTop: theme.spacing.unit * 2,
-    flexGrow: 1,
-  },
   headline: {
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
@@ -50,11 +46,6 @@ class Flashcardbox extends Component {
     editOpen: false,
   }
 
-  handleDelete = () => {
-    this.props.deleteFlashcardbox(this.props.id);
-    this.setState({ deleteOpen: false });
-  };
-
   deleteDialogOpen = () => {
     this.setState({ deleteOpen: true });
   }
@@ -63,9 +54,9 @@ class Flashcardbox extends Component {
     this.setState({ deleteOpen: false });
   }
 
-  handleEdit = (flashcardbox) => {
-    this.props.editFlashcardbox(flashcardbox);
-    this.setState({ editOpen: false });
+  handleDelete = () => {
+    this.props.deleteFlashcardbox(this.props.id);
+    this.deleteDialogClose();
   };
 
   editDialogOpen = () => {
@@ -75,6 +66,11 @@ class Flashcardbox extends Component {
   editDialogClose = () => {
     this.setState({ editOpen: false });
   }
+
+  handleEdit = (flashcardbox) => {
+    this.props.editFlashcardbox(flashcardbox);
+    this.editDialogClose();
+  };
 
   render() {
 
@@ -111,12 +107,14 @@ class Flashcardbox extends Component {
               <IconButton
                 aria-label="Edit Flashcardbox"
                 onClick={() => this.editDialogOpen()}
+                disabled={this.props.editLoading}
               >
                 <Edit />
               </IconButton>
               <IconButton
                 aria-label="Delete Flashcardbox"
                 onClick={() => this.deleteDialogOpen()}
+                disabled={this.props.deleteLoading}
               >
                 <Delete />
               </IconButton>
@@ -152,6 +150,8 @@ Flashcardbox.propTypes = {
   id: PropTypes.number.isRequired,
   deleteFlashcardbox: PropTypes.func.isRequired,
   editFlashcardbox: PropTypes.func.isRequired,
+  editLoading: PropTypes.bool.isRequired,
+  deleteLoading: PropTypes.bool.isRequired,
 };
 
 Flashcardbox.defaultProps = {
