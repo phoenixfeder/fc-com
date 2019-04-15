@@ -1,5 +1,10 @@
-import { ListItem } from '@material-ui/core';
-import { Grid, Paper, Typography, withStyles } from '@material-ui/core/';
+import {
+  ListItem,
+  ListItemText,
+  Grid,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import * as PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -36,41 +41,52 @@ class FAQ extends Component {
               justify="center"
               spacing={16}
               className={classes.paper}
-              component={Paper}
               elevation={2}
               direction="column"
             >
               <Grid item lg={12}>
                 <Typography variant="h3" align="center">Friendly Asked Questions</Typography>
-                <Typography variant="body1" align="center">Here you will be able to find answers to a lot of possible
-                  questions!</Typography>
+                <Typography variant="body1" align="center">
+                  {'Here you will be able to find answers to a lot of possible questions!'}
+                </Typography>
               </Grid>
               <Grid item lg={12}>
                 <List>
                   <ListItem>
-                    <Typography variant="body1"><b>Will this application be available for free?</b>
-                    </Typography>
+                    <ListItemText
+                      primary="Will this application be available for free?"
+                      secondary="Yes! We intend to help you learn as good and fast as you can. So restricting your access is no possible option."
+                    />
                   </ListItem>
                   <ListItem>
-                    <Typography variant="body1">Yes! We intend to help you learn as good and fast as you
-                      can. So restricting your access is no possible option.</Typography>
-                  </ListItem>
-
-                  <ListItem>
-                    <Typography variant="body1"><b>Will my grade improve by using the application?</b>
-                    </Typography>
+                    <ListItemText
+                      primary="Will my grade improve by using the application?"
+                      secondary="We try to help you improve your grade. However we can not guarantee any improvements. It all depends on your commitment."
+                    />
                   </ListItem>
                   <ListItem>
-                    <Typography variant="body1">We try to help you improve your grade. However we can not
-                      guarantee any improvements. It all depends on your commitment.</Typography>
+                    <ListItemText
+                      primary="What exactly is a flashcardbox and how do I create one?"
+                      secondary="A flashcardbox is a virtual box that you can store flashcards in. It helps you to group your flashcards by whatever you want.
+                        Moreover it defines what you are able to learn together. So make sure to pack all flashcards that you want to learn together in
+                        one single flashcardbox. To create one, you have to be logged in. Next you will be able to navigate to your boxes in the menu and create
+                        one by clicking the round + button."
+                    />
                   </ListItem>
-
                 </List>
               </Grid>
               <Grid item lg={12}>
-                <Typography variant="body1" align="center">You did not find an answer to your question? </Typography>
-                <Typography variant="body1" align="center">Then contact us directly at</Typography>
-                <Typography variant="body1" align="center"> <a href="mailto:flashcardcommunity@gmail.com">flashcardcommunity@gmail.com</a> </Typography>
+                <Typography variant="body1" align="center">
+                  {'You did not find an answer to your question?'}
+                </Typography>
+                <Typography variant="body1" align="center">
+                  {'Then contact us directly at'}
+                </Typography>
+                <Typography variant="body1" align="center">
+                  <a href="mailto:flashcardcommunity@gmail.com">
+                    {'flashcardcommunity@gmail.com'}
+                  </a>
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
