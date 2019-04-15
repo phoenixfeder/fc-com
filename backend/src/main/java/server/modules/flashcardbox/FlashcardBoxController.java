@@ -35,14 +35,14 @@ public class FlashcardBoxController {
     }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/edit", method = RequestMethod.POST)
+    @RequestMapping(path = "/edit", method = RequestMethod.PUT)
     public @ResponseBody
     ResponseDTO editBox(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
         return flashcardBoxService.editBox(requestDTO);
     }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/delete", method = RequestMethod.POST)
+    @RequestMapping(path = "/delete", method = RequestMethod.DELETE)
     public @ResponseBody
     ResponseDTO deleteBox(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
         return flashcardBoxService.deleteBox(requestDTO);

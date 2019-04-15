@@ -6,23 +6,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import {
-  applyMiddleware,
-  compose,
-  createStore,
-} from 'redux';
-import thunk from 'redux-thunk';
 import AppContainer from './components/App/app-container';
 import './index.css';
-import allReducers from './reducers/index-reducer';
 import * as serviceWorker from './serviceWorker';
 import { lightTheme } from './utils/themeLight';
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // eslint-disable-line
-
-const store = createStore(allReducers, composeEnhancers(
-  applyMiddleware(thunk),
-));
+import { store } from './store';
 
 ReactDOM.render(
   <Provider store={store}>

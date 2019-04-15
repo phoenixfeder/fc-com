@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -13,15 +14,16 @@ public class Box {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.created = created;
-        this.lastchanged = lastchanged;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        this.created = created.format(dateTimeFormatter);
+        this.lastchanged = lastchanged.format(dateTimeFormatter);
     }
 
     private long id;
     private String title;
     private String description;
-    private LocalDateTime created;
-    private LocalDateTime lastchanged;
+    private String created;
+    private String lastchanged;
     //TODO FLASHCARDS ZÄHLEN
     private int flashcards = 0;
     //private Set<Flashcard> flashcards = new HashSet<>();

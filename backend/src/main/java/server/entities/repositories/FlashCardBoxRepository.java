@@ -8,4 +8,9 @@ import java.util.List;
 
 public interface FlashCardBoxRepository extends CrudRepository<FlashCardBox, Long> {
     List<FlashCardBox> getAllByOwner(User user);
+    void deleteByOwnerAndId(User user, Long id);
+
+    void deleteAllByOwner(User user);
+
+    FlashCardBox findByIdAndOwner(Long id, User user);
 }
