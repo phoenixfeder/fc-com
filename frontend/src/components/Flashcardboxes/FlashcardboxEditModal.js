@@ -75,7 +75,7 @@ class FlashcardboxCreateModal extends Component {
             {'Cancel'}
           </Button>
           <Button
-            onClick={() => this.props.handleEdit({ flashcardbox: { title: 'Test', description: 'Test' } })}
+            onClick={() => this.props.handleEdit({ flashcardbox: { title: this.state.fcb_name, description: this.state.fcb_description, id: this.props.id } })}
             color="primary"
           >
             {'Update'}
@@ -93,6 +93,7 @@ FlashcardboxCreateModal.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default FlashcardboxCreateModal;

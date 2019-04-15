@@ -1,19 +1,19 @@
 import {
-  Chip,
-  Typography,
-  withStyles,
+  Button,
   Card,
   CardActions,
   CardContent,
-  Button,
+  Chip,
   IconButton,
+  Typography,
+  withStyles,
 } from '@material-ui/core/';
 import {
-  FileCopy,
-  SentimentSatisfiedAlt,
-  SentimentDissatisfied,
-  Edit,
   Delete,
+  Edit,
+  FileCopy,
+  SentimentDissatisfied,
+  SentimentSatisfiedAlt,
 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -44,15 +44,22 @@ class Flashcardbox extends Component {
   state = {
     deleteOpen: false,
     editOpen: false,
+  };
+
+  componentDidMount() {
+    this.setState({
+      title: this.props.title,
+      description: this.props.description,
+    });
   }
 
   deleteDialogOpen = () => {
     this.setState({ deleteOpen: true });
-  }
+  };
 
   deleteDialogClose = () => {
     this.setState({ deleteOpen: false });
-  }
+  };
 
   handleDelete = () => {
     this.props.deleteFlashcardbox(this.props.id);
@@ -61,14 +68,19 @@ class Flashcardbox extends Component {
 
   editDialogOpen = () => {
     this.setState({ editOpen: true });
-  }
+  };
 
   editDialogClose = () => {
     this.setState({ editOpen: false });
-  }
+  };
 
   handleEdit = (flashcardbox) => {
-    this.props.editFlashcardbox(flashcardbox);
+    this.props.editFlashcardbox(flashcardbox, (flashcardboxResult) => {
+      this.setState({
+        title: flashcardboxResult.flashcardbox.title,
+        description: flashcardboxResult.flashcardbox.description,
+      });
+    });
     this.editDialogClose();
   };
 
@@ -76,9 +88,11 @@ class Flashcardbox extends Component {
 
     const { classes } = this.props;
 
-    let successChip = <Chip label={`${this.props.successRate}% correct`} className={classes.infoChipSuccess} icon={<SentimentSatisfiedAlt />} color="primary" />;
+    let successChip = <Chip label={`${this.props.successRate}% correct`} className={classes.infoChipSuccess} icon={
+      <SentimentSatisfiedAlt />} color="primary" />;
     if (this.props.successRate <= 50) {
-      successChip = <Chip label={`${this.props.successRate}% correct`} className={classes.infoChip} icon={<SentimentDissatisfied />} color="secondary" />;
+      successChip = <Chip label={`${this.props.successRate}% correct`} className={classes.infoChip} icon={
+        <SentimentDissatisfied />} color="secondary" />;
     }
 
     return (
@@ -90,20 +104,24 @@ class Flashcardbox extends Component {
               color="textSecondary"
               gutterBottom
             >
-              {`Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
+              {`Flashcardbox, created ${this.props.created}`}
             </Typography>
             <Typography variant="h5" component="h2">
-              { this.props.title }
+              {this.state.title}
             </Typography>
             <Typography component="p">
-              { this.props.description }
+              {this.state.description}
             </Typography>
             {successChip}
-            <Chip label={`${this.props.amount} cards`} className={classes.infoChip} icon={<FileCopy />} color="primary" />
+            <Chip label={`${this.props.amount} cards`} className={classes.infoChip} icon={
+              <FileCopy />} color="primary" />
           </CardContent>
           <CardActions disableActionSpacing>
             <Button size="medium">Learn</Button>
-            <div style={{ width: '100%', textAlign: 'right' }}>
+            <div style={{
+              width: '100%',
+              textAlign: 'right',
+            }}>
               <IconButton
                 aria-label="Edit Flashcardbox"
                 onClick={() => this.editDialogOpen()}
@@ -133,6 +151,7 @@ class Flashcardbox extends Component {
           open={this.state.editOpen}
           handleEdit={this.handleEdit}
           handleClose={this.editDialogClose}
+          id={this.props.id}
         />
       </div>
     );
