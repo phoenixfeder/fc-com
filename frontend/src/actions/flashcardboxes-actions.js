@@ -191,11 +191,11 @@ const editBoxFail = errorarg => ({
   error: errorarg,
 });
 
-export const editFlashcardbox = flashcardbox => dispatch => {
+export const editFlashcardbox = (flashcardbox, callback) => dispatch => {
   const authState = store.getState().auth;
   dispatch(editBoxStart());
   fetch(BACKEND_URL_EDIT_FLASHCARDBOX, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -206,13 +206,15 @@ export const editFlashcardbox = flashcardbox => dispatch => {
         hash: authState.sessionHash,
       },
       flashcardboxes: {
-        title: flashcardbox.title,
-        description: flashcardbox.description,
+        id: flashcardbox.flashcardbox.id,
+        title: flashcardbox.flashcardbox.title,
+        description: flashcardbox.flashcardbox.description,
       },
     }),
   }).then(results => results.json()).then(result => {
     switch (result.status.code) {
       case 200:
+        callback(flashcardbox);
         dispatch(editBoxSuccess(flashcardbox));
         break;
 

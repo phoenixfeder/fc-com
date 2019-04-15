@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   deleteFlashcardbox: (id) => dispatch(actions.deleteFlashcardbox(id)),
-  editFlashcardbox: (flashcardbox) => dispatch(actions.editFlashcardbox(flashcardbox)),
+  editFlashcardbox: (flashcardbox, callback) => dispatch(actions.editFlashcardbox(flashcardbox, callback)),
 });
 
 const FlashcardboxContainer = connect(mapStateToProps, mapDispatchToProps)(Flashcardbox);
