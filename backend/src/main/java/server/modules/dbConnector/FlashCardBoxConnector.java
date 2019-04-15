@@ -37,4 +37,9 @@ public class FlashCardBoxConnector {
     public void deleteByUser(User user) {
         flashCardBoxRepository.deleteAllByOwner(user);
     }
+
+    @Transactional
+    public FlashCardBox getBoxByIdAndUser(Long id, User user) {
+        return flashCardBoxRepository.findByIdAndOwner(id, user);
+    }
 }
