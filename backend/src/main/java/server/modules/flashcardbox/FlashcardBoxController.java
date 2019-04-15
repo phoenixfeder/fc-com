@@ -35,7 +35,7 @@ public class FlashcardBoxController {
     }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/edit", method = RequestMethod.POST)
+    @RequestMapping(path = "/edit", method = RequestMethod.PUT)
     public @ResponseBody
     ResponseDTO editBox(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
         return flashcardBoxService.editBox(requestDTO);
