@@ -376,6 +376,276 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Account: Edit NonSensitive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b84ca834-0b7f-44d0-bc18-74e3fb3e0300",
+								"exec": [
+									"pm.test(\"debugUser can update his Profile\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"authentication\":{\n\t\t\"session\": \"{{user_session}}\",\n        \"hash\": \"{{user_hash}}\"\n\t},\n\t\"user\":{\n\t\t\"realName\": \"Peter Hans Wurschd\",\n\t\t\"interest\": \"Nase bohren\",\n\t\t\"dateOfBirth\": \"1970-09-01\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/account/update",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account: Edit Sensitive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "28684615-d72d-444c-80ea-dc71184927ec",
+								"exec": [
+									"pm.test(\"debugUser can update his account\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"authentication\":{\n\t\t\"session\": \"{{user_session}}\",\n        \"hash\": \"{{user_hash}}\"\n\t},\n\t\"user\":{\n\t\t\"oldPassword\": \"123456\",\n\t\t\"password\": \"234567\",\n\t\t\"email\" : \"peter.hans@hanselwurschdl.de\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/account/update",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FlashcardBoxes",
+			"item": [
+				{
+					"name": "Boxes: getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e37c9001-9f68-4d6d-bdb5-7c73354d9be2",
+								"exec": [
+									"pm.test(\"Flashcardboxes can be viewed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"authentication\":{\n\t\t\"session\": \"{{user_session}}\",\n        \"hash\": \"{{user_hash}}\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/flashcardbox/get",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"flashcardbox",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Boxes: add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "de8bc965-00e4-4fbf-b6d7-ee29c650a432",
+								"exec": [
+									"pm.test(\"Flashcardboxes can be created\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"    pm.environment.set(\"box_id\", jsonData.flashcardboxes[0].id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"authentication\":{\n\t\t\"session\": \"{{user_session}}\",\n        \"hash\": \"{{user_hash}}\"\n\t},\n\t\"flashcardboxes\":{\n\t\t\"title\": \"Test\",\n        \"description\": \"Neue Box\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/flashcardbox/new",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"flashcardbox",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Boxes: edit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "de8bc965-00e4-4fbf-b6d7-ee29c650a432",
+								"exec": [
+									"pm.test(\"Flashcardboxes can be edited\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"authentication\":{\n\t\t\"session\": \"{{user_session}}\",\n        \"hash\": \"{{user_hash}}\"\n\t},\n\t\"flashcardboxes\":{\n\t\t\"id\": {{box_id}},\n\t\t\"title\": \"Bearbeitet\",\n        \"description\": \"Bearbeitete Box\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/flashcardbox/edit",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"flashcardbox",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Boxes: Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d9854c01-ddfa-4eb2-967f-ca118e7da186",
+								"exec": [
+									"pm.test(\"Flashcardboxes can be deleted\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"authentication\":{\n\t\t\"session\": \"{{user_session}}\",\n        \"hash\": \"{{user_hash}}\"\n\t},\n\t\"flashcardboxes\":{\n\t\t\"id\": {{box_id}}\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/flashcardbox/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"flashcardbox",
+								"delete"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -427,6 +697,90 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Utils",
+			"item": [
+				{
+					"name": "Login: EnabledUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7329d209-934b-4cf3-bca8-acfdf6b010b0",
+								"exec": [
+									"",
+									"pm.test(\"enableduser can login\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status.code).to.eql(200);",
+									"    pm.expect(jsonData.status.session.username).to.eql(\"enableduser\");",
+									"    pm.environment.set(\"user_session\", jsonData.status.session.session);",
+									"    pm.environment.set(\"user_hash\", jsonData.status.session.hash);",
+									"    pm.environment.set(\"user_id\", jsonData.status.session.id);",
+									"});",
+									"pm.environment.set(\"variable_key\", \"variable_value\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":{\n\t\t\t\"username\": \"enableduser\",\n\t\t\t\"password\": \"123456\"\n\t\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/authentication/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account: Close",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"authentication\":{\n\t\t\"session\": \"{{user_session}}\",\n        \"hash\": \"{{user_hash}}\"\n\t},\n\t\"user\":{\n\t\t\"oldPassword\": \"123456\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/account/close",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"close"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -453,7 +807,7 @@
 	],
 	"variable": [
 		{
-			"id": "58bb810e-a368-4142-ac9c-e4a46d815856",
+			"id": "498479b8-4aa9-4710-9a47-aeca3bfe54d3",
 			"key": "url",
 			"value": "http://localhost:8080",
 			"type": "string"
