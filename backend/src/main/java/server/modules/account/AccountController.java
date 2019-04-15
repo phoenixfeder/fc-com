@@ -52,12 +52,12 @@ public class AccountController {
         return accountService.getAccount((requestDTO));
     }
 
-    /*
+
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/update", method = RequestMethod.PUT)
-    public @ResponseBody ResponseDTO setAccountData(@RequestBody RequestDTO requestDTO) {
-        return editProfileService.setAccountData((requestDTO));
-    }*/
+    public @ResponseBody ResponseDTO setAccountData(@RequestBody RequestDTO requestDTO) throws FccExcpetion{
+        return accountService.editAccount(requestDTO);
+    }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/close", method = RequestMethod.DELETE)

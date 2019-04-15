@@ -23,6 +23,12 @@ public class ExceptionController{
         return StatusDTO.REGISTERERROR(e.registerResponse);
     }
 
+    @ExceptionHandler({EditProfileException.class})
+    public @ResponseBody ResponseDTO editProfileException(EditProfileException e){
+        System.out.println("Edit Profile Error");
+        return StatusDTO.EDITPROFILEERROR(e.userResponse);
+    }
+
     @ExceptionHandler({EmailSendException.class})
     public @ResponseBody ResponseDTO emailSendException(){
         System.out.println("Email-Send Error");

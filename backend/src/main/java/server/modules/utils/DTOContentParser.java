@@ -31,7 +31,7 @@ public class DTOContentParser {
     }
 
     public static UserRequest getUserRequest (RequestDTO requestDTO) throws WrongFormatException {
-        try {
+        /*try {
             UserRequest userRequest = requestDTO.getUserRequest();
             if(userRequest.getUsername() == null || userRequest.getPassword() == null){
                 throw new NullPointerException();
@@ -39,7 +39,12 @@ public class DTOContentParser {
             return userRequest;
         } catch (NullPointerException e) {
             throw new WrongFormatException();
+        }*/
+        UserRequest userRequest = requestDTO.getUserRequest();
+        if(userRequest == null){
+            throw new WrongFormatException();
         }
+        return userRequest;
     }
 
     public static String getMail(RequestDTO requestDTO) throws WrongFormatException {

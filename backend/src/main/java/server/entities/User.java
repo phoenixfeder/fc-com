@@ -50,6 +50,7 @@ public class User {
         this.password = userRequest.getPassword();
     }
 
+    @Deprecated
     public void updateNonSensitiveData(UserRequest userRequest) {
         if (userRequest.getDateOfBirth() != null) {
             this.dateOfBirth = userRequest.getDateOfBirth();

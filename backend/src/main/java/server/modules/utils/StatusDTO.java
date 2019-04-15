@@ -4,6 +4,7 @@ import server.config.StatusCode;
 import server.entities.dto.ResponseDTO;
 import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.StatusResponse;
+import server.entities.dto.response.UserResponse;
 
 public class StatusDTO {
 
@@ -75,5 +76,11 @@ public class StatusDTO {
 
     public static ResponseDTO WRONGPASSWORDERROR() {
         return new ResponseDTO(StatusResponse.create(StatusCode.WRONGPASSWORDERROR));
+    }
+
+    public static ResponseDTO EDITPROFILEERROR(UserResponse userResponse) {
+        ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.EDITPROFILEERROR));
+        responseDTO.setUserResponse(userResponse);
+        return responseDTO;
     }
 }
