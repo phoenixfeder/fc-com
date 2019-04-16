@@ -132,7 +132,6 @@ Following a closer description of the front- and backend.
 While the frontend is based on ReactJS, it is enhanced by [Redux](https://en.wikipedia.org/wiki/Redux_(JavaScript_library)). In opposite to well known patterns like MVC, its dataflow is unidirectional.
 
   - Actions: As the name may already implies, actions react to events triggered by the user. They describe what happen on such events (e.g. user tries to authenticate).
-
   - Reducer: A reducer specifies how to state of the application changes in response the called actions (e.g. user authenticated is now true)
   - Store: The store contains all the states and brings them all together to provide them all over the application.
 

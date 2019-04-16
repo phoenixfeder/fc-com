@@ -15,6 +15,7 @@
       - Grant all rights!
 
   - Create a database **fcc_db**
-  
+
+
   - Open Project
       - If you can run the app go to [http://localhost:8080/](http://localhost:8080/)
