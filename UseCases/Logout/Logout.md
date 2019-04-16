@@ -48,4 +48,7 @@ When token is deleted, redirect to welcome page.
 
 ## 6. Extension Points
 
-N/A
+Function points for this use case are: 12.41 (calculated by ([http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc))
+
+![DCT](dct.png)
+![CAT](cat.png)
