@@ -3,13 +3,11 @@ package server.modules.dbconnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import server.entities.FlashCard;
 import server.entities.FlashCardBox;
 import server.entities.User;
 import server.entities.repositories.FlashCardBoxRepository;
 
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class FlashCardBoxConnector {
@@ -20,7 +18,7 @@ public class FlashCardBoxConnector {
         this.flashCardBoxRepository = flashCardBoxRepository;
     }
 
-    public List<FlashCardBox> getAllBoxFromUser(User user){
+    public List<FlashCardBox> getAllBoxFromUser(User user) {
         return flashCardBoxRepository.getAllByOwner(user);
     }
 

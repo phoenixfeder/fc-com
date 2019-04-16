@@ -17,7 +17,7 @@ public class UserConnector {
         this.userRepository = userRepository;
     }
 
-    public User getUserByID(long id){
+    public User getUserByID(long id) {
         return userRepository.findById(id).orElse(null);
     }
 
@@ -29,21 +29,21 @@ public class UserConnector {
         return userRepository.findUserByEmail(email);
     }
 
-    public User save(User user){
+    public User save(User user) {
         return userRepository.save(user);
     }
 
-    public boolean existsByID(long id){
+    public boolean existsByID(long id) {
         return userRepository.findById(id).isPresent();
     }
 
     public User getUserByNameOrEmail(UserRequest userRequest) throws WrongUsernameOrPasswordException {
         String username = userRequest.getUsername();
         User user = getUserByName(username);
-        if(user == null){
+        if (user == null) {
             user = getUserByEmail(username);
         }
-        if(user == null){
+        if (user == null) {
             throw new WrongUsernameOrPasswordException();
         }
         return user;

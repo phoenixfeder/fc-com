@@ -24,7 +24,7 @@ public class TokenConnector {
         return verificationTokenRepository.save(token);
     }
 
-    public void delete(VerificationToken token){
+    public void delete(VerificationToken token) {
         verificationTokenRepository.delete(token);
     }
 }
