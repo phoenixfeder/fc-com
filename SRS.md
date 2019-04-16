@@ -213,7 +213,6 @@ We can't ensure that the information on the flashcards will be correct since the
 We classify bugs like the following:
 
   - **Critical bug**: A critical bug occurs when the database starts dropping data without intention, secret user information, like passwords, are open to the public or users are not able to use the application at all.
-
   - **Non critical bug**: A non critical bug appears when the user still can use the application but it appears glitched and the user experience is slightly influenced.
 
 ### 3.6 Performance

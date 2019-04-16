@@ -9,8 +9,8 @@ Thank you for trying out our application. If you come up to various problems tha
   - Have our backend running! See the installation guide [here](https://github.com/phoenixfeder/fc-com/tree/master/backend).
 
   - You will need...
-    - NPM installed which comes with NodeJS - get it here: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
-    - A texteditor of your choice, but it's not necessarily needed. Visual Studio Code and WebStorm are both stellar choices for frontend development. Only if you want to adjust the code to your favor.
+      - NPM installed which comes with NodeJS - get it here: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+      - A texteditor of your choice, but it's not necessarily needed. Visual Studio Code and WebStorm are both stellar choices for frontend development. Only if you want to adjust the code to your favor.
 
 ## Make it run
 
@@ -26,6 +26,5 @@ Thank you for trying out our application. If you come up to various problems tha
 ## Troubleshooting
 
   - When trying to login, register etc., nothing happens and the whole console is being spammed by errors. This occurs, when the backend is not running properly. See the installation guide for our backend!
-
   - `ENOENT: no such file or directory, open '...\package.json'` appears when you forgot to navigate to the frontend directory. See step 1.
   - `... is not defined`. Perhaps you are missing some dependencies. Try to install all dependencies by following step 2.

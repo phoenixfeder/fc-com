@@ -24,7 +24,6 @@ A flowchart about what happens on each side of the application for this specific
 
 N/A
 
-
 ## 4. Preconditions
 
 A short overview of what is required to conduct this use case.
