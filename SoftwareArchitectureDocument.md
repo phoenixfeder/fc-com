@@ -2,33 +2,33 @@
 
 ## Table of Contents
 
-- [Software Architecture Document](#software-architecture-document)
-  - [Table of Contents](#table-of-contents)
-  - [1. Introduction](#1-introduction)
-    - [1.1 Purpose](#11-purpose)
-    - [1.2 Scope](#12-scope)
-    - [1.3 Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
-    - [1.4 References](#14-references)
-    - [1.5 Overview](#15-overview)
-  - [2. Architectural Representation](#2-architectural-representation)
-  - [2.1 Technologies used](#21-technologies-used)
-    - [Spring Boot (Backend)](#spring-boot-backend)
-    - [ReactJS (Frontend)](#reactjs-frontend)
-  - [3. Architectural Goals and Constraints](#3-architectural-goals-and-constraints)
-    - [Frontend](#frontend)
-    - [Backend](#backend)
-  - [4. Use-Case View](#4-use-case-view)
-    - [4.1 Use-Case Realizations](#41-use-case-realizations)
-  - [5. Logical View](#5-logical-view)
-    - [5.1 Overview](#51-overview)
-  - [6. Process View](#6-process-view)
-  - [7. Deployment View](#7-deployment-view)
-  - [8. Implementation View](#8-implementation-view)
-    - [8.1 Overview](#81-overview)
-    - [8.2 Layers](#82-layers)
-  - [9. Data View](#9-data-view)
-  - [10. Size and Performance](#10-size-and-performance)
-  - [11. Quality/Metrics](#11-qualitymetrics)
+  - [Software Architecture Document](#software-architecture-document)
+      - [Table of Contents](#table-of-contents)
+      - [1. Introduction](#1-introduction)
+          - [1.1 Purpose](#11-purpose)
+          - [1.2 Scope](#12-scope)
+          - [1.3 Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
+          - [1.4 References](#14-references)
+          - [1.5 Overview](#15-overview)
+      - [2. Architectural Representation](#2-architectural-representation)
+      - [2.1 Technologies used](#21-technologies-used)
+          - [Spring Boot (Backend)](#spring-boot-backend)
+          - [ReactJS (Frontend)](#reactjs-frontend)
+      - [3. Architectural Goals and Constraints](#3-architectural-goals-and-constraints)
+          - [Frontend](#frontend)
+          - [Backend](#backend)
+      - [4. Use-Case View](#4-use-case-view)
+          - [4.1 Use-Case Realizations](#41-use-case-realizations)
+      - [5. Logical View](#5-logical-view)
+          - [5.1 Overview](#51-overview)
+      - [6. Process View](#6-process-view)
+      - [7. Deployment View](#7-deployment-view)
+      - [8. Implementation View](#8-implementation-view)
+          - [8.1 Overview](#81-overview)
+          - [8.2 Layers](#82-layers)
+      - [9. Data View](#9-data-view)
+      - [10. Size and Performance](#10-size-and-performance)
+      - [11. Quality/Metrics](#11-qualitymetrics)
 
 ## 1. Introduction
 
@@ -118,16 +118,19 @@ Following a closer description of the front- and backend.
 
 While the frontend is based on ReactJS, it is enhanced by [Redux](https://en.wikipedia.org/wiki/Redux_(JavaScript_library)). In opposite to well known patterns like MVC, its dataflow is unidirectional.
 
-- Actions: As the name may already implies, actions react to events triggered by the user. They describe what happen on such events (e.g. user tries to authenticate).
-- Reducer: A reducer specifies how to state of the application changes in response the called actions (e.g. user authenticated is now true)
-- Store: The store contains all the states and brings them all together to provide them all over the application.
+  - Actions: As the name may already implies, actions react to events triggered by the user. They describe what happen on such events (e.g. user tries to authenticate).
+
+  - Reducer: A reducer specifies how to state of the application changes in response the called actions (e.g. user authenticated is now true)
+
+  - Store: The store contains all the states and brings them all together to provide them all over the application.
 
 ### Backend
 
 The backend is written in Java and holds all the models that are needed (e.g. users, flashcards) and is able to provide the data with the help of a RestController. This is being developed with Springs dependency, Spring Boot. To store the data it communicatres with a MySQL database.
 
-- Model: Specific classes that represent single objects such as users or flashcards.
-- Controller: A RestController that does the mapping of the REST API endpoints.
+  - Model: Specific classes that represent single objects such as users or flashcards.
+
+  - Controller: A RestController that does the mapping of the REST API endpoints.
 
 ## 4. Use-Case View
 
@@ -135,7 +138,7 @@ The backend is written in Java and holds all the models that are needed (e.g. us
 
 ### 4.1 Use-Case Realizations
 
-N/A
+  - N/A
 
 ## 5. Logical View
 
@@ -152,7 +155,7 @@ Full version: [https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelc
 
 ## 6. Process View
 
-N/A
+  - N/A
 
 ## 7. Deployment View
 
@@ -160,15 +163,15 @@ N/A
 
 ## 8. Implementation View
 
-N/A
+  - N/A
 
 ### 8.1 Overview
 
-N/A
+  - N/A
 
 ### 8.2 Layers
 
-N/A
+  - N/A
 
 ## 9. Data View
 
@@ -178,7 +181,7 @@ The following graphic describes the relationship model of the in use database
 
 ## 10. Size and Performance
 
-N/A
+  - N/A
 
 ## 11. Quality/Metrics
 
