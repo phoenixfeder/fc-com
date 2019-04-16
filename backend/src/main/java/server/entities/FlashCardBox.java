@@ -20,10 +20,10 @@ public class FlashCardBox {
     private String description;
 
     @Column(nullable = false)
-    LocalDateTime creationDate;
+    private LocalDateTime creationDate;
 
     @Column(nullable = false)
-    LocalDateTime lastChanged;
+    private LocalDateTime lastChanged;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "owner")

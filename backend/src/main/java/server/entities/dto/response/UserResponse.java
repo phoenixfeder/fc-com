@@ -37,7 +37,7 @@ public class UserResponse {
         this.email = user.getEmail();
         this.realName = user.getRealName();
         this.interest = user.getInterest(); // == null ? "" : user.getInterest();
-        if (!(user.getDateOfBirth() == null)) {
+        if (user.getDateOfBirth() != null) {
             this.birthday = user.getDateOfBirth().toString();
         }
     }
