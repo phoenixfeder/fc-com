@@ -14,7 +14,7 @@ public class Box {
         this.id = id;
         this.title = title;
         this.description = description;
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.ddTHH:mm:ss");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         this.created = created.format(dateTimeFormatter);
         this.lastchanged = lastchanged.format(dateTimeFormatter);
     }
