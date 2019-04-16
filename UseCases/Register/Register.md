@@ -46,15 +46,12 @@ Data given by the visitor must be validated and checked if the given username an
 If the data was validated and are in the right format, they need to be stores in the database.
 
 ## 6. Extension Points
-<<<<<<< Updated upstream
-N/A 
+
+N/A
 
 ## 7. Function Points
-Function points for this use case are: 68.82 (calculated by http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc)
+
+Function points for this use case are: 68.82 (calculated by ([http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc))
 
 ![DCT](dct.png)
 ![CAT](cat.png)
-=======
-
-N/A
->>>>>>> Stashed changes
