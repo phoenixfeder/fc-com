@@ -150,18 +150,18 @@ After data is requested from the frontend and the user is allowed to do so, the 
 The frontend provides an user interface for the users to interact with and is able to request data from the data backend. The following subsections explain the types of data the frontend can request.
 According uses cases are:
 
-- [FAQ](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FAQ/FAQ.md)
+  - [FAQ](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FAQ/FAQ.md)
 
 #### 3.2.1 User system
 
 At registration, the data provided by the user is stored in the backend. It is needed to log in, edit the profile and also provides the basis for a permission-system.
 According use cases are:
 
-- [Register Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/Register/Register.md)
-- [Login Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)
-- [Logout Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)
-- [Edit Profile Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/EditProfile/EditProfile.md)
-- [Close Account Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)
+  - [Register Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/Register/Register.md)
+  - [Login Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)
+  - [Logout Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)
+  - [Edit Profile Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/EditProfile/EditProfile.md)
+  - [Close Account Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)
 
 #### 3.2.3 Flashcard boxes
 
@@ -169,16 +169,16 @@ Data related to single flashcard boxes contain references to individual flashcar
 A user is able to learn with those boxes.
 According use cases are:
 
-- [Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
-- [Share Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md)
-- [Learning](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Learning/Learning.md)
+  - [Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
+  - [Share Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md)
+  - [Learning](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Learning/Learning.md)
 
 #### 3.2.4 Flashcards
 
 A flashcard data is composed of a virtual front- and backpage. For a better overview, flashcards can only be accessed from a individual flashcard boxes.
 According use cases are:
 
-- [Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)
+  - [Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)
 
 #### 3.2.5 Statistics
 
@@ -212,9 +212,9 @@ We can't ensure that the information on the flashcards will be correct since the
 
 We classify bugs like the following:
 
-- **Critical bug**: A critical bug occurs when the database starts dropping data without intention, secret user information, like passwords, are open to the public
-or users are not able to use the application at all.
-- **Non critical bug**: A non critical bug appears when the user still can use the application but it appears glitched and the user experience is slightly influenced.
+  - **Critical bug**: A critical bug occurs when the database starts dropping data without intention, secret user information, like passwords, are open to the public or users are not able to use the application at all.
+
+  - **Non critical bug**: A non critical bug appears when the user still can use the application but it appears glitched and the user experience is slightly influenced.
 
 ### 3.6 Performance
 
@@ -275,7 +275,7 @@ instructions and enough pictures to show the user exactly what to click at.
 
 ### 3.10 Purchased Components
 
-- N\A
+  - N\A
 
 ### 3.11 Interfaces
 
@@ -288,7 +288,7 @@ Since we are using the Material UI framework the application will be accessible 
 
 #### 3.11.2 Hardware Interfaces
 
-N\A
+  - N\A
 
 #### 3.11.3 Software Interfaces
 
@@ -309,11 +309,11 @@ Our project runs under the MIT License. This way everyone is allowed to create h
 
 ### 3.13 Legal, Copyright and other Notices
 
-N\A
+  - N\A
 
 ### 3.14 Applicable Standards
 
-N\A
+  - N\A
 
 ## 4. Supporting Information
 
