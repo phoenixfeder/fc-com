@@ -1,28 +1,34 @@
 # Software Architecture Document
 
-# Table of Contents
-- [Introduction](#1-introduction)
-    - [Purpose](#11-purpose)
-    - [Scope](#12-scope)
-    - [Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
-    - [References](#14-references)
-    - [Overview](#15-overview)
-- [Architectural Representation](#2-architectural-representation)
-    - [Technologies Used](#21-technologies-used)
-- [Architectural Goals and Constraints](#3-architectural-goals-and-constraints)
-- [Use-Case View](#4-use-case-view)
-    - [Use-Case Realizations](#41-use-case-realizations)
-- [Logical View](#5-logical-view)
-    - [Overview](#51-overview)
-    - [Architecturally Significant Design Packages](#52-architecturally-significant-design-packages)
-- [Process View](#6-process-view)
-- [Deployment View](#7-deployment-view)
-- [Implementation View](#8-implementation-view)
-    - [Overview](#81-overview)
-    - [Layers](#82-layers)
-- [Data View](#9-data-view)
-- [Size and Performance](#10-size-and-performance)
-- [Quality](#11-quality)
+## Table of Contents
+
+- [Software Architecture Document](#software-architecture-document)
+  - [Table of Contents](#table-of-contents)
+  - [1. Introduction](#1-introduction)
+    - [1.1 Purpose](#11-purpose)
+    - [1.2 Scope](#12-scope)
+    - [1.3 Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
+    - [1.4 References](#14-references)
+    - [1.5 Overview](#15-overview)
+  - [2. Architectural Representation](#2-architectural-representation)
+  - [2.1 Technologies used](#21-technologies-used)
+    - [Spring Boot (Backend)](#spring-boot-backend)
+    - [ReactJS (Frontend)](#reactjs-frontend)
+  - [3. Architectural Goals and Constraints](#3-architectural-goals-and-constraints)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+  - [4. Use-Case View](#4-use-case-view)
+    - [4.1 Use-Case Realizations](#41-use-case-realizations)
+  - [5. Logical View](#5-logical-view)
+    - [5.1 Overview](#51-overview)
+  - [6. Process View](#6-process-view)
+  - [7. Deployment View](#7-deployment-view)
+  - [8. Implementation View](#8-implementation-view)
+    - [8.1 Overview](#81-overview)
+    - [8.2 Layers](#82-layers)
+  - [9. Data View](#9-data-view)
+  - [10. Size and Performance](#10-size-and-performance)
+  - [11. Quality/Metrics](#11-qualitymetrics)
 
 ## 1. Introduction
 
@@ -36,35 +42,35 @@ The scope of this SAS is to show the architecture of our FlashCardCommunity proj
 
 ### 1.3 Definitions, Acronyms and Abbreviations
 
-| Abbrevation | Description                            |
-| ----------- | -------------------------------------- |
-| API         | Application programming interface      |
-| MVC         | Model View Controller                  |
-| REST        | Representational state transfer        |
-| SDK         | Software development kit               |
-| SRS         | Software Requirements Specification    |
-| UC          | Use Case                               |
-| VCS         | Version Control System                 |
-| n/a         | not applicable                         |
-| tbd         | to be determined                       |
+| Abbrevation | Description                         |
+| ----------- | ----------------------------------- |
+| API         | Application programming interface   |
+| MVC         | Model View Controller               |
+| REST        | Representational state transfer     |
+| SDK         | Software development kit            |
+| SRS         | Software Requirements Specification |
+| UC          | Use Case                            |
+| VCS         | Version Control System              |
+| n/a         | not applicable                      |
+| tbd         | to be determined                    |
 
 ### 1.4 References
 
-| Title                                                              | Date       | Publishing organization   |
-| -------------------------------------------------------------------|:----------:| ------------------------- |
-| [FlashCardCommunity Blog](https://flashcardcommunity.wordpress.com/)| 2018-10-XX | Team FlashCardCommunity   |
-| [Repository on GitHub](https://github.com/phoenixfeder/fc-com)| 2018-10-XX | Team FlashCardCommunity        |
-| [SRS](./SRS.md)                      								 | 2018-10-XX | Team FlashCardCommunity   |
-| [UC Register](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Register/Register.md)| 2018-11-18 | Team FlashCardCommunity   |
-| [UC Login](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)| 2018-11-18 | Team FlashCardCommunity   |
-| [UC Logout](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)| 2018-11-18 | Team FlashCardCommunity   |
-| [UC Edit Profile](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/EditProfile/EditProfile.md)| 2018-11-18 | Team FlashCardCommunity |
-| [UC Close Account](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)| 2018-11-18 | Team FlashCardCommunity
-| [UC Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)|  2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
-| [UC Flashcardboxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)|  2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
-| [UC Sharing](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md)| 2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
-| [UC Learning](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Learning/Learning.md)|  2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
-| [UC FAQ](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FAQ/FAQ.md)| 2019-04-07 | Team FlashCardCommunity FlashCardCommunity   |
+| Title                                                                                                                |    Date    | Publishing organization                    |
+| -------------------------------------------------------------------------------------------------------------------- | :--------: | ------------------------------------------ |
+| [FlashCardCommunity Blog](https://flashcardcommunity.wordpress.com/)                                                 | 2018-10-XX | Team FlashCardCommunity                    |
+| [Repository on GitHub](https://github.com/phoenixfeder/fc-com)                                                       | 2018-10-XX | Team FlashCardCommunity                    |
+| [SRS](./SRS.md)                                                                                                      | 2018-10-XX | Team FlashCardCommunity                    |
+| [UC Register](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Register/Register.md)                      | 2018-11-18 | Team FlashCardCommunity                    |
+| [UC Login](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)                               | 2018-11-18 | Team FlashCardCommunity                    |
+| [UC Logout](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)                            | 2018-11-18 | Team FlashCardCommunity                    |
+| [UC Edit Profile](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/EditProfile/EditProfile.md)            | 2018-11-18 | Team FlashCardCommunity                    |
+| [UC Close Account](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)         | 2018-11-18 | Team FlashCardCommunity                    |
+| [UC Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)                  | 2019-04-07 | Team FlashCardCommunity FlashCardCommunity |
+| [UC Flashcardboxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)        | 2019-04-07 | Team FlashCardCommunity FlashCardCommunity |
+| [UC Sharing](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md) | 2019-04-07 | Team FlashCardCommunity FlashCardCommunity |
+| [UC Learning](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Learning/Learning.md)                      | 2019-04-07 | Team FlashCardCommunity FlashCardCommunity |
+| [UC FAQ](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FAQ/FAQ.md)                                     | 2019-04-07 | Team FlashCardCommunity FlashCardCommunity |
 
 ### 1.5 Overview
 
@@ -73,8 +79,8 @@ This document contains the Architectural Representation, Goals and Constraints a
 ## 2. Architectural Representation
 
 The backend and the frontend are both developed separted from each other and only communicate over a REST API. That said, it is hard to follow one of the
-known patterns (MVC, MVP, MVVM) for the whole project. The frontend is based on the on the Redux pattern that is inspired by Facebook's Flux architecture. 
-Redux is a JavaScript library that is able to manage the applications state. 
+known patterns (MVC, MVP, MVVM) for the whole project. The frontend is based on the on the Redux pattern that is inspired by Facebook's Flux architecture.
+Redux is a JavaScript library that is able to manage the applications state.
 
 ![Redux Pattern](https://cdn-images-1.medium.com/max/800/1*ZX00M-DmsrigKap7wzGoQQ.png)
 
@@ -86,19 +92,22 @@ For more, see [Thinking in Redux](https://hackernoon.com/thinking-in-redux-when-
 The backend however represents a controller and model. It simply follows the MVC pattern, but the view is replaced by the whole Redux pattern. The controller does the endpoint mapping whereas the model represents the possible models that are needed for this project (e.g. user, flashcards).
 
 ## 2.1 Technologies used
+
 Our two main technologies used are described in the following.
 
 ### Spring Boot (Backend)
+
 Spring Boot is built on top of the Java Spring framework and provides the developer with helpful features to create and run web applications. In our case, a REST Web Service
-which represents the interface between our front- and backend. As we want to benefit from the newest features of Java 10, the platform this service will be hosted on 
+which represents the interface between our front- and backend. As we want to benefit from the newest features of Java 10, the platform this service will be hosted on
 needs to support Java 10 or higher.
 
 ### ReactJS (Frontend)
-ReactJS helps building interactive UIs that can be updated dynamically and therefore eliminate the need to refresh the web application. One can also develop single 
-components and can reuse them all over the application. Such a component could be a login form, a profile card or anything else one wants to reuse. We are going to 
+
+ReactJS helps building interactive UIs that can be updated dynamically and therefore eliminate the need to refresh the web application. One can also develop single
+components and can reuse them all over the application. Such a component could be a login form, a profile card or anything else one wants to reuse. We are going to
 import a React framework called Material-UI that provides a lot of pre-defined components. Its design based on, oh wonder, the Material-Design. The development will
 take place with the newest version of JavaScript. Fortunately, our development environment is able to compile it to the lower version of JavaScript. Thus, we can
-use the newest features without having to worry about browser compatibility. 
+use the newest features without having to worry about browser compatibility.
 Furthermore we will extend ReactJS with Redux. Redux allows us to keep track of state changes in the frontend and is able to notify other components about it.
 
 ## 3. Architectural Goals and Constraints
@@ -107,19 +116,18 @@ Following a closer description of the front- and backend.
 
 ### Frontend
 
-While the frontend is based on ReactJS, it is enhanced by [Redux](https://en.wikipedia.org/wiki/Redux_(JavaScript_library)). In opposite to well known patterns like MVC, its dataflow is unidirectional. 
+While the frontend is based on ReactJS, it is enhanced by [Redux](https://en.wikipedia.org/wiki/Redux_(JavaScript_library)). In opposite to well known patterns like MVC, its dataflow is unidirectional.
 
-* Actions: As the name may already implies, actions react to events triggered by the user. They describe what happen on such events (e.g. user tries to authenticate).
-* Reducer: A reducer specifies how to state of the application changes in response the called actions (e.g. user authenticated is now true) 
-* Store: The store contains all the states and brings them all together to provide them all over the application. 
+- Actions: As the name may already implies, actions react to events triggered by the user. They describe what happen on such events (e.g. user tries to authenticate).
+- Reducer: A reducer specifies how to state of the application changes in response the called actions (e.g. user authenticated is now true)
+- Store: The store contains all the states and brings them all together to provide them all over the application.
 
 ### Backend
 
 The backend is written in Java and holds all the models that are needed (e.g. users, flashcards) and is able to provide the data with the help of a RestController. This is being developed with Springs dependency, Spring Boot. To store the data it communicatres with a MySQL database.
 
-* Model: Specific classes that represent single objects such as users or flashcards.
-* Controller: A RestController that does the mapping of the REST API endpoints.
-
+- Model: Specific classes that represent single objects such as users or flashcards.
+- Controller: A RestController that does the mapping of the REST API endpoints.
 
 ## 4. Use-Case View
 
@@ -132,14 +140,15 @@ N/A
 ## 5. Logical View
 
 The following section provides a graphical representation of our backend. Reasons for the missing View can be found under [Architectural Representation](#2-architectural-representation) and the following section.
+
 ### 5.1 Overview
 
-Since the projects front- and backend communicate over a REST API, it is not possible to auto generate the full architecture in one diagram. 
+Since the projects front- and backend communicate over a REST API, it is not possible to auto generate the full architecture in one diagram.
 To be specific, React and Redux don't use classes as known from Java or other object oriented languages. The following picture describes
 the backends model and controller at least.
 
 ![Class Diagram](https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller.png)
-Full version: https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.png
+Full version: [https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.png](https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.png)
 
 ## 6. Process View
 
