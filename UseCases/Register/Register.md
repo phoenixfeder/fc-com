@@ -43,3 +43,9 @@ If the data was validated and are in the right format, they need to be stores in
 
 ## 6. Extension Points
 N/A 
+
+## 7. Function Points
+Function points for this use case are: 68.82 (calculated by http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc)
+
+![DCT](dct.png)
+![CAT](cat.png)
