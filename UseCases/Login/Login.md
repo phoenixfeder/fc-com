@@ -50,4 +50,7 @@ On success, the client side needs to store a token to remember that the user is 
 
 ## 6. Extension Points
 
-N/A
+Function points for this use case are: 27.6 (calculated by ([http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc))
+
+![DCT](dct.png)
+![CAT](cat.png)
