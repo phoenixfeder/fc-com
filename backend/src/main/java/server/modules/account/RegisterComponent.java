@@ -13,9 +13,9 @@ import server.exceptions.FccExcpetion;
 import server.exceptions.RegisterErrorException;
 import server.exceptions.WrongFormatException;
 import server.modules.authentication.Authenticator;
-import server.modules.dbConnector.RoleConnector;
-import server.modules.dbConnector.TokenConnector;
-import server.modules.dbConnector.UserConnector;
+import server.modules.dbconnector.RoleConnector;
+import server.modules.dbconnector.TokenConnector;
+import server.modules.dbconnector.UserConnector;
 import server.modules.utils.Mail;
 
 import java.util.regex.Matcher;

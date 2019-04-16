@@ -7,8 +7,8 @@ import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.request.Session;
 import server.exceptions.PermissionDeniedException;
-import server.modules.dbConnector.SessionConnector;
-import server.modules.dbConnector.UserConnector;
+import server.modules.dbconnector.SessionConnector;
+import server.modules.dbconnector.UserConnector;
 
 import java.time.LocalDateTime;
 

@@ -17,6 +17,6 @@ public class Debug {
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public @ResponseBody
     ResponseDTO addUser() {
-        return StatusDTO.OK();
+        return StatusDTO.ok();
     }
 }

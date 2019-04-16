@@ -13,76 +13,76 @@ public class ExceptionController {
     public @ResponseBody
     ResponseDTO wrongFormatException() {
         System.out.println("Format Error");
-        return StatusDTO.FORMATERROR();
+        return StatusDTO.formatError();
     }
 
     @ExceptionHandler({RegisterErrorException.class})
     public @ResponseBody
     ResponseDTO registerErrorException(RegisterErrorException e) {
         System.out.println("Register Error");
-        return StatusDTO.REGISTERERROR(e.registerResponse);
+        return StatusDTO.registerError(e.registerResponse);
     }
 
     @ExceptionHandler({EditProfileException.class})
     public @ResponseBody
     ResponseDTO editProfileException(EditProfileException e) {
         System.out.println("Edit Profile Error");
-        return StatusDTO.EDITPROFILEERROR(e.userResponse);
+        return StatusDTO.editProfileError(e.userResponse);
     }
 
     @ExceptionHandler({EmailSendException.class})
     public @ResponseBody
     ResponseDTO emailSendException() {
         System.out.println("Email-Send Error");
-        return StatusDTO.EMAILSENDERROR();
+        return StatusDTO.emailSendError();
     }
 
     @ExceptionHandler({EmailNotInUseException.class})
     public @ResponseBody
     ResponseDTO emailNotInUseException() {
         System.out.println("Email not in use Error");
-        return StatusDTO.EMAILNOTINUSEERROR();
+        return StatusDTO.emailNotInUseError();
     }
 
     @ExceptionHandler({TokenNotExpiredException.class})
     public @ResponseBody
     ResponseDTO tokenNotExpiredException() {
         System.out.println("Email-Send Error");
-        return StatusDTO.TOKENNOTEXPIREDERROR();
+        return StatusDTO.tokenNotExpiredError();
     }
 
     @ExceptionHandler({UserEnabledException.class})
     public @ResponseBody
     ResponseDTO userEnabledException() {
         System.out.println("User enabled Error");
-        return StatusDTO.USERENABLEDERROR();
+        return StatusDTO.userEnabledError();
     }
 
     @ExceptionHandler({PermissionDeniedException.class})
     public @ResponseBody
     ResponseDTO permissionDenied() {
         System.out.println("Permission denied");
-        return StatusDTO.PERMISSIONEDENIED();
+        return StatusDTO.permissionDeniedError();
     }
 
     @ExceptionHandler({WrongUsernameOrPasswordException.class})
     public @ResponseBody
     ResponseDTO wrongUsernameOrPassword() {
         System.out.println("Wrong Username or Password Error");
-        return StatusDTO.WRONGUSERNAMEORPASSWORD();
+        return StatusDTO.wrongUsernameOrPassword();
     }
 
     @ExceptionHandler({UserNotEnabledException.class})
     public @ResponseBody
     ResponseDTO userNotEnabledException() {
         System.out.println("User is not enabled Error");
-        return StatusDTO.USERISNOTENABLEDERROR();
+        return StatusDTO.userIsNotEnabledError();
     }
 
     @ExceptionHandler({WrongPasswordException.class})
     public @ResponseBody
     ResponseDTO wrongPasswordException() {
         System.out.println("Wrong Password Error");
-        return StatusDTO.WRONGPASSWORDERROR();
+        return StatusDTO.wrongPasswordError();
     }
 }

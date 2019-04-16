@@ -13,10 +13,10 @@ import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.UserResponse;
 import server.exceptions.*;
 import server.modules.authentication.Authenticator;
-import server.modules.dbConnector.FlashCardBoxConnector;
-import server.modules.dbConnector.SessionConnector;
-import server.modules.dbConnector.TokenConnector;
-import server.modules.dbConnector.UserConnector;
+import server.modules.dbconnector.FlashCardBoxConnector;
+import server.modules.dbconnector.SessionConnector;
+import server.modules.dbconnector.TokenConnector;
+import server.modules.dbconnector.UserConnector;
 import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
@@ -63,7 +63,7 @@ public class AccountService {
         registerComponent.sendVerificationMail(savedUser);
 
         //Return Response
-        ResponseDTO responseDTO = StatusDTO.OK();
+        ResponseDTO responseDTO = StatusDTO.ok();
         responseDTO.setRegisterResponse(registerResponse);
         responseDTO.getRegisterResponse().setUserResponse(new UserResponse(userRequest));
         return responseDTO;
@@ -78,7 +78,7 @@ public class AccountService {
 
         if (userRequest.getEmail() == null || userRequest.getPassword() == null) {
             userConnector.save(user);
-            return StatusDTO.OK();
+            return StatusDTO.ok();
         }
 
         //TODO Noch unschön
@@ -98,10 +98,8 @@ public class AccountService {
             }
         }
 
-        if (requestDTO.getUserRequest().getPassword() != null) {
-            if (registerComponent.isPasswordLengthIncorrect(requestDTO.getUserRequest().getPassword())) {
-                userResponse.setNewPasswordErrorMsg(Lang.PasswordTooShort);
-            }
+        if (requestDTO.getUserRequest().getPassword() != null && registerComponent.isPasswordLengthIncorrect(requestDTO.getUserRequest().getPassword())) {
+            userResponse.setNewPasswordErrorMsg(Lang.PasswordTooShort);
         }
 
         if (!userResponse.isOK()) {
@@ -112,7 +110,7 @@ public class AccountService {
         Profile.updateSensitiveData(userRequest, user, authenticator);
         userConnector.save(user);
 
-        return StatusDTO.OK();
+        return StatusDTO.ok();
 
     }
 
@@ -127,21 +125,21 @@ public class AccountService {
         flashCardBoxConnector.deleteByUser(user);
         userConnector.delete(user);
 
-        return StatusDTO.OK();
+        return StatusDTO.ok();
     }
 
     public ResponseDTO verifyAccount(String requestId, String requestToken) {
         //Format Check
         //TODO Noch unschön
         if (requestId == null || requestToken == null) {
-            return StatusDTO.MISSINGPARAMS();
+            return StatusDTO.missingParamsError();
         }
         long id;
         try {
             id = Long.parseLong(requestId);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            return StatusDTO.MISSINGPARAMS();
+            return StatusDTO.missingParamsError();
         }
 
         User user = userConnector.getUserByID(id);
@@ -149,12 +147,12 @@ public class AccountService {
 
         //Verify Entries
         if (!tokenComponent.isTokenValid(user, token, requestToken)) {
-            return StatusDTO.VERIFYERROR();
+            return StatusDTO.verifyError();
         }
 
         //Verify Time
         if (tokenComponent.hasTokenExpired(token)) {
-            return StatusDTO.TOKENEXPIRED();
+            return StatusDTO.tokenExpiresError();
         }
 
         //Enable User
@@ -163,7 +161,7 @@ public class AccountService {
         tokenConnector.delete(token);
 
         //Response
-        ResponseDTO responseDTO = StatusDTO.OK();
+        ResponseDTO responseDTO = StatusDTO.ok();
         RegisterResponse registerResponse = new RegisterResponse();
         registerResponse.setUserResponse(new UserResponse(user.getUsername()));
         responseDTO.setRegisterResponse(registerResponse);
@@ -191,13 +189,13 @@ public class AccountService {
 
         registerComponent.sendVerificationMail(user);
 
-        return StatusDTO.OK();
+        return StatusDTO.ok();
     }
 
     public ResponseDTO getAccount(RequestDTO requestDTO) throws FccExcpetion {
         User user = authenticator.authenticate(requestDTO);
 
-        ResponseDTO responseDTO = StatusDTO.OK();
+        ResponseDTO responseDTO = StatusDTO.ok();
         responseDTO.setUserResponse(new UserResponse(user));
         return responseDTO;
     }

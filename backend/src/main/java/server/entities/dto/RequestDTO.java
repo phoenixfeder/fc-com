@@ -10,11 +10,11 @@ import server.entities.dto.request.UserRequest;
 @Getter
 public class RequestDTO {
     @JsonProperty("register")
-    RegisterRequest registerRequest;
+    private RegisterRequest registerRequest;
     @JsonProperty("user")
-    UserRequest userRequest;
+    private UserRequest userRequest;
     @JsonProperty("authentication")
-    Session session;
+    private Session session;
     @JsonProperty("flashcardboxes")
-    FlashCardBoxRequest flashCardBoxRequest;
+    private FlashCardBoxRequest flashCardBoxRequest;
 }

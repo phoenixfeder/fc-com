@@ -9,62 +9,62 @@ import server.entities.dto.response.UserResponse;
 public class StatusDTO {
 
 
-    public static ResponseDTO FORMATERROR() {
+    public static ResponseDTO formatError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.FORMATERROR));
     }
 
-    public static ResponseDTO REGISTERERROR(RegisterResponse registerResponse) {
+    public static ResponseDTO registerError(RegisterResponse registerResponse) {
         ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.REGISTERERROR));
         responseDTO.setRegisterResponse(registerResponse);
         return responseDTO;
     }
 
-    public static ResponseDTO EMAILSENDERROR() {
+    public static ResponseDTO emailSendError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.EMAILSENDERROR));
     }
 
-    public static ResponseDTO MISSINGPARAMS() {
+    public static ResponseDTO missingParamsError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.MISSINGPARAMS));
     }
 
-    public static ResponseDTO OK() {
+    public static ResponseDTO ok() {
         return new ResponseDTO(StatusResponse.create(StatusCode.OK));
     }
 
-    public static ResponseDTO TOKENEXPIRED() {
+    public static ResponseDTO tokenExpiresError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.TOKENEXPIRED));
     }
 
-    public static ResponseDTO VERIFYERROR() {
+    public static ResponseDTO verifyError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.VERIFYERROR));
     }
 
-    public static ResponseDTO EMAILNOTINUSEERROR() {
+    public static ResponseDTO emailNotInUseError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.EMAILNOTINUSE));
     }
 
-    public static ResponseDTO TOKENNOTEXPIREDERROR() {
+    public static ResponseDTO tokenNotExpiredError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.TOKENNOTEXPIREDYET));
     }
 
-    public static ResponseDTO USERENABLEDERROR() {
+    public static ResponseDTO userEnabledError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.USERENABLEDERROR));
     }
 
-    public static ResponseDTO PERMISSIONEDENIED() {
+    public static ResponseDTO permissionDeniedError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.PERMISSIONDENIED));
     }
 
-    public static ResponseDTO WRONGUSERNAMEORPASSWORD() {
+    public static ResponseDTO wrongUsernameOrPassword() {
         return new ResponseDTO(StatusResponse.create(StatusCode.WRONGUNORPW));
     }
 
-    public static ResponseDTO USERISNOTENABLEDERROR() {
+    public static ResponseDTO userIsNotEnabledError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.USERNOTENABLED));
     }
 
-    public static ResponseDTO OKWITHSESSION(String hash, String session, String username, long id) {
-        ResponseDTO responseDTO = OK();
+    public static ResponseDTO okWithSession(String hash, String session, String username, long id) {
+        ResponseDTO responseDTO = ok();
         responseDTO.getStatusResponse().setSession(new server.entities.dto.response.Session());
         responseDTO.getStatusResponse().getSession().setHash(hash);
         responseDTO.getStatusResponse().getSession().setSession(session);
@@ -74,11 +74,11 @@ public class StatusDTO {
         return responseDTO;
     }
 
-    public static ResponseDTO WRONGPASSWORDERROR() {
+    public static ResponseDTO wrongPasswordError() {
         return new ResponseDTO(StatusResponse.create(StatusCode.WRONGPASSWORDERROR));
     }
 
-    public static ResponseDTO EDITPROFILEERROR(UserResponse userResponse) {
+    public static ResponseDTO editProfileError(UserResponse userResponse) {
         ResponseDTO responseDTO = new ResponseDTO(StatusResponse.create(StatusCode.EDITPROFILEERROR));
         responseDTO.setUserResponse(userResponse);
         return responseDTO;

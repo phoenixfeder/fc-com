@@ -11,7 +11,7 @@ import server.entities.dto.response.Box;
 import server.exceptions.FccExcpetion;
 import server.exceptions.PermissionDeniedException;
 import server.modules.authentication.Authenticator;
-import server.modules.dbConnector.FlashCardBoxConnector;
+import server.modules.dbconnector.FlashCardBoxConnector;
 import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
@@ -43,7 +43,7 @@ public class FlashcardBoxService {
         flashCardBox.setLastChanged(LocalDateTime.now());
         FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
 
-        ResponseDTO responseDTO = StatusDTO.OK();
+        ResponseDTO responseDTO = StatusDTO.ok();
         Box box = new Box(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged());
         responseDTO.setBoxes(box);
         return responseDTO;
@@ -55,7 +55,7 @@ public class FlashcardBoxService {
 
         List<FlashCardBox> flashCardBoxes = flashCardBoxConnector.getAllBoxFromUser(user);
 
-        ResponseDTO responseDTO = StatusDTO.OK();
+        ResponseDTO responseDTO = StatusDTO.ok();
         responseDTO.setBoxes(DTOContentParser.parseFlashcardBoxEntities(flashCardBoxes));
 
         return responseDTO;
@@ -84,7 +84,7 @@ public class FlashcardBoxService {
 
         FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
 
-        ResponseDTO responseDTO = StatusDTO.OK();
+        ResponseDTO responseDTO = StatusDTO.ok();
         Box box = new Box(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged());
         responseDTO.setBoxes(box);
 
@@ -97,6 +97,6 @@ public class FlashcardBoxService {
         Long id = DTOContentParser.getFlashCardBoxID(requestDTO);
         flashCardBoxConnector.deleteByIdAndUser(user, id);
 
-        return StatusDTO.OK();
+        return StatusDTO.ok();
     }
 }

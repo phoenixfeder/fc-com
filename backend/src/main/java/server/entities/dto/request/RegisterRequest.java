@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 public class RegisterRequest {
     @JsonProperty("user")
-    UserRequest userRequest;
+    private UserRequest userRequest;
 }

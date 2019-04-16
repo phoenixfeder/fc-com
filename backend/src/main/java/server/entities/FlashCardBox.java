@@ -9,15 +9,6 @@ import java.time.LocalDateTime;
 @Data
 public class FlashCardBox {
 
-    public FlashCardBox() {
-        super();
-    }
-
-    public FlashCardBox(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
-
     @TableGenerator(name = "boxGen", table = "ID_GEN", pkColumnName = "GEN_KEY", valueColumnName = "GEN_VALUE", pkColumnValue = "BOX_ID", initialValue = 1000, allocationSize = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "boxGen")
@@ -37,5 +28,14 @@ public class FlashCardBox {
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "owner")
     private User owner;
+
+    public FlashCardBox() {
+        super();
+    }
+
+    public FlashCardBox(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 
 }

@@ -10,15 +10,6 @@ import java.time.format.DateTimeFormatter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Box {
 
-    public Box(long id, String title, String description, LocalDateTime created, LocalDateTime lastchanged) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        this.created = created.format(dateTimeFormatter);
-        this.lastchanged = lastchanged.format(dateTimeFormatter);
-    }
-
     private long id;
     private String title;
     private String description;
@@ -27,4 +18,13 @@ public class Box {
     //TODO FLASHCARDS ZÄHLEN
     private int flashcards = 0;
     //private Set<Flashcard> flashcards = new HashSet<>();
+
+    public Box(long id, String title, String description, LocalDateTime created, LocalDateTime lastchanged) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        this.created = created.format(dateTimeFormatter);
+        this.lastchanged = lastchanged.format(dateTimeFormatter);
+    }
 }

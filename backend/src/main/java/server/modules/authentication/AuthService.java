@@ -10,8 +10,8 @@ import server.entities.dto.request.UserRequest;
 import server.exceptions.FccExcpetion;
 import server.exceptions.UserNotEnabledException;
 import server.exceptions.WrongUsernameOrPasswordException;
-import server.modules.dbConnector.SessionConnector;
-import server.modules.dbConnector.UserConnector;
+import server.modules.dbconnector.SessionConnector;
+import server.modules.dbconnector.UserConnector;
 import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
@@ -48,12 +48,12 @@ public class AuthService {
         } while (sessionConnector.existsBySession(session));
         Session newSession = sessionConnector.save(new Session(session, user));
 
-        return StatusDTO.OKWITHSESSION(authenticator.encodePassword(String.valueOf(newSession.getId())), session, user.getUsername(), user.getId());
+        return StatusDTO.okWithSession(authenticator.encodePassword(String.valueOf(newSession.getId())), session, user.getUsername(), user.getId());
     }
 
     public ResponseDTO logout(RequestDTO requestDTO) throws FccExcpetion {
         User user = authenticator.authenticate(requestDTO);
         sessionConnector.deleteByUser(user);
-        return StatusDTO.OK();
+        return StatusDTO.ok();
     }
 }
