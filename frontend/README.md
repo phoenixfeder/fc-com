@@ -1,7 +1,5 @@
 # Flashcard Community Frontend Installation Guide
 
-<img src="https://github.com/phoenixfeder/fc-com/blob/master/graphics/logo.png" alt="logo" height="150"><img src="https://www.import.io/wp-content/uploads/2017/10/React-logo-1.png" alt="ReactLogo" height="150">
-
 Thank you for trying out our application. If you come up to various problems that you can't solve by following our troubleshooting guide, feel free to inform us by opening an issue or write us an [E-Mail](mailto:flashcardcommunity@gmail.com).
 
 ## Requirements
@@ -11,10 +9,11 @@ Thank you for trying out our application. If you come up to various problems tha
 * Have our backend running! See the installation guide [here](https://github.com/phoenixfeder/fc-com/tree/master/backend).
 
 * You will need...
-    - NPM installed which comes with NodeJS - get it here: https://nodejs.org/en/download/ 
-    - A texteditor of your choice, but it's not necessarily needed. Visual Studio Code and WebStorm are both stellar choices for frontend development. Only if you want to adjust the code to your favor.
+  * NPM installed which comes with NodeJS - get it here: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+  * A texteditor of your choice, but it's not necessarily needed. Visual Studio Code and WebStorm are both stellar choices for frontend development. Only if you want to adjust the code to your favor.
 
-## Make it run!
+## Make it run
+
 1) Open your terminal (cmd, PowerShell in Windows) and navigate to the frontend folder of our repository.\
 `cd PATH_YOU_CLONED_TO/frontend`
 
@@ -22,7 +21,7 @@ Thank you for trying out our application. If you come up to various problems tha
 
 3) Now run `npm start` to start a local development server. Note that this not how you would run this application in production, but this more than enough to have it running on your local machine. To learn more about npm scripts for react, see [here](https://github.com/facebook/create-react-app/blob/master/README.md#getting-started). Furthermore `npm test` will start our UI tests with Testcafé.
 
-4) Eventually, http://localhost:3000/ will open automatically after a small period of time. If not, open it manually after some minutes.
+4) Eventually, [http://localhost:3000/](http://localhost:3000/) will open automatically after a small period of time. If not, open it manually after some minutes.
 
 ## Troubleshooting
 
