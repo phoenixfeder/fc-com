@@ -72,9 +72,11 @@ const deleteBoxesFail = (state, action) => ({
 const editBoxStart = state => ({ ...state, editLoading: true });
 
 const editBoxSuccess = (state, action) => {
-  const indexToEdit = state.boxes.map(box => box.id).indexOf(action.flashcardbox.id);
+  console.log(state);
+  console.log(action);
+  const indexToEdit = state.boxes.map(box => box.id).indexOf(action.box.flashcardbox.id);
   const newBoxesArray = Array.from(state.boxes); // Deep copy so Redux can detect changes
-  newBoxesArray[indexToEdit] = action.flashcardbox;
+  newBoxesArray[indexToEdit] = action.box.flashcardbox;
 
   return ({
     ...state,

@@ -75,12 +75,7 @@ class Flashcardbox extends Component {
   };
 
   handleEdit = (flashcardbox) => {
-    this.props.editFlashcardbox(flashcardbox, (flashcardboxResult) => {
-      this.setState({
-        title: flashcardboxResult.flashcardbox.title,
-        description: flashcardboxResult.flashcardbox.description,
-      });
-    });
+    this.props.editFlashcardbox(flashcardbox);
     this.editDialogClose();
   };
 
@@ -107,10 +102,10 @@ class Flashcardbox extends Component {
               {`Flashcardbox, created ${this.props.created}`}
             </Typography>
             <Typography variant="h5" component="h2">
-              {this.state.title}
+              {this.props.title}
             </Typography>
             <Typography component="p">
-              {this.state.description}
+              {this.props.description}
             </Typography>
             {successChip}
             <Chip label={`${this.props.amount} cards`} className={classes.infoChip} icon={

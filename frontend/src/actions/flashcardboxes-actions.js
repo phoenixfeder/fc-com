@@ -191,7 +191,7 @@ const editBoxFail = errorarg => ({
   error: errorarg,
 });
 
-export const editFlashcardbox = (flashcardbox, callback) => dispatch => {
+export const editFlashcardbox = (flashcardbox) => dispatch => {
   const authState = store.getState().auth;
   dispatch(editBoxStart());
   fetch(BACKEND_URL_EDIT_FLASHCARDBOX, {
@@ -214,7 +214,6 @@ export const editFlashcardbox = (flashcardbox, callback) => dispatch => {
   }).then(results => results.json()).then(result => {
     switch (result.status.code) {
       case 200:
-        callback(flashcardbox);
         dispatch(editBoxSuccess(flashcardbox));
         break;
 
