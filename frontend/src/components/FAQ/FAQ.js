@@ -18,11 +18,6 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
-  paper: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-  },
 });
 
 class FAQ extends Component {
@@ -40,7 +35,6 @@ class FAQ extends Component {
               container
               justify="center"
               spacing={16}
-              className={classes.paper}
               elevation={2}
               direction="column"
             >

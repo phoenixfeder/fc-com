@@ -1,6 +1,5 @@
 import {
   Grid,
-  Paper,
   Typography,
   withStyles,
 } from '@material-ui/core/';
@@ -14,11 +13,6 @@ const styles = theme => ({
     flexGrow: 1,
   },
   headline: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-  },
-  paper: {
-    ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
@@ -39,8 +33,6 @@ class Home extends Component {
               container
               justify="center"
               spacing={16}
-              className={classes.paper}
-              component={Paper}
               elevation={2}
               direction="column"
             >
