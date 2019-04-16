@@ -7,8 +7,6 @@ import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.request.Session;
 import server.exceptions.PermissionDeniedException;
-import server.exceptions.WrongFormatException;
-import server.exceptions.WrongPasswordException;
 import server.modules.dbConnector.SessionConnector;
 import server.modules.dbConnector.UserConnector;
 
@@ -59,13 +57,13 @@ public class Authenticator {
     }
 
     public boolean isPasswordCorrect(User user, String password) {
-        if(password == null) {
+        if (password == null) {
             return false;
         }
         return passwordEncoder.matches(password, user.getPassword());
     }
 
-    public String encodePassword(String password){
+    public String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }
 }

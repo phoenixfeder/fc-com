@@ -5,7 +5,7 @@ import server.entities.User;
 import server.entities.VerificationToken;
 
 public interface VerificationTokenRepository extends CrudRepository<VerificationToken, Long> {
-    public VerificationToken findByUser(User user);
+    VerificationToken findByUser(User user);
 
-    public VerificationToken findByToken(String token);
+    VerificationToken findByToken(String token);
 }

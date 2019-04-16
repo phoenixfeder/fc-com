@@ -41,7 +41,7 @@ public class User {
     private Role role;
 
     @ManyToMany(targetEntity = FlashCardBox.class)
-    @JoinColumn(name="viewableBoxes")
+    @JoinColumn(name = "viewableBoxes")
     private Set<FlashCardBox> viewableBoxes;
 
     public void insertDTOData(UserRequest userRequest) {

@@ -30,7 +30,7 @@ public class DTOContentParser {
         }
     }
 
-    public static UserRequest getUserRequest (RequestDTO requestDTO) throws WrongFormatException {
+    public static UserRequest getUserRequest(RequestDTO requestDTO) throws WrongFormatException {
         /*try {
             UserRequest userRequest = requestDTO.getUserRequest();
             if(userRequest.getUsername() == null || userRequest.getPassword() == null){
@@ -41,7 +41,7 @@ public class DTOContentParser {
             throw new WrongFormatException();
         }*/
         UserRequest userRequest = requestDTO.getUserRequest();
-        if(userRequest == null){
+        if (userRequest == null) {
             throw new WrongFormatException();
         }
         return userRequest;
@@ -70,23 +70,23 @@ public class DTOContentParser {
 
     public static FlashCardBoxRequest getFlashCardBox(RequestDTO requestDTO) throws WrongFormatException {
         FlashCardBoxRequest flashCardBoxRequest = requestDTO.getFlashCardBoxRequest();
-        if(flashCardBoxRequest == null || flashCardBoxRequest.getTitle() == null || flashCardBoxRequest.getDescription() == null){
+        if (flashCardBoxRequest == null || flashCardBoxRequest.getTitle() == null || flashCardBoxRequest.getDescription() == null) {
             throw new WrongFormatException();
         }
         return flashCardBoxRequest;
     }
 
     public static Long getFlashCardBoxID(RequestDTO requestDTO) throws WrongFormatException {
-        if(requestDTO.getFlashCardBoxRequest() == null){
+        if (requestDTO.getFlashCardBoxRequest() == null) {
             throw new WrongFormatException();
         }
         return requestDTO.getFlashCardBoxRequest().getId();
     }
 
-    public static String getOldPassword(RequestDTO requestDTO) throws WrongFormatException{
+    public static String getOldPassword(RequestDTO requestDTO) throws WrongFormatException {
         try {
             return requestDTO.getUserRequest().getOldPassword();
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new WrongFormatException();
         }
     }

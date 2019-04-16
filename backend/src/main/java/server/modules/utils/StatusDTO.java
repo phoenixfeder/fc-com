@@ -9,7 +9,7 @@ import server.entities.dto.response.UserResponse;
 public class StatusDTO {
 
 
-    public static ResponseDTO FORMATERROR(){
+    public static ResponseDTO FORMATERROR() {
         return new ResponseDTO(StatusResponse.create(StatusCode.FORMATERROR));
     }
 

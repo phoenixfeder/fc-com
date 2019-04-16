@@ -76,20 +76,19 @@ public class AccountService {
         //Profil
         Profile.updateNonSensitiveData(userRequest, user);
 
-        if(userRequest.getEmail() == null || userRequest.getPassword() == null){
+        if (userRequest.getEmail() == null || userRequest.getPassword() == null) {
             userConnector.save(user);
             return StatusDTO.OK();
         }
 
         //TODO Noch unschön
         UserResponse userResponse = new UserResponse();
-        if(!authenticator.isPasswordCorrect(user, userRequest.getOldPassword())){
+        if (!authenticator.isPasswordCorrect(user, userRequest.getOldPassword())) {
             userResponse.setOldPasswordErrorMsg(Lang.PasswordIncorrect);
         }
 
 
-
-        if(userRequest.getEmail() != null) {
+        if (userRequest.getEmail() != null) {
             if (registerComponent.isEmailTaken(userRequest.getEmail()) && !(userRequest.getEmail().equals(user.getEmail()))) {
                 //userResponse.setNewPasswordErrorMsg(Lang.EmailIsTaken);
                 userResponse.setNewEmailErrorMsg(Lang.EmailIsTaken);
@@ -105,7 +104,7 @@ public class AccountService {
             }
         }
 
-        if(!userResponse.isOK()){
+        if (!userResponse.isOK()) {
             throw new EditProfileException(userResponse);
         }
 

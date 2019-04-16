@@ -1,18 +1,14 @@
 package server.modules.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import server.config.StatusCode;
 import server.entities.Session;
 import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.entities.dto.request.UserRequest;
-import server.entities.dto.response.StatusResponse;
 import server.exceptions.FccExcpetion;
 import server.exceptions.UserNotEnabledException;
-import server.exceptions.WrongFormatException;
 import server.exceptions.WrongUsernameOrPasswordException;
 import server.modules.dbConnector.SessionConnector;
 import server.modules.dbConnector.UserConnector;
@@ -38,18 +34,18 @@ public class AuthService {
     public ResponseDTO login(RequestDTO requestDTO) throws FccExcpetion {
         UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
         User user = userConnector.getUserByNameOrEmail(userRequest);
-        if(!authenticator.isPasswordCorrect(user, userRequest.getPassword())){
+        if (!authenticator.isPasswordCorrect(user, userRequest.getPassword())) {
             throw new WrongUsernameOrPasswordException();
         }
 
-        if(!user.isEnabled()){
+        if (!user.isEnabled()) {
             throw new UserNotEnabledException();
         }
 
         String session;
-        do{
+        do {
             session = UUID.randomUUID().toString();
-        }while(sessionConnector.existsBySession(session));
+        } while (sessionConnector.existsBySession(session));
         Session newSession = sessionConnector.save(new Session(session, user));
 
         return StatusDTO.OKWITHSESSION(authenticator.encodePassword(String.valueOf(newSession.getId())), session, user.getUsername(), user.getId());

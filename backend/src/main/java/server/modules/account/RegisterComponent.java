@@ -1,7 +1,6 @@
 package server.modules.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import server.config.Lang;
 import server.entities.Role;
@@ -52,7 +51,7 @@ public class RegisterComponent {
         return (name.length() < 3 || name.length() > 12);
     }
 
-    public boolean isUsernameIncorrect(String name){
+    public boolean isUsernameIncorrect(String name) {
         Pattern pattern = Pattern.compile("\\A[a-zA-Z0-9]+([_\\-]?[a-zA-Z0-9])*\\z");
         Matcher matcher = pattern.matcher(name);
         return !matcher.matches();
@@ -112,7 +111,7 @@ public class RegisterComponent {
             }
 
             return registerResponse;
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             throw new WrongFormatException();
         }
     }
@@ -125,7 +124,7 @@ public class RegisterComponent {
         newUser.setRole(role);
         //TODO: DELETE DEBUG
         VerificationToken verificationToken = new VerificationToken(newUser);
-        if(newUser.getUsername().equals("debugUser")){
+        if (newUser.getUsername().equals("debugUser")) {
             verificationToken.setToken("debugging");
         }
         userConnector.save(newUser);
@@ -138,7 +137,7 @@ public class RegisterComponent {
         VerificationToken token = tokenConnector.getTokenByUser(user);
         try {
             mail.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new EmailSendException();
         }

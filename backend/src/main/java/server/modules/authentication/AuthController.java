@@ -29,7 +29,7 @@ public class AuthController {
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDTO logoutUser(@RequestBody RequestDTO requestDTO) throws FccExcpetion{
+    ResponseDTO logoutUser(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
         return authService.logout(requestDTO);
     }
 }

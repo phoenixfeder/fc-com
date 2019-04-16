@@ -7,7 +7,6 @@ import server.config.Config;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.exceptions.FccExcpetion;
-import server.modules.utils.StatusDTO;
 
 @Controller
 @RequestMapping("/flashcardbox")

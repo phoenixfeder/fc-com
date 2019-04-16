@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class FlashCardBox {
 
-    public FlashCardBox(){
+    public FlashCardBox() {
         super();
     }
 

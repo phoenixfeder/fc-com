@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import server.entities.User;
 import server.entities.VerificationToken;
 import server.entities.repositories.VerificationTokenRepository;
-import server.modules.dbConnector.UserConnector;
 
 import java.time.LocalDateTime;
 
@@ -19,18 +18,18 @@ public class TokenComponent {
         this.verificationTokenRepository = verificationTokenRepository;
     }
 
-    private boolean isTokenMatching(String token, String userToken){
+    private boolean isTokenMatching(String token, String userToken) {
         return token.equals(userToken);
     }
 
-    public boolean isTokenValid(User user, VerificationToken token, String requestToken){
+    public boolean isTokenValid(User user, VerificationToken token, String requestToken) {
 
-        if(user == null || token == null) return false;
+        if (user == null || token == null) return false;
         return isTokenMatching(requestToken, token.getToken());
 
     }
 
-    public boolean hasTokenExpired(VerificationToken verificationToken){
+    public boolean hasTokenExpired(VerificationToken verificationToken) {
         return verificationToken.getExpiryDate().isBefore(LocalDateTime.now());
     }
 }

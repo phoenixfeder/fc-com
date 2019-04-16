@@ -2,14 +2,12 @@ package server.modules.flashcardbox;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import server.entities.FlashCard;
 import server.entities.FlashCardBox;
 import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.entities.dto.request.FlashCardBoxRequest;
 import server.entities.dto.response.Box;
-import server.entities.repositories.UserRepository;
 import server.exceptions.FccExcpetion;
 import server.exceptions.PermissionDeniedException;
 import server.modules.authentication.Authenticator;
@@ -18,9 +16,7 @@ import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class FlashcardBoxService {
@@ -72,15 +68,15 @@ public class FlashcardBoxService {
 
         FlashCardBox flashCardBox = flashCardBoxConnector.getBoxByIdAndUser(flashCardBoxRequest.getId(), user);
 
-        if(flashCardBox == null){
+        if (flashCardBox == null) {
             throw new PermissionDeniedException();
         }
 
-        if(flashCardBoxRequest.getTitle() != null){
+        if (flashCardBoxRequest.getTitle() != null) {
             flashCardBox.setTitle(flashCardBoxRequest.getTitle());
             flashCardBox.setLastChanged(LocalDateTime.now());
         }
-        if(flashCardBoxRequest.getDescription() != null){
+        if (flashCardBoxRequest.getDescription() != null) {
             flashCardBox.setDescription(flashCardBoxRequest.getDescription());
             flashCardBox.setLastChanged(LocalDateTime.now());
         }
