@@ -1,7 +1,7 @@
 import {
-  BACKEND_URL_ACCOUNT_UPDATE,
-  BACKEND_URL_ACCOUNT_GET,
   BACKEND_URL_ACCOUNT_CLOSE,
+  BACKEND_URL_ACCOUNT_GET,
+  BACKEND_URL_ACCOUNT_UPDATE,
 } from '../utils/const-paths';
 
 export const fetchUpdateAccount = (state, callback) => {
@@ -99,13 +99,12 @@ export const fetchGetAccountData = (state, callback) => {
     .then((result) => {
       callback(result);
     }).catch(() => {
-      callback({
-        status: {
-          code: 418,
-        },
-      });
-    },
-    );
+    callback({
+      status: {
+        code: 418,
+      },
+    });
+  });
 };
 
 export const fetchCloseAccount = (state, callback) => {
@@ -126,5 +125,11 @@ export const fetchCloseAccount = (state, callback) => {
     }),
   }).then((results) => results.json()).then((result) => {
     callback(result);
+  }).catch(() => {
+    callback({
+      status: {
+        code: 418,
+      },
+    });
   });
 };

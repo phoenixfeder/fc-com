@@ -215,13 +215,6 @@ class EditAccount extends Component {
           });
           break;
       }
-    }).catch(() => {
-      enqueueSnackbar({
-        message: 'This should not happen. Please contact system admin.',
-        options: {
-          variant: 'error',
-        },
-      });
     });
   };
 
