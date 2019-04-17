@@ -7,10 +7,7 @@ import {
 import Button from '@material-ui/core/Button/Button';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  BACKEND_URL_ACCOUNT_VERIFY,
-  BACKEND_URL_GETFLASHCARD,
-} from '../../utils/const-paths';
+import { BACKEND_URL_GETFLASHCARD } from '../../utils/const-paths';
 import Flashcard from '../Flashcard/Flashcard';
 
 const styles = theme => ({
@@ -39,6 +36,7 @@ class HelloWorld extends Component {
   };
 
   componentWillMount() {
+    document.title = 'HelloWorld';
     const { updateFlashcard } = this.props;
     fetch(BACKEND_URL_GETFLASHCARD(100000))
       .then(results => results.json())
@@ -48,11 +46,6 @@ class HelloWorld extends Component {
         const { flashcard } = this.props;
         this.setState({ flashcardCopy: flashcard });
       });
-  }
-
-  componentDidMount() {
-    document.title = 'HelloWorld';
-    console.log(BACKEND_URL_ACCOUNT_VERIFY({ id: 1, token: 2 }));
   }
 
   setTextToBackText = (flashcard) => {
@@ -83,8 +76,9 @@ class HelloWorld extends Component {
             >
               <Grid item lg={12}>
                 <Typography variant="h3" align="center">Hello World</Typography>
-                <Typography variant="body1" align="center">Just a small presentation about how a flashcard could look
-                  like. This is not mobile responsive yet!</Typography>
+                <Typography variant="body1" align="center">
+                  Just a small presentation about how a flashcard could look like. This is not mobile responsive yet!
+                </Typography>
               </Grid>
               <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                 <Flashcard flashcard={flashcardCopy} />

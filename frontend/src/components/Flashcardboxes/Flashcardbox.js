@@ -46,32 +46,25 @@ class Flashcardbox extends Component {
     editOpen: false,
   };
 
-  componentDidMount() {
-    this.setState({
-      title: this.props.title,
-      description: this.props.description,
-    });
-  }
+  deleteDialogClose = () => {
+    this.setState({ deleteOpen: false });
+  };
 
   deleteDialogOpen = () => {
     this.setState({ deleteOpen: true });
   };
 
-  deleteDialogClose = () => {
-    this.setState({ deleteOpen: false });
-  };
-
-  handleDelete = () => {
-    this.props.deleteFlashcardbox(this.props.id);
-    this.deleteDialogClose();
+  editDialogClose = () => {
+    this.setState({ editOpen: false });
   };
 
   editDialogOpen = () => {
     this.setState({ editOpen: true });
   };
 
-  editDialogClose = () => {
-    this.setState({ editOpen: false });
+  handleDelete = () => {
+    this.props.deleteFlashcardbox(this.props.id);
+    this.deleteDialogClose();
   };
 
   handleEdit = (flashcardbox) => {
@@ -83,11 +76,19 @@ class Flashcardbox extends Component {
 
     const { classes } = this.props;
 
-    let successChip = <Chip label={`${this.props.successRate}% correct`} className={classes.infoChipSuccess} icon={
-      <SentimentSatisfiedAlt />} color="primary" />;
+    let successChip = <Chip
+      label={`${this.props.successRate}% correct`}
+      className={classes.infoChipSuccess}
+      icon={<SentimentSatisfiedAlt />}
+      color="primary"
+    />;
     if (this.props.successRate <= 50) {
-      successChip = <Chip label={`${this.props.successRate}% correct`} className={classes.infoChip} icon={
-        <SentimentDissatisfied />} color="secondary" />;
+      successChip = <Chip
+        label={`${this.props.successRate}% correct`}
+        className={classes.infoChip}
+        icon={<SentimentDissatisfied />}
+        color="secondary"
+      />;
     }
 
     return (
@@ -108,15 +109,21 @@ class Flashcardbox extends Component {
               {this.props.description}
             </Typography>
             {successChip}
-            <Chip label={`${this.props.amount} cards`} className={classes.infoChip} icon={
-              <FileCopy />} color="primary" />
+            <Chip
+              label={`${this.props.amount} cards`}
+              className={classes.infoChip}
+              icon={<FileCopy />}
+              color="primary"
+            />
           </CardContent>
           <CardActions disableActionSpacing>
             <Button size="medium">Learn</Button>
-            <div style={{
-              width: '100%',
-              textAlign: 'right',
-            }}>
+            <div
+              style={{
+                width: '100%',
+                textAlign: 'right',
+              }}
+            >
               <IconButton
                 aria-label="Edit Flashcardbox"
                 onClick={() => this.editDialogOpen()}
