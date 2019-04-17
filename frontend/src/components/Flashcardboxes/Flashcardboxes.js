@@ -2,10 +2,12 @@ import {
   Grid,
   Typography,
   withStyles,
+  Fab,
 } from '@material-ui/core/';
+import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Flashcardbox from './Flashcardbox';
+import Flashcardbox from './flashcardbox-container';
 import FlashcardboxCreateModal from './FlashcardboxCreateModal';
 
 const styles = theme => ({
@@ -21,6 +23,10 @@ const styles = theme => ({
 
 class Flashcardboxes extends Component {
 
+  state = {
+    createOpen: false,
+  }
+
   componentWillMount() {
     this.props.getFlashcardboxes();
   }
@@ -28,6 +34,19 @@ class Flashcardboxes extends Component {
   componentDidMount() {
     document.title = 'Flashcardboxes';
   }
+
+  createDialogOpen = () => {
+    this.setState({ createOpen: true });
+  }
+
+  createDialogClose = () => {
+    this.setState({ createOpen: false });
+  }
+
+  handleCreate = (flashcardbox) => {
+    this.props.createFlashcardbox(flashcardbox);
+    this.createDialogClose();
+  };
 
   renderCards = () => (
     <Grid container direction="row" justify="space-evenly" spacing={16}>
@@ -45,9 +64,6 @@ class Flashcardboxes extends Component {
           </Grid>
         ))
       }
-      <Grid item xs={6} md={4} lg={3}>
-        <FlashcardboxCreateModal />
-      </Grid>
     </Grid>
   );
 
@@ -62,7 +78,17 @@ class Flashcardboxes extends Component {
             </Typography>
           </Grid>
           { this.renderCards() }
+          <Grid item xs={12} md={12} lg={12} align="center" style={{ paddingTop: '12px' }}>
+            <Fab color="primary" aria-label="Add" onClick={() => this.createDialogOpen()}>
+              <AddIcon />
+            </Fab>
+          </Grid>
         </Grid>
+        <FlashcardboxCreateModal
+          open={this.state.createOpen}
+          handleCreate={this.handleCreate}
+          handleClose={this.createDialogClose}
+        />
       </div>
     );
   }
@@ -73,6 +99,7 @@ Flashcardboxes.propTypes = {
   classes: PropTypes.object.isRequired,
   getFlashcardboxes: PropTypes.func.isRequired,
   boxes: PropTypes.array.isRequired,
+  createFlashcardbox: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Flashcardboxes);

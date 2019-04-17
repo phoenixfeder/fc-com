@@ -14,7 +14,11 @@ import HobbyIcon from '@material-ui/icons/InsertEmoticon';
 import * as PropTypes from 'prop-types';
 import qs from 'query-string';
 import React, { Component } from 'react';
-import { BACKEND_URL_EDIT_GET_ACCOUNT, BACKEND_URL_EDIT_UPDATE_ACCOUNT } from '../../utils/const-paths';
+import {
+  fetchGetAccountData,
+  fetchUpdateUser,
+} from '../../actions/edit-actions';
+import { BACKEND_URL_ACCOUNT_UPDATE } from '../../utils/const-paths';
 
 const styles = theme => ({
   root: {
@@ -68,29 +72,12 @@ class EditUser extends Component {
 
 
   componentWillMount() {
-    const { enqueueSnackbar, session, sessionHash } = this.props;
+    const { enqueueSnackbar } = this.props;
 
-    const userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
-    this.setState({ userID });
+    this.setState({ userID: this.props.userID });
 
-    fetch(BACKEND_URL_EDIT_GET_ACCOUNT, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        authentication: {
-          session,
-          hash: sessionHash,
-        },
-        user: {
-          userID,
-        },
-      }),
+    fetchGetAccountData(this.props, (result) => {
 
-    }).then(results => results.json(),
-    ).then(result => {
       switch (result.status.code) {
         case 200:
           this.setState({
@@ -109,19 +96,17 @@ class EditUser extends Component {
           });
           break;
       }
-    }).catch(() => {
-      enqueueSnackbar({
-        message: 'This should not happen. Please contact system admin.',
-        options: {
-          variant: 'error',
-        },
-      });
     });
+
   }
 
   handleCommit = () => {
     const { enqueueSnackbar, session, sessionHash } = this.props;
-    fetch(BACKEND_URL_EDIT_UPDATE_ACCOUNT, {
+    fetchUpdateUser({ ...this.props, ...this.state }, (result) => {
+
+    });
+
+    fetch(BACKEND_URL_ACCOUNT_UPDATE, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',

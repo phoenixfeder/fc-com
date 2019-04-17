@@ -14,11 +14,6 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     flexGrow: 1,
   },
-  paper: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-  },
 });
 
 function TabContainer(props) {
@@ -62,8 +57,6 @@ class EditProfile extends Component {
               container
               justify="center"
               spacing={16}
-              className={classes.paper}
-              component={Paper}
               elevation={2}
               direction="column"
             >
