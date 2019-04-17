@@ -1,16 +1,16 @@
 import {
-  GET_BOXES_START,
-  GET_BOXES_SUCCESS,
-  GET_BOXES_FAIL,
+  CREATE_BOX_FAIL,
   CREATE_BOX_START,
   CREATE_BOX_SUCCESS,
-  CREATE_BOX_FAIL,
+  DELETE_BOX_FAIL,
   DELETE_BOX_START,
   DELETE_BOX_SUCCESS,
-  DELETE_BOX_FAIL,
+  EDIT_BOX_FAIL,
   EDIT_BOX_START,
   EDIT_BOX_SUCCESS,
-  EDIT_BOX_FAIL,
+  GET_BOXES_FAIL,
+  GET_BOXES_START,
+  GET_BOXES_SUCCESS,
 } from '../utils/const-actiontypes';
 
 const initialState = {
@@ -72,12 +72,10 @@ const deleteBoxesFail = (state, action) => ({
 const editBoxStart = state => ({ ...state, editLoading: true });
 
 const editBoxSuccess = (state, action) => {
-  console.log(state);
-  console.log(action);
   const indexToEdit = state.boxes.map(box => box.id).indexOf(action.box.flashcardbox.id);
   const newBoxesArray = Array.from(state.boxes); // Deep copy so Redux can detect changes
-  newBoxesArray[indexToEdit] = action.box.flashcardbox;
 
+  newBoxesArray[indexToEdit] = { ...newBoxesArray[indexToEdit], ...action.box.flashcardbox };
   return ({
     ...state,
     boxes: newBoxesArray,
