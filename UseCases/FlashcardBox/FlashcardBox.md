@@ -10,7 +10,7 @@ A user can manage their Flashcard-Boxes. He can create, edit and delete Boxes wi
 
 ### 1.2 Mock-up
 
-![Flashcardbox Flowchart](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/FlashcardBox/mockup.png)
+![Flashcardbox Mockup](https://github.com/phoenixfeder/fc-com/raw/master/UseCases/FlashcardBox/mockup.png)
 
 ## 2. Flow of Events
 
@@ -47,3 +47,10 @@ Store the new and updated information in the database.
 ## 6. Extension Points
 
 N/A
+
+## 7. Functional Points
+
+Function points for this use case are: 81.7 (calculated by ([http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc))
+
+![DCT](dct.png)
+![CAT](cat.png)
