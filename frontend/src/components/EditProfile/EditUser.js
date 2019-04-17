@@ -12,13 +12,11 @@ import CakeIcon from '@material-ui/icons/Cake';
 import RealNameIcon from '@material-ui/icons/Face';
 import HobbyIcon from '@material-ui/icons/InsertEmoticon';
 import * as PropTypes from 'prop-types';
-import qs from 'query-string';
 import React, { Component } from 'react';
 import {
   fetchGetAccountData,
   fetchUpdateUser,
 } from '../../actions/edit-actions';
-import { BACKEND_URL_ACCOUNT_UPDATE } from '../../utils/const-paths';
 
 const styles = theme => ({
   root: {
@@ -101,33 +99,10 @@ class EditUser extends Component {
   }
 
   handleCommit = () => {
-    const { enqueueSnackbar, session, sessionHash } = this.props;
+    const { enqueueSnackbar } = this.props;
     fetchUpdateUser({ ...this.props, ...this.state }, (result) => {
-
-    });
-
-    fetch(BACKEND_URL_ACCOUNT_UPDATE, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        authentication: {
-          session,
-          hash: sessionHash,
-        },
-        user: {
-          userID: this.state.userID,
-          realName: this.state.realName,
-          interest: this.state.interest,
-          dateOfBirth: this.state.birthday,
-        },
-      }),
-
-    }).then(results => results.json(),
-    ).then(result => {
       switch (result.status.code) {
+
         case 200:
           this.setState({
             isRealNameIncorrect: false,
@@ -171,14 +146,6 @@ class EditUser extends Component {
           });
           break;
       }
-
-    }).catch(() => {
-      enqueueSnackbar({
-        message: 'This should not happen. Please contact system admin.',
-        options: {
-          variant: 'error',
-        },
-      });
     });
   };
 
@@ -320,8 +287,6 @@ class EditUser extends Component {
 EditUser.propTypes = {
   classes: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
-  session: PropTypes.string.isRequired,
-  sessionHash: PropTypes.string.isRequired,
   userID: PropTypes.number.isRequired,
 };
 

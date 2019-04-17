@@ -94,11 +94,9 @@ export const fetchGetAccountData = (state, callback) => {
         userID: state.userID,
       },
     }),
-  })
-    .then(results => results.json())
-    .then((result) => {
-      callback(result);
-    }).catch(() => {
+  }).then(results => results.json()).then((result) => {
+    callback(result);
+  }).catch(() => {
     callback({
       status: {
         code: 418,
