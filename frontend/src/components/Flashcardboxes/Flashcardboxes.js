@@ -25,7 +25,7 @@ class Flashcardboxes extends Component {
 
   state = {
     createOpen: false,
-  }
+  };
 
   componentWillMount() {
     this.props.getFlashcardboxes();
@@ -37,11 +37,11 @@ class Flashcardboxes extends Component {
 
   createDialogOpen = () => {
     this.setState({ createOpen: true });
-  }
+  };
 
   createDialogClose = () => {
     this.setState({ createOpen: false });
-  }
+  };
 
   handleCreate = (flashcardbox) => {
     this.props.createFlashcardbox(flashcardbox);

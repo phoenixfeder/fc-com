@@ -11,6 +11,10 @@ export const BACKEND_URL_EDIT_FLASHCARDBOX = `${BACKEND_URL_FLASHCARDBOXES}edit`
 
 export const BACKEND_URL_ACCOUNT = `${BACKEND_URL}account/`;
 export const BACKEND_URL_ACCOUNT_NEW = `${BACKEND_URL_ACCOUNT}new`;
+
+/**
+ * @return {string}
+ */
 export function BACKEND_URL_ACCOUNT_VERIFY(parameters) {
   return `${BACKEND_URL_ACCOUNT}verify?id=${parameters.id}&token=${parameters.token}`;
 }

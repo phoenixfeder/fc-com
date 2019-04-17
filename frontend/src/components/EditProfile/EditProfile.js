@@ -1,6 +1,5 @@
 import withStyles from '@material-ui/core/es/styles/withStyles';
 import Grid from '@material-ui/core/Grid/Grid';
-import Paper from '@material-ui/core/Paper/Paper';
 import Tab from '@material-ui/core/Tab/Tab';
 import Tabs from '@material-ui/core/Tabs/Tabs';
 import Typography from '@material-ui/core/Typography/Typography';

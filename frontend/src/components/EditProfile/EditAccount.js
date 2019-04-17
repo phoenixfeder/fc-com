@@ -403,8 +403,6 @@ EditAccount.propTypes = {
   enqueueSnackbar: PropTypes.func.isRequired,
   history: PropTypes.func.isRequired,
   closeAccount: PropTypes.func.isRequired,
-  session: PropTypes.string.isRequired,
-  sessionHash: PropTypes.string.isRequired,
   userID: PropTypes.number.isRequired,
 };
 
