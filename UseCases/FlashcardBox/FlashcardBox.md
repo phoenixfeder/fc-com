@@ -52,5 +52,5 @@ N/A
 
 Function points for this use case are: 81.7 (calculated by ([http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc))
 
-![DCT](dct.png)
-![CAT](cat.png)
+![Flashcardbox Domain Characteristic Table](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/dct.PNG)
+![Flashcardbox Complexity Adjustment Table](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/cat.PNG)
