@@ -214,10 +214,10 @@ class Register extends Component {
                     variant="body1"
                     align="center"
                     className={classes.headline}
-                  >... at Flashcard Community!
+                  >
+                    {'... at Flashcard Community!'}
                     <br />
-                    Don´t worry, we don´t require unnecessary
-                    information :)
+                    {'Don´t worry, we do not require unnecessary information :)'}
                     <br />
                   </Typography>
                 </Grid>
@@ -317,7 +317,7 @@ class Register extends Component {
                       disabled={this.state.loading}
                       onClick={this.handleSubmit}
                     >
-                      Register now!
+                      {'Register now!'}
                     </Button>
                     {this.state.loading
                     && <CircularProgress size={24} className={classes.buttonProgress} />}
@@ -325,7 +325,7 @@ class Register extends Component {
                 </Grid>
                 <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                   <Typography variant="caption" className={classes.headline}>
-                    Got an account already?
+                    {'Got an account already?'}
                     <Link id="link-login" to="/login">Sign in!</Link>
                   </Typography>
                 </Grid>

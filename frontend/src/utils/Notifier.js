@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { withSnackbar } from 'notistack';
 import * as PropTypes from 'prop-types';
 import { Component } from 'react';
