@@ -48,3 +48,10 @@ This way the frequency of learning certain flashcards can be adjusted accordingl
 ## 6. Extension Points
 
 N/A
+
+## 7. Function Points
+
+Function points for this use case are: 54.6 (calculated by ([http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc](http://groups.umd.umich.edu/cis/course.des/cis525/js/f00/harvey/FP_Calc.html?tCountVal=0#FPCalc))
+
+![DCT](dct.png)
+![CAT](cat.png)
