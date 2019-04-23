@@ -1,0 +1,23 @@
+stages:
+  - build
+  - test-backend
+  - test-frontend
+
+env:
+  global:
+    - TEST_GLOBAL=1.0
+
+jobs:
+  include:
+    - stage: build
+      language: java
+      script:
+        - (cd backend/; ./mvn build)
+    - stage: test-backend
+      language: java
+      script:
+        - (cd backend/; ./mvn test clean)
+    - stage: test-frontend
+      language: node_js
+      script:
+       -  (cd frontend/; ./npm test)
