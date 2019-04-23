@@ -5,7 +5,7 @@ stages:
 
 env:
   global:
-    - TEST_GLOBAL=1.0
+    - spring.mail.password=1.0
 
 jobs:
   include:
