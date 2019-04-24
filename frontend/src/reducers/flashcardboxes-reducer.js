@@ -92,25 +92,25 @@ const editBoxesFail = (state, action) => ({
 const boxesReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_BOXES_START:
-      return getBoxesStart(state, action);
+      return getBoxesStart(state);
     case GET_BOXES_SUCCESS:
       return getBoxesSuccess(state, action);
     case GET_BOXES_FAIL:
       return getBoxesFail(state, action);
     case CREATE_BOX_START:
-      return createBoxStart(state, action);
+      return createBoxStart(state);
     case CREATE_BOX_SUCCESS:
       return createBoxSuccess(state, action);
     case CREATE_BOX_FAIL:
       return createBoxesFail(state, action);
     case DELETE_BOX_START:
-      return deleteBoxStart(state, action);
+      return deleteBoxStart(state);
     case DELETE_BOX_SUCCESS:
       return deleteBoxSuccess(state, action);
     case DELETE_BOX_FAIL:
       return deleteBoxesFail(state, action);
     case EDIT_BOX_START:
-      return editBoxStart(state, action);
+      return editBoxStart(state);
     case EDIT_BOX_SUCCESS:
       return editBoxSuccess(state, action);
     case EDIT_BOX_FAIL:
