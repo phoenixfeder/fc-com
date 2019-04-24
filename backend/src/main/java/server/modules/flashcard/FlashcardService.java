@@ -58,15 +58,13 @@ public class FlashcardService {
     public ResponseDTO editFlashcard(RequestDTO requestDTO) throws FccExcpetion {
         User user = authenticator.authenticate(requestDTO);
 
-        Long boxId = DTOContentParser.getFlashcardRequestBoxID(requestDTO);
-        FlashCardBox flashCardBox = flashCardBoxConnector.getBoxByIdAndUser(boxId, user);
-
         FlashcardRequest flashcardRequest = requestDTO.getFlashcardRequest();
-        FlashCard flashCard = flashCardConnector.getByIdAndFlashCardBox(flashcardRequest.getId(), flashCardBox);
+        FlashCard flashCard = flashCardConnector.getById(flashcardRequest.getId());
         if (flashCard == null) {
             throw new PermissionDeniedException();
         }
 
+        checkFlashCardBoxPermission(user, flashCard);
         if (flashcardRequest.getTitle() != null) {
             flashCard.setTitle(flashcardRequest.getTitle());
         }
@@ -88,15 +86,13 @@ public class FlashcardService {
     public ResponseDTO deleteFlashcardById(RequestDTO requestDTO) throws FccExcpetion {
         User user = authenticator.authenticate(requestDTO);
 
-        Long boxId = DTOContentParser.getFlashcardRequestBoxID(requestDTO);
-        FlashCardBox flashCardBox = flashCardBoxConnector.getBoxByIdAndUser(boxId, user);
-
-        if (flashCardBox == null) {
+        FlashCard flashCard = flashCardConnector.getById(requestDTO.getFlashcardRequest().getId());
+        if (flashCard == null) {
             throw new PermissionDeniedException();
         }
 
-        Long id = DTOContentParser.getFlashCardID(requestDTO);
-        flashCardConnector.deleteByIdAndFlashCardBox(id, flashCardBox);
+        checkFlashCardBoxPermission(user, flashCard);
+        flashCardConnector.deleteById(flashCard.getId());
 
         return StatusDTO.ok();
     }
@@ -133,5 +129,12 @@ public class FlashcardService {
 
         List<FlashCard> flashCards = flashCardConnector.getByFlashCardBox(flashCardBox);
         return flashCards.size();
+    }
+
+    private void checkFlashCardBoxPermission(User user, FlashCard flashCard) throws FccExcpetion {
+        FlashCardBox flashCardBox = flashCard.getFlashcardBox();
+        if (flashCardBox.getOwner() != user) {
+            throw new PermissionDeniedException();
+        }
     }
 }

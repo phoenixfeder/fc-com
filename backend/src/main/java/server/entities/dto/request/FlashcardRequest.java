@@ -5,11 +5,9 @@ import lombok.Data;
 
 @Data
 public class FlashcardRequest {
-    private long id;
+    private Long id;
     private String title;
     private String frontSide;
     private String backSide;
-
-    @JsonProperty("flashcardbox")
-    private FlashCardBoxRequest flashCardBoxRequest;
+    private Long boxId;
 }

@@ -23,17 +23,16 @@ public class FlashcardConnector {
         return flashCardRepository.save(flashCard);
     }
 
-    public FlashCard getByIdAndFlashCardBox(Long id, FlashCardBox flashCardBox) {
-        return flashCardRepository.findByIdAndFlashcardBox(id, flashCardBox);
+    public FlashCard getById(Long id) {
+        return flashCardRepository.findById(id).orElse(null);
     }
 
     public List<FlashCard> getByFlashCardBox(FlashCardBox flashCardBox) {
         return flashCardRepository.getAllByFlashcardBox(flashCardBox);
     }
 
-    @Transactional
-    public void deleteByIdAndFlashCardBox(Long id, FlashCardBox flashCardBox) {
-        flashCardRepository.deleteByIdAndFlashcardBox(id, flashCardBox);
+    public void deleteById(Long id) {
+        flashCardRepository.deleteById(id);
     }
 
     @Transactional
