@@ -3,10 +3,6 @@ stages:
   - test-backend
   - test-frontend
 
-env:
-  global:
-    - spring.mail.password=1.0
-
 jobs:
   include:
     - stage: build
