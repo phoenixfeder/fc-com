@@ -1,8 +1,8 @@
-INSERT INTO flash_card(id, back_text, front_text, title)
+INSERT INTO flash_card(id, back_text, front_text, title, flashcardbox)
 VALUES (100000, 'Dies ist ein Text, der Hinten auf einer Flashcard stehen könnte!',
         'Dies ist ein Text, der Vorne auf einer Flashcard stehen könnte! Dies ist ein Text, der Vorne auf einer Flashcard stehen könnte! Dies ist ein Text, der Vorne auf einer Flashcard stehen könnte!',
-        'Hello World'),
-       (100001, 'Lösung', 'Frage', 'TestCard');
+        'Hello World', 1),
+       (100001, 'Lösung', 'Frage', 'TestCard', 1);
 
 INSERT INTO role(id, name)
 VALUES (1, 'user'),

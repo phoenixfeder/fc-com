@@ -3,6 +3,7 @@ package server.modules.utils;
 import server.entities.FlashCardBox;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.request.FlashCardBoxRequest;
+import server.entities.dto.request.FlashcardRequest;
 import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.Box;
@@ -77,10 +78,34 @@ public class DTOContentParser {
     }
 
     public static Long getFlashCardBoxID(RequestDTO requestDTO) throws WrongFormatException {
-        if (requestDTO.getFlashCardBoxRequest() == null) {
+        FlashCardBoxRequest flashCardBoxRequest = requestDTO.getFlashCardBoxRequest();
+        if (flashCardBoxRequest == null) {
             throw new WrongFormatException();
         }
-        return requestDTO.getFlashCardBoxRequest().getId();
+        return flashCardBoxRequest.getId();
+    }
+
+    public static Long getFlashcardRequestBoxID(RequestDTO requestDTO) throws WrongFormatException {
+        FlashcardRequest flashCardRequest = requestDTO.getFlashcardRequest();
+        if (flashCardRequest == null || flashCardRequest.getFlashCardBoxRequest() == null) {
+            throw new WrongFormatException();
+        }
+        return flashCardRequest.getFlashCardBoxRequest().getId();
+    }
+
+    public static FlashcardRequest getFlashCard(RequestDTO requestDTO) throws WrongFormatException {
+        FlashcardRequest flashCardRequest = requestDTO.getFlashcardRequest();
+        if (flashCardRequest == null || flashCardRequest.getTitle() == null || flashCardRequest.getBackSide() == null || flashCardRequest.getFrontSide() == null) {
+            throw new WrongFormatException();
+        }
+        return flashCardRequest;
+    }
+
+    public static Long getFlashCardID(RequestDTO requestDTO) throws WrongFormatException {
+        if (requestDTO.getFlashcardRequest() == null) {
+            throw new WrongFormatException();
+        }
+        return requestDTO.getFlashcardRequest().getId();
     }
 
     public static String getOldPassword(RequestDTO requestDTO) throws WrongFormatException {
