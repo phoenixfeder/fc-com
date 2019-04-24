@@ -16,7 +16,7 @@ jobs:
     - stage: test-backend
       language: java
       script:
-        - (cd backend/; .mvn test clean)
+        - (cd backend/; mvn test)
     - stage: test-frontend
       language: node_js
       script:
