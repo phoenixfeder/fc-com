@@ -7,13 +7,14 @@ import {
 
 import EditProfileContainer from '../EditProfile/EditProfile-container';
 import FAQ from '../FAQ/FAQ';
+import FlashcardOverviewContainer from '../Flashcard_Overview/FlashcardOverview-container';
+import FlashcardboxesContainer from '../Flashcardboxes/flashcardboxes-container';
 import HelloWorldContainer from '../HelloWorld/helloworld-container';
 import Home from '../Home/Home';
 import LoginContainer from '../Login/login-container';
 import LogoutContainer from '../Logout/logout-container';
 import RegisterContainer from '../Register/register-container';
 import VerfiyContainer from '../Verify/verify-container';
-import FlashcardboxesContainer from '../Flashcardboxes/flashcardboxes-container';
 
 class Main extends Component {
   componentDidMount() {
@@ -43,6 +44,7 @@ class Main extends Component {
           <Route path="/faq" component={FAQ} />
           <Route path="/helloworld" component={HelloWorldContainer} />
           <Route path="/boxes" component={FlashcardboxesContainer} />
+          <Route path="/flashcards" component={FlashcardOverviewContainer} />
           <Route component={Home} />
         </Switch>
       );

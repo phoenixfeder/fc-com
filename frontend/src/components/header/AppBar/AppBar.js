@@ -158,6 +158,15 @@ class AppBar extends Component {
             {'Flashcardboxes'}
           </MenuItem>
           <MenuItem
+            id="home-menu-link"
+            component={Link}
+            to="/flashcards"
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {'Flashcards'}
+          </MenuItem>
+          <MenuItem
             id="hw-menu-link"
             component={Link}
             to="/helloworld"
