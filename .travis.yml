@@ -46,6 +46,7 @@ jobs:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       install:
         - (cd frontend/; npm install; cd ../)
+        - sudo chmod +x ./wait-for-it.sh
         - docker run -p 8080:8080 -d $DOCKER_USERNAME/$DOCKER_REPONAME 
       before_script:
         - "export DISPLAY=:99.0"
