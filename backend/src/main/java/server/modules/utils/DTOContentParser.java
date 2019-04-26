@@ -95,7 +95,7 @@ public class DTOContentParser {
 
     public static FlashcardRequest getFlashCard(RequestDTO requestDTO) throws WrongFormatException {
         FlashcardRequest flashCardRequest = requestDTO.getFlashcardRequest();
-        if (flashCardRequest == null || flashCardRequest.getTitle() == null || flashCardRequest.getBackSide() == null || flashCardRequest.getFrontSide() == null) {
+        if (flashCardRequest == null || flashCardRequest.getTitle() == null || flashCardRequest.getBack() == null || flashCardRequest.getFront() == null) {
             throw new WrongFormatException();
         }
         return flashCardRequest;

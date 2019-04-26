@@ -3,6 +3,8 @@ package server.modules.account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.config.Lang;
+import server.entities.FlashCard;
+import server.entities.FlashCardBox;
 import server.entities.User;
 import server.entities.VerificationToken;
 import server.entities.dto.RequestDTO;
@@ -13,14 +15,12 @@ import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.UserResponse;
 import server.exceptions.*;
 import server.modules.authentication.Authenticator;
-import server.modules.dbconnector.FlashCardBoxConnector;
-import server.modules.dbconnector.SessionConnector;
-import server.modules.dbconnector.TokenConnector;
-import server.modules.dbconnector.UserConnector;
+import server.modules.dbconnector.*;
 import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AccountService {
@@ -34,10 +34,11 @@ public class AccountService {
     private final TokenConnector tokenConnector;
     private final SessionConnector sessionConnector;
     private final FlashCardBoxConnector flashCardBoxConnector;
+    private final FlashcardConnector flashcardConnector;
 
 
     @Autowired
-    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector, FlashCardBoxConnector flashCardBoxConnector) {
+    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector) {
         this.registerComponent = registerComponent;
         this.tokenComponent = tokenComponent;
 
@@ -47,6 +48,7 @@ public class AccountService {
         this.tokenConnector = tokenConnector;
         this.sessionConnector = sessionConnector;
         this.flashCardBoxConnector = flashCardBoxConnector;
+        this.flashcardConnector = flashcardConnector;
     }
 
     public ResponseDTO newAccount(RequestDTO requestDTO) throws FccExcpetion {
@@ -122,7 +124,9 @@ public class AccountService {
         }
 
         sessionConnector.deleteByUser(user);
-        flashCardBoxConnector.deleteByUser(user);
+        List<FlashCardBox> flashCardBoxes = flashCardBoxConnector.getAllBoxFromUser(user);
+        flashCardBoxes.forEach(flashcardConnector::deleteByFlashCardBox);
+        flashCardBoxConnector.deleteByUser(user, flashcardConnector);
         userConnector.delete(user);
 
         return StatusDTO.ok();

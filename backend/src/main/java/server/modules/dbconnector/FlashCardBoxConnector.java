@@ -33,7 +33,7 @@ public class FlashCardBoxConnector {
     }
 
     @Transactional
-    public void deleteByUser(User user) {
+    public void deleteByUser(User user, FlashcardConnector flashcardConnector) {
         flashCardBoxRepository.deleteAllByOwner(user);
     }
 

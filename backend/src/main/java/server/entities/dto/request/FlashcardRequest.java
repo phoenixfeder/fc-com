@@ -7,7 +7,7 @@ import lombok.Data;
 public class FlashcardRequest {
     private Long id;
     private String title;
-    private String frontSide;
-    private String backSide;
+    private String front;
+    private String back;
     private Long boxId;
 }

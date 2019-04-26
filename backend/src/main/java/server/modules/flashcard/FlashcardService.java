@@ -45,7 +45,7 @@ public class FlashcardService {
         }
 
         FlashcardRequest flashcardRequest = DTOContentParser.getFlashCard(requestDTO);
-        FlashCard flashcard = new FlashCard(flashcardRequest.getTitle(), flashcardRequest.getFrontSide(), flashcardRequest.getBackSide());
+        FlashCard flashcard = new FlashCard(flashcardRequest.getTitle(), flashcardRequest.getFront(), flashcardRequest.getBack());
         flashcard.setFlashcardBox(flashCardBox);
         FlashCard newFlashCard = flashCardConnector.save(flashcard);
 
@@ -68,11 +68,11 @@ public class FlashcardService {
         if (flashcardRequest.getTitle() != null) {
             flashCard.setTitle(flashcardRequest.getTitle());
         }
-        if(flashcardRequest.getBackSide() != null) {
-            flashCard.setBackText(flashcardRequest.getBackSide());
+        if(flashcardRequest.getBack() != null) {
+            flashCard.setBackText(flashcardRequest.getBack());
         }
-        if(flashcardRequest.getFrontSide() != null) {
-            flashCard.setFrontText(flashcardRequest.getFrontSide());
+        if(flashcardRequest.getFront() != null) {
+            flashCard.setFrontText(flashcardRequest.getFront());
         }
 
         FlashCard editedFlashCard = flashCardConnector.save(flashCard);
