@@ -97,6 +97,7 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>fcc-application</finalName>
     </build>
 
     <dependencies>

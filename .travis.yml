@@ -1,11 +1,13 @@
 stages:
   - build
+  - build-docker
  # - test-backend
   - ui-test
  # - deploy
 
 jobs:
   include:
+    # Builds the whole application (front- and backend) into a single jar
     - stage: build
       language: java
       script:
@@ -14,6 +16,15 @@ jobs:
 #      language: java
 #      script:
 #        - (cd backend/; mvn test)
+
+    # This stage builds a docker container for the newly builded jar
+    - stage: build-docker 
+      services:
+        - docker
+      script:
+        - (cd backend/; docker build -f Dockerfile -t fcc-application-docker .)
+
+    # Runs UI tests with Tescafé, therefor starts the application and a mysql server
     - stage: ui-test
       language: node_js
       node_js:
@@ -22,6 +33,7 @@ jobs:
       sudo: required
       services:
         - mysql
+        - docker
       addons:
         firefox: latest
         apt:
@@ -29,11 +41,15 @@ jobs:
           - google-chrome
           packages:
           - google-chrome-stable fluxbox
+      before_install:
+        - mysql -u root --password="" < travis.sql
+      install:
+        - (cd frontend/; npm install)
+        - docker run -p 8080:8080 fcc-application-docker 
       before_script:
         - "export DISPLAY=:99.0"
         - "sh -e /etc/init.d/xvfb start"
         - sleep 3
         - fluxbox >/dev/null 2>&1 &
-        - mysql -u root --password="" < travis.sql
       script:
-       -  sudo service mysql status
+       -  curl localhost:8080/
