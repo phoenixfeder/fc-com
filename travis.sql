@@ -3,4 +3,4 @@ CREATE DATABASE IF NOT EXISTS `fcc_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_g
 
 # Create Testuser
 CREATE USER 'fcc'@'localhost' IDENTIFIED BY 'fccpassword';
-GRANT ALL ON 'fcc_db' TO 'fcc'@'localhost';
+GRANT ALL ON fcc_db.* TO 'fcc'@'localhost';
