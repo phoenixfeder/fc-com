@@ -15,10 +15,8 @@ jobs:
       before_script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       script:
-        - (cd backend/; mvn package)
-        - (cd backend/; docker build -f Dockerfile -t fcc-application-docker .)
-        - docker tag $DOCKER_USERNAME/fcc-application-docker:latest $DOCKER_REPONAME:latest
-        - docker push $DOCKER_REPONAME:latest
+        - (cd backend/; mvn clean package)
+        - (cd backend/; mvn deploy)
 #    - stage: test-backend
 #      language: java
 #      script:
