@@ -53,4 +53,4 @@ jobs:
         - sleep 3
         - fluxbox >/dev/null 2>&1 &
       script:
-       -  curl localhost:8080/
+       -  docker container ls
