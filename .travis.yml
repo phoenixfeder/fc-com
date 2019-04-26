@@ -7,17 +7,22 @@ stages:
 jobs:
   include:
     # Builds the whole application (front- and backend) into a single jar
+    # Then builds docker image and pushes it DockerHub
     - stage: build
       language: java
       services:
         - docker
+      before_script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       script:
-        - (cd backend/; mvn package; docker build -f Dockerfile -t fcc-application-docker .)
+        - (cd backend/; mvn package)
+        - (cd backend/; docker build -f Dockerfile -t fcc-application-docker .)
+        - docker tag $DOCKER_USERNAME/fcc-application-docker:latest $DOCKER_REPONAME:latest
+        - docker push $DOCKER_REPONAME:latest
 #    - stage: test-backend
 #      language: java
 #      script:
 #        - (cd backend/; mvn test)
-
     # Runs UI tests with Tescafé, therefor starts the application and a mysql server
     - stage: ui-test
       language: node_js
@@ -37,6 +42,7 @@ jobs:
           - google-chrome-stable fluxbox
       before_install:
         - mysql -u root --password="" < travis.sql
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       install:
         - (cd frontend/; npm install)
         - docker run -p 8080:8080 fcc-application-docker 
