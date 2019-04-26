@@ -53,6 +53,5 @@ jobs:
         - "sh -e /etc/init.d/xvfb start"
         - sleep 3
         - fluxbox >/dev/null 2>&1 &
-        - sudo ./wait-for-it.sh localhost:8080 -- echo "FCC-App is now running"
       script:
-       -  sudo curl localhost:8080
+       -   sudo ./wait-for-it.sh localhost:8080 -- curl localhost:8080
