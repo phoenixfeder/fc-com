@@ -14,4 +14,6 @@ public interface FlashCardRepository extends CrudRepository<FlashCard, Long> {
     void deleteByIdAndFlashcardBox(long id, FlashCardBox flashCardBox);
 
     void deleteAllByFlashcardBox(FlashCardBox flashCardBox);
+
+    long countByFlashcardBox(FlashCardBox box);
 }

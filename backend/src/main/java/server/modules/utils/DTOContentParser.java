@@ -64,7 +64,7 @@ public class DTOContentParser {
         List<Box> boxes = new ArrayList<>();
         for (FlashCardBox flashcardBox : flashCardBoxes
         ) {
-            boxes.add(new Box(flashcardBox.getId(), flashcardBox.getTitle(), flashcardBox.getDescription(), flashcardBox.getCreationDate(), flashcardBox.getLastChanged()));
+            boxes.add(new Box(flashcardBox.getId(), flashcardBox.getTitle(), flashcardBox.getDescription(), flashcardBox.getCreationDate(), flashcardBox.getLastChanged(), flashcardBox.getFlashcards()));
         }
         return boxes;
     }

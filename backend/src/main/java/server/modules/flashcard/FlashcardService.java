@@ -117,20 +117,6 @@ public class FlashcardService {
         return responseDTO;
     }
 
-    public int countFlashCardsInBox(RequestDTO requestDTO) throws FccExcpetion {
-        User user = authenticator.authenticate(requestDTO);
-
-        Long boxId = DTOContentParser.getFlashCardBoxID(requestDTO);
-        FlashCardBox flashCardBox = flashCardBoxConnector.getBoxByIdAndUser(boxId, user);
-
-        if (flashCardBox == null) {
-            throw new PermissionDeniedException();
-        }
-
-        List<FlashCard> flashCards = flashCardConnector.getByFlashCardBox(flashCardBox);
-        return flashCards.size();
-    }
-
     private void checkFlashCardBoxPermission(User user, FlashCard flashCard) throws FccExcpetion {
         FlashCardBox flashCardBox = flashCard.getFlashcardBox();
         if (flashCardBox.getOwner() != user) {
