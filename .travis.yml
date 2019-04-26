@@ -1,7 +1,8 @@
 stages:
   - build
  # - test-backend
- # - test-frontend
+  - ui-test
+ # - deploy
 
 jobs:
   include:
@@ -13,23 +14,26 @@ jobs:
 #      language: java
 #      script:
 #        - (cd backend/; mvn test)
-#    - stage: test-frontend
-#      language: node_js
-#      node_js:
-#        - "10"
-#      dist: trusty
-#      sudo: required
-#      addons:
-#        firefox: latest
-#        apt:
-#          sources:
-#          - google-chrome
-#          packages:
-#          - google-chrome-stable fluxbox
-#      before_script:
-#        - "export DISPLAY=:99.0"
-#        - "sh -e /etc/init.d/xvfb start"
-#        - sleep 3
-#        - fluxbox >/dev/null 2>&1 &
-#      script:
-#       -  (cd frontend/; npm install; npm test)
+    - stage: ui-test
+      language: node_js
+      node_js:
+        - "10"
+      dist: trusty
+      sudo: required
+      services:
+        - mysql
+      addons:
+        firefox: latest
+        apt:
+          sources:
+          - google-chrome
+          packages:
+          - google-chrome-stable fluxbox
+      before_script:
+        - "export DISPLAY=:99.0"
+        - "sh -e /etc/init.d/xvfb start"
+        - sleep 3
+        - fluxbox >/dev/null 2>&1 &
+        - mysql -u root --password="" < travis.sql
+      script:
+       -  sudo service mysql status
