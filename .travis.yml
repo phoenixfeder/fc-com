@@ -17,8 +17,9 @@ jobs:
       script:
         - (cd backend/; mvn package)
         - (cd backend/; docker build -f Dockerfile -t fcc-application-docker .)
-        - docker tag $DOCKER_USERNAME/fcc-application-docker:latest $DOCKER_REPONAME:latest
-        - docker push $DOCKER_REPONAME:latest
+        - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME
+        - docker push $DOCKER_USERNAME/$DOCKER_REPONAME
+        - docker logout
 #    - stage: test-backend
 #      language: java
 #      script:
@@ -45,7 +46,7 @@ jobs:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       install:
         - (cd frontend/; npm install)
-        - docker run -p 8080:8080 fcc-application-docker 
+        - docker run -p 8080:8080 -d $DOCKER_USERNAME/$DOCKER_REPONAME 
       before_script:
         - "export DISPLAY=:99.0"
         - "sh -e /etc/init.d/xvfb start"
