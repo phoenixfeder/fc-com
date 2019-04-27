@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 
 class FlashcardOverview extends Component {
   componentDidMount() {
-    this.props.getFlashcards(1);
+    this.props.getFlashcards(this.props.boxId);
   }
 
   render() {
@@ -19,27 +19,30 @@ class FlashcardOverview extends Component {
             title: 'createdTitle',
             front: 'createdFront',
             back: 'createdBack',
-          });
-        }}>
-          create
+          }, this.props.boxId);
+        }}
+        >
+          {'Create'}
         </Button>
         <Button onClick={() => {
-          let index = 5;
+          let index = 0;
           this.props.editFlashcard({
             title: this.props.flashcards[index].title + 'edit',
             front: this.props.flashcards[index].front + 'edit',
             back: this.props.flashcards[index].back + 'edit',
             id: this.props.flashcards[index].id,
           });
-        }}>
-          Edit
+        }}
+        >
+          {'Edit'}
         </Button>
         <Button onClick={() => {
           this.props.deleteFlashcard(
             this.props.flashcards[0].id,
           );
-        }}>
-          Delete
+        }}
+        >
+          {'Delete'}
         </Button>
       </div>
     );
@@ -50,13 +53,13 @@ class FlashcardOverview extends Component {
       {
         this.props.flashcards.map(flashcard => (
           <Grid item xs={6} md={4} lg={3} key={flashcard.id}>
+            Id: {flashcard.id}
+            <br />
             Title: {flashcard.title}
             <br />
-            front: {flashcard.front}
+            Front: {flashcard.front}
             <br />
-            back: {flashcard.back}
-            <br />
-            id: {flashcard.id}
+            Back: {flashcard.back}
           </Grid>
         ))
       }
@@ -70,6 +73,7 @@ FlashcardOverview.propTypes = {
   createFlashcard: PropTypes.func.isRequired,
   deleteFlashcard: PropTypes.func.isRequired,
   editFlashcard: PropTypes.func.isRequired,
+  boxId: PropTypes.number.isRequired,
 };
 
 export default FlashcardOverview;

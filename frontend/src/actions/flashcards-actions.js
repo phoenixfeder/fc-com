@@ -15,9 +15,7 @@ import {
 } from '../utils/const-actiontypes';
 import {
   BACKEND_URL_CREATE_FLASHCARDS,
-  BACKEND_URL_DELETE_FLASHCARDBOX,
   BACKEND_URL_DELETE_FLASHCARDS,
-  BACKEND_URL_EDIT_FLASHCARDBOX,
   BACKEND_URL_EDIT_FLASHCARDS,
   BACKEND_URL_GET_FLASHCARDS,
 } from '../utils/const-paths';
@@ -51,7 +49,7 @@ export const getFlashcards = (id) => dispatch => {
         hash: authState.sessionHash,
       },
       flashcardboxes: {
-        id: id,
+        id,
       },
     }),
   })
@@ -91,11 +89,9 @@ const createFlashcardFail = (errorarg) => ({
   error: errorarg,
 });
 
-export const createFlashcard = flashcard => dispatch => {
+export const createFlashcard = (flashcard, boxId) => dispatch => {
   dispatch(createFlashcardStart());
-
   const authState = store.getState().auth;
-  const boxId = 1; //TODO change to actual id
 
   fetch(BACKEND_URL_CREATE_FLASHCARDS, {
     method: 'POST',
@@ -113,7 +109,7 @@ export const createFlashcard = flashcard => dispatch => {
           title: flashcard.title,
           front: flashcard.front,
           back: flashcard.back,
-          boxId: boxId,
+          boxId,
         },
     }),
   })

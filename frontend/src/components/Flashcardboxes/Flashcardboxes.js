@@ -60,6 +60,7 @@ class Flashcardboxes extends Component {
               lastchanged={box.lastchanged}
               created={box.created}
               description={box.description}
+              history={this.props.history}
             />
           </Grid>
         ))
@@ -100,6 +101,7 @@ Flashcardboxes.propTypes = {
   getFlashcardboxes: PropTypes.func.isRequired,
   boxes: PropTypes.array.isRequired,
   createFlashcardbox: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Flashcardboxes);

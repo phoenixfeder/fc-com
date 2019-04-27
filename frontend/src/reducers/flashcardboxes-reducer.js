@@ -11,6 +11,7 @@ import {
   GET_BOXES_FAIL,
   GET_BOXES_START,
   GET_BOXES_SUCCESS,
+  NEW_FLASHCARDBOX_ID,
 } from '../utils/const-actiontypes';
 
 const initialState = {
@@ -20,9 +21,13 @@ const initialState = {
   editLoading: false,
   error: false,
   boxes: [],
+  flashcardboxId: 1,
 };
 
-const getBoxesStart = state => ({ ...state, loading: true });
+const getBoxesStart = state => ({
+  ...state,
+  loading: true,
+});
 
 const getBoxesSuccess = (state, action) => ({
   ...state,
@@ -36,7 +41,10 @@ const getBoxesFail = (state, action) => ({
   loading: false,
 });
 
-const createBoxStart = state => ({ ...state, createLoading: true });
+const createBoxStart = state => ({
+  ...state,
+  createLoading: true,
+});
 
 const createBoxSuccess = (state, action) => ({
   ...state,
@@ -50,10 +58,14 @@ const createBoxesFail = (state, action) => ({
   createLoading: false,
 });
 
-const deleteBoxStart = state => ({ ...state, deleteLoading: true });
+const deleteBoxStart = state => ({
+  ...state,
+  deleteLoading: true,
+});
 
 const deleteBoxSuccess = (state, action) => {
-  const indexToRemove = state.boxes.map(box => box.id).indexOf(action.id);
+  const indexToRemove = state.boxes.map(box => box.id)
+    .indexOf(action.id);
   const newBoxesArray = Array.from(state.boxes); // Deep copy so Redux can detect changes
   newBoxesArray.splice(indexToRemove, 1);
   return ({
@@ -69,10 +81,14 @@ const deleteBoxesFail = (state, action) => ({
   deleteLoading: false,
 });
 
-const editBoxStart = state => ({ ...state, editLoading: true });
+const editBoxStart = state => ({
+  ...state,
+  editLoading: true,
+});
 
 const editBoxSuccess = (state, action) => {
-  const indexToEdit = state.boxes.map(box => box.id).indexOf(action.box.flashcardbox.id);
+  const indexToEdit = state.boxes.map(box => box.id)
+    .indexOf(action.box.flashcardbox.id);
   const newBoxesArray = Array.from(state.boxes); // Deep copy so Redux can detect changes
 
   newBoxesArray[indexToEdit] = { ...newBoxesArray[indexToEdit], ...action.box.flashcardbox };
@@ -87,6 +103,11 @@ const editBoxesFail = (state, action) => ({
   ...state,
   error: action.error,
   editLoading: false,
+});
+
+const newFlashcardboxId = (state, action) => ({
+  ...state,
+  flashcardboxId: action.id,
 });
 
 const boxesReducer = (state = initialState, action) => {
@@ -115,6 +136,8 @@ const boxesReducer = (state = initialState, action) => {
       return editBoxSuccess(state, action);
     case EDIT_BOX_FAIL:
       return editBoxesFail(state, action);
+    case NEW_FLASHCARDBOX_ID:
+      return newFlashcardboxId(state, action);
     default:
       return state;
   }

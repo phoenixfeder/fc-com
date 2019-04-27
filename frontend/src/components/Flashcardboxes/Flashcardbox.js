@@ -72,6 +72,12 @@ class Flashcardbox extends Component {
     this.editDialogClose();
   };
 
+  handleEditFlashcards() {
+    console.log(this.props.id);
+    this.props.setFlashcardboxId(this.props.id);
+    this.props.history.push('/flashcards');
+  }
+
   render() {
 
     const { classes } = this.props;
@@ -117,7 +123,7 @@ class Flashcardbox extends Component {
             />
           </CardContent>
           <CardActions disableActionSpacing>
-            <Button size="medium">Learn</Button>
+            <Button size="medium" onClick={() => this.handleEditFlashcards()}>Edit Flashcards</Button>
             <div
               style={{
                 width: '100%',
@@ -173,6 +179,8 @@ Flashcardbox.propTypes = {
   editFlashcardbox: PropTypes.func.isRequired,
   editLoading: PropTypes.bool.isRequired,
   deleteLoading: PropTypes.bool.isRequired,
+  setFlashcardboxId: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 Flashcardbox.defaultProps = {
