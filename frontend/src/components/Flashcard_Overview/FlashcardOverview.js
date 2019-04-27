@@ -11,7 +11,6 @@ class FlashcardOverview extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
         {this.renderCards()}
@@ -23,6 +22,17 @@ class FlashcardOverview extends Component {
           })
         }}>
           create
+        </Button>
+        <Button onClick={() => {
+          let index = 5;
+          this.props.editFlashcard({
+            title: this.props.flashcards[index].title + 'edit',
+            front: this.props.flashcards[index].front + 'edit',
+            back: this.props.flashcards[index].back + 'edit',
+            id: this.props.flashcards[index].id,
+          })
+        }}>
+          Edit
         </Button>
       </div>
     );

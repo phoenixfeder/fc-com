@@ -85,15 +85,14 @@ const editFlashcardStart = (state) => ({
 });
 
 const editFlashcardSuccess = (state, action) => {
+  const indexToEdit = state.flashcards.map(flashcard => flashcard.id)
+    .indexOf(action.flashcard[0].id);
+  const newFlashcardsArray = Array.from(state.flashcards); // Deep copy so Redux can detect changes
+  newFlashcardsArray[indexToEdit] = action.flashcard[0];
 
-  const indexToEdit = state.boxes.map(flashcard => flashcard.id)
-    .indexOf(action.flashcard.flashcardbox.id);
-  const newFlashcardsArray = Array.from(state.boxes); // Deep copy so Redux can detect changes
-
-  newFlashcardsArray[indexToEdit] = { ...newFlashcardsArray[indexToEdit], ...action.box.flashcardbox };
   return ({
     ...state,
-    boxes: newFlashcardsArray,
+    flashcards: newFlashcardsArray,
     editLoading: false,
   });
 };

@@ -15,6 +15,8 @@ import {
 } from '../utils/const-actiontypes';
 import {
   BACKEND_URL_CREATE_FLASHCARDS,
+  BACKEND_URL_EDIT_FLASHCARDBOX,
+  BACKEND_URL_EDIT_FLASHCARDS,
   BACKEND_URL_GET_FLASHCARDS,
 } from '../utils/const-paths';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
@@ -115,7 +117,6 @@ export const createFlashcard = flashcard => dispatch => {
   })
     .then(results => results.json())
     .then(result => {
-      console.log(result);
       switch (result.status.code) {
         case 200:
           dispatch(createFlashcardSuccess(result.flashcards));
@@ -132,7 +133,14 @@ export const createFlashcard = flashcard => dispatch => {
           break;
       }
     })
-    .catch(() => {
+    .catch((err) => {
+      dispatch(createFlashcardFail(err));
+      dispatch(enqueueSnackbar({
+        message: 'This should not happen. Please contact system admin.',
+        options: {
+          variant: 'error',
+        },
+      }));
     });
 
 };
@@ -171,4 +179,46 @@ const editFlashcardFail = (errorarg) => ({
 
 export const editFlashcard = (flashcard) => dispatch => {
   dispatch(editFlashcardStart());
+
+
+  const authState = store.getState().auth;
+  fetch(BACKEND_URL_EDIT_FLASHCARDS, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      authentication: {
+        session: authState.session,
+        hash: authState.sessionHash,
+      },
+      flashcard: {
+        id: flashcard.id,
+        title: flashcard.title,
+        front: flashcard.front,
+        back: flashcard.back,
+      },
+    }),
+  }).then(results => results.json()).then(result => {
+    console.log(result);
+    switch (result.status.code) {
+      case 200:
+        dispatch(editFlashcardSuccess(result.flashcards));
+        break;
+
+      default:
+        dispatch(editFlashcardFail(result.status.message));
+        dispatch(enqueueSnackbar({
+          message: 'This should not happen. Please contact system admin.',
+          options: {
+            variant: 'error',
+          },
+        }));
+        break;
+    }
+  }).catch((err) => {
+    dispatch(editFlashcardFail(err));
+  });
+
 };
