@@ -2,12 +2,12 @@ stages:
   - build
  # - test-backend
   - ui-test
- # - deploy
+  - deploy
 
 jobs:
   include:
     # Builds the whole application (front- and backend) into a single jar
-    # Then builds docker image and pushes it DockerHub
+    # Then builds docker image and pushes it DockerHub 
     - stage: build
       language: java
       services:
@@ -20,11 +20,8 @@ jobs:
         - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME
         - docker push $DOCKER_USERNAME/$DOCKER_REPONAME
         - docker logout
-#    - stage: test-backend
-#      language: java
-#      script:
-#        - (cd backend/; mvn test)
-    # Runs UI tests with Tescafé, therefor starts the application and a mysql server
+
+    #  Runs UI test with the previously builded docker container
     - stage: ui-test
       language: node_js
       node_js:
@@ -54,4 +51,21 @@ jobs:
         - sleep 3
         - fluxbox >/dev/null 2>&1 &
       script:
-       -   sudo ./wait-for-it.sh localhost:8080 -- docker container ls
+       -   sudo ./wait-for-it.sh localhost:8080 -- echo "Spring Boot is running."
+
+    # Deploys the docker container to heroku (prod)
+    - stage: deploy
+      language: java
+      services:
+        - docker
+      provider: heroku
+      before_script:
+        - heroku container:login
+      script:
+        - (cd backend/; mvn package)
+        - (cd backend/; docker build -f Dockerfile -t fcc-application-docker .)
+        - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
+        - docker push registry.heroku.com/flashcardcommunity/web
+        - heroku container:release web -a flashcardcommunity
+
+       
