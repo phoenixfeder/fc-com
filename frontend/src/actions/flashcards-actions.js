@@ -118,7 +118,7 @@ export const createFlashcard = flashcard => dispatch => {
       console.log(result);
       switch (result.status.code) {
         case 200:
-          dispatch(createFlashcardSuccess(result.flashcards[0]));
+          dispatch(createFlashcardSuccess(result.flashcards));
           break;
 
         default:

@@ -46,7 +46,7 @@ const createFlashcardStart = (state) => ({
 
 const createFlashcardSuccess = (state, action) => ({
   ...state,
-  flashcards: state.flashcards.concat(action.flashcards),
+  flashcards: state.flashcards.concat(action.flashcard),
   createLoading: false,
 });
 
