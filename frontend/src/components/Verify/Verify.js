@@ -65,7 +65,7 @@ class Verify extends Component {
 
   componentDidMount() {
     document.title = 'Verify';
-    const parameters = qs.parse(window.location.search);
+    const parameters = qs.parse(this.props.location.search);
 
     fetchVerify(parameters, (result) => {
       switch (result.status.code) {
@@ -266,6 +266,7 @@ Verify.propTypes = {
   classes: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default compose(withStyles(styles), withRouter)(Verify);

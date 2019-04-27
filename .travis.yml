@@ -44,14 +44,14 @@ jobs:
       install:
         - (cd frontend/; npm install; cd ../)
         - sudo chmod +x ./wait-for-it.sh
-        - docker run -p 8080:8080 -d $DOCKER_USERNAME/$DOCKER_REPONAME 
+        - docker run -p 8080:8080 -d $DOCKER_USERNAME/$DOCKER_REPONAME
       before_script:
         - "export DISPLAY=:99.0"
         - "sh -e /etc/init.d/xvfb start"
         - sleep 3
         - fluxbox >/dev/null 2>&1 &
       script:
-       -   sudo ./wait-for-it.sh localhost:8080 -- echo "Spring Boot is running."
+        - sudo ./wait-for-it.sh localhost:8080 -- (sudo ./wait-for-it.sh localhost:3000 -- cd frontend/; npm test)
 
     # Deploys the docker container to heroku (prod)
     - stage: deploy
