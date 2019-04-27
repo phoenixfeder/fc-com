@@ -62,10 +62,11 @@ jobs:
       before_script:
         - heroku container:login
       script:
-        - (cd backend/; mvn package)
-        - (cd backend/; docker build -f Dockerfile -t fcc-application-docker .)
+        - cd backend/
+        - mvn package
+        - docker build -f Dockerfile -t fcc-application-docker .
         - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
         - docker push registry.heroku.com/flashcardcommunity/web
-        - heroku container:release web -a fcc-application-docker
+        - heroku container:release web -a flashcardcommunity
 
        
