@@ -19,7 +19,7 @@ class FlashcardOverview extends Component {
             title: 'createdTitle',
             front: 'createdFront',
             back: 'createdBack',
-          })
+          });
         }}>
           create
         </Button>
@@ -30,9 +30,16 @@ class FlashcardOverview extends Component {
             front: this.props.flashcards[index].front + 'edit',
             back: this.props.flashcards[index].back + 'edit',
             id: this.props.flashcards[index].id,
-          })
+          });
         }}>
           Edit
+        </Button>
+        <Button onClick={() => {
+          this.props.deleteFlashcard(
+            this.props.flashcards[0].id,
+          );
+        }}>
+          Delete
         </Button>
       </div>
     );

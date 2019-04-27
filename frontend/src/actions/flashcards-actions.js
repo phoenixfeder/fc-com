@@ -15,6 +15,8 @@ import {
 } from '../utils/const-actiontypes';
 import {
   BACKEND_URL_CREATE_FLASHCARDS,
+  BACKEND_URL_DELETE_FLASHCARDBOX,
+  BACKEND_URL_DELETE_FLASHCARDS,
   BACKEND_URL_EDIT_FLASHCARDBOX,
   BACKEND_URL_EDIT_FLASHCARDS,
   BACKEND_URL_GET_FLASHCARDS,
@@ -161,6 +163,43 @@ const deleteFlashcardFail = (errorarg) => ({
 
 export const deleteFlashcard = id => dispatch => {
   dispatch(deleteFlashcardStart());
+
+  const authState = store.getState().auth;
+  fetch(BACKEND_URL_DELETE_FLASHCARDS, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      authentication: {
+        session: authState.session,
+        hash: authState.sessionHash,
+      },
+      flashcard: {
+        id,
+      },
+    }),
+  }).then(results => results.json()).then(result => {
+    switch (result.status.code) {
+      case 200:
+        dispatch(deleteFlashcardSuccess(id));
+        break;
+
+      default:
+        dispatch(deleteFlashcardFail(result.status.message));
+        dispatch(enqueueSnackbar({
+          message: 'This should not happen. Please contact system admin.',
+          options: {
+            variant: 'error',
+          },
+        }));
+        break;
+    }
+  }).catch((err) => {
+    dispatch(deleteFlashcardFail(err));
+  });
+
 };
 
 const editFlashcardStart = () => ({
@@ -201,7 +240,6 @@ export const editFlashcard = (flashcard) => dispatch => {
       },
     }),
   }).then(results => results.json()).then(result => {
-    console.log(result);
     switch (result.status.code) {
       case 200:
         dispatch(editFlashcardSuccess(result.flashcards));
