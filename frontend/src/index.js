@@ -5,7 +5,7 @@ import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import AppContainer from './components/App/app-container';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
@@ -24,11 +24,11 @@ ReactDOM.render(
         </IconButton>
       )}
     >
-      <BrowserRouter>
+      <HashRouter>
         <MuiThemeProviderUI theme={lightTheme}>
           <AppContainer />
         </MuiThemeProviderUI>
-      </BrowserRouter>
+      </HashRouter>
     </SnackbarProvider>
   </Provider>,
   document.getElementById('root'),
