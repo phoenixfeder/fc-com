@@ -10,6 +10,24 @@ class FlashcardOverview extends Component {
     this.props.getFlashcards(this.props.boxId);
   }
 
+  renderCards = () => (
+    <Grid container direction="row" justify="space-evenly" spacing={16}>
+      {
+        this.props.flashcards.map(flashcard => (
+          <Grid item xs={6} md={4} lg={3} key={flashcard.id}>
+            Id: {flashcard.id}
+            <br />
+            Title: {flashcard.title}
+            <br />
+            Front: {flashcard.front}
+            <br />
+            Back: {flashcard.back}
+          </Grid>
+        ))
+      }
+    </Grid>
+  );
+
   render() {
     return (
       <div>
@@ -25,7 +43,7 @@ class FlashcardOverview extends Component {
           {'Create'}
         </Button>
         <Button onClick={() => {
-          let index = 0;
+          const index = 0;
           this.props.editFlashcard({
             title: this.props.flashcards[index].title + 'edit',
             front: this.props.flashcards[index].front + 'edit',
@@ -48,23 +66,6 @@ class FlashcardOverview extends Component {
     );
   }
 
-  renderCards = () => (
-    <Grid container direction="row" justify="space-evenly" spacing={16}>
-      {
-        this.props.flashcards.map(flashcard => (
-          <Grid item xs={6} md={4} lg={3} key={flashcard.id}>
-            Id: {flashcard.id}
-            <br />
-            Title: {flashcard.title}
-            <br />
-            Front: {flashcard.front}
-            <br />
-            Back: {flashcard.back}
-          </Grid>
-        ))
-      }
-    </Grid>
-  );
 }
 
 FlashcardOverview.propTypes = {

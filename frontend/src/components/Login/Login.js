@@ -115,7 +115,7 @@ class Login extends Component {
                     align="center"
                     className={classes.headline}
                   >
-                    ... we are glad to see you again!
+                    {'... we are glad to see you again!'}
                     <br />
                   </Typography>
                 </Grid>
@@ -169,7 +169,7 @@ class Login extends Component {
                       disabled={this.props.loading}
                       onClick={this.handleSubmit}
                     >
-                      Login
+                      {'Login'}
                     </Button>
                     {this.props.loading
                     && <CircularProgress size={24} className={classes.buttonProgress} />}
@@ -177,7 +177,7 @@ class Login extends Component {
                 </Grid>
                 <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                   <Typography variant="caption" className={classes.headline}>
-                    Not registered yet?
+                    {'Not registered yet?'}
                     <Link id="create-link" to="/register">Create an account now!</Link>
                   </Typography>
                 </Grid>

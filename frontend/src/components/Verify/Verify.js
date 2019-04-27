@@ -52,8 +52,8 @@ const styles = theme => ({
 });
 
 class Verify extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       tokenOutdated: false,
       email: '',

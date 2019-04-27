@@ -73,7 +73,6 @@ class Flashcardbox extends Component {
   };
 
   handleEditFlashcards() {
-    console.log(this.props.id);
     this.props.setFlashcardboxId(this.props.id);
     this.props.history.push('/flashcards');
   }
