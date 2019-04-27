@@ -13,7 +13,10 @@ import {
   GET_FLASHCARDS_START,
   GET_FLASHCARDS_SUCCESS,
 } from '../utils/const-actiontypes';
-import { BACKEND_URL_GET_FLASHCARDS } from '../utils/const-paths';
+import {
+  BACKEND_URL_CREATE_FLASHCARDS,
+  BACKEND_URL_GET_FLASHCARDS,
+} from '../utils/const-paths';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
 
 const getFlashcardsStart = () => ({
@@ -31,7 +34,6 @@ const getFlashcardsFail = (errorarg) => ({
 export const getFlashcards = (id) => dispatch => {
   const authState = store.getState().auth;
   dispatch(getFlashcardsStart());
-  console.log(authState);
 
   fetch(BACKEND_URL_GET_FLASHCARDS, {
     method: 'POST',
@@ -51,7 +53,6 @@ export const getFlashcards = (id) => dispatch => {
   })
     .then(results => results.json())
     .then(result => {
-      console.log(result);
       switch (result.status.code) {
         case 200:
           dispatch(getFlashcardsSuccess(result.flashcards));
@@ -88,6 +89,52 @@ const createFlashcardFail = (errorarg) => ({
 
 export const createFlashcard = flashcard => dispatch => {
   dispatch(createFlashcardStart());
+
+  const authState = store.getState().auth;
+  const boxId = 1; //TODO change to actual id
+
+  fetch(BACKEND_URL_CREATE_FLASHCARDS, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      authentication: {
+        session: authState.session,
+        hash: authState.sessionHash,
+      },
+      flashcard:
+        {
+          title: flashcard.title,
+          front: flashcard.front,
+          back: flashcard.back,
+          boxId: boxId,
+        },
+    }),
+  })
+    .then(results => results.json())
+    .then(result => {
+      console.log(result);
+      switch (result.status.code) {
+        case 200:
+          dispatch(createFlashcardSuccess(result.flashcards[0]));
+          break;
+
+        default:
+          dispatch(createFlashcardFail(result.status.message));
+          dispatch(enqueueSnackbar({
+            message: 'This should not happen. Please contact system admin.',
+            options: {
+              variant: 'error',
+            },
+          }));
+          break;
+      }
+    })
+    .catch(() => {
+    });
+
 };
 
 const deleteFlashcardStart = () => ({

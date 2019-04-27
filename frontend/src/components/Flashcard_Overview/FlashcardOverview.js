@@ -1,4 +1,7 @@
-import { Grid } from '@material-ui/core';
+import {
+  Button,
+  Grid,
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
@@ -7,31 +10,41 @@ class FlashcardOverview extends Component {
     this.props.getFlashcards(1);
   }
 
+  render() {
+    console.log(this.props);
+    return (
+      <div>
+        {this.renderCards()}
+        <Button onClick={() => {
+          this.props.createFlashcard({
+            title: 'createdTitle',
+            front: 'createdFront',
+            back: 'createdBack',
+          })
+        }}>
+          create
+        </Button>
+      </div>
+    );
+  }
+
   renderCards = () => (
     <Grid container direction="row" justify="space-evenly" spacing={16}>
       {
         this.props.flashcards.map(flashcard => (
           <Grid item xs={6} md={4} lg={3} key={flashcard.id}>
             Title: {flashcard.title}
-            <br/>
+            <br />
             front: {flashcard.front}
-            <br/>
+            <br />
             back: {flashcard.back}
-            <br/>
+            <br />
             id: {flashcard.id}
           </Grid>
         ))
       }
     </Grid>
   );
-
-  render() {
-    return (
-      <div>
-        {this.renderCards()}
-      </div>
-    );
-  }
 }
 
 FlashcardOverview.propTypes = {
