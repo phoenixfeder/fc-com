@@ -27,7 +27,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "./node_modules/.bin/cucumber-js.cmd --world-parameters \"{\\\"browser\\\": \\\"firefox\\\"}\"",
-    "test-linux": "./node_modules/.bin/cucumber-js --world-parameters \"{\\\"browser\\\": \\\"firefox\\\"}\" --tags @only",
+    "test-linux": "./node_modules/.bin/cucumber-js --world-parameters \"{\\\"browser\\\": \\\"firefox\\\"}\"",
     "test-allImplemented": "./node_modules/.bin/cucumber-js.cmd  --tags @all",
     "test-only": "./node_modules/.bin/cucumber-js.cmd  --tags @only",
     "test-firefox": "./node_modules/.bin/cucumber-js.cmd --world-parameters \"{\\\"browser\\\": \\\"firefox\\\"}\" --tags @all",
