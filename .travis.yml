@@ -34,10 +34,22 @@ jobs:
       before_install:
         - mysql -u root --password="" < travis.sql
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - wget http://nilhcem.github.com/FakeSMTP/downloads/fakeSMTP-latest.zip
+        - apt-get install unzip
+        - unzip fakeSMTP-latest.zip
       install:
         - npm install -g newman
         - sudo chmod +x ./wait-for-it.sh
-        - docker run -p 8080:8080 --network host --name="fcc-app" -d -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" $DOCKER_USERNAME/$DOCKER_REPONAME
+        - java -jar fakeSMTP-2.0.jar -s -b -p $SPRING_MAIL_PORT -a $SPRING_MAIL_HOST &
+        - >-
+          docker run -p 8080:8080 --network host --name="fcc-app" -d 
+          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" 
+          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST" 
+          -e "SPRING_MAIL_PORT=$SPRING_MAIL_PORT"
+          -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
+          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" 
+          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" 
+          $DOCKER_USERNAME/$DOCKER_REPONAME
       before_script:
         - sleep 120
       script:
@@ -65,10 +77,22 @@ jobs:
       before_install:
         - mysql -u root --password="" < travis.sql
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - wget http://nilhcem.github.com/FakeSMTP/downloads/fakeSMTP-latest.zip
+        - apt-get install unzip
+        - unzip fakeSMTP-latest.zip
       install:
         - (cd frontend/; npm install; cd ../)
         - sudo chmod +x ./wait-for-it.sh
-        - docker run -p 8080:8080 --network host --name="fcc-app" -d -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" $DOCKER_USERNAME/$DOCKER_REPONAME
+        - java -jar fakeSMTP-2.0.jar -s -b -p $SPRING_MAIL_PORT -a $SPRING_MAIL_HOST &
+        - >-
+          docker run -p 8080:8080 --network host --name="fcc-app" -d 
+          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" 
+          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST" 
+          -e "SPRING_MAIL_PORT=$SPRING_MAIL_PORT"
+          -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
+          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" 
+          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" 
+          $DOCKER_USERNAME/$DOCKER_REPONAME
       before_script:
         - cd frontend
         - npm start &
