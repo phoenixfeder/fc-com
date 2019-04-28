@@ -42,6 +42,8 @@ jobs:
         - mysql -u root --password="" < travis.sql
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       install:
+        - sudo apt-get update -qq
+          - sudo apt-get install -y -qq postfix
         - (cd frontend/; npm install; cd ../)
         - sudo chmod +x ./wait-for-it.sh
         - docker run -p 8080:8080 --network host --name="fcc-app" -d -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" $DOCKER_USERNAME/$DOCKER_REPONAME
@@ -54,11 +56,12 @@ jobs:
         - sleep 3
         - fluxbox >/dev/null 2>&1 &
       script:
-        - sudo ./wait-for-it.sh localhost:8080 -t 120
-        - sudo ./wait-for-it.sh localhost:3000/#/home -t 120
+        - sleep 120
+        - sudo ./wait-for-it.sh localhost:8080
+        - sudo ./wait-for-it.sh localhost:3000
         - cd frontend/
         - npm run-script test-linux
-        - npm stop
+        - docker logs fcc-app
         - docker stop fcc-app
 
     # Deploys the docker container to heroku (prod)
