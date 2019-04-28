@@ -56,8 +56,6 @@ jobs:
       script:
         - sudo ./wait-for-it.sh localhost:8080 -t 120
         - sudo ./wait-for-it.sh localhost:3000/#/home -t 120
-        - docker container ls
-        - curl -X GET localhost:8080/account/new 
         - cd frontend/
         - npm run-script test-linux
 
