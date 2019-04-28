@@ -209,13 +209,13 @@ Codacy as well as TravisCI is able to integrate in our GitHub repository. For ea
 
 ## 7.5 Smoke Test Suite and Supporting Test Scripts
 
-The automated test execution in our CI/CD Pipeline enables regression testing. With this approach it is clearly visible when changes break existing functions and affect the correct behaviour of the application.
+Every new push to any branch triggers an execution in our CI/CD pipeline. This way we have an immediate feedback when a new commit breaks any functionallity of our application or limits the users actions.
 
 ## 8. Testing Workflow
 
 1) Local testing on the developers machines
 2) Commits trigger building (including Unit test) on TravisCI
-3) For each new pull requests code quality will also be analyzed
+3) With each pull requests code quality will also be analyzed
 
 ## 9. Environmental Needs
 
@@ -236,7 +236,9 @@ The following base software elements are required in the test environment for th
 | --------------------- | ----------------------------------------------- |
 | Terminal              | Test runner                                     |
 | JUnit 4 & 5           | Unit testing library                            |
-| Node                  | Installs dependencies for Cucumber and Testcafé |
+| Cucumber              | Comprehensible step definitions                 |
+| TestCafé              | UI testing library                              |
+| Postman               | API Test Runner                                 |
 
 ### 9.3 Productivity and Support Tools
 
