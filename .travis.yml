@@ -42,7 +42,7 @@ jobs:
         - sleep 120
       script:
         - sudo ./wait-for-it.sh localhost:8080
-        - cd backend-test/
+        - cd backend_test/
         - newman run postman_integrationtests.json
 
     #  Runs UI test with the previously builded docker container
