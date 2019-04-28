@@ -54,7 +54,10 @@ jobs:
         - sleep 3
         - fluxbox >/dev/null 2>&1 &
       script:
-        - sudo ./wait-for-it.sh localhost:8080 -- (sudo ./wait-for-it.sh localhost:3000 -- cd frontend/; npm test)
+        - sudo ./wait-for-it.sh localhost:8080
+        - sudo ./wait-for-it.sh localhost:3000
+        - cd frontend/
+        - npm test
 
     # Deploys the docker container to heroku (prod)
     - stage: deploy
