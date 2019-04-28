@@ -39,15 +39,12 @@ jobs:
           packages:
           - google-chrome-stable fluxbox
       before_install:
-        - telnet smtp.gmail.com 587
         - mysql -u root --password="" < travis.sql
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       install:
-        - sudo apt-get update -qq
-        - sudo apt-get install -y -qq postfix
         - (cd frontend/; npm install; cd ../)
         - sudo chmod +x ./wait-for-it.sh
-        - docker run -p 8080:8080 --network host --name="fcc-app" -d -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" $DOCKER_USERNAME/$DOCKER_REPONAME
+        - docker run -p 8080:8080 --network host --name="fcc-app" -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" $DOCKER_USERNAME/$DOCKER_REPONAME
       before_script:
         - cd frontend
         - npm start &
