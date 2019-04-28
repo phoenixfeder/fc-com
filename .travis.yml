@@ -56,8 +56,7 @@ jobs:
       script:
         - sudo ./wait-for-it.sh localhost:8080
         - sudo ./wait-for-it.sh localhost:3000
-        - cd frontend/
-        - npm test
+        - "./node_modules/.bin/cucumber-js.cmd --world-parameters \"{\\\"browser\\\": \\\"firefox\\\"}\""
 
     # Deploys the docker container to heroku (prod)
     - stage: deploy
