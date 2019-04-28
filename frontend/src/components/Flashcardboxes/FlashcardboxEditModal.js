@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-class FlashcardboxCreateModal extends Component {
+class FlashcardboxEditModal extends Component {
 
   state = {
     fcb_name: '',
@@ -87,7 +87,7 @@ class FlashcardboxCreateModal extends Component {
 
 }
 
-FlashcardboxCreateModal.propTypes = {
+FlashcardboxEditModal.propTypes = {
   handleEdit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
@@ -96,4 +96,4 @@ FlashcardboxCreateModal.propTypes = {
   id: PropTypes.number.isRequired,
 };
 
-export default FlashcardboxCreateModal;
+export default FlashcardboxEditModal;

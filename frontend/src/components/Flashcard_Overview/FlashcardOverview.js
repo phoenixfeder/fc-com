@@ -4,10 +4,35 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import FlashcardCreateModal from './FlashcardCreateModal';
+import FlashcardDeleteModal from './FlashcardDeleteModal';
+import FlashcardEditModal from './FlashcardEditModal';
 
 class FlashcardOverview extends Component {
+
+  state = {
+    createOpen: false,
+    editOpen: false,
+    deleteOpen: false,
+  };
+
   componentDidMount() {
     this.props.getFlashcards(this.props.boxId);
+  }
+
+  handleCreateClose() {
+    console.log(this);
+    this.setState({ createOpen: false });
+  }
+
+  handleEditClose() {
+    console.log(this);
+    this.setState({ editOpen: false });
+  }
+
+  handleDeleteClose() {
+    console.log(this);
+    this.setState({ deleteOpen: false });
   }
 
   renderCards = () => (
@@ -22,6 +47,33 @@ class FlashcardOverview extends Component {
             Front: {flashcard.front}
             <br />
             Back: {flashcard.back}
+
+            <FlashcardEditModal
+              open={this.state.editOpen}
+              flashcard={flashcard}
+              handleClose={() => this.handleEditClose()}
+              editFlashcard={this.props.editFlashcard}
+            />
+            <Button onClick={() => {
+              this.setState({ editOpen: true });
+            }}
+            >
+              {'Edit'}
+            </Button>
+
+            <FlashcardDeleteModal
+              title={flashcard.title}
+              id={flashcard.id}
+              open={this.state.deleteOpen}
+              handleClose={() => this.handleDeleteClose()}
+              handleDelete={this.props.deleteFlashcard}
+            />
+            <Button onClick={() => {
+              this.setState({ deleteOpen: true });
+            }}
+            >
+              {'Delete'}
+            </Button>
           </Grid>
         ))
       }
@@ -32,35 +84,17 @@ class FlashcardOverview extends Component {
     return (
       <div>
         {this.renderCards()}
+        <FlashcardCreateModal
+          handleClose={() => this.handleCreateClose()}
+          createFlashcard={this.props.createFlashcard}
+          open={this.state.createOpen}
+          boxId={this.props.boxId}
+        />
         <Button onClick={() => {
-          this.props.createFlashcard({
-            title: 'createdTitle',
-            front: 'createdFront',
-            back: 'createdBack',
-          }, this.props.boxId);
+          this.setState({ createOpen: true });
         }}
         >
           {'Create'}
-        </Button>
-        <Button onClick={() => {
-          const index = 0;
-          this.props.editFlashcard({
-            title: this.props.flashcards[index].title + 'edit',
-            front: this.props.flashcards[index].front + 'edit',
-            back: this.props.flashcards[index].back + 'edit',
-            id: this.props.flashcards[index].id,
-          });
-        }}
-        >
-          {'Edit'}
-        </Button>
-        <Button onClick={() => {
-          this.props.deleteFlashcard(
-            this.props.flashcards[0].id,
-          );
-        }}
-        >
-          {'Delete'}
         </Button>
       </div>
     );
