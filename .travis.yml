@@ -44,7 +44,7 @@ jobs:
       install:
         - (cd frontend/; npm install; cd ../)
         - sudo chmod +x ./wait-for-it.sh
-        - docker run -p 8080:8080 -d $DOCKER_USERNAME/$DOCKER_REPONAME --network host
+        - docker run -p 8080:8080 -d --network host $DOCKER_USERNAME/$DOCKER_REPONAME
       before_script:
         - cd frontend
         - npm start &
