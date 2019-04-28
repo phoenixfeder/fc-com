@@ -3,6 +3,7 @@ package server.modules.utils;
 import server.entities.FlashCardBox;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.request.FlashCardBoxRequest;
+import server.entities.dto.request.FlashcardRequest;
 import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.Box;
@@ -63,7 +64,7 @@ public class DTOContentParser {
         List<Box> boxes = new ArrayList<>();
         for (FlashCardBox flashcardBox : flashCardBoxes
         ) {
-            boxes.add(new Box(flashcardBox.getId(), flashcardBox.getTitle(), flashcardBox.getDescription(), flashcardBox.getCreationDate(), flashcardBox.getLastChanged()));
+            boxes.add(new Box(flashcardBox.getId(), flashcardBox.getTitle(), flashcardBox.getDescription(), flashcardBox.getCreationDate(), flashcardBox.getLastChanged(), flashcardBox.getFlashcards()));
         }
         return boxes;
     }
@@ -77,10 +78,34 @@ public class DTOContentParser {
     }
 
     public static Long getFlashCardBoxID(RequestDTO requestDTO) throws WrongFormatException {
-        if (requestDTO.getFlashCardBoxRequest() == null) {
+        FlashCardBoxRequest flashCardBoxRequest = requestDTO.getFlashCardBoxRequest();
+        if (flashCardBoxRequest == null) {
             throw new WrongFormatException();
         }
-        return requestDTO.getFlashCardBoxRequest().getId();
+        return flashCardBoxRequest.getId();
+    }
+
+    public static Long getFlashcardRequestBoxID(RequestDTO requestDTO) throws WrongFormatException {
+        FlashcardRequest flashCardRequest = requestDTO.getFlashcardRequest();
+        if (flashCardRequest == null || flashCardRequest.getBoxId() == null) {
+            throw new WrongFormatException();
+        }
+        return flashCardRequest.getBoxId();
+    }
+
+    public static FlashcardRequest getFlashCard(RequestDTO requestDTO) throws WrongFormatException {
+        FlashcardRequest flashCardRequest = requestDTO.getFlashcardRequest();
+        if (flashCardRequest == null || flashCardRequest.getTitle() == null || flashCardRequest.getBack() == null || flashCardRequest.getFront() == null) {
+            throw new WrongFormatException();
+        }
+        return flashCardRequest;
+    }
+
+    public static Long getFlashCardID(RequestDTO requestDTO) throws WrongFormatException {
+        if (requestDTO.getFlashcardRequest() == null) {
+            throw new WrongFormatException();
+        }
+        return requestDTO.getFlashcardRequest().getId();
     }
 
     public static String getOldPassword(RequestDTO requestDTO) throws WrongFormatException {
