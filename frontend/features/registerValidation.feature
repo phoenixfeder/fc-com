@@ -77,6 +77,7 @@ Feature: Test of the users input at the register-page
             | testuser | new.mail@fc.de | pw123456 | Username already exists | username-error-field |
             | newname | test.user@fc.de | pw123456 | Email is already in use | email-error-field   |
 
+  @only
   @all
     @register
     Scenario:

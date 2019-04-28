@@ -39,6 +39,7 @@ jobs:
           packages:
           - google-chrome-stable fluxbox
       before_install:
+        - telnet smtp.gmail.com 587
         - mysql -u root --password="" < travis.sql
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       install:
