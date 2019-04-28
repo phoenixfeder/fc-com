@@ -78,19 +78,19 @@ The intended audience of this test plan are the developers themself. It is meant
 
 ### 1.5  References
 
-| Title                                                                                                                |    Date    | Publishing organization                    |
-| -------------------------------------------------------------------------------------------------------------------- | :--------: | ------------------------------------------ |
-| [FlashCardCommunity Blog](https://flashcardcommunity.wordpress.com/)                                                 | 2018-10-XX | Team FlashCardCommunity                    |
-| [Repository on GitHub](https://github.com/phoenixfeder/fc-com)                                                       | 2018-10-XX | Team FlashCardCommunity                    |
-| [SRS](./SRS.md)                                                                                                      | 2018-10-XX | Team FlashCardCommunity                    |
-| [UC Register](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Register/Register.md)                      | 2018-11-18 | Team FlashCardCommunity                    |
-| [UC Login](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)                               | 2018-11-18 | Team FlashCardCommunity                    |
-| [UC Logout](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)                            | 2018-11-18 | Team FlashCardCommunity                    |
-| [UC Edit Profile](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/EditProfile/EditProfile.md)            | 2018-11-18 | Team FlashCardCommunity                    |
-| [UC Close Account](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)         | 2018-11-18 | Team FlashCardCommunity                    |
-| [UC Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)                  | 2019-04-07 | Team FlashCardCommunity  |
+| Title                                                                                                                |    Date    | Publishing organization |
+| -------------------------------------------------------------------------------------------------------------------- | :--------: | ----------------------- |
+| [FlashCardCommunity Blog](https://flashcardcommunity.wordpress.com/)                                                 | 2018-10-XX | Team FlashCardCommunity |
+| [Repository on GitHub](https://github.com/phoenixfeder/fc-com)                                                       | 2018-10-XX | Team FlashCardCommunity |
+| [SRS](./SRS.md)                                                                                                      | 2018-10-XX | Team FlashCardCommunity |
+| [UC Register](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Register/Register.md)                      | 2018-11-18 | Team FlashCardCommunity |
+| [UC Login](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)                               | 2018-11-18 | Team FlashCardCommunity |
+| [UC Logout](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)                            | 2018-11-18 | Team FlashCardCommunity |
+| [UC Edit Profile](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/EditProfile/EditProfile.md)            | 2018-11-18 | Team FlashCardCommunity |
+| [UC Close Account](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)         | 2018-11-18 | Team FlashCardCommunity |
+| [UC Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)                  | 2019-04-07 | Team FlashCardCommunity |
 | [UC Flashcardboxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)        | 2019-04-07 | Team FlashCardCommunity |
-| [UC Sharing](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md) | 2019-04-07 | Team FlashCardCommunity  |
+| [UC Sharing](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md) | 2019-04-07 | Team FlashCardCommunity |
 | [UC Learning](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Learning/Learning.md)                      | 2019-04-07 | Team FlashCardCommunity |
 | [UC FAQ](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FAQ/FAQ.md)                                     | 2019-04-07 | Team FlashCardCommunity |
 
@@ -177,25 +177,25 @@ TBD
 
 #### 6.1.1 Test Plan Entry Criteria
 
-n/a
+The whole test process is started as soon changes are pushed to our GitHub repository.
 
 #### 6.1.2 Test Plan Exit Criteria
 
-n/a
+The test process ends as soon as all tests succeeded or one failed.
 
 ## 7. Deliverables
 
 ## 7.1 Test Evaluation Summaries
 
-The project contains tests in the front- and backend. Currently UI Testing and API Testing can not be done within our CI/CD Pipelines as our UI tests partly depend on a running backend which is not the case. However, the Unit tests in backend will be triggered each time the whole project is getting build by our CI/CD Pipelines at Travis CI (each commit). On top of that, we also use Codacy to check our code quality (depending on specific style rules) which is also getting triggered each commit.
+The project contains tests in the front- and backend that run each push to our GitHub repository. On top of that, we also use Codacy to check our code quality (depending on specific style rules) which is also getting triggered each commit.
 
--   [Codacy](https://app.codacy.com/project/FlashCardCommunity/fc-com/dashboard)
--   [Travis CI](https://travis-ci.org/phoenixfeder/fc-com)
--   [UI Testing](https://flashcardcommunity.wordpress.com/2018/11/04/hw-week-5-acceptance-tests-with-cucumber/)
+-   [Codacy](https://app.codacy.com/project/FlashCardCommunity/fc-com/dashboard), Badge: ![Badge](https://api.codacy.com/project/badge/Grade/95260a54312140bf99814090ab89a940?isInternal=true)
+
+-   [Travis CI](https://travis-ci.org/phoenixfeder/fc-com), Badge: ![Badge](https://travis-ci.org/phoenixfeder/fc-com.svg?branch=master)
 
 ## 7.2 Reporting on Test Coverage
 
-TBD
+As 
 
 ## 7.3 Perceived Quality Reports
 
@@ -205,7 +205,7 @@ TBD
 
 Codacy as well as TravisCI is able to integrate in our GitHub repository. For each pull request created, Codacy will give information about the Codequality and TravisCI will tell if the build succeeds or fail.
 
--   [Codacy pull requests](https://app.codacy.com/app/FlashCardCommunity/fc-com/mergedPullRequests)
+![pr](graphics/ci.png)
 
 ## 7.5 Smoke Test Suite and Supporting Test Scripts
 
@@ -213,15 +213,17 @@ The automated test execution in our CI/CD Pipeline enables regression testing. W
 
 ## 8. Testing Workflow
 
+Our testing workflow is like the following:
+
 1) Local testing on the developers machines
-2) Commits trigger building (including Unit test) on TravisCI
+2) Commits trigger building and tests on TravisCI
 3) For each new pull requests code quality will also be analyzed
 
 ## 9. Environmental Needs
 
 ### 9.1 Base System Hardware
 
-The following table sets forth the system resources for the test effort presented in this Test Plan.
+The following table shows the different base system used in our testing process.
 
 | Resource      | Quantity | Name and Type                                       |
 | ------------- | :------: | --------------------------------------------------- |
@@ -230,7 +232,7 @@ The following table sets forth the system resources for the test effort presente
 
 ### 9.2 Base Software Elements in the Test Environment
 
-The following base software elements are required in the test environment for this Test Plan.
+The following table shows all software used in our testing process.
 
 | Software Element Name | Type and Other Notes                            |
 | --------------------- | ----------------------------------------------- |
@@ -240,13 +242,14 @@ The following base software elements are required in the test environment for th
 
 ### 9.3 Productivity and Support Tools
 
-The following tools will be employed to support the test process for this Test Plan.
+The following table shows all tools used in our testing process.
 
-| Tool Category or Type      | Tool Brand Name                    |
-| -------------------------- | ---------------------------------- |
-| Repository                 | [github.com](http://github.com/)   |
-| Quality, Coverage, Metrics | [Codacy](https://app.codacy.com/)  |
-| CI/CD Service              | [Travis CI](http://travis-ci.org/) |
+| Tool Category or Type      | Tool Brand Name                                 |
+| -------------------------- | ----------------------------------------------- |
+| Repository                 | [github.com](http://github.com/)                |
+| Quality, Coverage, Metrics | [Codacy](https://app.codacy.com/)               |
+| CI/CD Service              | [Travis CI](http://travis-ci.org/)              |
+| Fake SMTP to test E-Mail   | [FakeSMTP](https://github.com/Nilhcem/FakeSMTP) |
 
 ## 10. Responsibilities, Staffing, and Training Needs
 
