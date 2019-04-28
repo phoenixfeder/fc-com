@@ -55,7 +55,9 @@ jobs:
         - fluxbox >/dev/null 2>&1 &
       script:
         - sudo ./wait-for-it.sh localhost:8080
-        - sudo ./wait-for-it.sh localhost:3000
+        - sudo ./wait-for-it.sh localhost:3000/#/home
+        - docker container ls
+        - curl -X GET localhost:8080/account/new 
         - cd frontend/
         - npm run-script test-linux
 
