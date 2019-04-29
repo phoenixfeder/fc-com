@@ -3,7 +3,6 @@ package server.entities.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import server.entities.FlashCard;
 import server.entities.dto.response.*;
 
 import java.util.ArrayList;

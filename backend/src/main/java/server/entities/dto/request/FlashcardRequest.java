@@ -1,6 +1,5 @@
 package server.entities.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
