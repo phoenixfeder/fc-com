@@ -111,6 +111,7 @@ jobs:
 
     # Deploys the docker container to heroku (prod)
     - stage: deploy
+      if: branch = master
       language: java
       services:
         - docker
