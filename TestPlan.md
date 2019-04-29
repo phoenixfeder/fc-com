@@ -151,7 +151,7 @@ Not testing stress, performance etc. does not mean that we will not think about 
 
 Unit testing ensures, that the tested sourcecode works as expected. Therefore small parts of the sourcecode are tested independently.
 
-TBD
+To be implemented.
 
 #### 5.1.2 User Interface Testing
 
@@ -170,7 +170,14 @@ By UI testing the application is tested from the perspective of the user. The go
 
 API Testing is used to ensure that the communication between the front- and backend is working as expected. API Testing is commonly a part of Integration Testing which means that multiple parts of the application are tested together.
 
-TBD
+|                        | Description                                                                                                            |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Technique Objective    | Test backend APIs automated.                                                                                           |
+| Technique              | Write a Postman collection of API queries and test if they all succeed by running the generated JSON file with Newman. |
+| Oracles                | Expect that the steps of the tests are logged to the command line and be marked as successful.                         |
+| Required Tools         | [Postman](https://www.getpostman.com/) and [Newman](https://www.npmjs.com/package/newman)                              |
+| Success Criteria       | All API tests pass.                                                                                                    |
+| Special Considerations | -                                                                                                                      |
 
 ## 6. Entry and Exit Criteria
 
@@ -220,7 +227,6 @@ Our testing workflow is like the following:
 2) Commits trigger building (including Unit test) on TravisCI
 3) With each pull requests code quality will also be analyzed
 
-
 ## 9. Environmental Needs
 
 ### 9.1 Base System Hardware
@@ -236,13 +242,13 @@ The following table shows the different base system used in our testing process.
 
 The following table shows all software used in our testing process.
 
-| Software Element Name | Type and Other Notes                            |
-| --------------------- | ----------------------------------------------- |
-| Terminal              | Test runner                                     |
-| JUnit 4 & 5           | Unit testing library                            |
-| Cucumber              | Comprehensible step definitions                 |
-| TestCafé              | UI testing library                              |
-| Postman               | API Test Runner                                 |
+| Software Element Name | Type and Other Notes            |
+| --------------------- | ------------------------------- |
+| Terminal              | Test runner                     |
+| JUnit 4 & 5           | Unit testing library            |
+| Cucumber              | Comprehensible step definitions |
+| TestCafé              | UI testing library              |
+| Postman               | API Test Runner                 |
 
 ### 9.3 Productivity and Support Tools
 
@@ -261,9 +267,9 @@ The following table shows all tools used in our testing process.
 
 | Role                      | Person Assigned | Specific Responsibilities or Comments                                    |
 | ------------------------- | :-------------: | ------------------------------------------------------------------------ |
-| Test Manager              |        X        | Provides management oversight.                                           |
-| Test Designer             |        X        | Defines the technical approach to the implementation of the test effort. |
-| Test System Administrator |        X        | Ensures test environment and assets are managed and maintained.          |
+| Test Manager              |  Moritz, Sascha | Provides management oversight.                                           |
+| Test Designer             |     Everyone    | Defines the technical approach to the implementation of the test effort. |
+| Test System Administrator |      Moritz     | Ensures test environment and assets are managed and maintained.          |
 
 ### 10.2 Staffing and Training Needs
 
@@ -275,11 +281,12 @@ We want to keep over 20% code coverage.
 
 ## 12. Risks, Dependencies, Assumptions, and Constraints
 
-| Risk                                     | Mitigation Strategy                                      | Contingency (Risk is realized)      |
-| ---------------------------------------- | -------------------------------------------------------- | ----------------------------------- |
-| Code has lots of side effects            | Refactor code (Clean Code principles)                    | publish new refactored tests        |
-| Test Runner is not able to execute tests | Use standard libraries which include working Test Runner | fix test execution configuration    |
-| UI tests fail                            | Refactor test                                            | publish refactored test and restart |
+| Risk                                                                            | Mitigation Strategy          | Contingency (Risk is realized) |
+| ------------------------------------------------------------------------------- | ---------------------------- | ------------------------------ |
+| Travis does block traffic like outgoing mail traffic (needed for API & UI test) | Use a local fake mail server | Publish new .travis.yml        |
+| UI tests fail                                                                   | Refactor tests               | Push refactored test           |
+| API tests fail                                                                  | Refactor tests               | Push refactored test           |
+| Unit tests fail                                                                 | Refactor tests               | Push refactored test           |
 
 ## 13. Management Process and Procedures
 
