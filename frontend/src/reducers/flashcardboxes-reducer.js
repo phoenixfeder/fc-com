@@ -12,6 +12,7 @@ import {
   GET_BOXES_START,
   GET_BOXES_SUCCESS,
   NEW_FLASHCARDBOX_ID,
+  NEW_FLASHCARDBOX_TITLE,
 } from '../utils/const-actiontypes';
 
 const initialState = {
@@ -109,6 +110,10 @@ const newFlashcardboxId = (state, action) => ({
   ...state,
   flashcardboxId: action.id,
 });
+const newFlashcardboxTitle = (state, action) => ({
+  ...state,
+  flashcardboxTitle: action.title,
+});
 
 const boxesReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -138,6 +143,8 @@ const boxesReducer = (state = initialState, action) => {
       return editBoxesFail(state, action);
     case NEW_FLASHCARDBOX_ID:
       return newFlashcardboxId(state, action);
+    case NEW_FLASHCARDBOX_TITLE:
+      return newFlashcardboxTitle(state, action);
     default:
       return state;
   }

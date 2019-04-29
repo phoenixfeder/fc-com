@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
   error: state.flashcardsOverview.error,
   flashcards: state.flashcardsOverview.flashcards,
   boxId: state.flashcardboxes.flashcardboxId,
+  boxTitle: state.flashcardboxes.flashcardboxTitle,
 });
 
 const mapDispatchToProps = dispatch => ({

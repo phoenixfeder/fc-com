@@ -74,6 +74,7 @@ class Flashcardbox extends Component {
 
   handleEditFlashcards() {
     this.props.setFlashcardboxId(this.props.id);
+    this.props.setFlashcardboxTitle(this.props.title);
     this.props.history.push('/flashcards');
   }
 
@@ -179,6 +180,7 @@ Flashcardbox.propTypes = {
   editLoading: PropTypes.bool.isRequired,
   deleteLoading: PropTypes.bool.isRequired,
   setFlashcardboxId: PropTypes.func.isRequired,
+  setFlashcardboxTitle: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 };
 

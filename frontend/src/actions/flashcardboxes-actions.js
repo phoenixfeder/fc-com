@@ -18,6 +18,7 @@ import {
   EDIT_BOX_SUCCESS,
   EDIT_BOX_FAIL,
   NEW_FLASHCARDBOX_ID,
+  NEW_FLASHCARDBOX_TITLE,
 } from '../utils/const-actiontypes';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
 import { store } from '../store';
@@ -240,4 +241,13 @@ const setNewFlashcardboxId = id => ({
 
 export const setFlashcardboxId = (id) => dispatch => {
   dispatch(setNewFlashcardboxId(id));
+};
+
+const setNewFlashcardboxTitle = title => ({
+  type: NEW_FLASHCARDBOX_TITLE,
+  title,
+});
+
+export const setFlashcardboxTitle = (title) => dispatch => {
+  dispatch(setNewFlashcardboxTitle(title));
 };

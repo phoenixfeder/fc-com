@@ -1,19 +1,29 @@
 import {
   Button,
   Grid,
+  Typography,
+  withStyles,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import FlashcardCard from './FlashcardCard';
 import FlashcardCreateModal from './FlashcardCreateModal';
-import FlashcardDeleteModal from './FlashcardDeleteModal';
-import FlashcardEditModal from './FlashcardEditModal';
+
+const styles = theme => ({
+  root: {
+    paddingTop: theme.spacing.unit * 2,
+    flexGrow: 1,
+  },
+  headline: {
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+  },
+});
 
 class FlashcardOverview extends Component {
 
   state = {
     createOpen: false,
-    editOpen: false,
-    deleteOpen: false,
   };
 
   componentDidMount() {
@@ -21,18 +31,7 @@ class FlashcardOverview extends Component {
   }
 
   handleCreateClose() {
-    console.log(this);
     this.setState({ createOpen: false });
-  }
-
-  handleEditClose() {
-    console.log(this);
-    this.setState({ editOpen: false });
-  }
-
-  handleDeleteClose() {
-    console.log(this);
-    this.setState({ deleteOpen: false });
   }
 
   renderCards = () => (
@@ -40,40 +39,13 @@ class FlashcardOverview extends Component {
       {
         this.props.flashcards.map(flashcard => (
           <Grid item xs={6} md={4} lg={3} key={flashcard.id}>
-            Id: {flashcard.id}
-            <br />
-            Title: {flashcard.title}
-            <br />
-            Front: {flashcard.front}
-            <br />
-            Back: {flashcard.back}
-
-            <FlashcardEditModal
-              open={this.state.editOpen}
+            <FlashcardCard
               flashcard={flashcard}
-              handleClose={() => this.handleEditClose()}
+              deleteFlashcard={this.props.deleteFlashcard}
               editFlashcard={this.props.editFlashcard}
+              editLoading={this.props.editLoading}
+              deleteLoading={this.props.deleteLoading}
             />
-            <Button onClick={() => {
-              this.setState({ editOpen: true });
-            }}
-            >
-              {'Edit'}
-            </Button>
-
-            <FlashcardDeleteModal
-              title={flashcard.title}
-              id={flashcard.id}
-              open={this.state.deleteOpen}
-              handleClose={() => this.handleDeleteClose()}
-              handleDelete={this.props.deleteFlashcard}
-            />
-            <Button onClick={() => {
-              this.setState({ deleteOpen: true });
-            }}
-            >
-              {'Delete'}
-            </Button>
           </Grid>
         ))
       }
@@ -81,8 +53,14 @@ class FlashcardOverview extends Component {
   );
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
+        <Grid item lg={12} className={classes.headline}>
+          <Typography variant="h3" align="center">
+            {this.props.boxTitle}
+          </Typography>
+        </Grid>
         {this.renderCards()}
         <FlashcardCreateModal
           handleClose={() => this.handleCreateClose()}
@@ -107,8 +85,12 @@ FlashcardOverview.propTypes = {
   getFlashcards: PropTypes.func.isRequired,
   createFlashcard: PropTypes.func.isRequired,
   deleteFlashcard: PropTypes.func.isRequired,
+  deleteLoading: PropTypes.bool.isRequired,
   editFlashcard: PropTypes.func.isRequired,
+  editLoading: PropTypes.bool.isRequired,
   boxId: PropTypes.number.isRequired,
+  boxTitle: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default FlashcardOverview;
+export default withStyles(styles)(FlashcardOverview);

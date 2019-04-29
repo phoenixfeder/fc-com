@@ -57,6 +57,10 @@ export const getFlashcards = (id) => dispatch => {
     .then(result => {
       switch (result.status.code) {
         case 200:
+          // TODO: remove hardcoded success
+          result.flashcards.forEach((flashcard) => {
+            flashcard.successRate = 0;
+          });
           dispatch(getFlashcardsSuccess(result.flashcards));
           break;
 
@@ -117,6 +121,10 @@ export const createFlashcard = (flashcard, boxId) => dispatch => {
     .then(result => {
       switch (result.status.code) {
         case 200:
+          // TODO: remove hardcoded success
+          result.flashcards.forEach((newFlashcard) => {
+            newFlashcard.successRate = 0;
+          });
           dispatch(createFlashcardSuccess(result.flashcards));
           break;
 
@@ -176,25 +184,28 @@ export const deleteFlashcard = id => dispatch => {
         id,
       },
     }),
-  }).then(results => results.json()).then(result => {
-    switch (result.status.code) {
-      case 200:
-        dispatch(deleteFlashcardSuccess(id));
-        break;
+  })
+    .then(results => results.json())
+    .then(result => {
+      switch (result.status.code) {
+        case 200:
+          dispatch(deleteFlashcardSuccess(id));
+          break;
 
-      default:
-        dispatch(deleteFlashcardFail(result.status.message));
-        dispatch(enqueueSnackbar({
-          message: 'This should not happen. Please contact system admin.',
-          options: {
-            variant: 'error',
-          },
-        }));
-        break;
-    }
-  }).catch((err) => {
-    dispatch(deleteFlashcardFail(err));
-  });
+        default:
+          dispatch(deleteFlashcardFail(result.status.message));
+          dispatch(enqueueSnackbar({
+            message: 'This should not happen. Please contact system admin.',
+            options: {
+              variant: 'error',
+            },
+          }));
+          break;
+      }
+    })
+    .catch((err) => {
+      dispatch(deleteFlashcardFail(err));
+    });
 
 };
 
@@ -235,24 +246,31 @@ export const editFlashcard = (flashcard) => dispatch => {
         back: flashcard.back,
       },
     }),
-  }).then(results => results.json()).then(result => {
-    switch (result.status.code) {
-      case 200:
-        dispatch(editFlashcardSuccess(result.flashcards));
-        break;
+  })
+    .then(results => results.json())
+    .then(result => {
+      switch (result.status.code) {
+        case 200:
+          // TODO: remove hardcoded success
+          result.flashcards.forEach((editedFlashcard) => {
+            editedFlashcard.successRate = 0;
+          });
+          dispatch(editFlashcardSuccess(result.flashcards));
+          break;
 
-      default:
-        dispatch(editFlashcardFail(result.status.message));
-        dispatch(enqueueSnackbar({
-          message: 'This should not happen. Please contact system admin.',
-          options: {
-            variant: 'error',
-          },
-        }));
-        break;
-    }
-  }).catch((err) => {
-    dispatch(editFlashcardFail(err));
-  });
+        default:
+          dispatch(editFlashcardFail(result.status.message));
+          dispatch(enqueueSnackbar({
+            message: 'This should not happen. Please contact system admin.',
+            options: {
+              variant: 'error',
+            },
+          }));
+          break;
+      }
+    })
+    .catch((err) => {
+      dispatch(editFlashcardFail(err));
+    });
 
 };
