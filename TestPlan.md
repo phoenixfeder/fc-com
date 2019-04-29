@@ -62,7 +62,7 @@ This document shows the following types of testing: UI-, API and Unit Testing.
 
 ### 1.3 Intended Audience
 
-The intended audience of this test plan are the developers themself. It is meant to provide orientation to the developers to work from and as a documentation to measure the fullfillment of quality requirements against.
+The intended audience of this test plan are the developers themself. This document is on a technical level so it is for more advanced readers who need the necessary background knowledge.
 
 ### 1.4 Document Terminology and Acronyms
 
@@ -98,22 +98,23 @@ The intended audience of this test plan are the developers themself. It is meant
 
 ### 2.1 Background
 
-Testing serves to ensure that the written code does what it is intended to do. It also prevents future code changes to break existing functionality unnoticed. In the context of integration it can also prevent broken software states to be merged into secured VC branches
+Testing serves to ensure that the written code does what it is intended to do. It also prevents future code changes to break existing functionality unnoticed. Code coverage can give us information about how well our application is covered with tests.
+In the context of integration testing can also prevent broken software states to be merged into secured VC branches and only stable versions of our project will be deployed.
 
 ### 2.2 Evaluation Mission
 
-Testing is a crucial phase in the development cycle. It is necessary in order to fix technical bugs and important functional problems. With TDD we define the test first and can fix bugs before they even occur.
+Testing is a crucial phase in the development cycle. It is necessary in order to fix technical bugs and important functional problems. With TDD tests are written before the functional code is implemented. This helps preventing bugs before they even occur.
 
 ### 2.3 Test Motivators
 
-The tests are done to ensure quality and mitigate risks and fulfill functional requirements. Their purpose is to provide stability for our application.
+The tests are done to ensure quality and mitigate risks and fulfill functional requirements. Their purpose is to provide stability for our application and to detect bugs faster than by manual testing.
 
 ## 3. Target Test Items
 
 The following lists represent the tested parts of this application:
 
 -   ReactJS frontend / Webapp
--   Server backend (and APIs)
+-   Java Spring Server backend (and APIs)
 
 ## 4. Outline of Planned Tests
 
@@ -195,7 +196,7 @@ The project contains tests in the front- and backend that run each push to our G
 
 ## 7.2 Reporting on Test Coverage
 
-As 
+As
 
 ## 7.3 Perceived Quality Reports
 
