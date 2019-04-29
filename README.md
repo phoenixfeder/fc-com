@@ -1,9 +1,10 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/95260a54312140bf99814090ab89a940)](https://www.codacy.com/app/FlashCardCommunity/fc-com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=phoenixfeder/fc-com&amp;utm_campaign=Badge_Grade)
-
 # Flashcard-Community
 
-<img src="https://github.com/phoenixfeder/fc-com/blob/master/graphics/logo.png" alt="logo" height="150">
+[![Badge](https://api.codacy.com/project/badge/Grade/95260a54312140bf99814090ab89a940?isInternal=true)](https://app.codacy.com/project/FlashCardCommunity/fc-com/dashboard)   [![Badge](https://travis-ci.org/phoenixfeder/fc-com.svg?branch=master)](https://travis-ci.org/phoenixfeder/fc-com)   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Thanks for coming by
+## Installation instructions
 
-Installation instructions coming soon.
+Installation instructions can be found in the front- and backend folder.
+
+-   [Frontend](https://github.com/phoenixfeder/fc-com/tree/master/frontend)
+-   [Backend](https://github.com/phoenixfeder/fc-com/tree/master/backend)
