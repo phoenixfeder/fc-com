@@ -3,7 +3,6 @@ package server.modules.account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.config.Lang;
-import server.entities.FlashCard;
 import server.entities.FlashCardBox;
 import server.entities.User;
 import server.entities.VerificationToken;

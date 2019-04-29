@@ -1,7 +1,7 @@
 import {
   BACKEND_URL_ACCOUNT_NEW,
   BACKEND_URL_ACCOUNT_VERIFY,
-  BACKEND_URL_REGISTER_NEW_VERIFICATION_TOKEN,
+  BACKEND_URL_ACCOUNT_NEW_VERIFICATION_TOKEN,
 } from '../utils/const-paths';
 
 export const fetchRegister = (state, callback) => {
@@ -42,7 +42,7 @@ export const fetchVerify = (parameters, callback) => {
 };
 
 export const fetchNewVerifyToken = (state, callback) => {
-  fetch(BACKEND_URL_REGISTER_NEW_VERIFICATION_TOKEN, {
+  fetch(BACKEND_URL_ACCOUNT_NEW_VERIFICATION_TOKEN, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',

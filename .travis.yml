@@ -1,0 +1,129 @@
+stages:
+  - build
+ # - test-backend
+  - api-test
+  - ui-test
+  - deploy
+
+jobs:
+  include:
+    # Builds the whole application (front- and backend) into a single jar
+    # Then builds docker image and pushes it DockerHub 
+    - stage: build
+      language: java
+      services:
+        - docker
+      before_script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      script:
+        - (cd backend/; mvn package)
+        - (cd backend/; docker build -f Dockerfile -t fcc-application-docker .)
+        - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME
+        - docker push $DOCKER_USERNAME/$DOCKER_REPONAME
+        - docker logout
+
+    # Runs API test with the previously builded docker container
+    - stage: api-test
+      language: node_js
+      node_js:
+        - "10"
+      dist: trusty
+      services:
+        - mysql
+        - docker
+      before_install:
+        - mysql -u root --password="" < travis.sql
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - wget http://nilhcem.github.com/FakeSMTP/downloads/fakeSMTP-latest.zip
+        - sudo apt-get install unzip
+        - unzip fakeSMTP-latest.zip
+      install:
+        - npm install -g newman
+        - sudo chmod +x ./wait-for-it.sh
+        - java -jar fakeSMTP-2.0.jar -s -b -p $SPRING_MAIL_PORT -a $SPRING_MAIL_HOST &
+        - >-
+          docker run -p 8080:8080 --network host --name="fcc-app" -d 
+          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" 
+          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST" 
+          -e "SPRING_MAIL_PORT=$SPRING_MAIL_PORT"
+          -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
+          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" 
+          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" 
+          $DOCKER_USERNAME/$DOCKER_REPONAME
+      before_script:
+        - sleep 120
+      script:
+        - sudo ./wait-for-it.sh localhost:8080
+        - cd backend_test/
+        - newman run postman_integrationtests.json
+
+    #  Runs UI test with the previously builded docker container
+    - stage: ui-test
+      language: node_js
+      node_js:
+        - "10"
+      dist: trusty
+      sudo: required
+      services:
+        - mysql
+        - docker
+      addons:
+        firefox: latest
+        apt:
+          sources:
+          - google-chrome
+          packages:
+          - google-chrome-stable fluxbox
+      before_install:
+        - mysql -u root --password="" < travis.sql
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - wget http://nilhcem.github.com/FakeSMTP/downloads/fakeSMTP-latest.zip
+        - sudo apt-get install unzip
+        - unzip fakeSMTP-latest.zip
+      install:
+        - (cd frontend/; npm install; cd ../)
+        - sudo chmod +x ./wait-for-it.sh
+        - java -jar fakeSMTP-2.0.jar -s -b -p $SPRING_MAIL_PORT -a $SPRING_MAIL_HOST &
+        - >-
+          docker run -p 8080:8080 --network host --name="fcc-app" -d 
+          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" 
+          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST" 
+          -e "SPRING_MAIL_PORT=$SPRING_MAIL_PORT"
+          -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
+          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" 
+          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" 
+          $DOCKER_USERNAME/$DOCKER_REPONAME
+      before_script:
+        - cd frontend
+        - npm start &
+        - cd ../
+        - "export DISPLAY=:99.0"
+        - "sh -e /etc/init.d/xvfb start"
+        - sleep 3
+        - fluxbox >/dev/null 2>&1 &
+      script:
+        - sleep 120
+        - sudo ./wait-for-it.sh localhost:8080
+        - sudo ./wait-for-it.sh localhost:3000
+        - cd frontend/
+        - npm run-script test-linux
+        - docker stop fcc-app
+
+    # Deploys the docker container to heroku (prod)
+    - stage: deploy
+      if: branch = master
+      language: java
+      services:
+        - docker
+      provider: heroku
+      before_script:
+        - heroku container:login
+      script:
+        - cd backend/
+        - mvn package
+        - docker build -f Dockerfile -t fcc-application-docker .
+        - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
+        - docker push registry.heroku.com/flashcardcommunity/web
+        - heroku container:release web -a flashcardcommunity
+
+       
