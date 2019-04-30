@@ -100,6 +100,8 @@ public class FlashcardBoxService {
         User user = authenticator.authenticate(requestDTO);
 
         Long id = DTOContentParser.getFlashCardBoxID(requestDTO);
+
+        flashcardConnector.deleteByFlashCardBox(flashCardBoxConnector.getBoxByIdAndUser(id,user));
         flashCardBoxConnector.deleteByIdAndUser(user, id);
 
         return StatusDTO.ok();
