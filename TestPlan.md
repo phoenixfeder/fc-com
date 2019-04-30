@@ -203,7 +203,7 @@ The project contains tests in the front- and backend that run each push to our G
 
 ## 7.2 Reporting on Test Coverage
 
-As
+Test Coverage can be send to Codacy when running tests and therefor be displayed as Badge in GitHub or be seen in Codacy directly. Our main ressource here will be our Unit tests which will be implemented in future.
 
 ## 7.3 Perceived Quality Reports
 
