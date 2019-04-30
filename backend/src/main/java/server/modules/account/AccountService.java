@@ -2,7 +2,6 @@ package server.modules.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import server.config.Lang;
 import server.entities.FlashCardBox;
 import server.entities.User;
 import server.entities.VerificationToken;
@@ -82,26 +81,11 @@ public class AccountService {
             return StatusDTO.ok();
         }
 
-        //TODO Noch unschön
+
         UserResponse userResponse = new UserResponse();
-        if (!authenticator.isPasswordCorrect(user, userRequest.getOldPassword())) {
-            userResponse.setOldPasswordErrorMsg(Lang.PasswordIncorrect);
-        }
-
-
-        if (userRequest.getEmail() != null) {
-            if (registerComponent.isEmailTaken(userRequest.getEmail()) && !(userRequest.getEmail().equals(user.getEmail()))) {
-                //userResponse.setNewPasswordErrorMsg(Lang.EmailIsTaken);
-                userResponse.setNewEmailErrorMsg(Lang.EmailIsTaken);
-            }
-            if (registerComponent.isEmailIncorrect(requestDTO.getUserRequest().getEmail())) {
-                userResponse.setNewEmailErrorMsg(Lang.EmailFormat);
-            }
-        }
-
-        if (requestDTO.getUserRequest().getPassword() != null && registerComponent.isPasswordLengthIncorrect(requestDTO.getUserRequest().getPassword())) {
-            userResponse.setNewPasswordErrorMsg(Lang.PasswordTooShort);
-        }
+        Profile.checkOldPassword(user, userRequest, userResponse, authenticator);
+        Profile.checkMail(user, userRequest, userResponse, registerComponent);
+        Profile.checkNewPassword(userRequest, userResponse, registerComponent);
 
         if (!userResponse.isOK()) {
             throw new EditProfileException(userResponse);

@@ -44,13 +44,7 @@ public class FlashcardBoxService {
         flashCardBox.setOwner(user);
         flashCardBox.setCreationDate(LocalDateTime.now());
         flashCardBox.setLastChanged(LocalDateTime.now());
-        FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
-        newBox.setFlashcards(flashcardConnector);
-
-        ResponseDTO responseDTO = StatusDTO.ok();
-        Box box = new Box(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged(), newBox.getFlashcards());
-        responseDTO.setBoxes(box);
-        return responseDTO;
+        return createResponseWithBoxes(flashCardBox);
     }
 
     public ResponseDTO getBox(RequestDTO requestDTO) throws FccExcpetion {
@@ -85,15 +79,7 @@ public class FlashcardBoxService {
             flashCardBox.setDescription(flashCardBoxRequest.getDescription());
             flashCardBox.setLastChanged(LocalDateTime.now());
         }
-
-
-        FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
-        newBox.setFlashcards(flashcardConnector);
-        ResponseDTO responseDTO = StatusDTO.ok();
-        Box box = new Box(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged(), newBox.getFlashcards());
-        responseDTO.setBoxes(box);
-
-        return responseDTO;
+        return createResponseWithBoxes(flashCardBox);
     }
 
     public ResponseDTO deleteBox(RequestDTO requestDTO) throws FccExcpetion {
@@ -105,5 +91,15 @@ public class FlashcardBoxService {
         flashCardBoxConnector.deleteByIdAndUser(user, id);
 
         return StatusDTO.ok();
+    }
+
+    private ResponseDTO createResponseWithBoxes(FlashCardBox flashCardBox){
+        FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
+        newBox.setFlashcards(flashcardConnector);
+        ResponseDTO responseDTO = StatusDTO.ok();
+        Box box = new Box(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged(), newBox.getFlashcards());
+        responseDTO.setBoxes(box);
+
+        return responseDTO;
     }
 }
