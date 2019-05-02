@@ -24,7 +24,7 @@ const styles = theme => ({
     display: 'flex',
   },
   appBar: {
-    zIndex: theme.zIndex.appBar + 1,
+    zIndex: theme.zIndex.appBar + 11,
   },
   grow: {
     flexGrow: 1,
@@ -34,8 +34,8 @@ const styles = theme => ({
     marginRight: 20,
   },
   drawer: {
-    zIndex: 1,
-    width: drawerWidth,
+    zIndex: 120, // Manage Flashcards selector index is 110
+    width: 0,
     flexShrink: 0,
   },
   drawerPaper: {

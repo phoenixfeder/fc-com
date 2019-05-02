@@ -22,7 +22,7 @@ const initialState = {
   editLoading: false,
   error: false,
   boxes: [],
-  flashcardboxId: 1,
+  flashcardboxId: 0,
 };
 
 const getBoxesStart = state => ({

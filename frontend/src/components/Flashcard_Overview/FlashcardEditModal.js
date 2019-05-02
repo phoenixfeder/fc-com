@@ -17,12 +17,12 @@ class FlashcardEditModal extends Component {
     title: '',
   };
 
-  componentDidMount() {
-    this.setState({
-      front: this.props.flashcard.front,
-      back: this.props.flashcard.back,
-      title: this.props.flashcard.title,
-    });
+  componentWillUpdate(nextProps, nextState, nextContext) {
+    if (nextState && nextProps && nextProps.flashcard && nextProps.flashcard.id !== this.props.flashcard.id) {
+      nextState.front = nextProps.flashcard.front;
+      nextState.back = nextProps.flashcard.back;
+      nextState.title = nextProps.flashcard.title;
+    }
   }
 
   handleChange = (e) => {

@@ -17,11 +17,11 @@ function FlashcardDeleteModal(props) {
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">
-        {`Delete Flashcard "${props.title}"?`}
+        {'Delete Flashcards?'}
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {'This card will be deleted and can not be restored. Are you sure?'}
+          {'All cards will be deleted and can not be restored. Are you sure?'}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -33,7 +33,7 @@ function FlashcardDeleteModal(props) {
         </Button>
         <Button
           onClick={() => {
-            props.handleDelete(props.id);
+            props.handleDelete();
             props.handleClose();
           }}
           color="primary"
@@ -46,9 +46,7 @@ function FlashcardDeleteModal(props) {
 }
 
 FlashcardDeleteModal.propTypes = {
-  title: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
-  id: PropTypes.number.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
 };
