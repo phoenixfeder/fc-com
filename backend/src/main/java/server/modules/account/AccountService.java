@@ -2,7 +2,7 @@ package server.modules.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import server.config.Lang;
+import server.entities.FlashCardBox;
 import server.entities.User;
 import server.entities.VerificationToken;
 import server.entities.dto.RequestDTO;
@@ -13,14 +13,12 @@ import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.UserResponse;
 import server.exceptions.*;
 import server.modules.authentication.Authenticator;
-import server.modules.dbconnector.FlashCardBoxConnector;
-import server.modules.dbconnector.SessionConnector;
-import server.modules.dbconnector.TokenConnector;
-import server.modules.dbconnector.UserConnector;
+import server.modules.dbconnector.*;
 import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AccountService {
@@ -34,10 +32,11 @@ public class AccountService {
     private final TokenConnector tokenConnector;
     private final SessionConnector sessionConnector;
     private final FlashCardBoxConnector flashCardBoxConnector;
+    private final FlashcardConnector flashcardConnector;
 
 
     @Autowired
-    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector, FlashCardBoxConnector flashCardBoxConnector) {
+    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector) {
         this.registerComponent = registerComponent;
         this.tokenComponent = tokenComponent;
 
@@ -47,6 +46,7 @@ public class AccountService {
         this.tokenConnector = tokenConnector;
         this.sessionConnector = sessionConnector;
         this.flashCardBoxConnector = flashCardBoxConnector;
+        this.flashcardConnector = flashcardConnector;
     }
 
     public ResponseDTO newAccount(RequestDTO requestDTO) throws FccExcpetion {
@@ -81,26 +81,11 @@ public class AccountService {
             return StatusDTO.ok();
         }
 
-        //TODO Noch unschön
+
         UserResponse userResponse = new UserResponse();
-        if (!authenticator.isPasswordCorrect(user, userRequest.getOldPassword())) {
-            userResponse.setOldPasswordErrorMsg(Lang.PasswordIncorrect);
-        }
-
-
-        if (userRequest.getEmail() != null) {
-            if (registerComponent.isEmailTaken(userRequest.getEmail()) && !(userRequest.getEmail().equals(user.getEmail()))) {
-                //userResponse.setNewPasswordErrorMsg(Lang.EmailIsTaken);
-                userResponse.setNewEmailErrorMsg(Lang.EmailIsTaken);
-            }
-            if (registerComponent.isEmailIncorrect(requestDTO.getUserRequest().getEmail())) {
-                userResponse.setNewEmailErrorMsg(Lang.EmailFormat);
-            }
-        }
-
-        if (requestDTO.getUserRequest().getPassword() != null && registerComponent.isPasswordLengthIncorrect(requestDTO.getUserRequest().getPassword())) {
-            userResponse.setNewPasswordErrorMsg(Lang.PasswordTooShort);
-        }
+        Profile.checkOldPassword(user, userRequest, userResponse, authenticator);
+        Profile.checkMail(user, userRequest, userResponse, registerComponent);
+        Profile.checkNewPassword(userRequest, userResponse, registerComponent);
 
         if (!userResponse.isOK()) {
             throw new EditProfileException(userResponse);
@@ -122,7 +107,9 @@ public class AccountService {
         }
 
         sessionConnector.deleteByUser(user);
-        flashCardBoxConnector.deleteByUser(user);
+        List<FlashCardBox> flashCardBoxes = flashCardBoxConnector.getAllBoxFromUser(user);
+        flashCardBoxes.forEach(flashcardConnector::deleteByFlashCardBox);
+        flashCardBoxConnector.deleteByUser(user, flashcardConnector);
         userConnector.delete(user);
 
         return StatusDTO.ok();

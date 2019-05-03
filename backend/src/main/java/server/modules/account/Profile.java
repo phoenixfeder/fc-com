@@ -1,7 +1,9 @@
 package server.modules.account;
 
+import server.config.Lang;
 import server.entities.User;
 import server.entities.dto.request.UserRequest;
+import server.entities.dto.response.UserResponse;
 import server.exceptions.WrongFormatException;
 import server.modules.authentication.Authenticator;
 
@@ -33,5 +35,28 @@ public class Profile {
         }
 
         return user;
+    }
+
+    public static void checkOldPassword(User user, UserRequest userRequest, UserResponse userResponse, Authenticator authenticator) {
+        if (!authenticator.isPasswordCorrect(user, userRequest.getOldPassword())) {
+            userResponse.setOldPasswordErrorMsg(Lang.PasswordIncorrect);
+        }
+    }
+
+    public static void checkMail(User user, UserRequest userRequest, UserResponse userResponse, RegisterComponent registerComponent) {
+        if (userRequest.getEmail() != null) {
+            if (registerComponent.isEmailTaken(userRequest.getEmail()) && !(userRequest.getEmail().equals(user.getEmail()))) {
+                userResponse.setNewEmailErrorMsg(Lang.EmailIsTaken);
+            }
+            if (registerComponent.isEmailIncorrect(userRequest.getEmail())) {
+                userResponse.setNewEmailErrorMsg(Lang.EmailFormat);
+            }
+        }
+    }
+
+    public static void checkNewPassword(UserRequest userRequest, UserResponse userResponse, RegisterComponent registerComponent) {
+        if (userRequest.getPassword() != null && registerComponent.isPasswordLengthIncorrect(userRequest.getPassword())) {
+            userResponse.setNewPasswordErrorMsg(Lang.PasswordTooShort);
+        }
     }
 }

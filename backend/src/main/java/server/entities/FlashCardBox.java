@@ -1,6 +1,7 @@
 package server.entities;
 
 import lombok.Data;
+import server.modules.dbconnector.FlashcardConnector;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,6 +30,9 @@ public class FlashCardBox {
     @JoinColumn(name = "owner")
     private User owner;
 
+    @Transient
+    private Long flashcards;
+
     public FlashCardBox() {
         super();
     }
@@ -36,6 +40,10 @@ public class FlashCardBox {
     public FlashCardBox(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    public void setFlashcards(FlashcardConnector flashcardConnector){
+        this.flashcards = flashcardConnector.countFlashcards(this);
     }
 
 }

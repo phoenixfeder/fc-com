@@ -56,7 +56,7 @@ class Login extends Component {
   componentDidMount() {
     document.title = 'Login';
     // Get username from URL
-    this.setState({ username: qs.parse(window.location.search).username !== undefined ? qs.parse(window.location.search).username : '' });
+    this.setState({ username: qs.parse(this.props.location.search).username !== undefined ? qs.parse(this.props.location.search).username : '' });
   }
 
   createNewSnackbar = (variant, message) => {
@@ -197,4 +197,5 @@ Login.propTypes = {
   enqueueSnackbar: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   onAuth: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
 };

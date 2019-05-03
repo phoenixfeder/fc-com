@@ -12,6 +12,7 @@ import server.exceptions.FccExcpetion;
 import server.exceptions.PermissionDeniedException;
 import server.modules.authentication.Authenticator;
 import server.modules.dbconnector.FlashCardBoxConnector;
+import server.modules.dbconnector.FlashcardConnector;
 import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
@@ -23,12 +24,14 @@ public class FlashcardBoxService {
 
     private final Authenticator authenticator;
     private final FlashCardBoxConnector flashCardBoxConnector;
+    private final FlashcardConnector flashcardConnector;
 
 
     @Autowired
-    public FlashcardBoxService(Authenticator authenticator, FlashCardBoxConnector flashCardBoxConnector) {
+    public FlashcardBoxService(Authenticator authenticator, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector) {
         this.authenticator = authenticator;
         this.flashCardBoxConnector = flashCardBoxConnector;
+        this.flashcardConnector = flashcardConnector;
     }
 
     public ResponseDTO addBox(RequestDTO requestDTO) throws FccExcpetion {
@@ -41,12 +44,7 @@ public class FlashcardBoxService {
         flashCardBox.setOwner(user);
         flashCardBox.setCreationDate(LocalDateTime.now());
         flashCardBox.setLastChanged(LocalDateTime.now());
-        FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
-
-        ResponseDTO responseDTO = StatusDTO.ok();
-        Box box = new Box(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged());
-        responseDTO.setBoxes(box);
-        return responseDTO;
+        return createResponseWithBoxes(flashCardBox);
     }
 
     public ResponseDTO getBox(RequestDTO requestDTO) throws FccExcpetion {
@@ -54,6 +52,7 @@ public class FlashcardBoxService {
         User user = authenticator.authenticate(requestDTO);
 
         List<FlashCardBox> flashCardBoxes = flashCardBoxConnector.getAllBoxFromUser(user);
+        flashCardBoxes.forEach(flashCardBox -> flashCardBox.setFlashcards(flashcardConnector));
 
         ResponseDTO responseDTO = StatusDTO.ok();
         responseDTO.setBoxes(DTOContentParser.parseFlashcardBoxEntities(flashCardBoxes));
@@ -80,23 +79,27 @@ public class FlashcardBoxService {
             flashCardBox.setDescription(flashCardBoxRequest.getDescription());
             flashCardBox.setLastChanged(LocalDateTime.now());
         }
-
-
-        FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
-
-        ResponseDTO responseDTO = StatusDTO.ok();
-        Box box = new Box(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged());
-        responseDTO.setBoxes(box);
-
-        return responseDTO;
+        return createResponseWithBoxes(flashCardBox);
     }
 
     public ResponseDTO deleteBox(RequestDTO requestDTO) throws FccExcpetion {
         User user = authenticator.authenticate(requestDTO);
 
         Long id = DTOContentParser.getFlashCardBoxID(requestDTO);
+
+        flashcardConnector.deleteByFlashCardBox(flashCardBoxConnector.getBoxByIdAndUser(id,user));
         flashCardBoxConnector.deleteByIdAndUser(user, id);
 
         return StatusDTO.ok();
+    }
+
+    private ResponseDTO createResponseWithBoxes(FlashCardBox flashCardBox){
+        FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
+        newBox.setFlashcards(flashcardConnector);
+        ResponseDTO responseDTO = StatusDTO.ok();
+        Box box = new Box(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged(), newBox.getFlashcards());
+        responseDTO.setBoxes(box);
+
+        return responseDTO;
     }
 }

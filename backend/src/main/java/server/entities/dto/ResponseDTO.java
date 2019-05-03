@@ -3,10 +3,7 @@ package server.entities.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import server.entities.dto.response.Box;
-import server.entities.dto.response.RegisterResponse;
-import server.entities.dto.response.StatusResponse;
-import server.entities.dto.response.UserResponse;
+import server.entities.dto.response.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +22,9 @@ public class ResponseDTO {
     @JsonProperty("flashcardboxes")
     private List<Box> boxes;
 
+    @JsonProperty("flashcards")
+    private List<Flashcard> flashcards;
+
     public ResponseDTO(StatusResponse statusResponse) {
         this.statusResponse = statusResponse;
     }
@@ -36,5 +36,14 @@ public class ResponseDTO {
 
     public void setBoxes(List<Box> box) {
         boxes = box;
+    }
+
+    public void setFlashCards(Flashcard flashcard) {
+        this.flashcards = new ArrayList<>();
+        this.flashcards.add(flashcard);
+    }
+
+    public void setFlashCards(List flashCards) {
+        this.flashcards = flashCards;
     }
 }
