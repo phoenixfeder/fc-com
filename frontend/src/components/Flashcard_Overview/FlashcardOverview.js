@@ -46,6 +46,10 @@ class FlashcardOverview extends Component {
     }
   }
 
+  setDeleteFlashcards(flashcardIndicesToDelete) {
+    this.setState({ flashcardIndicesToDelete: flashcardIndicesToDelete.data, deleteOpen: true });
+  }
+
   editDialogOpen = (flashcard) => {
     this.setState({ editOpen: true, flashcardToEdit: flashcard });
   };
@@ -124,7 +128,7 @@ class FlashcardOverview extends Component {
         </Grid>
 
         <MUIDataTable
-          title={'Flashcards'}
+          title="Flashcards"
           data={this.getCardData()}
           columns={columns}
           options={options}
@@ -148,9 +152,6 @@ class FlashcardOverview extends Component {
     );
   }
 
-  setDeleteFlashcards(flashcardIndicesToDelete) {
-    this.setState({ flashcardIndicesToDelete: flashcardIndicesToDelete.data, deleteOpen: true });
-  }
 }
 
 FlashcardOverview.propTypes = {
@@ -158,7 +159,6 @@ FlashcardOverview.propTypes = {
   getFlashcards: PropTypes.func.isRequired,
   createFlashcard: PropTypes.func.isRequired,
   deleteFlashcard: PropTypes.func.isRequired,
-  deleteLoading: PropTypes.bool.isRequired,
   editFlashcard: PropTypes.func.isRequired,
   editLoading: PropTypes.bool.isRequired,
   boxId: PropTypes.number.isRequired,

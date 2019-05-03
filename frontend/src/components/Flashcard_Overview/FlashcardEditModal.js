@@ -17,6 +17,8 @@ class FlashcardEditModal extends Component {
     title: '',
   };
 
+  // weil Compiler sonst jammert
+  // eslint-disable-next-line no-unused-vars
   componentWillUpdate(nextProps, nextState, nextContext) {
     if (nextState && nextProps && nextProps.flashcard && nextProps.flashcard.id !== this.props.flashcard.id) {
       nextState.front = nextProps.flashcard.front;
