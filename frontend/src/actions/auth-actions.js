@@ -216,7 +216,7 @@ export const resetPassword = (email, callback) => {
     body: JSON.stringify({
       email,
     }),
-    //TODO: Add API-Body
+    // TODO: Add API-Body
 
   })
     .then(results => results.json(),

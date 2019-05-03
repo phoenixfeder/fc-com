@@ -70,10 +70,22 @@ class ResetPassword extends Component {
     resetPassword(this.state.email, (result) => {
       switch (result.status.code) {
         case 200:
+          this.props.enqueueSnackbar({
+            message: 'We send you an email to reset your password!',
+            options: {
+              variant: 'success',
+            },
+          });
           this.setState({ loading: false });
           this.props.history.push('/');
           break;
         default:
+          this.props.enqueueSnackbar({
+            message: 'Something went wrong - visit the FAQ page for more help.',
+            options: {
+              variant: 'error',
+            },
+          });
           this.setState({
             loading: false,
             emailErrorMsg: 'error',
@@ -81,7 +93,7 @@ class ResetPassword extends Component {
           });
           break;
       }
-    })
+    });
   };
 
   render() {
@@ -171,6 +183,7 @@ class ResetPassword extends Component {
 ResetPassword.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ResetPassword);
