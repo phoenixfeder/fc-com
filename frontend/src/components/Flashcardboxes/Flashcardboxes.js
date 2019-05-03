@@ -1,8 +1,8 @@
 import {
+  Fab,
   Grid,
   Typography,
   withStyles,
-  Fab,
 } from '@material-ui/core/';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
@@ -27,20 +27,20 @@ class Flashcardboxes extends Component {
     createOpen: false,
   };
 
-  componentWillMount() {
-    this.props.getFlashcardboxes();
-  }
-
   componentDidMount() {
     document.title = 'Flashcardboxes';
   }
 
-  createDialogOpen = () => {
-    this.setState({ createOpen: true });
-  };
+  componentWillMount() {
+    this.props.getFlashcardboxes();
+  }
 
   createDialogClose = () => {
     this.setState({ createOpen: false });
+  };
+
+  createDialogOpen = () => {
+    this.setState({ createOpen: true });
   };
 
   handleCreate = (flashcardbox) => {
@@ -48,36 +48,17 @@ class Flashcardboxes extends Component {
     this.createDialogClose();
   };
 
-  renderCards = () => (
-    <Grid container direction="row" justify="space-evenly" spacing={16}>
-      {
-        this.props.boxes.map(box => (
-          <Grid item xs={6} md={4} lg={3} key={box.id}>
-            <Flashcardbox
-              id={box.id}
-              title={box.title}
-              amount={box.flashcards}
-              lastchanged={box.lastchanged}
-              created={box.created}
-              description={box.description}
-            />
-          </Grid>
-        ))
-      }
-    </Grid>
-  );
-
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root} id="Flashcardboxes">
-        <Grid container >
+        <Grid container justify="center">
           <Grid item lg={12} className={classes.headline}>
             <Typography variant="h3" align="center">
               {'My Flashcardboxes'}
             </Typography>
           </Grid>
-          { this.renderCards() }
+          {this.renderCards()}
           <Grid item xs={12} md={12} lg={12} align="center" style={{ paddingTop: '12px' }}>
             <Fab color="primary" aria-label="Add" onClick={() => this.createDialogOpen()}>
               <AddIcon />
@@ -93,6 +74,26 @@ class Flashcardboxes extends Component {
     );
   }
 
+  renderCards = () => (
+    <Grid container direction="row" spacing={16} style={{ width: '100%' }} justify="space-evenly">
+      {
+        this.props.boxes.map(box => (
+          <Grid item xs={6} md={4} lg={3} key={box.id}>
+            <Flashcardbox
+              id={box.id}
+              title={box.title}
+              amount={box.flashcards}
+              lastchanged={box.lastchanged}
+              created={box.created}
+              description={box.description}
+              history={this.props.history}
+            />
+          </Grid>
+        ))
+      }
+    </Grid>
+  );
+
 }
 
 Flashcardboxes.propTypes = {
@@ -100,6 +101,7 @@ Flashcardboxes.propTypes = {
   getFlashcardboxes: PropTypes.func.isRequired,
   boxes: PropTypes.array.isRequired,
   createFlashcardbox: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Flashcardboxes);

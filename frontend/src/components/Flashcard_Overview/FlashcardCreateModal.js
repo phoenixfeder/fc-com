@@ -4,16 +4,16 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   TextField,
 } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-class FlashcardboxCreateModal extends Component {
+class FlashcardCreateModal extends Component {
   state = {
-    fcb_name: '',
-    fcb_description: '',
+    front: '',
+    back: '',
+    title: '',
   };
 
   handleChange = (e) => {
@@ -25,20 +25,15 @@ class FlashcardboxCreateModal extends Component {
   render() {
     return (
       <div>
-        <Dialog
-          open={this.props.open}
-          onClose={this.handleCreateClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Create new FlashCardBox</DialogTitle>
+        <Dialog open={this.props.open}>
           <DialogContent>
             <DialogContentText>
-              {'Please enter a name and a description for your new flashcardbox'}
+              {'Please enter a title and the texts for front- and backpage'}
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
-              id="fcb_name"
+              id="title"
               label="Title"
               type="text"
               fullWidth
@@ -46,8 +41,19 @@ class FlashcardboxCreateModal extends Component {
             />
             <TextField
               margin="dense"
-              id="fcb_description"
-              label="Description"
+              id="front"
+              label="Front-Text"
+              type="text"
+              fullWidth
+              multiline
+              rows={4}
+              rowsMax={8}
+              onChange={this.handleChange}
+            />
+            <TextField
+              margin="dense"
+              id="back"
+              label="Back-Text"
               type="text"
               fullWidth
               multiline
@@ -65,11 +71,13 @@ class FlashcardboxCreateModal extends Component {
             </Button>
             <Button
               onClick={() => {
-                const flashcardbox = {
-                  title: this.state.fcb_name,
-                  description: this.state.fcb_description,
+                const flashcard = {
+                  title: this.state.title,
+                  front: this.state.front,
+                  back: this.state.back,
                 };
-                this.props.handleCreate(flashcardbox);
+                this.props.createFlashcard(flashcard, this.props.boxId);
+                this.props.handleClose();
               }}
               color="primary"
             >
@@ -78,16 +86,17 @@ class FlashcardboxCreateModal extends Component {
           </DialogActions>
         </Dialog>
       </div>
-
     );
   }
 
+
 }
 
-FlashcardboxCreateModal.propTypes = {
+FlashcardCreateModal.propTypes = {
   handleClose: PropTypes.func.isRequired,
-  handleCreate: PropTypes.func.isRequired,
+  createFlashcard: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  boxId: PropTypes.number.isRequired,
 };
 
-export default FlashcardboxCreateModal;
+export default FlashcardCreateModal;

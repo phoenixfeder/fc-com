@@ -24,6 +24,7 @@ export const BACKEND_URL_ACCOUNT_GET = `${BACKEND_URL_ACCOUNT}get`;
 export const BACKEND_URL_ACCOUNT_UPDATE = `${BACKEND_URL_ACCOUNT}update`;
 export const BACKEND_URL_ACCOUNT_CLOSE = `${BACKEND_URL_ACCOUNT}close`;
 
+export const BACKEND_URL_REGISTER_NEW_VERIFICATION_TOKEN = `${BACKEND_URL_REGISTER}sendnewtoken`;
 export const BACKEND_URL_EDIT_GET_ACCOUNT = `${BACKEND_URL}edit/getaccount`;
 
 export const BACKEND_URL_EDIT_UPDATE_ACCOUNT = `${BACKEND_URL}edit/updateaccount`;
@@ -32,3 +33,9 @@ export const BACKEND_URL_EDIT_CLOSE_ACCOUNT = `${BACKEND_URL}edit/closeaccount`;
 export const BACKEND_URL_LOGOUT = `${BACKEND_URL}'authentication/logout`;
 
 export const BACKEND_URL_LOGIN = `${BACKEND_URL}authentication/login`;
+
+export const BACKEND_URL_FLASHCARDS = `${BACKEND_URL}flashcard/`;
+export const BACKEND_URL_GET_FLASHCARDS = `${BACKEND_URL_FLASHCARDS}get`;
+export const BACKEND_URL_CREATE_FLASHCARDS = `${BACKEND_URL_FLASHCARDS}new`;
+export const BACKEND_URL_DELETE_FLASHCARDS = `${BACKEND_URL_FLASHCARDS}delete`;
+export const BACKEND_URL_EDIT_FLASHCARDS = `${BACKEND_URL_FLASHCARDS}edit`;

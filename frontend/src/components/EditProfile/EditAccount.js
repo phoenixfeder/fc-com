@@ -144,7 +144,6 @@ class EditAccount extends Component {
     } = this.state;
     fetchUpdateAccount({ ...this.state, ...this.props }, (result) => {
 
-
       switch (result.status.code) {
         case 200:
           this.setState({
