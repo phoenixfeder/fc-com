@@ -1,8 +1,8 @@
 import {
+  Fab,
   Grid,
   Typography,
   withStyles,
-  Fab,
 } from '@material-ui/core/';
 import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
@@ -27,20 +27,20 @@ class Flashcardboxes extends Component {
     createOpen: false,
   };
 
-  componentWillMount() {
-    this.props.getFlashcardboxes();
-  }
-
   componentDidMount() {
     document.title = 'Flashcardboxes';
   }
 
-  createDialogOpen = () => {
-    this.setState({ createOpen: true });
-  };
+  componentWillMount() {
+    this.props.getFlashcardboxes();
+  }
 
   createDialogClose = () => {
     this.setState({ createOpen: false });
+  };
+
+  createDialogOpen = () => {
+    this.setState({ createOpen: true });
   };
 
   handleCreate = (flashcardbox) => {
@@ -48,8 +48,34 @@ class Flashcardboxes extends Component {
     this.createDialogClose();
   };
 
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root} id="Flashcardboxes">
+        <Grid container justify="center">
+          <Grid item lg={12} className={classes.headline}>
+            <Typography variant="h3" align="center">
+              {'My Flashcardboxes'}
+            </Typography>
+          </Grid>
+          {this.renderCards()}
+          <Grid item xs={12} md={12} lg={12} align="center" style={{ paddingTop: '12px' }}>
+            <Fab color="primary" aria-label="Add" onClick={() => this.createDialogOpen()}>
+              <AddIcon />
+            </Fab>
+          </Grid>
+        </Grid>
+        <FlashcardboxCreateModal
+          open={this.state.createOpen}
+          handleCreate={this.handleCreate}
+          handleClose={this.createDialogClose}
+        />
+      </div>
+    );
+  }
+
   renderCards = () => (
-    <Grid container direction="row" justify="space-evenly" spacing={16}>
+    <Grid container direction="row" spacing={16} style={{ width: '100%' }} justify="space-evenly">
       {
         this.props.boxes.map(box => (
           <Grid item xs={6} md={4} lg={3} key={box.id}>
@@ -67,32 +93,6 @@ class Flashcardboxes extends Component {
       }
     </Grid>
   );
-
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root} id="Flashcardboxes">
-        <Grid container >
-          <Grid item lg={12} className={classes.headline}>
-            <Typography variant="h3" align="center">
-              {'My Flashcardboxes'}
-            </Typography>
-          </Grid>
-          { this.renderCards() }
-          <Grid item xs={12} md={12} lg={12} align="center" style={{ paddingTop: '12px' }}>
-            <Fab color="primary" aria-label="Add" onClick={() => this.createDialogOpen()}>
-              <AddIcon />
-            </Fab>
-          </Grid>
-        </Grid>
-        <FlashcardboxCreateModal
-          open={this.state.createOpen}
-          handleCreate={this.handleCreate}
-          handleClose={this.createDialogClose}
-        />
-      </div>
-    );
-  }
 
 }
 

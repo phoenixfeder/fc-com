@@ -76,7 +76,9 @@ class FlashcardOverview extends Component {
     this.state.flashcardIndicesToDelete.forEach(index => {
       flashcardsToDelete.push(this.props.flashcards[index.dataIndex]);
     });
-    console.log(flashcardsToDelete);
+    flashcardsToDelete.forEach((flashcard) => {
+      this.props.deleteFlashcard(flashcard.id);
+    });
   }
 
   handleEditClose() {
