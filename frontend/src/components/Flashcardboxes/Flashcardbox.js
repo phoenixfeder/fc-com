@@ -14,11 +14,13 @@ import {
   FileCopy,
   SentimentDissatisfied,
   SentimentSatisfiedAlt,
+  Share,
 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import FlashcardboxDeleteModal from './FlashcardboxDeleteModal';
 import FlashcardboxEditModal from './FlashcardboxEditModal';
+import FlashcardboxShareModal from './FlashcardboxShareModal';
 
 const styles = theme => ({
   headline: {
@@ -44,6 +46,7 @@ class Flashcardbox extends Component {
   state = {
     deleteOpen: false,
     editOpen: false,
+    shareOpen: false,
   };
 
   deleteDialogClose = () => {
@@ -72,11 +75,19 @@ class Flashcardbox extends Component {
     this.editDialogClose();
   };
 
-  handleEditFlashcards() {
+  handleEditFlashcards = () => {
     this.props.setFlashcardboxId(this.props.id);
     this.props.setFlashcardboxTitle(this.props.title);
     this.props.history.push('/flashcards');
-  }
+  };
+
+  shareDialogClose = () => {
+    this.setState({ shareOpen: false });
+  };
+
+  shareDialogOpen = () => {
+    this.setState({ shareOpen: true });
+  };
 
   render() {
 
@@ -131,6 +142,13 @@ class Flashcardbox extends Component {
               }}
             >
               <IconButton
+                aria-label="Share Flashcardbox"
+                onClick={() => this.shareDialogOpen()}
+                disabled={this.props.deleteLoading}
+              >
+                <Share />
+              </IconButton>
+              <IconButton
                 aria-label="Edit Flashcardbox"
                 onClick={() => this.editDialogOpen()}
                 disabled={this.props.editLoading}
@@ -160,6 +178,10 @@ class Flashcardbox extends Component {
           handleEdit={this.handleEdit}
           handleClose={this.editDialogClose}
           id={this.props.id}
+        />
+        <FlashcardboxShareModal
+          open={this.state.shareOpen}
+          handleClose={this.shareDialogClose}
         />
       </div>
     );
