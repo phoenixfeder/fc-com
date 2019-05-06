@@ -17,6 +17,7 @@ const mapDispatchToProps = dispatch => ({
   setFlashcardboxTitle: (title) => dispatch(actions.setFlashcardboxTitle(title)),
   shareFlashcardbox: (user, boxId) => dispatch(actions.shareFlashcardbox(user, boxId)),
   stopShareFlashcardbox: (user, boxId) => dispatch(actions.stopShareFlashcardbox(user, boxId)),
+  unfollowFlashcardbox: (boxId) => dispatch(actions.unfollowFlashcardbox(boxId)),
 });
 
 const FlashcardboxContainer = connect(mapStateToProps, mapDispatchToProps)(Flashcardbox);

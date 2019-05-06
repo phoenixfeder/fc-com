@@ -25,6 +25,9 @@ import {
   STOP_SHARE_BOX_START,
   STOP_SHARE_BOX_FAIL,
   STOP_SHARE_BOX_SUCCESS,
+  UNFOLLOW_BOX_START,
+  UNFOLLOW_BOX_SUCCESS,
+  UNFOLLOW_BOX_FAIL,
 } from '../utils/const-actiontypes';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
 import { store } from '../store';
@@ -298,4 +301,24 @@ export const stopShareFlashcardbox = (user, boxId) => dispatch => {
   dispatch(stopShareBoxStart());
   dispatch(stopShareBoxSuccess(user, boxId));
   dispatch(stopShareBoxFail(`Whoops! Could not stop sharing box with id ${boxId}`));
+};
+
+const unfollowBoxStart = () => ({
+  type: UNFOLLOW_BOX_START,
+});
+
+const unfollowBoxSuccess = boxId => ({
+  type: UNFOLLOW_BOX_SUCCESS,
+  boxId,
+});
+
+const unfollowBoxFail = error => ({
+  type: UNFOLLOW_BOX_FAIL,
+  error,
+});
+
+export const unfollowFlashcardbox = boxId => dispatch => {
+  dispatch(unfollowBoxStart());
+  dispatch(unfollowBoxSuccess(boxId));
+  dispatch(unfollowBoxFail(`Whoops! Could not stop following box with id ${boxId}`));
 };
