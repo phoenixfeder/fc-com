@@ -27,11 +27,11 @@ class Flashcardboxes extends Component {
     createOpen: false,
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     document.title = 'Flashcardboxes';
   }
 
-  componentWillMount() {
+  componentWillMount = () => {
     this.props.getFlashcardboxes();
   }
 
@@ -47,6 +47,26 @@ class Flashcardboxes extends Component {
     this.props.createFlashcardbox(flashcardbox);
     this.createDialogClose();
   };
+
+  renderCards = () => (
+    <Grid container direction="row" spacing={16} style={{ width: '100%' }} justify="space-evenly">
+      {
+        this.props.boxes.map(box => (
+          <Grid item xs={6} md={4} lg={3} key={box.id}>
+            <Flashcardbox
+              id={box.id}
+              title={box.title}
+              amount={box.flashcards}
+              lastchanged={box.lastchanged}
+              created={box.created}
+              description={box.description}
+              history={this.props.history}
+            />
+          </Grid>
+        ))
+      }
+    </Grid>
+  );
 
   render() {
     const { classes } = this.props;
@@ -73,26 +93,6 @@ class Flashcardboxes extends Component {
       </div>
     );
   }
-
-  renderCards = () => (
-    <Grid container direction="row" spacing={16} style={{ width: '100%' }} justify="space-evenly">
-      {
-        this.props.boxes.map(box => (
-          <Grid item xs={6} md={4} lg={3} key={box.id}>
-            <Flashcardbox
-              id={box.id}
-              title={box.title}
-              amount={box.flashcards}
-              lastchanged={box.lastchanged}
-              created={box.created}
-              description={box.description}
-              history={this.props.history}
-            />
-          </Grid>
-        ))
-      }
-    </Grid>
-  );
 
 }
 

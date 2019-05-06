@@ -19,6 +19,12 @@ import {
   EDIT_BOX_FAIL,
   NEW_FLASHCARDBOX_ID,
   NEW_FLASHCARDBOX_TITLE,
+  SHARE_BOX_START,
+  SHARE_BOX_SUCCESS,
+  SHARE_BOX_FAIL,
+  STOP_SHARE_BOX_START,
+  STOP_SHARE_BOX_FAIL,
+  STOP_SHARE_BOX_SUCCESS,
 } from '../utils/const-actiontypes';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
 import { store } from '../store';
@@ -250,4 +256,46 @@ const setNewFlashcardboxTitle = title => ({
 
 export const setFlashcardboxTitle = (title) => dispatch => {
   dispatch(setNewFlashcardboxTitle(title));
+};
+
+const shareBoxStart = () => ({
+  type: SHARE_BOX_START,
+});
+
+const shareBoxSuccess = (user, boxId) => ({
+  type: SHARE_BOX_SUCCESS,
+  user,
+  boxId,
+});
+
+const shareBoxFail = error => ({
+  type: SHARE_BOX_FAIL,
+  error,
+});
+
+export const shareFlashcardbox = (user, boxId) => dispatch => {
+  dispatch(shareBoxStart());
+  dispatch(shareBoxSuccess(user, boxId));
+  dispatch(shareBoxFail(`Whoops! Could not share box with id ${boxId}`));
+};
+
+const stopShareBoxStart = () => ({
+  type: STOP_SHARE_BOX_START,
+});
+
+const stopShareBoxSuccess = (user, boxId) => ({
+  type: STOP_SHARE_BOX_SUCCESS,
+  user,
+  boxId,
+});
+
+const stopShareBoxFail = error => ({
+  type: STOP_SHARE_BOX_FAIL,
+  error,
+});
+
+export const stopShareFlashcardbox = (user, boxId) => dispatch => {
+  dispatch(stopShareBoxStart());
+  dispatch(stopShareBoxSuccess(user, boxId));
+  dispatch(stopShareBoxFail(`Whoops! Could not stop sharing box with id ${boxId}`));
 };

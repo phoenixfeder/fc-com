@@ -89,6 +89,14 @@ class Flashcardbox extends Component {
     this.setState({ shareOpen: true });
   };
 
+  handleShare = (user) => {
+    this.props.shareFlashcardbox(user, this.props.id);
+  };
+
+  handleStopShare = (user) => {
+    this.props.stopShareFlashcardbox(user, this.props.id);
+  };
+
   render() {
 
     const { classes } = this.props;
@@ -180,7 +188,10 @@ class Flashcardbox extends Component {
           id={this.props.id}
         />
         <FlashcardboxShareModal
+          title={this.props.title}
           open={this.state.shareOpen}
+          handleShare={this.handleShare}
+          handleStopShare={this.handleStopShare}
           handleClose={this.shareDialogClose}
         />
       </div>
@@ -203,6 +214,8 @@ Flashcardbox.propTypes = {
   deleteLoading: PropTypes.bool.isRequired,
   setFlashcardboxId: PropTypes.func.isRequired,
   setFlashcardboxTitle: PropTypes.func.isRequired,
+  shareFlashcardbox: PropTypes.func.isRequired,
+  stopShareFlashcardbox: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 };
 
