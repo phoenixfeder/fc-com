@@ -186,4 +186,13 @@ public class AccountService {
         responseDTO.setUserResponse(new UserResponse(user));
         return responseDTO;
     }
+
+    public ResponseDTO resetPassword(RequestDTO requestDTO) {
+
+        return StatusDTO.ok();
+    }
+
+    public ResponseDTO verifyResetPassword(RequestDTO requestDTO) {
+        return StatusDTO.ok();
+    }
 }

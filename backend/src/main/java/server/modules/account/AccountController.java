@@ -64,4 +64,17 @@ public class AccountController {
         return accountService.closeAccount(requestDTO);
     }
 
+    @CrossOrigin(origins = Config.ORIGIN_URL)
+    @RequestMapping(path = "/resetpassword", method = RequestMethod.PUT)
+    public @ResponseBody
+    ResponseDTO resetPassword(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
+        return accountService.resetPassword(requestDTO);
+    }
+
+    @CrossOrigin(origins = Config.ORIGIN_URL)
+    @RequestMapping(path = "/resetpassword/verify", method = RequestMethod.PUT)
+    public @ResponseBody
+    ResponseDTO verifyResetPassword(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
+        return accountService.verifyResetPassword(requestDTO);
+    }
 }
