@@ -3,6 +3,7 @@ package server.modules.account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.entities.FlashCardBox;
+import server.entities.ResetPasswordToken;
 import server.entities.User;
 import server.entities.VerificationToken;
 import server.entities.dto.RequestDTO;
@@ -33,10 +34,11 @@ public class AccountService {
     private final SessionConnector sessionConnector;
     private final FlashCardBoxConnector flashCardBoxConnector;
     private final FlashcardConnector flashcardConnector;
+    private final ResetPasswordTokenConnector resetPasswordTokenConnector;
 
 
     @Autowired
-    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector) {
+    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector, ResetPasswordTokenConnector resetPasswordTokenConnector) {
         this.registerComponent = registerComponent;
         this.tokenComponent = tokenComponent;
 
@@ -47,6 +49,7 @@ public class AccountService {
         this.sessionConnector = sessionConnector;
         this.flashCardBoxConnector = flashCardBoxConnector;
         this.flashcardConnector = flashcardConnector;
+        this.resetPasswordTokenConnector = resetPasswordTokenConnector;
     }
 
     public ResponseDTO newAccount(RequestDTO requestDTO) throws FccExcpetion {
@@ -187,7 +190,25 @@ public class AccountService {
         return responseDTO;
     }
 
-    public ResponseDTO resetPassword(RequestDTO requestDTO) {
+    public ResponseDTO resetPassword(RequestDTO requestDTO) throws FccExcpetion{
+
+        //Prüfe mail
+        //String mail = DTOContentParser.getMail(requestDTO);
+        UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
+        String mail = userRequest.getEmail();
+
+        User user = userConnector.getUserByEmail(mail);
+
+        if(user == null){
+            return StatusDTO.emailNotInUseError();
+        }
+
+        //Erstelle Token
+        ResetPasswordToken resetPasswordToken = new ResetPasswordToken(user);
+        resetPasswordTokenConnector.save(resetPasswordToken);
+
+        //Sende mail
+        registerComponent.sendNewPasswordMail(user);
 
         return StatusDTO.ok();
     }
