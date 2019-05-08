@@ -213,7 +213,43 @@ public class AccountService {
         return StatusDTO.ok();
     }
 
-    public ResponseDTO verifyResetPassword(RequestDTO requestDTO) {
+    public ResponseDTO verifyResetPassword(RequestDTO requestDTO, String requestId, String requestToken) throws FccExcpetion{
+        if (requestId == null || requestToken == null) {
+            return StatusDTO.missingParamsError();
+        }
+        long id;
+        try {
+            id = Long.parseLong(requestId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return StatusDTO.missingParamsError();
+        }
+
+        UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
+        String newPassword = userRequest.getPassword();
+        if(registerComponent.isPasswordLengthIncorrect(newPassword)){
+            throw new WrongFormatException();
+        }
+
+        User user = userConnector.getUserByID(id);
+        ResetPasswordToken token = resetPasswordTokenConnector.getTokenByUser(user);
+
+        //Verify Entries
+        if (!tokenComponent.isTokenValid(user, token, requestToken)) {
+            return StatusDTO.verifyError();
+        }
+
+        //Verify Time
+        if (tokenComponent.hasTokenExpired(token)) {
+            return StatusDTO.tokenExpiresError();
+        }
+
+        //Enable User
+        user.setPassword(authenticator.encodePassword(newPassword));
+        userConnector.save(user);
+        resetPasswordTokenConnector.delete(token);
+
+        //Response
         return StatusDTO.ok();
     }
 }

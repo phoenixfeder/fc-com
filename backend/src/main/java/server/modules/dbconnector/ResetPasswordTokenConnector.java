@@ -21,4 +21,8 @@ public class ResetPasswordTokenConnector {
     public ResetPasswordToken getTokenByUser(User user) {
         return resetPasswordTokenRepository.findByUser(user);
     }
+
+    public void delete(ResetPasswordToken token) {
+        resetPasswordTokenRepository.delete(token);
+    }
 }

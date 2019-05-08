@@ -72,9 +72,9 @@ public class AccountController {
     }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/resetpassword/verify", method = RequestMethod.PUT)
+    @RequestMapping(path = "resetpassword/verify", method = RequestMethod.PUT)
     public @ResponseBody
-    ResponseDTO verifyResetPassword(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
-        return accountService.verifyResetPassword(requestDTO);
+    ResponseDTO verifyResetPassword(@RequestBody RequestDTO requestDTO, @RequestParam(value = "id", required = false) String id, @RequestParam(value = "token", required = false) String token) {
+        return accountService.verifyResetPassword(requestDTO, id, token);
     }
 }
