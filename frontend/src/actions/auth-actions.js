@@ -1,6 +1,7 @@
 import * as actionTypes from '../utils/const-actiontypes';
 import {
   BACKEND_URL_ACCOUNT_RESET_PASSWORD,
+  BACKEND_URL_ACCOUNT_SUBMIT_NEW_PASSWORD,
   BACKEND_URL_LOGIN,
   BACKEND_URL_LOGOUT,
 } from '../utils/const-paths';
@@ -214,9 +215,46 @@ export const resetPassword = (email, callback) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email,
+      user: {
+        email,
+      },
     }),
-    // TODO: Add API-Body
+
+  })
+    .then(results => results.json(),
+    )
+    .then(result => {
+      callback(result);
+    })
+    .catch(err => {
+      callback({
+        status: {
+          code: 403,
+        },
+        errorDetail: {
+          err,
+        },
+      });
+    });
+
+};
+
+export const submitNewPassword = (state, callback) => {
+  fetch(BACKEND_URL_ACCOUNT_SUBMIT_NEW_PASSWORD, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      auth: {
+        id: state.parameters.id,
+        token: state.parameters.token,
+      },
+      user: {
+        password: state.password,
+      },
+    }),
 
   })
     .then(results => results.json(),
