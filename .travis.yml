@@ -21,10 +21,6 @@ jobs:
         - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME
         - docker push $DOCKER_USERNAME/$DOCKER_REPONAME
         - docker logout
-      after_failure:
-        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-        - chmod +x send.sh
-        - ./send.sh failure $WEBHOOK_URL
 
     # Runs API test with the previously builded docker container
     - stage: api-test
@@ -60,10 +56,6 @@ jobs:
         - sudo ./wait-for-it.sh localhost:8080
         - cd backend_test/
         - newman run postman_integrationtests.json
-      after_failure:
-        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-        - chmod +x send.sh
-        - ./send.sh failure $WEBHOOK_URL
 
     #  Runs UI test with the previously builded docker container
     - stage: ui-test
@@ -120,10 +112,6 @@ jobs:
         - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
         - chmod +x send.sh
         - ./send.sh success $WEBHOOK_URL
-      after_failure:
-        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-        - chmod +x send.sh
-        - ./send.sh failure $WEBHOOK_URL
 
     # Deploys the docker container to heroku (prod)
     - stage: deploy
@@ -141,3 +129,8 @@ jobs:
         - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
+
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
