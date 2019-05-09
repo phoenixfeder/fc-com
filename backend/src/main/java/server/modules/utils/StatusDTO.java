@@ -83,4 +83,8 @@ public class StatusDTO {
         responseDTO.setUserResponse(userResponse);
         return responseDTO;
     }
+
+    public static ResponseDTO userNotFoundError() {
+        return new ResponseDTO(StatusResponse.create(StatusCode.USERNOTFOUNDERROR));
+    }
 }

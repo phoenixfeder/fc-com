@@ -41,4 +41,16 @@ public class FlashCardBoxConnector {
     public FlashCardBox getBoxByIdAndUser(Long id, User user) {
         return flashCardBoxRepository.findByIdAndOwner(id, user);
     }
+
+    @Transactional
+    public FlashCardBox getSharedBoxByIdAndUser(Long id, User user) {
+        FlashCardBox box = flashCardBoxRepository.findById(id).orElse(null);
+        if (box == null) {
+            return null;
+        }
+        if (box.getSharedToUsers().contains(user)) {
+            return box;
+        }
+        return null;
+    }
 }

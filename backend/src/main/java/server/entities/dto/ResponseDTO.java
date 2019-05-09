@@ -20,7 +20,7 @@ public class ResponseDTO {
     private UserResponse userResponse;
 
     @JsonProperty("flashcardboxes")
-    private List<Box> boxes;
+    private List<FlashCardBoxResponse> flashCardBoxResponses;
 
     @JsonProperty("flashcards")
     private List<Flashcard> flashcards;
@@ -29,13 +29,13 @@ public class ResponseDTO {
         this.statusResponse = statusResponse;
     }
 
-    public void setBoxes(Box box) {
-        boxes = new ArrayList<>();
-        boxes.add(box);
+    public void setFlashCardBoxResponses(FlashCardBoxResponse flashCardBoxResponse) {
+        flashCardBoxResponses = new ArrayList<>();
+        flashCardBoxResponses.add(flashCardBoxResponse);
     }
 
-    public void setBoxes(List<Box> box) {
-        boxes = box;
+    public void setFlashCardBoxResponses(List<FlashCardBoxResponse> flashCardBoxResponses) {
+        this.flashCardBoxResponses = flashCardBoxResponses;
     }
 
     public void setFlashCards(Flashcard flashcard) {
