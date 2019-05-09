@@ -1,18 +1,9 @@
 stages:
   - build
- # - test-backend
+  # - test-backend
   - api-test
   - ui-test
   - deploy
-
-after_success:
-  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-  - chmod +x send.sh
-  - ./send.sh success $WEBHOOK_URL
-after_failure:
-  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-  - chmod +x send.sh
-  - ./send.sh failure $WEBHOOK_URL
 
 jobs:
   include:
@@ -65,6 +56,10 @@ jobs:
         - sudo ./wait-for-it.sh localhost:8080
         - cd backend_test/
         - newman run postman_integrationtests.json
+      after_failure:
+        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+        - chmod +x send.sh
+        - ./send.sh failure $WEBHOOK_URL
 
     #  Runs UI test with the previously builded docker container
     - stage: ui-test
@@ -80,9 +75,9 @@ jobs:
         firefox: latest
         apt:
           sources:
-          - google-chrome
+            - google-chrome
           packages:
-          - google-chrome-stable fluxbox
+            - google-chrome-stable fluxbox
       before_install:
         - mysql -u root --password="" < travis.sql
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -117,6 +112,10 @@ jobs:
         - cd frontend/
         - npm run-script test-linux
         - docker stop fcc-app
+      after_failure:
+        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+        - chmod +x send.sh
+        - ./send.sh failure $WEBHOOK_URL
 
     # Deploys the docker container to heroku (prod)
     - stage: deploy
@@ -134,4 +133,12 @@ jobs:
         - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
+      after_failure:
+        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+        - chmod +x send.sh
+        - ./send.sh failure $WEBHOOK_URL
 
+after_script:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
