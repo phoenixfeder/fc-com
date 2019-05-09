@@ -240,17 +240,13 @@ export const resetPassword = (email, callback) => {
 };
 
 export const submitNewPassword = (state, callback) => {
-  fetch(BACKEND_URL_ACCOUNT_SUBMIT_NEW_PASSWORD, {
+  fetch(BACKEND_URL_ACCOUNT_SUBMIT_NEW_PASSWORD(state.parameters), {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      auth: {
-        id: state.parameters.id,
-        token: state.parameters.token,
-      },
       user: {
         password: state.password,
       },

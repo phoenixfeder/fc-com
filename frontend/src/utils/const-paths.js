@@ -23,7 +23,13 @@ export const BACKEND_URL_ACCOUNT_GET = `${BACKEND_URL_ACCOUNT}get`;
 export const BACKEND_URL_ACCOUNT_UPDATE = `${BACKEND_URL_ACCOUNT}update`;
 export const BACKEND_URL_ACCOUNT_CLOSE = `${BACKEND_URL_ACCOUNT}close`;
 export const BACKEND_URL_ACCOUNT_RESET_PASSWORD = `${BACKEND_URL_ACCOUNT}resetpassword`;
-export const BACKEND_URL_ACCOUNT_SUBMIT_NEW_PASSWORD = `${BACKEND_URL_ACCOUNT}newpassword`;
+
+/**
+ * @return {string}
+ */
+export function BACKEND_URL_ACCOUNT_SUBMIT_NEW_PASSWORD(parameters) {
+  return `${BACKEND_URL_ACCOUNT_RESET_PASSWORD}/verify?id=${parameters.id}&token=${parameters.token}`;
+}
 
 export const BACKEND_URL_LOGOUT = `${BACKEND_URL}'authentication/logout`;
 

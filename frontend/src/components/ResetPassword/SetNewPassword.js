@@ -85,31 +85,52 @@ class SetNewPassword extends Component {
 
   handleSubmit = () => {
     this.setState({ loading: true });
-    submitNewPassword(this.state, (result) => {
-      switch (result.status.code) {
-        case 200:
-          this.props.enqueueSnackbar({
-            message: 'You successfully set your new password. Try it out now!',
-            options: {
-              variant: 'success',
-            },
-          });
-          this.setState({ loading: false });
-          this.props.history.push('/login');
-          break;
-        default:
-          this.props.enqueueSnackbar({
-            message: 'Something went wrong - visit the FAQ page for more help.',
-            options: {
-              variant: 'error',
-            },
-          });
-          this.setState({
-            loading: false,
-          });
-          break;
-      }
-    });
+    if (this.state.password === this.state.repeatPassword) {
+      submitNewPassword(this.state, (result) => {
+        switch (result.status.code) {
+          case 200:
+            this.props.enqueueSnackbar({
+              message: 'You successfully set your new password. Try it out now!',
+              options: {
+                variant: 'success',
+              },
+            });
+            this.setState({ loading: false });
+            this.props.history.push('/login');
+            break;
+          case 500:
+            this.props.enqueueSnackbar({
+              message: 'Your password is not valid.',
+              options: {
+                variant: 'error',
+              },
+            });
+            this.setState({
+              isPasswordInvalid: true,
+              isRepeatPasswordInvalid: true,
+              loading: false,
+            });
+            break;
+          default:
+            this.props.enqueueSnackbar({
+              message: 'Something went wrong - visit the FAQ page for more help.',
+              options: {
+                variant: 'error',
+              },
+            });
+            this.setState({
+              loading: false,
+            });
+            break;
+        }
+      });
+    } else {
+      this.setState({
+        repeatPasswordErrorMsg: 'Does not match password',
+        isRepeatPasswordInvalid: true,
+        loading: false,
+      });
+    }
   };
 
   render() {

@@ -5,10 +5,13 @@ stages:
   - ui-test
   - deploy
 
+notifications:
+  webhooks: https://discordapp.com/api/webhooks/575985381086855168/7NfZoCnSpvb9VPRCfTd8tFiYXvm1q38K8j1-0FV7cC8fNFGrzKWuB5qfJ9k4JdGLc6Jy/notifications
+
 jobs:
   include:
     # Builds the whole application (front- and backend) into a single jar
-    # Then builds docker image and pushes it DockerHub 
+    # Then builds docker image and pushes it DockerHub
     - stage: build
       language: java
       services:
@@ -42,13 +45,13 @@ jobs:
         - sudo chmod +x ./wait-for-it.sh
         - java -jar fakeSMTP-2.0.jar -s -b -p $SPRING_MAIL_PORT -a $SPRING_MAIL_HOST &
         - >-
-          docker run -p 8080:8080 --network host --name="fcc-app" -d 
-          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" 
-          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST" 
+          docker run -p 8080:8080 --network host --name="fcc-app" -d
+          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD"
+          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST"
           -e "SPRING_MAIL_PORT=$SPRING_MAIL_PORT"
           -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
-          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" 
-          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" 
+          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME"
+          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD"
           $DOCKER_USERNAME/$DOCKER_REPONAME
       before_script:
         - sleep 120
@@ -85,13 +88,13 @@ jobs:
         - sudo chmod +x ./wait-for-it.sh
         - java -jar fakeSMTP-2.0.jar -s -b -p $SPRING_MAIL_PORT -a $SPRING_MAIL_HOST &
         - >-
-          docker run -p 8080:8080 --network host --name="fcc-app" -d 
-          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" 
-          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST" 
+          docker run -p 8080:8080 --network host --name="fcc-app" -d
+          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD"
+          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST"
           -e "SPRING_MAIL_PORT=$SPRING_MAIL_PORT"
           -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
-          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" 
-          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" 
+          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME"
+          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD"
           $DOCKER_USERNAME/$DOCKER_REPONAME
       before_script:
         - cd frontend
@@ -126,4 +129,3 @@ jobs:
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
 
-       
