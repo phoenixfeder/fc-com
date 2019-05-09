@@ -5,6 +5,15 @@ stages:
   - ui-test
   - deploy
 
+after_success:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
+
 jobs:
   include:
     # Builds the whole application (front- and backend) into a single jar
@@ -21,6 +30,10 @@ jobs:
         - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME
         - docker push $DOCKER_USERNAME/$DOCKER_REPONAME
         - docker logout
+      after_failure:
+        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+        - chmod +x send.sh
+        - ./send.sh failure $WEBHOOK_URL
 
     # Runs API test with the previously builded docker container
     - stage: api-test
@@ -112,6 +125,10 @@ jobs:
         - cd frontend/
         - npm run-script test-linux
         - docker stop fcc-app
+      after_success:
+        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+        - chmod +x send.sh
+        - ./send.sh success $WEBHOOK_URL
       after_failure:
         - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
         - chmod +x send.sh
@@ -133,12 +150,3 @@ jobs:
         - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
-      after_failure:
-        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-        - chmod +x send.sh
-        - ./send.sh failure $WEBHOOK_URL
-
-after_script:
-  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-  - chmod +x send.sh
-  - ./send.sh success $WEBHOOK_URL
