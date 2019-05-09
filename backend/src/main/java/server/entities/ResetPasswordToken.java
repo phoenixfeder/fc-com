@@ -24,6 +24,10 @@ public class ResetPasswordToken {
 
     private LocalDateTime expiryDate;
 
+    public ResetPasswordToken() {
+        super();
+    }
+
     public ResetPasswordToken(User user) {
         this.user = user;
         this.expiryDate = calculateExpiryDate();
