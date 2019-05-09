@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import PasswordIcon from '@material-ui/icons/Lock';
 import * as PropTypes from 'prop-types';
@@ -140,98 +139,96 @@ class SetNewPassword extends Component {
       <div className={classes.root}>
         <Grid container alignContent="center" justify="center">
           <Grid item xs={12} md={8} lg={4}>
-            <Paper elevation={1}>
-              <Grid
-                container
-                spacing={16}
-                alignItems="stretch"
-                justify="space-evenly"
-                direction="column"
-              >
-                <Grid item lg={12} style={{ textAlign: 'center' }}>
-                  <Typography
-                    component="p"
-                    align="center"
-                    className={classes.headline}
-                  >
-                    {'Put in your new password'}
-                  </Typography>
-                </Grid>
-                <Grid item lg={12} style={{ textAlign: 'center' }}>
-                  <FormControl
-                    required
-                    error={this.state.isPasswordInvalid}
-                  >
-                    <InputLabel>Password</InputLabel>
-                    <Input
-                      id="user-password-input"
-                      type="password"
-                      value={this.state.password}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <PasswordIcon />
-                        </InputAdornment>
-                      }
-                      onChange={this.handleStateChange}
-                    />
-                    <FormHelperText id="mail-error-field">
-                      <em>
-                        {this.state.passwordErrorMsg}
-                      </em>
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                <Grid item lg={12} style={{ textAlign: 'center' }}>
-                  <FormControl
-                    required
-                    error={this.state.isRepeatPasswordInvalid}
-                  >
-                    <InputLabel>Repeat Password</InputLabel>
-                    <Input
-                      id="user-repeat-password-input"
-                      type="password"
-                      value={this.state.repeatPassword}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <PasswordIcon />
-                        </InputAdornment>
-                      }
-                      onChange={this.handleStateChange}
-                    />
-                    <FormHelperText id="repeat-password-error-field">
-                      <em>
-                        {this.state.repeatPasswordErrorMsg}
-                      </em>
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                <Grid item lg={12} style={{ textAlign: 'center' }}>
-                  <div
-                    className={classes.wrapper}
-                    style={{
-                      alignItems: 'center',
-                      alignContent: 'center',
-                      display: 'block',
-                    }}
+            <Grid
+              container
+              spacing={16}
+              alignItems="stretch"
+              justify="space-evenly"
+              direction="column"
+            >
+              <Grid item lg={12} style={{ textAlign: 'center' }}>
+                <Typography
+                  component="p"
+                  align="center"
+                  className={classes.headline}
+                >
+                  {'Type in your new password here'}
+                </Typography>
+              </Grid>
+              <Grid item lg={12} style={{ textAlign: 'center' }}>
+                <FormControl
+                  required
+                  error={this.state.isPasswordInvalid}
+                >
+                  <InputLabel>Password</InputLabel>
+                  <Input
+                    id="user-password-input"
+                    type="password"
+                    value={this.state.password}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <PasswordIcon />
+                      </InputAdornment>
+                    }
+                    onChange={this.handleStateChange}
+                  />
+                  <FormHelperText id="mail-error-field">
+                    <em>
+                      {this.state.passwordErrorMsg}
+                    </em>
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item lg={12} style={{ textAlign: 'center' }}>
+                <FormControl
+                  required
+                  error={this.state.isRepeatPasswordInvalid}
+                >
+                  <InputLabel>Repeat Password</InputLabel>
+                  <Input
+                    id="user-repeat-password-input"
+                    type="password"
+                    value={this.state.repeatPassword}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <PasswordIcon />
+                      </InputAdornment>
+                    }
+                    onChange={this.handleStateChange}
+                  />
+                  <FormHelperText id="repeat-password-error-field">
+                    <em>
+                      {this.state.repeatPasswordErrorMsg}
+                    </em>
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item lg={12} style={{ textAlign: 'center' }}>
+                <div
+                  className={classes.wrapper}
+                  style={{
+                    alignItems: 'center',
+                    alignContent: 'center',
+                    display: 'block',
+                  }}
+                  align="center"
+                  justify="center"
+                >
+                  <Button
+                    id="resend-button"
+                    variant="contained"
+                    color="primary"
+                    disabled={this.state.loading}
+                    onClick={this.handleSubmit}
                     align="center"
                     justify="center"
                   >
-                    <Button
-                      id="resend-button"
-                      variant="contained"
-                      color="primary"
-                      disabled={this.state.loading}
-                      onClick={this.handleSubmit}
-                      align="center"
-                      justify="center"
-                    >
-                      {'Submit your new password!'}
-                    </Button>
-                    {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-                  </div>
-                </Grid>
+                    {'Submit your new password!'}
+                  </Button>
+                  {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                </div>
               </Grid>
-            </Paper>
+            </Grid>
           </Grid>
         </Grid>
       </div>

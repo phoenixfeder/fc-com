@@ -7,9 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
-import Paper from '@material-ui/core/Paper';
-import EMailIcon from '@material-ui/core/SvgIcon/SvgIcon';
 import Typography from '@material-ui/core/Typography';
+import EMailIcon from '@material-ui/icons/Mail';
 import * as PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { resetPassword } from '../../actions/auth-actions';
@@ -104,75 +103,73 @@ class ResetPassword extends Component {
 
         <Grid container alignContent="center" justify="center">
           <Grid item xs={12} md={8} lg={4}>
-            <Paper elevation={1}>
-              <Grid
-                container
-                spacing={16}
-                alignItems="center"
-                justify="center"
-                style={{ minHeight: '100px' }}
-                direction="column"
-              >
-                <Grid item lg={12} style={{ textAlign: 'center' }}>
-                  <div align="center">
-                    <Typography
-                      component="p"
-                      align="center"
-                      className={classes.headline}
-                    >
-                      {'You forgot your Password?'}
-                      <br />
-                      {'Enter the Email you used for your registration and we will let you reset your password!'}
-                    </Typography>
-                    <FormControl
-                      required
-                      error={this.state.isEmailInvalid}
-                    >
-                      <InputLabel>E-Mail</InputLabel>
-                      <Input
-                        id="user-mail-input"
-                        type="email"
-                        value={this.state.email}
-                        startAdornment={
-                          <InputAdornment position="start">
-                            <EMailIcon />
-                          </InputAdornment>
-                        }
-                        onChange={this.handleMailChange}
-                      />
-                      <FormHelperText id="mail-error-field">
-                        <em>
-                          {this.state.emailErrorMsg}
-                        </em>
-                      </FormHelperText>
-                    </FormControl>
-                    <div
-                      className={classes.wrapper}
-                      style={{
-                        alignItems: 'center',
-                        alignContent: 'center',
-                        display: 'block',
-                      }}
+            <Grid
+              container
+              spacing={16}
+              alignItems="center"
+              justify="center"
+              style={{ minHeight: '100px' }}
+              direction="column"
+            >
+              <Grid item lg={12} style={{ textAlign: 'center' }}>
+                <div align="center">
+                  <Typography
+                    component="p"
+                    align="center"
+                    className={classes.headline}
+                  >
+                    {'You forgot your Password?'}
+                    <br />
+                    {'Enter the Email you used for your registration and we will let you reset your password!'}
+                  </Typography>
+                  <FormControl
+                    required
+                    error={this.state.isEmailInvalid}
+                  >
+                    <InputLabel>E-Mail</InputLabel>
+                    <Input
+                      id="user-mail-input"
+                      type="email"
+                      value={this.state.email}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <EMailIcon />
+                        </InputAdornment>
+                      }
+                      onChange={this.handleMailChange}
+                    />
+                    <FormHelperText id="mail-error-field">
+                      <em>
+                        {this.state.emailErrorMsg}
+                      </em>
+                    </FormHelperText>
+                  </FormControl>
+                  <div
+                    className={classes.wrapper}
+                    style={{
+                      alignItems: 'center',
+                      alignContent: 'center',
+                      display: 'block',
+                    }}
+                    align="center"
+                    justify="center"
+                  >
+                    <Button
+                      id="resend-button"
+                      variant="contained"
+                      color="primary"
+                      disabled={this.state.loading}
+                      onClick={this.handleSubmit}
                       align="center"
                       justify="center"
                     >
-                      <Button
-                        id="resend-button"
-                        variant="contained"
-                        color="primary"
-                        disabled={this.state.loading}
-                        onClick={this.handleSubmit}
-                        align="center"
-                        justify="center"
-                      >
-                        {'Reset password!'}
-                      </Button>
-                      {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-                    </div>
+                      {'Reset password!'}
+                    </Button>
+                    {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
-                </Grid>
+                </div>
               </Grid>
-            </Paper>
+            </Grid>
           </Grid>
         </Grid>
       </div>
