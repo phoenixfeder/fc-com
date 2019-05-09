@@ -24,6 +24,14 @@ public class Mail {
         return text;
     }
 
+    private String getMailTextPassword(String username, String id, String token) {
+        String text = Lang.mailTextPassword;
+        text = text.replace("##username##", username);
+        text = text.replace("##userid##", id);
+        text = text.replace("##token##", token);
+        return text;
+    }
+
     public void send(String mailAddress, String username, String id, String token) {
         SimpleMailMessage email = new SimpleMailMessage();
         //TODO email.setTo(mailAddress);
@@ -33,4 +41,16 @@ public class Mail {
         email.setText(text);
         mailSender.send(email);
     }
+
+    public void sendNewPassword(String mailAdress, String username, String id, String token) {
+        SimpleMailMessage email = new SimpleMailMessage();
+        //TODO email.setTo(mailAddress);
+        email.setTo("flashcardcommunity@gmail.com");
+        email.setSubject("Resetting your password");
+        String text = getMailTextPassword(username, id, token);
+        email.setText(text);
+        mailSender.send(email);
+    }
+
+
 }

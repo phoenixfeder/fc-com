@@ -1,6 +1,7 @@
 package server.modules.account;
 
 import org.springframework.stereotype.Component;
+import server.entities.ResetPasswordToken;
 import server.entities.User;
 import server.entities.VerificationToken;
 
@@ -20,7 +21,18 @@ public class TokenComponent {
 
     }
 
+    public boolean isTokenValid(User user, ResetPasswordToken token, String requestToken) {
+
+        if (user == null || token == null) return false;
+        return isTokenMatching(requestToken, token.getToken());
+
+    }
+
     public boolean hasTokenExpired(VerificationToken verificationToken) {
+        return verificationToken.getExpiryDate().isBefore(LocalDateTime.now());
+    }
+
+    public boolean hasTokenExpired(ResetPasswordToken verificationToken) {
         return verificationToken.getExpiryDate().isBefore(LocalDateTime.now());
     }
 }

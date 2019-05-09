@@ -3,6 +3,7 @@ package server.modules.account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import server.config.Lang;
+import server.entities.ResetPasswordToken;
 import server.entities.Role;
 import server.entities.User;
 import server.entities.VerificationToken;
@@ -13,6 +14,7 @@ import server.exceptions.FccExcpetion;
 import server.exceptions.RegisterErrorException;
 import server.exceptions.WrongFormatException;
 import server.modules.authentication.Authenticator;
+import server.modules.dbconnector.ResetPasswordTokenConnector;
 import server.modules.dbconnector.RoleConnector;
 import server.modules.dbconnector.TokenConnector;
 import server.modules.dbconnector.UserConnector;
@@ -29,18 +31,20 @@ public class RegisterComponent {
     private final UserConnector userConnector;
     private final TokenConnector tokenConnector;
     private final RoleConnector roleConnector;
+    private final ResetPasswordTokenConnector resetPasswordTokenConnector;
 
 //    final private UserRepository userRepository;
 //    final private RoleRepository roleRepository;
 //    final private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-    public RegisterComponent(Authenticator authenticator, Mail mail, UserConnector userConnector, RoleConnector roleConnector, TokenConnector tokenConnector) {
+    public RegisterComponent(Authenticator authenticator, Mail mail, UserConnector userConnector, RoleConnector roleConnector, TokenConnector tokenConnector, ResetPasswordTokenConnector resetPasswordTokenConnector) {
         this.authenticator = authenticator;
         this.mail = mail;
         this.userConnector = userConnector;
         this.roleConnector = roleConnector;
         this.tokenConnector = tokenConnector;
+        this.resetPasswordTokenConnector = resetPasswordTokenConnector;
     }
 
     public boolean isUserNameTaken(String name) {
@@ -137,6 +141,16 @@ public class RegisterComponent {
         VerificationToken token = tokenConnector.getTokenByUser(user);
         try {
             mail.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EmailSendException();
+        }
+    }
+
+    public void sendNewPasswordMail(User user) throws EmailSendException{
+        ResetPasswordToken token = resetPasswordTokenConnector.getTokenByUser(user);
+        try {
+            mail.sendNewPassword(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
         } catch (Exception e) {
             e.printStackTrace();
             throw new EmailSendException();
