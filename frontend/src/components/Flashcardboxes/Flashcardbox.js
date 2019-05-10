@@ -189,7 +189,7 @@ class Flashcardbox extends Component {
               color="textSecondary"
               gutterBottom
             >
-              {this.props.userOwnsBox ? 'Shared Flashcardbox' : `Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
+              {!this.props.userOwnsBox ? 'Shared Flashcardbox' : `Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
             </Typography>
             <Typography variant="h5" component="h2">
               {this.props.title}
@@ -225,6 +225,7 @@ class Flashcardbox extends Component {
         />
         <FlashcardboxShareModal
           title={this.props.title}
+          sharedUsers={this.props.sharedUsers}
           open={this.state.shareOpen}
           handleShare={this.handleShare}
           handleStopShare={this.handleStopShare}
@@ -261,6 +262,7 @@ Flashcardbox.propTypes = {
   unfollowFlashcardbox: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   userOwnsBox: PropTypes.bool.isRequired,
+  sharedUsers: PropTypes.array.isRequired,
 };
 
 Flashcardbox.defaultProps = {

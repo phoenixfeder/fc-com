@@ -61,6 +61,7 @@ class Flashcardboxes extends Component {
               created={box.created}
               description={box.description}
               userOwnsBox={box.userOwnsBox}
+              sharedUsers={box.sharedToUsers}
               history={this.props.history}
             />
           </Grid>

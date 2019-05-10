@@ -3,6 +3,8 @@ import {
   BACKEND_URL_CREATE_FLASHCARDBOX,
   BACKEND_URL_DELETE_FLASHCARDBOX,
   BACKEND_URL_EDIT_FLASHCARDBOX,
+  BACKEND_URL_SHARE_FLASHCARDBOX,
+  BACKEND_URL_REVERT_SHARING_FLASHCARDBOX,
 } from '../utils/const-paths';
 import {
   GET_BOXES_START,
@@ -277,9 +279,53 @@ const shareBoxFail = error => ({
 });
 
 export const shareFlashcardbox = (user, boxId) => dispatch => {
+  const authState = store.getState().auth;
   dispatch(shareBoxStart());
-  dispatch(shareBoxSuccess(user, boxId));
-  dispatch(shareBoxFail(`Whoops! Could not share box with id ${boxId}`));
+  fetch(BACKEND_URL_SHARE_FLASHCARDBOX, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      authentication: {
+        session: authState.session,
+        hash: authState.sessionHash,
+      },
+      flashcardboxes: {
+        id: boxId,
+        sharingUserName: user,
+      },
+    }),
+  }).then(results => results.json()).then(result => {
+    switch (result.status.code) {
+      case 200:
+        dispatch(shareBoxSuccess(user, boxId));
+        break;
+
+      case 412:
+        dispatch(shareBoxFail(result.status.message));
+        dispatch(enqueueSnackbar({
+          message: 'The user you want to share the flashcardbox with does not exists.',
+          options: {
+            variant: 'error',
+          },
+        }));
+        break;
+
+      default:
+        dispatch(shareBoxFail(result.status.message));
+        dispatch(enqueueSnackbar({
+          message: 'This should not happen. Please contact system admin.',
+          options: {
+            variant: 'error',
+          },
+        }));
+        break;
+    }
+  }).catch((err) => {
+    dispatch(shareBoxFail(err));
+  });
 };
 
 const stopShareBoxStart = () => ({
@@ -298,9 +344,53 @@ const stopShareBoxFail = error => ({
 });
 
 export const stopShareFlashcardbox = (user, boxId) => dispatch => {
+  const authState = store.getState().auth;
   dispatch(stopShareBoxStart());
-  dispatch(stopShareBoxSuccess(user, boxId));
-  dispatch(stopShareBoxFail(`Whoops! Could not stop sharing box with id ${boxId}`));
+  fetch(BACKEND_URL_REVERT_SHARING_FLASHCARDBOX, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      authentication: {
+        session: authState.session,
+        hash: authState.sessionHash,
+      },
+      flashcardboxes: {
+        id: boxId,
+        sharingUserName: user,
+      },
+    }),
+  }).then(results => results.json()).then(result => {
+    switch (result.status.code) {
+      case 200:
+        dispatch(stopShareBoxSuccess(user, boxId));
+        break;
+
+      case 412:
+        dispatch(stopShareBoxFail(result.status.message));
+        dispatch(enqueueSnackbar({
+          message: 'The user you want to stop sharing the flashcardbox with does not exists.',
+          options: {
+            variant: 'error',
+          },
+        }));
+        break;
+
+      default:
+        dispatch(stopShareBoxFail(result.status.message));
+        dispatch(enqueueSnackbar({
+          message: 'This should not happen. Please contact system admin.',
+          options: {
+            variant: 'error',
+          },
+        }));
+        break;
+    }
+  }).catch((err) => {
+    dispatch(stopShareBoxFail(err));
+  });
 };
 
 const unfollowBoxStart = () => ({
