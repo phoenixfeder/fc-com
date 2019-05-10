@@ -60,6 +60,7 @@ class Flashcardboxes extends Component {
               lastchanged={box.lastchanged}
               created={box.created}
               description={box.description}
+              userOwnsBox={box.userOwnsBox}
               history={this.props.history}
             />
           </Grid>
