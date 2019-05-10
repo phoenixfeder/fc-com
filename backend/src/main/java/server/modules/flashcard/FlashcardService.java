@@ -102,9 +102,11 @@ public class FlashcardService {
 
         Long boxId = DTOContentParser.getFlashCardBoxID(requestDTO);
         FlashCardBox flashCardBox = flashCardBoxConnector.getBoxByIdAndUser(boxId, user);
-
         if (flashCardBox == null) {
-            throw new PermissionDeniedException();
+            flashCardBox = flashCardBoxConnector.getSharedBoxByIdAndUser(boxId, user);
+            if (flashCardBox == null) {
+                throw new PermissionDeniedException();
+            }
         }
 
         List<FlashCard> flashCards = flashCardConnector.getByFlashCardBox(flashCardBox);

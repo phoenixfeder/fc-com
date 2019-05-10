@@ -46,4 +46,18 @@ public class FlashcardBoxController {
     ResponseDTO deleteBox(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
         return flashcardBoxService.deleteBox(requestDTO);
     }
+
+    @CrossOrigin(origins = Config.ORIGIN_URL)
+    @RequestMapping(path = "/share", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseDTO shareBox(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
+        return flashcardBoxService.shareBox(requestDTO);
+    }
+
+    @CrossOrigin(origins = Config.ORIGIN_URL)
+    @RequestMapping(path = "/revertsharing", method = RequestMethod.DELETE)
+    public @ResponseBody
+    ResponseDTO revertSharingBox(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
+        return flashcardBoxService.revertSharingBox(requestDTO);
+    }
 }

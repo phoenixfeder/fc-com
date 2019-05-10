@@ -85,4 +85,11 @@ public class ExceptionController {
         System.out.println("Wrong Password Error");
         return StatusDTO.wrongPasswordError();
     }
+
+    @ExceptionHandler({UserNotFoundException.class})
+    public @ResponseBody
+    ResponseDTO userNotFoundException() {
+        System.out.println("User Not Found Error");
+        return StatusDTO.userNotFoundError();
+    }
 }
