@@ -1,12 +1,13 @@
 package server.modules.utils;
 
 import server.entities.FlashCardBox;
+import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.request.FlashCardBoxRequest;
 import server.entities.dto.request.FlashcardRequest;
 import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
-import server.entities.dto.response.Box;
+import server.entities.dto.response.FlashCardBoxResponse;
 import server.exceptions.WrongFormatException;
 
 import java.util.ArrayList;
@@ -60,13 +61,13 @@ public class DTOContentParser {
         }
     }
 
-    public static List<Box> parseFlashcardBoxEntities(List<FlashCardBox> flashCardBoxes) {
-        List<Box> boxes = new ArrayList<>();
-        for (FlashCardBox flashcardBox : flashCardBoxes
-        ) {
-            boxes.add(new Box(flashcardBox.getId(), flashcardBox.getTitle(), flashcardBox.getDescription(), flashcardBox.getCreationDate(), flashcardBox.getLastChanged(), flashcardBox.getFlashcards()));
+    public static List<FlashCardBoxResponse> parseFlashcardBoxEntities(List<FlashCardBox> flashCardBoxes, User user) {
+        List<FlashCardBoxResponse> flashCardBoxResponses = new ArrayList<>();
+        for (FlashCardBox flashcardBox : flashCardBoxes) {
+            boolean ownsBox = flashcardBox.getOwner() == user;
+            flashCardBoxResponses.add(new FlashCardBoxResponse(flashcardBox, ownsBox));
         }
-        return boxes;
+        return flashCardBoxResponses;
     }
 
     public static FlashCardBoxRequest getFlashCardBox(RequestDTO requestDTO) throws WrongFormatException {

@@ -27,7 +27,11 @@ class Flashcardboxes extends Component {
     createOpen: false,
   };
 
-  componentWillMount() {
+  componentDidMount = () => {
+    document.title = 'Flashcardboxes';
+  }
+
+  componentWillMount = () => {
     this.props.getFlashcardboxes();
   }
 

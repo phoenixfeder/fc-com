@@ -14,11 +14,14 @@ import {
   FileCopy,
   SentimentDissatisfied,
   SentimentSatisfiedAlt,
+  Share,
 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import FlashcardboxDeleteModal from './FlashcardboxDeleteModal';
 import FlashcardboxEditModal from './FlashcardboxEditModal';
+import FlashcardboxShareModal from './FlashcardboxShareModal';
+import FlashcardboxUnfollowModal from './FlashcardboxUnfollowModal';
 
 const styles = theme => ({
   headline: {
@@ -44,6 +47,8 @@ class Flashcardbox extends Component {
   state = {
     deleteOpen: false,
     editOpen: false,
+    shareOpen: false,
+    unfollowOpen: false,
   };
 
   deleteDialogClose = () => {
@@ -72,10 +77,87 @@ class Flashcardbox extends Component {
     this.editDialogClose();
   };
 
-  handleEditFlashcards() {
+  handleEditFlashcards = () => {
     this.props.setFlashcardboxId(this.props.id);
     this.props.setFlashcardboxTitle(this.props.title);
     this.props.history.push('/flashcards');
+  };
+
+  shareDialogClose = () => {
+    this.setState({ shareOpen: false });
+  };
+
+  shareDialogOpen = () => {
+    this.setState({ shareOpen: true });
+  };
+
+  handleShare = (user) => {
+    this.props.shareFlashcardbox(user, this.props.id);
+  };
+
+  handleStopShare = (user) => {
+    this.props.stopShareFlashcardbox(user, this.props.id);
+  };
+
+  unfollowDialogClose = () => {
+    this.setState({ unfollowOpen: false });
+  }
+
+  unfollowDialogOpen = () => {
+    this.setState({ unfollowOpen: true });
+  }
+
+  handleUnfollow = () => {
+    this.props.unfollowFlashcardbox(this.props.id);
+  }
+
+  renderCardActions = () => {
+    if (this.props.isShared) {
+      return (
+        <div
+          style={{
+            width: '100%',
+            textAlign: 'right',
+          }}
+        >
+          <Button onClick={() => this.unfollowDialogOpen()}>Stop following</Button>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <Button size="medium" onClick={() => this.handleEditFlashcards()}>Edit Flashcards</Button>
+        <div
+          style={{
+            width: '100%',
+            textAlign: 'right',
+          }}
+        >
+          <IconButton
+            aria-label="Share Flashcardbox"
+            onClick={() => this.shareDialogOpen()}
+            disabled={this.props.deleteLoading}
+          >
+            <Share />
+          </IconButton>
+          <IconButton
+            aria-label="Edit Flashcardbox"
+            onClick={() => this.editDialogOpen()}
+            disabled={this.props.editLoading}
+          >
+            <Edit />
+          </IconButton>
+          <IconButton
+            aria-label="Delete Flashcardbox"
+            onClick={() => this.deleteDialogOpen()}
+            disabled={this.props.deleteLoading}
+          >
+            <Delete />
+          </IconButton>
+        </div>
+      </>
+    );
   }
 
   render() {
@@ -88,6 +170,7 @@ class Flashcardbox extends Component {
       icon={<SentimentSatisfiedAlt />}
       color="primary"
     />;
+
     if (this.props.successRate <= 50) {
       successChip = <Chip
         label={`${this.props.successRate}% correct`}
@@ -106,7 +189,7 @@ class Flashcardbox extends Component {
               color="textSecondary"
               gutterBottom
             >
-              {`Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
+              {this.props.isShared ? 'Shared Flashcardbox' : `Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
             </Typography>
             <Typography variant="h5" component="h2">
               {this.props.title}
@@ -123,28 +206,7 @@ class Flashcardbox extends Component {
             />
           </CardContent>
           <CardActions disableActionSpacing>
-            <Button size="medium" onClick={() => this.handleEditFlashcards()}>Edit Flashcards</Button>
-            <div
-              style={{
-                width: '100%',
-                textAlign: 'right',
-              }}
-            >
-              <IconButton
-                aria-label="Edit Flashcardbox"
-                onClick={() => this.editDialogOpen()}
-                disabled={this.props.editLoading}
-              >
-                <Edit />
-              </IconButton>
-              <IconButton
-                aria-label="Delete Flashcardbox"
-                onClick={() => this.deleteDialogOpen()}
-                disabled={this.props.deleteLoading}
-              >
-                <Delete />
-              </IconButton>
-            </div>
+            { this.renderCardActions() }
           </CardActions>
         </Card>
         <FlashcardboxDeleteModal
@@ -160,6 +222,19 @@ class Flashcardbox extends Component {
           handleEdit={this.handleEdit}
           handleClose={this.editDialogClose}
           id={this.props.id}
+        />
+        <FlashcardboxShareModal
+          title={this.props.title}
+          open={this.state.shareOpen}
+          handleShare={this.handleShare}
+          handleStopShare={this.handleStopShare}
+          handleClose={this.shareDialogClose}
+        />
+        <FlashcardboxUnfollowModal
+          title={this.props.title}
+          open={this.state.unfollowOpen}
+          handleUnfollow={this.handleUnfollow}
+          handleClose={this.unfollowDialogClose}
         />
       </div>
     );
@@ -181,11 +256,16 @@ Flashcardbox.propTypes = {
   deleteLoading: PropTypes.bool.isRequired,
   setFlashcardboxId: PropTypes.func.isRequired,
   setFlashcardboxTitle: PropTypes.func.isRequired,
+  shareFlashcardbox: PropTypes.func.isRequired,
+  stopShareFlashcardbox: PropTypes.func.isRequired,
+  unfollowFlashcardbox: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isShared: PropTypes.bool,
 };
 
 Flashcardbox.defaultProps = {
   successRate: '-',
+  isShared: false,
 };
 
 export default withStyles(styles)(Flashcardbox);

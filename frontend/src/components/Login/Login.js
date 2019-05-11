@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import PasswordIcon from '@material-ui/icons/Lock';
 import UsernameIcon from '@material-ui/icons/Person';
@@ -100,21 +99,20 @@ class Login extends Component {
       <div className={classes.root}>
         <Grid container alignContent="center" justify="center">
           <Grid item xs={12} md={6} lg={4}>
-            <Paper className={classes.root} elevation={1}>
-              <Grid
-                container
-                spacing={16}
-                alignItems="stretch"
-                justify="space-evenly"
-                direction="column"
-              >
-                <Grid item lg={12}>
-                  <Typography variant="h3" component="h3" align="center">Login</Typography>
-                  <Typography
-                    component="p"
-                    align="center"
-                    className={classes.headline}
-                  >
+            <Grid
+              container
+              spacing={16}
+              alignItems="stretch"
+              justify="space-evenly"
+              direction="column"
+            >
+              <Grid item lg={12}>
+                <Typography variant="h3" component="h3" align="center">Login</Typography>
+                <Typography
+                  component="p"
+                  align="center"
+                  className={classes.headline}
+                >
                     {'... we are glad to see you again!'}
                     <br />
                   </Typography>
@@ -182,7 +180,7 @@ class Login extends Component {
                   </Typography>
                 </Grid>
               </Grid>
-            </Paper>
+            </Grid>
           </Grid>
         </Grid>
       </div>

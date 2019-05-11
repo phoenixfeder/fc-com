@@ -7,16 +7,19 @@ import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.entities.dto.request.FlashCardBoxRequest;
-import server.entities.dto.response.Box;
+import server.entities.dto.response.FlashCardBoxResponse;
 import server.exceptions.FccExcpetion;
 import server.exceptions.PermissionDeniedException;
+import server.exceptions.UserNotFoundException;
 import server.modules.authentication.Authenticator;
 import server.modules.dbconnector.FlashCardBoxConnector;
 import server.modules.dbconnector.FlashcardConnector;
+import server.modules.dbconnector.UserConnector;
 import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,13 +28,14 @@ public class FlashcardBoxService {
     private final Authenticator authenticator;
     private final FlashCardBoxConnector flashCardBoxConnector;
     private final FlashcardConnector flashcardConnector;
-
+    private final UserConnector userConnector;
 
     @Autowired
-    public FlashcardBoxService(Authenticator authenticator, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector) {
+    public FlashcardBoxService(Authenticator authenticator, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector, UserConnector userConnector) {
         this.authenticator = authenticator;
         this.flashCardBoxConnector = flashCardBoxConnector;
         this.flashcardConnector = flashcardConnector;
+        this.userConnector = userConnector;
     }
 
     public ResponseDTO addBox(RequestDTO requestDTO) throws FccExcpetion {
@@ -52,10 +56,11 @@ public class FlashcardBoxService {
         User user = authenticator.authenticate(requestDTO);
 
         List<FlashCardBox> flashCardBoxes = flashCardBoxConnector.getAllBoxFromUser(user);
+        flashCardBoxes.addAll(user.getViewableBoxes());
         flashCardBoxes.forEach(flashCardBox -> flashCardBox.setFlashcards(flashcardConnector));
 
         ResponseDTO responseDTO = StatusDTO.ok();
-        responseDTO.setBoxes(DTOContentParser.parseFlashcardBoxEntities(flashCardBoxes));
+        responseDTO.setFlashCardBoxResponses(DTOContentParser.parseFlashcardBoxEntities(flashCardBoxes, user));
 
         return responseDTO;
     }
@@ -93,13 +98,65 @@ public class FlashcardBoxService {
         return StatusDTO.ok();
     }
 
+    public ResponseDTO shareBox(RequestDTO requestDTO) throws FccExcpetion {
+        User user = authenticator.authenticate(requestDTO);
+
+        FlashCardBox box = determineSharedBox(requestDTO, user);
+        User sharedUser = determineSharedUser(requestDTO);
+
+        if (sharedUser == user) {
+            //TODO Fehlermeldung?
+        } else {
+            sharedUser.getViewableBoxes().add(box);
+            userConnector.save(sharedUser);
+        }
+
+        return StatusDTO.ok();
+    }
+
+    public ResponseDTO revertSharingBox(RequestDTO requestDTO) throws FccExcpetion {
+        User user = authenticator.authenticate(requestDTO);
+
+        FlashCardBox box = determineSharedBox(requestDTO, user);
+        User sharedUser = determineSharedUser(requestDTO);
+
+        if (sharedUser.getViewableBoxes().contains(box)){
+            sharedUser.getViewableBoxes().remove(box);
+            userConnector.save(sharedUser);
+        } else {
+            //TODO Fehlermeldung?
+        }
+
+        return StatusDTO.ok();
+    }
+
     private ResponseDTO createResponseWithBoxes(FlashCardBox flashCardBox){
         FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
         newBox.setFlashcards(flashcardConnector);
         ResponseDTO responseDTO = StatusDTO.ok();
-        Box box = new Box(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged(), newBox.getFlashcards());
-        responseDTO.setBoxes(box);
+        FlashCardBoxResponse flashCardBoxResponse = new FlashCardBoxResponse(newBox.getId(), newBox.getTitle(), newBox.getDescription(), newBox.getCreationDate(), newBox.getLastChanged(), newBox.getFlashcards(), new ArrayList<>(), true);
+        responseDTO.setFlashCardBoxResponses(flashCardBoxResponse);
 
         return responseDTO;
+    }
+
+    private FlashCardBox determineSharedBox(RequestDTO requestDTO, User user) throws FccExcpetion {
+        Long id = DTOContentParser.getFlashCardBoxID(requestDTO);
+        FlashCardBox box = flashCardBoxConnector.getBoxByIdAndUser(id, user);
+        if (box == null) {
+            throw new PermissionDeniedException();
+        }
+
+        return box;
+    }
+
+    private User determineSharedUser(RequestDTO requestDTO) throws FccExcpetion {
+        String sharedUserName = requestDTO.getFlashCardBoxRequest().getSharingUserName();
+        User sharedUser = userConnector.getUserByName(sharedUserName);
+        if (sharedUser == null) {
+            throw new UserNotFoundException();
+        }
+
+        return sharedUser;
     }
 }

@@ -114,15 +114,6 @@ class AppBar extends Component {
         >
           {'Home'}
         </MenuItem>
-        <MenuItem
-          id="hw-menu-link"
-          component={Link}
-          to="/helloworld"
-          color="inherit"
-          onClick={this.handleSideMenu}
-        >
-          {'Hello World'}
-        </MenuItem>
         <Divider />
         <MenuItem
           id="faq-menu-link"
@@ -156,15 +147,6 @@ class AppBar extends Component {
             onClick={this.handleSideMenu}
           >
             {'Flashcardboxes'}
-          </MenuItem>
-          <MenuItem
-            id="hw-menu-link"
-            component={Link}
-            to="/helloworld"
-            color="inherit"
-            onClick={this.handleSideMenu}
-          >
-            {'Hello World'}
           </MenuItem>
           <Divider />
           <MenuItem

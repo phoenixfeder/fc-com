@@ -13,6 +13,15 @@ import {
   GET_BOXES_SUCCESS,
   NEW_FLASHCARDBOX_ID,
   NEW_FLASHCARDBOX_TITLE,
+  SHARE_BOX_START,
+  SHARE_BOX_SUCCESS,
+  SHARE_BOX_FAIL,
+  STOP_SHARE_BOX_START,
+  STOP_SHARE_BOX_FAIL,
+  STOP_SHARE_BOX_SUCCESS,
+  UNFOLLOW_BOX_START,
+  UNFOLLOW_BOX_SUCCESS,
+  UNFOLLOW_BOX_FAIL,
 } from '../utils/const-actiontypes';
 
 const initialState = {
@@ -20,6 +29,7 @@ const initialState = {
   createLoading: false,
   deleteLoading: false,
   editLoading: false,
+  shareLoading: false,
   error: false,
   boxes: [],
   flashcardboxId: 0,
@@ -115,6 +125,57 @@ const newFlashcardboxTitle = (state, action) => ({
   flashcardboxTitle: action.title,
 });
 
+const shareBoxStart = state => ({
+  ...state,
+  shareLoading: true,
+});
+
+const shareBoxSuccess = (state, action) => ({
+  ...state,
+  shareLoading: false,
+  error: action.error, // TODO: Add user to shared users
+});
+
+const shareBoxFail = (state, action) => ({
+  ...state,
+  shareLoading: false,
+  error: action.error,
+});
+
+const stopShareBoxStart = state => ({
+  ...state,
+  shareLoading: true,
+});
+
+const stopShareBoxSuccess = (state, action) => ({
+  ...state,
+  shareLoading: false,
+  error: action.error, // TODO: Remove user from shared users
+});
+
+const stopShareBoxFail = (state, action) => ({
+  ...state,
+  shareLoading: false,
+  error: action.error,
+});
+
+const unfollowBoxStart = state => ({
+  ...state,
+  shareLoading: true,
+});
+
+const unfollowBoxSuccess = (state, action) => ({
+  ...state,
+  shareLoading: false,
+  error: action.error, // TODO: Remove followed box from boxes
+});
+
+const unfollowBoxFail = (state, action) => ({
+  ...state,
+  shareLoading: false,
+  error: action.error,
+});
+
 const boxesReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_BOXES_START:
@@ -145,6 +206,24 @@ const boxesReducer = (state = initialState, action) => {
       return newFlashcardboxId(state, action);
     case NEW_FLASHCARDBOX_TITLE:
       return newFlashcardboxTitle(state, action);
+    case SHARE_BOX_START:
+      return shareBoxStart(state);
+    case SHARE_BOX_SUCCESS:
+      return shareBoxSuccess(state, action);
+    case SHARE_BOX_FAIL:
+      return shareBoxFail(state, action);
+    case STOP_SHARE_BOX_START:
+      return stopShareBoxStart(state);
+    case STOP_SHARE_BOX_SUCCESS:
+      return stopShareBoxSuccess(state, action);
+    case STOP_SHARE_BOX_FAIL:
+      return stopShareBoxFail(state, action);
+    case UNFOLLOW_BOX_START:
+      return unfollowBoxStart(state);
+    case UNFOLLOW_BOX_SUCCESS:
+      return unfollowBoxSuccess(state, action);
+    case UNFOLLOW_BOX_FAIL:
+      return unfollowBoxFail(state, action);
     default:
       return state;
   }

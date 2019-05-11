@@ -1,6 +1,8 @@
 package server.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -22,6 +24,7 @@ public class FlashCard {
 
     @OneToOne(targetEntity = FlashCardBox.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "flashcardbox")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private FlashCardBox flashcardBox;
 
     public FlashCard() {
