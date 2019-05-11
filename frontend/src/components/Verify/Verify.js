@@ -130,22 +130,25 @@ class Verify extends Component {
   };
 
   handleSubmit = () => {
+
+    const { history, enqueueSnackbar } = this.props;
+
     this.setState({ loading: true });
     fetchNewVerifyToken(this.state, (result) => {
       switch (result.status.code) {
         case 200:
-          this.props.enqueueSnackbar({
+          enqueueSnackbar({
             message: 'We resend your validation token :)',
             options: {
               variant: 'success',
             },
           });
           this.setState({ loading: false });
-          this.props.history.push('/');
+          history.push('/');
           break;
 
         case 403:
-          this.props.enqueueSnackbar({
+          enqueueSnackbar({
             message: 'Please enter the mail you used for our registration',
             options: {
               variant: 'error',
@@ -160,7 +163,7 @@ class Verify extends Component {
           break;
 
         default:
-          this.props.enqueueSnackbar({
+          enqueueSnackbar({
             message: 'Something went wrong - visit the FAQ page for more help.',
             options: {
               variant: 'error',
