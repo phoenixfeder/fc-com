@@ -6,8 +6,8 @@ import {
   DialogContentText,
   TextField,
 } from '@material-ui/core';
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 class FlashcardCreateModal extends Component {
   state = {
@@ -23,7 +23,13 @@ class FlashcardCreateModal extends Component {
   };
 
   render() {
-    const { boxId, open, handleClose, createFlashcard } = this.props;
+    const {
+      boxId,
+      open,
+      handleClose,
+      createFlashcard,
+    } = this.props;
+
     return (
       <div>
         <Dialog open={open}>

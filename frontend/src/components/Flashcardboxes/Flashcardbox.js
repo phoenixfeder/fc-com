@@ -101,18 +101,20 @@ class Flashcardbox extends Component {
 
   unfollowDialogClose = () => {
     this.setState({ unfollowOpen: false });
-  }
+  };
 
   unfollowDialogOpen = () => {
     this.setState({ unfollowOpen: true });
-  }
+  };
 
   handleUnfollow = () => {
     this.props.unfollowFlashcardbox(this.props.id);
-  }
+  };
 
   renderCardActions = () => {
-    if (this.props.isShared) {
+    const { isShared, deleteLoading, editLoading } = this.props;
+
+    if (isShared) {
       return (
         <div
           style={{
@@ -137,43 +139,52 @@ class Flashcardbox extends Component {
           <IconButton
             aria-label="Share Flashcardbox"
             onClick={() => this.shareDialogOpen()}
-            disabled={this.props.deleteLoading}
+            disabled={deleteLoading}
           >
             <Share />
           </IconButton>
           <IconButton
             aria-label="Edit Flashcardbox"
             onClick={() => this.editDialogOpen()}
-            disabled={this.props.editLoading}
+            disabled={editLoading}
           >
             <Edit />
           </IconButton>
           <IconButton
             aria-label="Delete Flashcardbox"
             onClick={() => this.deleteDialogOpen()}
-            disabled={this.props.deleteLoading}
+            disabled={deleteLoading}
           >
             <Delete />
           </IconButton>
         </div>
       </>
     );
-  }
+  };
 
   render() {
 
-    const { classes } = this.props;
+    const {
+      classes,
+      successRate,
+      isShared,
+      title,
+      created,
+      description,
+      amount,
+      id,
+    } = this.props;
 
     let successChip = <Chip
-      label={`${this.props.successRate}% correct`}
+      label={`${successRate}% correct`}
       className={classes.infoChipSuccess}
       icon={<SentimentSatisfiedAlt />}
       color="primary"
     />;
 
-    if (this.props.successRate <= 50) {
+    if (successRate <= 50) {
       successChip = <Chip
-        label={`${this.props.successRate}% correct`}
+        label={`${successRate}% correct`}
         className={classes.infoChip}
         icon={<SentimentDissatisfied />}
         color="secondary"
@@ -189,49 +200,49 @@ class Flashcardbox extends Component {
               color="textSecondary"
               gutterBottom
             >
-              {this.props.isShared ? 'Shared Flashcardbox' : `Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
+              {isShared ? 'Shared Flashcardbox' : `Flashcardbox, created ${new Date(created).toLocaleString()}`}
             </Typography>
             <Typography variant="h5" component="h2">
-              {this.props.title}
+              {title}
             </Typography>
             <Typography component="p">
-              {this.props.description}
+              {description}
             </Typography>
             {successChip}
             <Chip
-              label={`${this.props.amount} cards`}
+              label={`${amount} cards`}
               className={classes.infoChip}
               icon={<FileCopy />}
               color="primary"
             />
           </CardContent>
           <CardActions disableActionSpacing>
-            { this.renderCardActions() }
+            {this.renderCardActions()}
           </CardActions>
         </Card>
         <FlashcardboxDeleteModal
-          title={this.props.title}
+          title={title}
           open={this.state.deleteOpen}
           handleDelete={this.handleDelete}
           handleClose={this.deleteDialogClose}
         />
         <FlashcardboxEditModal
-          title={this.props.title}
-          description={this.props.description}
+          title={title}
+          description={description}
           open={this.state.editOpen}
           handleEdit={this.handleEdit}
           handleClose={this.editDialogClose}
-          id={this.props.id}
+          id={id}
         />
         <FlashcardboxShareModal
-          title={this.props.title}
+          title={title}
           open={this.state.shareOpen}
           handleShare={this.handleShare}
           handleStopShare={this.handleStopShare}
           handleClose={this.shareDialogClose}
         />
         <FlashcardboxUnfollowModal
-          title={this.props.title}
+          title={title}
           open={this.state.unfollowOpen}
           handleUnfollow={this.handleUnfollow}
           handleClose={this.unfollowDialogClose}

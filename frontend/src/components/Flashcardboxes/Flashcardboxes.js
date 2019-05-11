@@ -29,15 +29,15 @@ class Flashcardboxes extends Component {
 
   componentDidMount = () => {
     document.title = 'Flashcardboxes';
-  }
+  };
 
   componentWillMount = () => {
     this.props.getFlashcardboxes();
-  }
+  };
 
-  componentDidMount() {
+  componentDidMount = () => {
     document.title = 'Flashcardboxes';
-  }
+  };
 
   createDialogClose = () => {
     this.setState({ createOpen: false });

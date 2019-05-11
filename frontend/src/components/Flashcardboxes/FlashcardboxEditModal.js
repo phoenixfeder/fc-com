@@ -31,14 +31,23 @@ class FlashcardboxEditModal extends Component {
   };
 
   render() {
+
+    const {
+      open,
+      handleClose,
+      title,
+      handleEdit,
+      id,
+    } = this.props;
+
     return (
       <Dialog
-        open={this.props.open}
-        onClose={this.props.handleClose}
+        open={open}
+        onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          {`Edit Flashcardbox "${this.props.title}"`}
+          {`Edit Flashcardbox "${title}"`}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -69,13 +78,19 @@ class FlashcardboxEditModal extends Component {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={() => this.props.handleClose()}
+            onClick={() => handleClose()}
             color="secondary"
           >
             {'Cancel'}
           </Button>
           <Button
-            onClick={() => this.props.handleEdit({ flashcardbox: { title: this.state.fcb_name, description: this.state.fcb_description, id: this.props.id } })}
+            onClick={() => handleEdit({
+              flashcardbox: {
+                title: this.state.fcb_name,
+                description: this.state.fcb_description,
+                id,
+              },
+            })}
             color="primary"
           >
             {'Update'}
