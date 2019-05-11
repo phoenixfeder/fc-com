@@ -10,10 +10,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 function FlashcardDeleteModal(props) {
+  const { open, handleClose, handleDelete } = props;
   return (
     <Dialog
-      open={props.open}
-      onClose={props.handleClose}
+      open={open}
+      onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">
@@ -26,15 +27,15 @@ function FlashcardDeleteModal(props) {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={() => props.handleClose()}
+          onClick={() => handleClose()}
           color="secondary"
         >
           {'Cancel'}
         </Button>
         <Button
           onClick={() => {
-            props.handleDelete();
-            props.handleClose();
+            handleDelete();
+            handleClose();
           }}
           color="primary"
         >

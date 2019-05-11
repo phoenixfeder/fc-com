@@ -17,7 +17,6 @@ import Typography from '@material-ui/core/Typography/Typography';
 import PasswordIcon from '@material-ui/icons/Lock';
 import EMailIcon from '@material-ui/icons/Mail';
 import * as PropTypes from 'prop-types';
-import qs from 'query-string';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
