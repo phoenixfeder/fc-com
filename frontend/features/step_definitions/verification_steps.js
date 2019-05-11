@@ -29,10 +29,11 @@ Then('eThe {string} contains {string}', async function (field, expectedContent) 
     await  testController.expect(await inputField.value).contains(expectedContent);
 });
 
-//Then('eI get the message {string}', async function (msg) {
- //   const feedbackField = select('snackbar').with({boundTestRun: testController}).withText(msg);
-  //  await  testController.expect(await feedbackField.exists).ok();
-//});
+Then('eI immediately get the message {string}', async function (msg) {
+    await  testController.wait(1000);
+    const feedbackField = select('snackbar').with({boundTestRun: testController}).withText(msg);
+    await  testController.expect(await feedbackField.exists).ok();
+});
 
 Then('eI get the message {string}', async function (msg) {
     await  testController.wait(10000);
