@@ -1,7 +1,7 @@
 import {
   BACKEND_URL_ACCOUNT_NEW,
-  BACKEND_URL_ACCOUNT_VERIFY,
   BACKEND_URL_ACCOUNT_NEW_VERIFICATION_TOKEN,
+  BACKEND_URL_ACCOUNT_VERIFY,
 } from '../utils/const-paths';
 
 export const fetchRegister = (state, callback) => {
