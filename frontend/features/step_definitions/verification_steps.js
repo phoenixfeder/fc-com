@@ -24,8 +24,9 @@ Then('eI get redirected to the {string} page', async function (page) {
 });
 
 Then('eThe {string} contains {string}', async function (field, expectedContent) {
+    await  testController.wait(2000);
     const inputField = select(field).with({boundTestRun: testController});
-    await  testController.wait(2000).expect(await inputField.value).contains(expectedContent);
+    await  testController.expect(await inputField.value).contains(expectedContent);
 });
 
 //Then('eI get the message {string}', async function (msg) {
@@ -34,8 +35,9 @@ Then('eThe {string} contains {string}', async function (field, expectedContent) 
 //});
 
 Then('eI get the message {string}', async function (msg) {
+    await  testController.wait(10000);
     const feedbackField = select('snackbar').with({boundTestRun: testController}).withText(msg);
-    await  testController.wait(13000).expect(await feedbackField.exists).ok();
+    await  testController.expect(await feedbackField.exists).ok();
 });
 
 Then('eI get the error {string} in the {string}', async function (error, field) {
