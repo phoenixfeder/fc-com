@@ -229,7 +229,7 @@ export const resetPassword = (email, callback) => {
     .catch(err => {
       callback({
         status: {
-          code: 403,
+          code: 477,
         },
         errorDetail: {
           err,
