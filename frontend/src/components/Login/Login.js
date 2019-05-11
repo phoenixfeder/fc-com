@@ -156,7 +156,7 @@ class Login extends Component {
                       }
                     />
                     <FormHelperText>
-                      <Link to="/login">Forgot your password?</Link>
+                      <Link to="/resetpassword">Forgot your password?</Link>
                     </FormHelperText>
                   </FormControl>
                 </Grid>
