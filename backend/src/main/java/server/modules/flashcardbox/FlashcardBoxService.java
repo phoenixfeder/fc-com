@@ -110,6 +110,7 @@ public class FlashcardBoxService {
             sharedUser.getViewableBoxes().add(box);
             userConnector.save(sharedUser);
         }
+        box.setFlashcards(flashcardConnector);
 
         ResponseDTO responseDTO = StatusDTO.ok();
         responseDTO.setFlashCardBoxResponses(new FlashCardBoxResponse(box, true));
@@ -128,6 +129,7 @@ public class FlashcardBoxService {
         } else {
             //TODO Fehlermeldung?
         }
+        box.setFlashcards(flashcardConnector);
 
         ResponseDTO responseDTO = StatusDTO.ok();
         responseDTO.setFlashCardBoxResponses(new FlashCardBoxResponse(box, true));
