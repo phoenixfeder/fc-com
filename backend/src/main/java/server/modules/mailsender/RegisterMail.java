@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 import server.config.Lang;
 
 @Component
-public class RegisterMail extends MailSender {
+class RegisterMail extends MailSender {
 
     @Autowired
-    public RegisterMail(JavaMailSender mailSender) {
+    protected RegisterMail(JavaMailSender mailSender) {
         super(mailSender);
         this.mailBody = Lang.mailText;
         this.subject = "Registration Confirmation";

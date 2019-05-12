@@ -5,7 +5,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 @Component
-public abstract class MailSender {
+abstract class MailSender {
 
     protected String subject;
     protected String mailBody;
@@ -15,7 +15,7 @@ public abstract class MailSender {
         this.mailSender = mailSender;
     }
 
-    public void send(String mailTo, String username, String id, String token) {
+    protected void send(String mailTo, String username, String id, String token, MailComponent.Purpose purpose) {
         SimpleMailMessage email = new SimpleMailMessage();
         //TODO email.setTo(mailTo);
         email.setTo("flashcardcommunity@gmail.com");

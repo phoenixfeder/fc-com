@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import server.config.Lang;
 
 @Component
-public class ResetPasswordMail extends MailSender {
+class ResetPasswordMail extends MailSender {
 
     @Autowired
     protected ResetPasswordMail(JavaMailSender mailSender) {

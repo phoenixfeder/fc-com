@@ -19,13 +19,14 @@ public class MailComponent extends MailSender {
         this.resetPasswordMail = resetPasswordMail;
     }
 
+    @Override
     public void send(String mailTo, String username, String id, String token, Purpose purpose){
         switch (purpose){
             case REGISTER:
-                registerMail.send(mailTo, username, id, token);
+                registerMail.send(mailTo, username, id, token, purpose);
                 break;
             case RESETPASSWORD:
-                resetPasswordMail.send(mailTo, username, id, token);
+                resetPasswordMail.send(mailTo, username, id, token, purpose);
         }
     }
 }
