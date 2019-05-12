@@ -1,6 +1,6 @@
 stages:
   - build
- # - test-backend
+  # - test-backend
   - api-test
   - ui-test
   - deploy
@@ -8,7 +8,7 @@ stages:
 jobs:
   include:
     # Builds the whole application (front- and backend) into a single jar
-    # Then builds docker image and pushes it DockerHub 
+    # Then builds docker image and pushes it DockerHub
     - stage: build
       language: java
       services:
@@ -42,13 +42,13 @@ jobs:
         - sudo chmod +x ./wait-for-it.sh
         - java -jar fakeSMTP-2.0.jar -s -b -p $SPRING_MAIL_PORT -a $SPRING_MAIL_HOST &
         - >-
-          docker run -p 8080:8080 --network host --name="fcc-app" -d 
-          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" 
-          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST" 
+          docker run -p 8080:8080 --network host --name="fcc-app" -d
+          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD"
+          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST"
           -e "SPRING_MAIL_PORT=$SPRING_MAIL_PORT"
           -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
-          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" 
-          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" 
+          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME"
+          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD"
           $DOCKER_USERNAME/$DOCKER_REPONAME
       before_script:
         - sleep 120
@@ -71,9 +71,9 @@ jobs:
         firefox: latest
         apt:
           sources:
-          - google-chrome
+            - google-chrome
           packages:
-          - google-chrome-stable fluxbox
+            - google-chrome-stable fluxbox
       before_install:
         - mysql -u root --password="" < travis.sql
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -85,13 +85,13 @@ jobs:
         - sudo chmod +x ./wait-for-it.sh
         - java -jar fakeSMTP-2.0.jar -s -b -p $SPRING_MAIL_PORT -a $SPRING_MAIL_HOST &
         - >-
-          docker run -p 8080:8080 --network host --name="fcc-app" -d 
-          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD" 
-          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST" 
+          docker run -p 8080:8080 --network host --name="fcc-app" -d
+          -e "SPRING_MAIL_PASSWORD=$SPRING_MAIL_PASSWORD"
+          -e "SPRING_MAIL_HOST=$SPRING_MAIL_HOST"
           -e "SPRING_MAIL_PORT=$SPRING_MAIL_PORT"
           -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
-          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" 
-          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" 
+          -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME"
+          -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD"
           $DOCKER_USERNAME/$DOCKER_REPONAME
       before_script:
         - cd frontend
@@ -108,6 +108,10 @@ jobs:
         - cd frontend/
         - npm run-script test-linux
         - docker stop fcc-app
+      after_success:
+        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+        - chmod +x send.sh
+        - ./send.sh success $WEBHOOK_URL
 
     # Deploys the docker container to heroku (prod)
     - stage: deploy
@@ -126,4 +130,7 @@ jobs:
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
 
-       
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL

@@ -1,5 +1,10 @@
 import * as actionTypes from '../utils/const-actiontypes';
-import { BACKEND_URL_LOGIN, BACKEND_URL_LOGOUT } from '../utils/const-paths';
+import {
+  BACKEND_URL_ACCOUNT_RESET_PASSWORD,
+  BACKEND_URL_ACCOUNT_SUBMIT_NEW_PASSWORD,
+  BACKEND_URL_LOGIN,
+  BACKEND_URL_LOGOUT,
+} from '../utils/const-paths';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
 
 export const authStart = () => ({
@@ -105,74 +110,77 @@ export const auth = (usernamearg, passwordarg) => (dispatch) => {
         password: passwordarg,
       },
     }),
-  }).then(results => results.json()).then((result) => {
-    const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-    switch (result.status.code) {
-      case 200:
-        localStorage.setItem('session', result.status.session.session);
-        localStorage.setItem('expirationDate', expirationDate);
-        localStorage.setItem('userID', result.status.session.id);
-        localStorage.setItem('username', result.status.session.username);
-        localStorage.setItem('sessionHash', result.status.session.hash);
-        dispatch(authSuccess(result.status.session.session, result.status.session.hash,
-          result.status.session.id, result.status.session.username));
-        dispatch(enqueueSnackbar({
-          message: `You are now logged in, ${result.status.session.username}!`,
-          options: {
-            variant: 'success',
-          },
-        }));
-        break;
+  })
+    .then(results => results.json())
+    .then((result) => {
+      const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+      switch (result.status.code) {
+        case 200:
+          localStorage.setItem('session', result.status.session.session);
+          localStorage.setItem('expirationDate', expirationDate);
+          localStorage.setItem('userID', result.status.session.id);
+          localStorage.setItem('username', result.status.session.username);
+          localStorage.setItem('sessionHash', result.status.session.hash);
+          dispatch(authSuccess(result.status.session.session, result.status.session.hash,
+            result.status.session.id, result.status.session.username));
+          dispatch(enqueueSnackbar({
+            message: `You are now logged in, ${result.status.session.username}!`,
+            options: {
+              variant: 'success',
+            },
+          }));
+          break;
 
-      case 404:
-        dispatch(authFail('Invalid username or password.'));
-        dispatch(enqueueSnackbar({
-          message: 'Invalid username or password.',
-          options: {
-            variant: 'error',
-          },
-        }));
-        break;
+        case 404:
+          dispatch(authFail('Invalid username or password.'));
+          dispatch(enqueueSnackbar({
+            message: 'Invalid username or password.',
+            options: {
+              variant: 'error',
+            },
+          }));
+          break;
 
-      case 405:
-        dispatch(authFail('Your account is not verified yet.'));
-        dispatch(enqueueSnackbar({
-          message: 'Your account is not verified yet.',
-          options: {
-            variant: 'error',
-          },
-        }));
-        break;
+        case 405:
+          dispatch(authFail('Your account is not verified yet.'));
+          dispatch(enqueueSnackbar({
+            message: 'Your account is not verified yet.',
+            options: {
+              variant: 'error',
+            },
+          }));
+          break;
 
-      case 500:
-        dispatch(authFail('Invalid input. Are you sure that you used your username or E-Mail?'));
-        dispatch(enqueueSnackbar({
-          message: 'Invalid input. Are you sure that you used your username or E-Mail?',
-          options: {
-            variant: 'error',
-          },
-        }));
-        break;
+        case 500:
+          dispatch(authFail('Invalid input. Are you sure that you used your username or E-Mail?'));
+          dispatch(enqueueSnackbar({
+            message: 'Invalid input. Are you sure that you used your username or E-Mail?',
+            options: {
+              variant: 'error',
+            },
+          }));
+          break;
 
-      default:
-        dispatch(authFail('This should not happen. Please contact system admin.'));
-        dispatch(enqueueSnackbar({
-          message: 'This should not happen. Please contact system admin.',
-          options: {
-            variant: 'error',
-          },
-        }));
-        break;
-    }
-  }).catch(() => {
-    dispatch(authFail('This should not happen. Please contact system admin.'));
-    dispatch(enqueueSnackbar({
-      message: 'This should not happen. Please contact system admin.',
-      options: {
-        variant: 'error',
-      },
-    }));
-  });
+        default:
+          dispatch(authFail('This should not happen. Please contact system admin.'));
+          dispatch(enqueueSnackbar({
+            message: 'This should not happen. Please contact system admin.',
+            options: {
+              variant: 'error',
+            },
+          }));
+          break;
+      }
+    })
+    .catch(() => {
+      dispatch(authFail('This should not happen. Please contact system admin.'));
+      dispatch(enqueueSnackbar({
+        message: 'This should not happen. Please contact system admin.',
+        options: {
+          variant: 'error',
+        },
+      }));
+    });
 };
 
 export const authCheckState = () => (dispatch) => {
@@ -197,4 +205,68 @@ export const authCheckState = () => (dispatch) => {
       dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
     }
   }
+};
+
+export const resetPassword = (email, callback) => {
+  fetch(BACKEND_URL_ACCOUNT_RESET_PASSWORD, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user: {
+        email,
+      },
+    }),
+
+  })
+    .then(results => results.json(),
+    )
+    .then(result => {
+      callback(result);
+    })
+    .catch(err => {
+      callback({
+        status: {
+          code: 477,
+        },
+        errorDetail: {
+          err,
+        },
+      });
+    });
+
+};
+
+export const submitNewPassword = (state, callback) => {
+  fetch(BACKEND_URL_ACCOUNT_SUBMIT_NEW_PASSWORD(state.parameters), {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user: {
+        password: state.password,
+      },
+    }),
+
+  })
+    .then(results => results.json(),
+    )
+    .then(result => {
+      callback(result);
+    })
+    .catch(err => {
+      callback({
+        status: {
+          code: 403,
+        },
+        errorDetail: {
+          err,
+        },
+      });
+    });
+
 };
