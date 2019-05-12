@@ -10,6 +10,7 @@ import server.config.Lang;
 public class Mail {
 
     private final JavaMailSender mailSender;
+    
 
     @Autowired
     public Mail(JavaMailSender mailSender) {
