@@ -111,7 +111,9 @@ public class FlashcardBoxService {
             userConnector.save(sharedUser);
         }
 
-        return StatusDTO.ok();
+        ResponseDTO responseDTO = StatusDTO.ok();
+        responseDTO.setFlashCardBoxResponses(new FlashCardBoxResponse(box, true));
+        return responseDTO;
     }
 
     public ResponseDTO revertSharingBox(RequestDTO requestDTO) throws FccExcpetion {
@@ -127,7 +129,9 @@ public class FlashcardBoxService {
             //TODO Fehlermeldung?
         }
 
-        return StatusDTO.ok();
+        ResponseDTO responseDTO = StatusDTO.ok();
+        responseDTO.setFlashCardBoxResponses(new FlashCardBoxResponse(box, true));
+        return responseDTO;
     }
 
     private ResponseDTO createResponseWithBoxes(FlashCardBox flashCardBox){
