@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MailComponent {
+public class MailComponent extends MailSender {
     public enum Purpose{
         REGISTER, RESETPASSWORD
     }
@@ -14,6 +14,7 @@ public class MailComponent {
 
     @Autowired
     public MailComponent(RegisterMail registerMail, ResetPasswordMail resetPasswordMail) {
+        super(null);
         this.registerMail = registerMail;
         this.resetPasswordMail = resetPasswordMail;
     }
