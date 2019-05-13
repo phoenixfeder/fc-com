@@ -104,7 +104,7 @@ public class FlashcardBoxService {
         FlashCardBox box = determineSharedBox(requestDTO, user);
         User sharedUser = determineSharedUser(requestDTO);
 
-        if (sharedUser == user) {
+        if (sharedUser.equals(user)) {
             //TODO Fehlermeldung?
         } else {
             sharedUser.getViewableBoxes().add(box);

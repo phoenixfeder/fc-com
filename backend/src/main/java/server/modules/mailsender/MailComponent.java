@@ -27,6 +27,9 @@ public class MailComponent extends MailSender {
                 break;
             case RESETPASSWORD:
                 resetPasswordMail.send(mailTo, username, id, token, purpose);
+                break;
+            default:
+                break;
         }
     }
 }
