@@ -48,7 +48,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "box_id", referencedColumnName = "id")
     )
-    private List<FlashCardBox> viewableBoxes;
+    private Set<FlashCardBox> viewableBoxes;
 
     public void insertDTOData(UserRequest userRequest) {
         this.username = userRequest.getUsername();

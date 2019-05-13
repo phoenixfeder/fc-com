@@ -110,8 +110,11 @@ public class FlashcardBoxService {
             sharedUser.getViewableBoxes().add(box);
             userConnector.save(sharedUser);
         }
+        box.setFlashcards(flashcardConnector);
 
-        return StatusDTO.ok();
+        ResponseDTO responseDTO = StatusDTO.ok();
+        responseDTO.setFlashCardBoxResponses(new FlashCardBoxResponse(box, true));
+        return responseDTO;
     }
 
     public ResponseDTO revertSharingBox(RequestDTO requestDTO) throws FccExcpetion {
@@ -126,8 +129,29 @@ public class FlashcardBoxService {
         } else {
             //TODO Fehlermeldung?
         }
+        box.setFlashcards(flashcardConnector);
 
-        return StatusDTO.ok();
+        ResponseDTO responseDTO = StatusDTO.ok();
+        responseDTO.setFlashCardBoxResponses(new FlashCardBoxResponse(box, true));
+        return responseDTO;
+    }
+
+    public ResponseDTO removeSharedBox(RequestDTO requestDTO) throws FccExcpetion {
+        User user = authenticator.authenticate(requestDTO);
+
+        Long id = DTOContentParser.getFlashCardBoxID(requestDTO);
+        FlashCardBox box = flashCardBoxConnector.getBoxById(id);
+
+        if (box == null || !box.getSharedToUsers().contains(user)) {
+            throw new PermissionDeniedException();
+        }
+        user.getViewableBoxes().remove(box);
+        FlashCardBox newBox = flashCardBoxConnector.save(box);
+        newBox.setFlashcards(flashcardConnector);
+
+        ResponseDTO responseDTO = StatusDTO.ok();
+        responseDTO.setFlashCardBoxResponses(new FlashCardBoxResponse(newBox, false));
+        return responseDTO;
     }
 
     private ResponseDTO createResponseWithBoxes(FlashCardBox flashCardBox){

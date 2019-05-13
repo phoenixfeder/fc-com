@@ -18,6 +18,10 @@ public class FlashCardBoxConnector {
         this.flashCardBoxRepository = flashCardBoxRepository;
     }
 
+    public FlashCardBox getBoxById(Long id) {
+        return flashCardBoxRepository.findById(id).orElse(null);
+    }
+
     public List<FlashCardBox> getAllBoxFromUser(User user) {
         List<FlashCardBox> box = flashCardBoxRepository.getAllByOwner(user);
         return box;
