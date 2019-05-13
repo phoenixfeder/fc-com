@@ -2,10 +2,13 @@ package server.entities;
 
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import server.entities.dto.request.UserRequest;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -40,8 +43,11 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @ManyToMany(targetEntity = FlashCardBox.class)
-    @JoinColumn(name = "viewableBoxes")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "box_id", referencedColumnName = "id")
+    )
     private Set<FlashCardBox> viewableBoxes;
 
     public void insertDTOData(UserRequest userRequest) {

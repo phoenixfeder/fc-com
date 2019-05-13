@@ -1,10 +1,15 @@
 package server.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import server.modules.dbconnector.FlashcardConnector;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,8 +32,13 @@ public class FlashCardBox {
     private LocalDateTime lastChanged;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "owner")
     private User owner;
+
+    @ManyToMany(mappedBy = "viewableBoxes", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<User> sharedToUsers;
 
     @Transient
     private Long flashcards;
@@ -46,4 +56,9 @@ public class FlashCardBox {
         this.flashcards = flashcardConnector.countFlashcards(this);
     }
 
+    public List<String> getSharedUserNames() {
+        List<String> sharedUserNames = new ArrayList<>();
+        sharedToUsers.forEach(sharedUser -> sharedUserNames.add(sharedUser.getUsername()));
+        return sharedUserNames;
+    }
 }

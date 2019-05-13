@@ -27,7 +27,11 @@ class Flashcardboxes extends Component {
     createOpen: false,
   };
 
-  componentWillMount() {
+  componentDidMount = () => {
+    document.title = 'Flashcardboxes';
+  }
+
+  componentWillMount = () => {
     this.props.getFlashcardboxes();
   }
 
@@ -60,6 +64,8 @@ class Flashcardboxes extends Component {
               lastchanged={box.lastchanged}
               created={box.created}
               description={box.description}
+              userOwnsBox={box.userOwnsBox}
+              sharedUsers={box.sharedToUsers}
               history={this.props.history}
             />
           </Grid>
