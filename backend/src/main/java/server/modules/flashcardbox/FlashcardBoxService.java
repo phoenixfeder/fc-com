@@ -136,6 +136,24 @@ public class FlashcardBoxService {
         return responseDTO;
     }
 
+    public ResponseDTO removeSharedBox(RequestDTO requestDTO) throws FccExcpetion {
+        User user = authenticator.authenticate(requestDTO);
+
+        Long id = DTOContentParser.getFlashCardBoxID(requestDTO);
+        FlashCardBox box = flashCardBoxConnector.getBoxById(id);
+
+        if (box == null || !box.getSharedToUsers().contains(user)) {
+            throw new PermissionDeniedException();
+        }
+        user.getViewableBoxes().remove(box);
+        FlashCardBox newBox = flashCardBoxConnector.save(box);
+        newBox.setFlashcards(flashcardConnector);
+
+        ResponseDTO responseDTO = StatusDTO.ok();
+        responseDTO.setFlashCardBoxResponses(new FlashCardBoxResponse(newBox, false));
+        return responseDTO;
+    }
+
     private ResponseDTO createResponseWithBoxes(FlashCardBox flashCardBox){
         FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
         newBox.setFlashcards(flashcardConnector);
