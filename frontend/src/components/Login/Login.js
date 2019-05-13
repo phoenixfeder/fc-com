@@ -165,7 +165,6 @@ class Login extends Component {
                     variant="contained"
                     color="primary"
                     disabled={loading}
-                    onClick={this.handleSubmit}
                   >
                     {'Login'}
                   </Button>

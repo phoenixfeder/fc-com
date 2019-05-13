@@ -130,11 +130,18 @@ const shareBoxStart = state => ({
   shareLoading: true,
 });
 
-const shareBoxSuccess = (state, action) => ({
-  ...state,
-  shareLoading: false,
-  error: action.error, // TODO: Add user to shared users
-});
+const shareBoxSuccess = (state, action) => {
+  const indexToUpdate = state.boxes.findIndex(box => box.id === action.flashcardbox.id);
+  const newFlashcardboxes = Array.from(state.boxes);
+  newFlashcardboxes[indexToUpdate] = action.flashcardbox;
+
+  return ({
+    ...state,
+    boxes: newFlashcardboxes,
+    shareLoading: false,
+    error: action.error,
+  });
+};
 
 const shareBoxFail = (state, action) => ({
   ...state,
@@ -147,11 +154,18 @@ const stopShareBoxStart = state => ({
   shareLoading: true,
 });
 
-const stopShareBoxSuccess = (state, action) => ({
-  ...state,
-  shareLoading: false,
-  error: action.error, // TODO: Remove user from shared users
-});
+const stopShareBoxSuccess = (state, action) => {
+  const indexToUpdate = state.boxes.findIndex(box => box.id === action.flashcardbox.id);
+  const newFlashcardboxes = Array.from(state.boxes);
+  newFlashcardboxes[indexToUpdate] = action.flashcardbox;
+
+  return ({
+    ...state,
+    boxes: newFlashcardboxes,
+    shareLoading: false,
+    error: action.error,
+  });
+};
 
 const stopShareBoxFail = (state, action) => ({
   ...state,
@@ -164,11 +178,18 @@ const unfollowBoxStart = state => ({
   shareLoading: true,
 });
 
-const unfollowBoxSuccess = (state, action) => ({
-  ...state,
-  shareLoading: false,
-  error: action.error, // TODO: Remove followed box from boxes
-});
+const unfollowBoxSuccess = (state, action) => {
+  const indexToRemove = state.boxes.findIndex(box => box.id === action.flashcardbox);
+  const newFlashcardboxes = Array.from(state.boxes);
+  newFlashcardboxes.splice(indexToRemove, 1);
+
+  return ({
+    ...state,
+    boxes: newFlashcardboxes,
+    shareLoading: false,
+    error: action.error,
+  });
+};
 
 const unfollowBoxFail = (state, action) => ({
   ...state,

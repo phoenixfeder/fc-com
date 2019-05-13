@@ -114,7 +114,7 @@ class Flashcardbox extends Component {
   renderCardActions = () => {
     const { isShared, deleteLoading, editLoading } = this.props;
 
-    if (isShared) {
+    if (!this.props.userOwnsBox) {
       return (
         <div
           style={{
@@ -200,7 +200,7 @@ class Flashcardbox extends Component {
               color="textSecondary"
               gutterBottom
             >
-              {isShared ? 'Shared Flashcardbox' : `Flashcardbox, created ${new Date(created).toLocaleString()}`}
+              {!this.props.userOwnsBox ? 'Shared Flashcardbox' : `Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
             </Typography>
             <Typography variant="h5" component="h2">
               {title}
@@ -236,6 +236,7 @@ class Flashcardbox extends Component {
         />
         <FlashcardboxShareModal
           title={title}
+          sharedUsers={this.props.sharedUsers}
           open={this.state.shareOpen}
           handleShare={this.handleShare}
           handleStopShare={this.handleStopShare}
@@ -271,12 +272,12 @@ Flashcardbox.propTypes = {
   stopShareFlashcardbox: PropTypes.func.isRequired,
   unfollowFlashcardbox: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isShared: PropTypes.bool,
+  userOwnsBox: PropTypes.bool.isRequired,
+  sharedUsers: PropTypes.array.isRequired,
 };
 
 Flashcardbox.defaultProps = {
   successRate: '-',
-  isShared: false,
 };
 
 export default withStyles(styles)(Flashcardbox);

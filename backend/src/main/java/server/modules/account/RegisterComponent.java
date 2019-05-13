@@ -18,7 +18,7 @@ import server.modules.dbconnector.ResetPasswordTokenConnector;
 import server.modules.dbconnector.RoleConnector;
 import server.modules.dbconnector.TokenConnector;
 import server.modules.dbconnector.UserConnector;
-import server.modules.utils.Mail;
+import server.modules.mailsender.MailComponent;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,24 +27,26 @@ import java.util.regex.Pattern;
 public class RegisterComponent {
 
     private final Authenticator authenticator;
-    private final Mail mail;
     private final UserConnector userConnector;
     private final TokenConnector tokenConnector;
     private final RoleConnector roleConnector;
     private final ResetPasswordTokenConnector resetPasswordTokenConnector;
+
+    private final MailComponent mailComponent;
 
 //    final private UserRepository userRepository;
 //    final private RoleRepository roleRepository;
 //    final private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-    public RegisterComponent(Authenticator authenticator, Mail mail, UserConnector userConnector, RoleConnector roleConnector, TokenConnector tokenConnector, ResetPasswordTokenConnector resetPasswordTokenConnector) {
+    public RegisterComponent(Authenticator authenticator, UserConnector userConnector, RoleConnector roleConnector, TokenConnector tokenConnector, ResetPasswordTokenConnector resetPasswordTokenConnector, MailComponent mailComponent) {
         this.authenticator = authenticator;
-        this.mail = mail;
+        //this.mail = mail;
         this.userConnector = userConnector;
         this.roleConnector = roleConnector;
         this.tokenConnector = tokenConnector;
         this.resetPasswordTokenConnector = resetPasswordTokenConnector;
+        this.mailComponent = mailComponent;
     }
 
     public boolean isUserNameTaken(String name) {
@@ -140,7 +142,7 @@ public class RegisterComponent {
     public void sendVerificationMail(User user) throws EmailSendException {
         VerificationToken token = tokenConnector.getTokenByUser(user);
         try {
-            mail.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
+            mailComponent.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken(), MailComponent.Purpose.REGISTER);
         } catch (Exception e) {
             e.printStackTrace();
             throw new EmailSendException();
@@ -150,7 +152,7 @@ public class RegisterComponent {
     public void sendNewPasswordMail(User user) throws EmailSendException{
         ResetPasswordToken token = resetPasswordTokenConnector.getTokenByUser(user);
         try {
-            mail.sendNewPassword(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken());
+            mailComponent.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken(), MailComponent.Purpose.RESETPASSWORD);
         } catch (Exception e) {
             e.printStackTrace();
             throw new EmailSendException();

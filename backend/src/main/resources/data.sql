@@ -26,3 +26,6 @@ VALUES (100000, 'Dies ist ein Text, der Hinten auf einer Flashcard stehen könnt
         'Dies ist ein Text, der Vorne auf einer Flashcard stehen könnte! Dies ist ein Text, der Vorne auf einer Flashcard stehen könnte! Dies ist ein Text, der Vorne auf einer Flashcard stehen könnte!',
         'Hello World', 1),
        (100001, 'Lösung', 'Frage', 'TestCard', 1);
+
+INSERT INTO user_viewable_boxes(user_id, box_id)
+VALUES (4, 1);

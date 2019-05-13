@@ -40,7 +40,11 @@ class FlashcardboxShareModal extends Component {
         value={this.state.username}
         onChange={this.handleChange}
       />
-      <IconButton onClick={() => this.props.handleShare(this.state.username)}>
+      <IconButton onClick={() => {
+        this.props.handleShare(this.state.username);
+        this.setState({ username: '' });
+      }}
+      >
         <Add />
       </IconButton>
     </DialogContent>
@@ -52,11 +56,11 @@ class FlashcardboxShareModal extends Component {
         {'Currently you share this box with:'}
       </DialogContentText>
       <List>
-        {users.map(user => (
-          <ListItem key={user.id}>
-            <ListItemText primary={user.username} />
+        {users.map((user, index) => (
+          <ListItem key={index}>
+            <ListItemText primary={user} />
             <ListItemSecondaryAction>
-              <IconButton onClick={() => this.props.handleStopShare(this.state.username)}>
+              <IconButton onClick={() => this.props.handleStopShare(user)}>
                 <Clear />
               </IconButton>
             </ListItemSecondaryAction>
@@ -77,7 +81,7 @@ class FlashcardboxShareModal extends Component {
           {'Share Flashcardbox'}
         </DialogTitle>
         {this.renderAddSharedUser()}
-        { this.renderSharedUsers([{ username: 'fred', id: 4 }, { username: 'jürgen', id: 2 }, { username: 'Hans-Peter', id: 6 }]) }
+        { this.renderSharedUsers(this.props.sharedUsers)}
         <DialogActions>
           <Button
             onClick={() => {
@@ -98,6 +102,7 @@ FlashcardboxShareModal.propTypes = {
   handleClose: PropTypes.func.isRequired,
   handleShare: PropTypes.func.isRequired,
   handleStopShare: PropTypes.func.isRequired,
+  sharedUsers: PropTypes.array.isRequired,
 };
 
 export default FlashcardboxShareModal;
