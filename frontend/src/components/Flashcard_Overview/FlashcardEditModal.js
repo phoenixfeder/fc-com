@@ -34,9 +34,16 @@ class FlashcardEditModal extends Component {
   };
 
   render() {
+    const {
+      open,
+      handleClose,
+      flashcard,
+      editFlashcard,
+    } = this.props;
+
     return (
       <div>
-        <Dialog open={this.props.open}>
+        <Dialog open={open}>
           <DialogContent>
             <DialogContentText>
               {'Please enter a title and the texts for front- and backpage'}
@@ -78,7 +85,7 @@ class FlashcardEditModal extends Component {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={() => this.props.handleClose()}
+              onClick={() => handleClose()}
               color="secondary"
             >
               {'Cancel'}
@@ -89,10 +96,10 @@ class FlashcardEditModal extends Component {
                   title: this.state.title,
                   front: this.state.front,
                   back: this.state.back,
-                  id: this.props.flashcard.id,
+                  id: flashcard.id,
                 };
-                this.props.editFlashcard(editedFlashcard);
-                this.props.handleClose();
+                editFlashcard(editedFlashcard);
+                handleClose();
               }}
               color="primary"
             >

@@ -65,21 +65,24 @@ class ResetPassword extends Component {
   };
 
   handleSubmit = () => {
+
+    const { history, enqueueSnackbar } = this.props;
+
     this.setState({ loading: true });
     resetPassword(this.state.email, (result) => {
       switch (result.status.code) {
         case 200:
-          this.props.enqueueSnackbar({
+          enqueueSnackbar({
             message: 'We send you an email to reset your password!',
             options: {
               variant: 'success',
             },
           });
           this.setState({ loading: false });
-          this.props.history.push('/');
+          history.push('/');
           break;
         case 403:
-          this.props.enqueueSnackbar({
+          enqueueSnackbar({
             message: 'Your email is invalid',
             options: {
               variant: 'error',
@@ -92,7 +95,7 @@ class ResetPassword extends Component {
           });
           break;
         default:
-          this.props.enqueueSnackbar({
+          enqueueSnackbar({
             message: 'Something went wrong - visit the FAQ page for more help.',
             options: {
               variant: 'error',

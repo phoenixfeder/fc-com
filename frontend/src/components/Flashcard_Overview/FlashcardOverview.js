@@ -33,42 +33,61 @@ class FlashcardOverview extends Component {
     createOpen: false,
     editOpen: false,
     deleteOpen: false,
-    flashcardToEdit: { front: '', back: '', title: '' },
+    flashcardToEdit: {
+      front: '',
+      back: '',
+      title: '',
+    },
     flashcardIndicesToDelete: [],
   };
 
   componentDidMount() {
-    if (this.props.boxId === 0) {
-      this.props.history.push('/boxes');
+    const { boxId, history, getFlashcards } = this.props;
+    if (boxId === 0) {
+      history.push('/boxes');
     } else {
-
-      this.props.getFlashcards(this.props.boxId);
+      getFlashcards(boxId);
     }
   }
 
   setDeleteFlashcards(flashcardIndicesToDelete) {
-    this.setState({ flashcardIndicesToDelete: flashcardIndicesToDelete.data, deleteOpen: true });
+    this.setState({
+      flashcardIndicesToDelete: flashcardIndicesToDelete.data,
+      deleteOpen: true,
+    });
   }
 
   editDialogOpen = (flashcard) => {
-    this.setState({ editOpen: true, flashcardToEdit: flashcard });
+    this.setState({
+      editOpen: true,
+      flashcardToEdit: flashcard,
+    });
   };
 
-  getCardData = () => (
-    this.props.flashcards.map(flashcard => (
-      [flashcard.title, flashcard.front, flashcard.back, `${(flashcard.successRate + Math.random() * 10)} %`, (
-        <IconButton
-          aria-label="Edit Flashcardbox"
-          onClick={() => this.editDialogOpen(flashcard)}
-          disabled={this.props.editLoading}
-        >
-          <Edit />
-        </IconButton>)]
-    ))
-  );
+  getCardData = () => {
+    const { flashcards, editLoading } = this.props;
+    return (
+      flashcards.map(flashcard => (
+        [
+          flashcard.title, flashcard.front, flashcard.back, `${(flashcard.successRate + Math.random() * 10)} %`,
+          (
+            <IconButton
+              aria-label="Edit Flashcardbox"
+              onClick={() => this.editDialogOpen(flashcard)}
+              disabled={editLoading}
+            >
+              <Edit />
+            </IconButton>
+          ),
+        ]
+      ))
+    );
+  }
+  ;
 
   handleCreateClose() {
-    this.setState({ createOpen: false });
+    this
+      .setState({ createOpen: false });
   }
 
   handleDeleteClose() {
@@ -76,12 +95,13 @@ class FlashcardOverview extends Component {
   }
 
   handleDeleteFlashcards() {
+    const { flashcards, deleteFlashcard } = this.props;
     const flashcardsToDelete = [];
     this.state.flashcardIndicesToDelete.forEach(index => {
-      flashcardsToDelete.push(this.props.flashcards[index.dataIndex]);
+      flashcardsToDelete.push(flashcards[index.dataIndex]);
     });
     flashcardsToDelete.forEach((flashcard) => {
-      this.props.deleteFlashcard(flashcard.id);
+      deleteFlashcard(flashcard.id);
     });
   }
 
@@ -90,7 +110,13 @@ class FlashcardOverview extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      boxTitle,
+      createFlashcard,
+      boxId,
+      editFlashcard,
+    } = this.props;
 
     const columns = ['Title', 'Front', 'Back', 'Success-Rate', ' '];
 
@@ -123,7 +149,7 @@ class FlashcardOverview extends Component {
       <div>
         <Grid item lg={12} className={classes.headline}>
           <Typography variant="h3" align="center">
-            {this.props.boxTitle}
+            {boxTitle}
           </Typography>
         </Grid>
 
@@ -136,16 +162,16 @@ class FlashcardOverview extends Component {
 
         <FlashcardCreateModal
           handleClose={() => this.handleCreateClose()}
-          createFlashcard={this.props.createFlashcard}
+          createFlashcard={createFlashcard}
           open={this.state.createOpen}
-          boxId={this.props.boxId}
+          boxId={boxId}
         />
 
         <FlashcardEditModal
           open={this.state.editOpen}
           flashcard={this.state.flashcardToEdit}
           handleClose={() => this.handleEditClose()}
-          editFlashcard={this.props.editFlashcard}
+          editFlashcard={editFlashcard}
         />
         <FlashcardDeleteModal open={this.state.deleteOpen} handleClose={() => this.handleDeleteClose()} handleDelete={() => this.handleDeleteFlashcards()} />
       </div>

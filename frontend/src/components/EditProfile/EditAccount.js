@@ -17,7 +17,6 @@ import Typography from '@material-ui/core/Typography/Typography';
 import PasswordIcon from '@material-ui/icons/Lock';
 import EMailIcon from '@material-ui/icons/Mail';
 import * as PropTypes from 'prop-types';
-import qs from 'query-string';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -58,9 +57,6 @@ TabContainer.propTypes = {
 
 class EditAccount extends Component {
   state = {
-    userID: -1,
-    editSelf: true,
-
     oldPassword: '',
     oldPasswordErrorMsg: '',
 
@@ -77,10 +73,8 @@ class EditAccount extends Component {
 
   componentWillMount() {
     const { enqueueSnackbar } = this.props;
-    const userID = qs.parse(window.location.search).userID !== undefined ? qs.parse(window.location.search).userID : this.props.userID;
-    this.setState({ userID, editSelf: (userID === this.props.userID) });
 
-    fetchGetAccountData({ ...this.props, userID }, (result) => {
+    fetchGetAccountData(this.props, (result) => {
 
       switch (result.status.code) {
         case 200:
@@ -402,7 +396,6 @@ EditAccount.propTypes = {
   enqueueSnackbar: PropTypes.func.isRequired,
   history: PropTypes.func.isRequired,
   closeAccount: PropTypes.func.isRequired,
-  userID: PropTypes.number.isRequired,
 };
 
 export default compose(

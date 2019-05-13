@@ -6,14 +6,14 @@ import IconButton from '@material-ui/core/IconButton/IconButton';
 import Menu from '@material-ui/core/Menu/Menu';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
+import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import ToolBarUI from '@material-ui/core/Toolbar';
 import TypographyUI from '@material-ui/core/Typography';
 import AccountIcon from '@material-ui/icons/AccountCircle';
+import MenuIconUI from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Link from 'react-router-dom/es/Link';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
-import MenuIconUI from '@material-ui/icons/Menu';
 import { lightTheme } from '../../../utils/themeLight';
 
 const drawerWidth = 240;
@@ -85,7 +85,7 @@ class AppBar extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, isAuthenticated, username } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -96,9 +96,10 @@ class AppBar extends Component {
     ];
 
 
-    if (this.props.isAuthenticated) {
+    if (isAuthenticated) {
       menuItems = [
-        <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit Profile</MenuItem>,
+        <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit
+          Profile</MenuItem>,
         <MenuItem key="B" id="register-menu-link" component={Link} to="/logout" onClick={this.handleClose}>Logout</MenuItem>,
       ];
     }
@@ -127,7 +128,7 @@ class AppBar extends Component {
       </>
     );
 
-    if (this.props.isAuthenticated) {
+    if (isAuthenticated) {
       sidebarItems = (
         <>
           <MenuItem
@@ -173,9 +174,9 @@ class AppBar extends Component {
 
               <TypographyUI variant="h6" color="inherit" className={classes.grow}>Flashcard Community</TypographyUI>
 
-              {this.props.isAuthenticated ? (
+              {isAuthenticated ? (
                 <TypographyUI variant="subtitle2" color="inherit" className={classes.grow} align="right">
-                  {this.props.username}
+                  {username}
                 </TypographyUI>
               ) : null}
 

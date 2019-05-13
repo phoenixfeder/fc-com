@@ -51,7 +51,6 @@ TabContainer.propTypes = {
 
 class EditUser extends Component {
   state = {
-    userID: -1,
 
     realName: '',
     isRealNameIncorrect: false,
@@ -71,8 +70,6 @@ class EditUser extends Component {
 
   componentWillMount() {
     const { enqueueSnackbar } = this.props;
-
-    this.setState({ userID: this.props.userID });
 
     fetchGetAccountData(this.props, (result) => {
 
@@ -287,7 +284,6 @@ class EditUser extends Component {
 EditUser.propTypes = {
   classes: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
-  userID: PropTypes.number.isRequired,
 };
 
 export default withStyles(styles)(EditUser);

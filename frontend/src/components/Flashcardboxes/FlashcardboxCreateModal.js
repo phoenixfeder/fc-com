@@ -23,10 +23,13 @@ class FlashcardboxCreateModal extends Component {
   };
 
   render() {
+
+    const { open, handleClose, handleCreate } = this.props;
+
     return (
       <div>
         <Dialog
-          open={this.props.open}
+          open={open}
           onClose={this.handleCreateClose}
           aria-labelledby="form-dialog-title"
         >
@@ -58,7 +61,7 @@ class FlashcardboxCreateModal extends Component {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={() => this.props.handleClose()}
+              onClick={() => handleClose()}
               color="secondary"
             >
               {'Cancel'}
@@ -69,7 +72,7 @@ class FlashcardboxCreateModal extends Component {
                   title: this.state.fcb_name,
                   description: this.state.fcb_description,
                 };
-                this.props.handleCreate(flashcardbox);
+                handleCreate(flashcardbox);
               }}
               color="primary"
             >

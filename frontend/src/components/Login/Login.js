@@ -93,7 +93,7 @@ class Login extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, loading } = this.props;
 
     return (
       <div className={classes.root}>
@@ -164,12 +164,12 @@ class Login extends Component {
                     id="login-button"
                     variant="contained"
                     color="primary"
-                    disabled={this.props.loading}
+                    disabled={loading}
                     onClick={this.handleSubmit}
                   >
                     {'Login'}
                   </Button>
-                  {this.props.loading
+                  {loading
                   && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </div>
               </Grid>

@@ -83,22 +83,25 @@ class SetNewPassword extends Component {
   };
 
   handleSubmit = () => {
+
+    const { enqueueSnackbar, history } = this.props;
+
     this.setState({ loading: true });
     if (this.state.password === this.state.repeatPassword) {
       submitNewPassword(this.state, (result) => {
         switch (result.status.code) {
           case 200:
-            this.props.enqueueSnackbar({
+            enqueueSnackbar({
               message: 'You successfully set your new password. Try it out now!',
               options: {
                 variant: 'success',
               },
             });
             this.setState({ loading: false });
-            this.props.history.push('/login');
+            history.push('/login');
             break;
           case 500:
-            this.props.enqueueSnackbar({
+            enqueueSnackbar({
               message: 'Your password is not valid.',
               options: {
                 variant: 'error',
@@ -111,7 +114,7 @@ class SetNewPassword extends Component {
             });
             break;
           default:
-            this.props.enqueueSnackbar({
+            enqueueSnackbar({
               message: 'Something went wrong - visit the FAQ page for more help.',
               options: {
                 variant: 'error',

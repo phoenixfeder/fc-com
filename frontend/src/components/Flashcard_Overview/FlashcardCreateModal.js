@@ -6,8 +6,8 @@ import {
   DialogContentText,
   TextField,
 } from '@material-ui/core';
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 class FlashcardCreateModal extends Component {
   state = {
@@ -23,9 +23,16 @@ class FlashcardCreateModal extends Component {
   };
 
   render() {
+    const {
+      boxId,
+      open,
+      handleClose,
+      createFlashcard,
+    } = this.props;
+
     return (
       <div>
-        <Dialog open={this.props.open}>
+        <Dialog open={open}>
           <DialogContent>
             <DialogContentText>
               {'Please enter a title and the texts for front- and backpage'}
@@ -64,7 +71,7 @@ class FlashcardCreateModal extends Component {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={() => this.props.handleClose()}
+              onClick={() => handleClose()}
               color="secondary"
             >
               {'Cancel'}
@@ -76,8 +83,8 @@ class FlashcardCreateModal extends Component {
                   front: this.state.front,
                   back: this.state.back,
                 };
-                this.props.createFlashcard(flashcard, this.props.boxId);
-                this.props.handleClose();
+                createFlashcard(flashcard, boxId);
+                handleClose();
               }}
               color="primary"
             >
