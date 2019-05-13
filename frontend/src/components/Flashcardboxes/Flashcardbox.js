@@ -112,9 +112,9 @@ class Flashcardbox extends Component {
   };
 
   renderCardActions = () => {
-    const { isShared, deleteLoading, editLoading } = this.props;
+    const { userOwnsBox, deleteLoading, editLoading } = this.props;
 
-    if (!this.props.userOwnsBox) {
+    if (!userOwnsBox) {
       return (
         <div
           style={{
@@ -167,12 +167,13 @@ class Flashcardbox extends Component {
     const {
       classes,
       successRate,
-      isShared,
+      sharedUsers,
       title,
       created,
       description,
       amount,
       id,
+      userOwnsBox,
     } = this.props;
 
     let successChip = <Chip
@@ -200,7 +201,7 @@ class Flashcardbox extends Component {
               color="textSecondary"
               gutterBottom
             >
-              {!this.props.userOwnsBox ? 'Shared Flashcardbox' : `Flashcardbox, created ${new Date(this.props.created).toLocaleString()}`}
+              {!userOwnsBox ? 'Shared Flashcardbox' : `Flashcardbox, created ${new Date(created).toLocaleString()}`}
             </Typography>
             <Typography variant="h5" component="h2">
               {title}
@@ -236,7 +237,7 @@ class Flashcardbox extends Component {
         />
         <FlashcardboxShareModal
           title={title}
-          sharedUsers={this.props.sharedUsers}
+          sharedUsers={sharedUsers}
           open={this.state.shareOpen}
           handleShare={this.handleShare}
           handleStopShare={this.handleStopShare}
