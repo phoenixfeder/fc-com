@@ -40,7 +40,11 @@ class FlashcardboxShareModal extends Component {
         value={this.state.username}
         onChange={this.handleChange}
       />
-      <IconButton onClick={() => this.props.handleShare(this.state.username)}>
+      <IconButton onClick={() => {
+        this.props.handleShare(this.state.username);
+        this.setState({ username: '' });
+      }}
+      >
         <Add />
       </IconButton>
     </DialogContent>

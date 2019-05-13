@@ -131,9 +131,9 @@ const shareBoxStart = state => ({
 });
 
 const shareBoxSuccess = (state, action) => {
-  const indexToUpdate = state.boxes.findIndex(box => box.id === action.flashcardboxes[0].id);
-  const newFlashcardboxes = state.boxes;
-  newFlashcardboxes[indexToUpdate] = action.flashcardboxes[0];
+  const indexToUpdate = state.boxes.findIndex(box => box.id === action.flashcardbox.id);
+  const newFlashcardboxes = Array.from(state.boxes);
+  newFlashcardboxes[indexToUpdate] = action.flashcardbox;
 
   return ({
     ...state,
@@ -155,9 +155,9 @@ const stopShareBoxStart = state => ({
 });
 
 const stopShareBoxSuccess = (state, action) => {
-  const indexToUpdate = state.boxes.findIndex(box => box.id === action.flashcardboxes[0].id);
-  const newFlashcardboxes = state.boxes;
-  newFlashcardboxes[indexToUpdate] = action.flashcardboxes[0];
+  const indexToUpdate = state.boxes.findIndex(box => box.id === action.flashcardbox.id);
+  const newFlashcardboxes = Array.from(state.boxes);
+  newFlashcardboxes[indexToUpdate] = action.flashcardbox;
 
   return ({
     ...state,
@@ -179,8 +179,8 @@ const unfollowBoxStart = state => ({
 });
 
 const unfollowBoxSuccess = (state, action) => {
-  const indexToRemove = state.boxes.findIndex(box => box.id === action.flashcardboxes[0].id);
-  const newFlashcardboxes = state.boxes;
+  const indexToRemove = state.boxes.findIndex(box => box.id === action.flashcardbox);
+  const newFlashcardboxes = Array.from(state.boxes);
   newFlashcardboxes.splice(indexToRemove, 1);
 
   return ({
