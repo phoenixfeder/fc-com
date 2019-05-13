@@ -409,6 +409,39 @@ const unfollowBoxFail = error => ({
 
 export const unfollowFlashcardbox = boxId => dispatch => {
   dispatch(unfollowBoxStart());
-  dispatch(unfollowBoxSuccess(boxId));
-  dispatch(unfollowBoxFail(`Whoops! Could not stop following box with id ${boxId}`));
+  const authState = store.getState().auth;
+  fetch(BACKEND_URL_REVERT_SHARING_FLASHCARDBOX, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      authentication: {
+        session: authState.session,
+        hash: authState.sessionHash,
+      },
+      flashcardboxes: {
+        id: boxId,
+      },
+    }),
+  }).then(results => results.json()).then(result => {
+    switch (result.status.code) {
+      case 200:
+        dispatch(unfollowBoxSuccess(boxId));
+        break;
+
+      default:
+        dispatch(unfollowBoxFail(result.status.message));
+        dispatch(enqueueSnackbar({
+          message: 'This should not happen. Please contact system admin.',
+          options: {
+            variant: 'error',
+          },
+        }));
+        break;
+    }
+  }).catch((err) => {
+    dispatch(unfollowBoxFail(err));
+  });
 };
