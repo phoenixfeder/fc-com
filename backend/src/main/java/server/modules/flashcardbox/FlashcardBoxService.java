@@ -104,8 +104,8 @@ public class FlashcardBoxService {
         FlashCardBox box = determineSharedBox(requestDTO, user);
         User sharedUser = determineSharedUser(requestDTO);
 
-        if (sharedUser.equals(user)) {
-            //TODO Fehlermeldung?
+        if (!sharedUser.isEnabled() || sharedUser.equals(user)) {
+            throw new UserNotFoundException();
         } else {
             sharedUser.getViewableBoxes().add(box);
             userConnector.save(sharedUser);
@@ -127,7 +127,7 @@ public class FlashcardBoxService {
             sharedUser.getViewableBoxes().remove(box);
             userConnector.save(sharedUser);
         } else {
-            //TODO Fehlermeldung?
+            throw new UserNotFoundException();
         }
         box.setFlashcards(flashcardConnector);
 
