@@ -2,7 +2,6 @@ package server.modules.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import server.entities.FlashCardBox;
 import server.entities.ResetPasswordToken;
 import server.entities.User;
 import server.entities.VerificationToken;
@@ -19,7 +18,6 @@ import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class AccountService {
@@ -31,14 +29,11 @@ public class AccountService {
 
     private final UserConnector userConnector;
     private final TokenConnector tokenConnector;
-    private final SessionConnector sessionConnector;
-    private final FlashCardBoxConnector flashCardBoxConnector;
-    private final FlashcardConnector flashcardConnector;
     private final ResetPasswordTokenConnector resetPasswordTokenConnector;
 
 
     @Autowired
-    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, SessionConnector sessionConnector, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector, ResetPasswordTokenConnector resetPasswordTokenConnector) {
+    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, ResetPasswordTokenConnector resetPasswordTokenConnector) {
         this.registerComponent = registerComponent;
         this.tokenComponent = tokenComponent;
 
@@ -46,9 +41,6 @@ public class AccountService {
 
         this.userConnector = userConnector;
         this.tokenConnector = tokenConnector;
-        this.sessionConnector = sessionConnector;
-        this.flashCardBoxConnector = flashCardBoxConnector;
-        this.flashcardConnector = flashcardConnector;
         this.resetPasswordTokenConnector = resetPasswordTokenConnector;
     }
 
@@ -109,10 +101,6 @@ public class AccountService {
             throw new WrongPasswordException();
         }
 
-//        sessionConnector.deleteByUser(user);
-//        List<FlashCardBox> flashCardBoxes = flashCardBoxConnector.getAllBoxFromUser(user);
-//        flashCardBoxes.forEach(flashcardConnector::deleteByFlashCardBox);
-//        flashCardBoxConnector.deleteByUser(user, flashcardConnector);
         userConnector.delete(user);
 
         return StatusDTO.ok();
