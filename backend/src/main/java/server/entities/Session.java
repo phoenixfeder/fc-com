@@ -1,6 +1,8 @@
 package server.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,6 +21,7 @@ public class Session {
     private String session;
 
     @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
