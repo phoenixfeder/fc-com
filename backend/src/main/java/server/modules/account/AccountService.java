@@ -109,10 +109,10 @@ public class AccountService {
             throw new WrongPasswordException();
         }
 
-        sessionConnector.deleteByUser(user);
-        List<FlashCardBox> flashCardBoxes = flashCardBoxConnector.getAllBoxFromUser(user);
-        flashCardBoxes.forEach(flashcardConnector::deleteByFlashCardBox);
-        flashCardBoxConnector.deleteByUser(user, flashcardConnector);
+//        sessionConnector.deleteByUser(user);
+//        List<FlashCardBox> flashCardBoxes = flashCardBoxConnector.getAllBoxFromUser(user);
+//        flashCardBoxes.forEach(flashcardConnector::deleteByFlashCardBox);
+//        flashCardBoxConnector.deleteByUser(user, flashcardConnector);
         userConnector.delete(user);
 
         return StatusDTO.ok();
