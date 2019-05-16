@@ -29,3 +29,7 @@ VALUES (100000, 'Dies ist ein Text, der Hinten auf einer Flashcard stehen könnt
 
 INSERT INTO user_viewable_boxes(user_id, box_id)
 VALUES (4, 1);
+
+INSERT INTO flash_card_statistics(flashcard_id, trials, failed_trials, deck, user_id)
+VALUES (100000, 0, 0, 'A', 3),
+       (100001, 0, 0, 'A', 3);

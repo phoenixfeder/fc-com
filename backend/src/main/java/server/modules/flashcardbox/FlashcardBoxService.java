@@ -2,7 +2,9 @@ package server.modules.flashcardbox;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import server.entities.FlashCard;
 import server.entities.FlashCardBox;
+import server.entities.FlashCardStatistics;
 import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
@@ -21,6 +23,7 @@ import server.modules.utils.StatusDTO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class FlashcardBoxService {
@@ -92,7 +95,6 @@ public class FlashcardBoxService {
 
         Long id = DTOContentParser.getFlashCardBoxID(requestDTO);
 
-        flashcardConnector.deleteByFlashCardBox(flashCardBoxConnector.getBoxByIdAndUser(id,user));
         flashCardBoxConnector.deleteByIdAndUser(user, id);
 
         return StatusDTO.ok();
@@ -108,6 +110,15 @@ public class FlashcardBoxService {
             throw new UserNotFoundException();
         } else {
             sharedUser.getViewableBoxes().add(box);
+            List<FlashCard> flashCards = flashcardConnector.getByFlashCardBox(box);
+            Set<FlashCard> flashCardsWithUserStatistics = flashcardConnector.getAllFlashCardsWithStatisticsFromBoxAndUser(box, sharedUser);
+            for (FlashCard flashCard : flashCards) {
+                // nur neue Statistik anlegen, wenn für die Karte noch keine existiert
+                if (!flashCardsWithUserStatistics.contains(flashCard)) {
+                    FlashCardStatistics flashCardStatistics = new FlashCardStatistics(flashCard, sharedUser);
+                    flashcardConnector.saveStatistics(flashCardStatistics);
+                }
+            }
             userConnector.save(sharedUser);
         }
         box.setFlashcards(flashcardConnector);

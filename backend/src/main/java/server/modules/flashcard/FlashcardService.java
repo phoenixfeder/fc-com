@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.entities.FlashCard;
 import server.entities.FlashCardBox;
+import server.entities.FlashCardStatistics;
 import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
@@ -48,6 +49,13 @@ public class FlashcardService {
         FlashCard flashcard = new FlashCard(flashcardRequest.getTitle(), flashcardRequest.getFront(), flashcardRequest.getBack());
         flashcard.setFlashcardBox(flashCardBox);
         FlashCard newFlashCard = flashCardConnector.save(flashcard);
+
+        FlashCardStatistics statistics = new FlashCardStatistics(flashcard, user);
+        flashCardConnector.saveStatistics(statistics);
+        for (User sharedUser : flashCardBox.getSharedToUsers()) {
+            statistics = new FlashCardStatistics(flashcard, sharedUser);
+            flashCardConnector.saveStatistics(statistics);
+        }
 
         ResponseDTO responseDTO = StatusDTO.ok();
         Flashcard responseFlashcard = new Flashcard(newFlashCard.getId(), newFlashCard.getTitle(), newFlashCard.getFrontText(), newFlashCard.getBackText());
