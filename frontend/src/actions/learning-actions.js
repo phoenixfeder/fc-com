@@ -99,7 +99,6 @@ export const setLearningCards = decks => dispatch => {
   // Waits for all fetches to be finished
   Promise.all(promises).then(() => {
     // Shuffle cards array here?
-    console.log(cardsToLearn);
     dispatch(setLearningCardsSuccess(cardsToLearn));
   });
 };

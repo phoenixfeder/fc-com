@@ -28,7 +28,7 @@ const styles = theme => ({
   },
 });
 
-class Flashcardboxes extends Component {
+class SelectCards extends Component {
 
   state = { decks: [] };
 
@@ -70,7 +70,7 @@ class Flashcardboxes extends Component {
   };
 
   renderBoxesWithDecks = () => {
-    const { boxes, setLearningCards } = this.props;
+    const { boxes, setLearningCards, history } = this.props;
     return (
       <Card>
         <List>
@@ -108,7 +108,7 @@ class Flashcardboxes extends Component {
             disabled={this.state.decks.length < 1}
             onClick={() => {
               setLearningCards(this.state.decks);
-              // history.push('/select_learning');
+              history.push('/learning');
             }}
           >
             {'Start learning!'}
@@ -138,11 +138,12 @@ class Flashcardboxes extends Component {
 
 }
 
-Flashcardboxes.propTypes = {
+SelectCards.propTypes = {
   classes: PropTypes.object.isRequired,
   getFlashcardboxes: PropTypes.func.isRequired,
   boxes: PropTypes.array.isRequired,
   setLearningCards: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Flashcardboxes);
+export default withStyles(styles)(SelectCards);
