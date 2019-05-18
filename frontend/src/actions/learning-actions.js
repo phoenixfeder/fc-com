@@ -29,21 +29,21 @@ const setLearningCardsFail = errorarg => ({
 });
 
 /*
-  decks: {
-    box: {
+  decks: [
+    {
       id: 123,
       decks: ["A", "B", "F"],
     },
-    box: {
+    {
       id: 2,
       decks: ["B"],
     }
-  }
+  ]
 */
 export const setLearningCards = decks => dispatch => {
   dispatch(setLearningCardsStart());
   const authState = store.getState().auth;
-  const cardsToLearn = [];
+  let cardsToLearn = [];
   const promises = []; // Push all fetches in this array
 
   decks.forEach(box => {
@@ -70,7 +70,7 @@ export const setLearningCards = decks => dispatch => {
             case 200:
               // Adds all flashcards to the array that have the same deck as the given deck array of a box
               // Heftig was so in einer Zeile geht, einfach krank.
-              cardsToLearn.concat(result.flashcards.filter(flashcard => box.decks.includes(flashcard.deck)));
+              cardsToLearn = cardsToLearn.concat(result.flashcards.filter(flashcard => box.decks.includes(flashcard.deck)));
               break;
 
             default:
@@ -99,6 +99,7 @@ export const setLearningCards = decks => dispatch => {
   // Waits for all fetches to be finished
   Promise.all(promises).then(() => {
     // Shuffle cards array here?
+    console.log(cardsToLearn);
     dispatch(setLearningCardsSuccess(cardsToLearn));
   });
 };

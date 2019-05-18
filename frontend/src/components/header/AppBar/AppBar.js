@@ -98,8 +98,7 @@ class AppBar extends Component {
 
     if (isAuthenticated) {
       menuItems = [
-        <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit
-          Profile</MenuItem>,
+        <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit Profile</MenuItem>,
         <MenuItem key="B" id="register-menu-link" component={Link} to="/logout" onClick={this.handleClose}>Logout</MenuItem>,
       ];
     }
@@ -148,6 +147,15 @@ class AppBar extends Component {
             onClick={this.handleSideMenu}
           >
             {'Flashcardboxes'}
+          </MenuItem>
+          <MenuItem
+            id="home-menu-link"
+            component={Link}
+            to="/select_learning"
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {'Learning'}
           </MenuItem>
           <Divider />
           <MenuItem

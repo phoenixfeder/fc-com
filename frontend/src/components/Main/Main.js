@@ -16,6 +16,7 @@ import RegisterContainer from '../Register/register-container';
 import ResetPasswordContainer from '../ResetPassword/ResetPassword-container';
 import SetNewPasswordContainer from '../ResetPassword/SetNewPassword-container';
 import VerfiyContainer from '../Verify/verify-container';
+import SelectCardsContainer from '../Learning/selectcards-container';
 
 class Main extends Component {
   componentDidMount() {
@@ -46,6 +47,7 @@ class Main extends Component {
           <Route path="/faq" component={FAQ} />
           <Route path="/boxes" component={FlashcardboxesContainer} />
           <Route path="/flashcards" component={FlashcardOverviewContainer} />
+          <Route path="/select_learning" component={SelectCardsContainer} />
           <Route component={Home} />
         </Switch>
       );
