@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import server.entities.dto.request.*;
 
+import java.util.List;
+
 @Getter
 public class RequestDTO {
     @JsonProperty("register")
@@ -16,4 +18,6 @@ public class RequestDTO {
     private FlashCardBoxRequest flashCardBoxRequest;
     @JsonProperty("flashcard")
     private FlashcardRequest flashcardRequest;
+    @JsonProperty("flashcards")
+    private List<Flashcard> flashcardList;
 }

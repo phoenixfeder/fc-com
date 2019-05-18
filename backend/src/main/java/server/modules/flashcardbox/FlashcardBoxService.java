@@ -2,7 +2,9 @@ package server.modules.flashcardbox;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import server.entities.FlashCard;
 import server.entities.FlashCardBox;
+import server.entities.FlashCardStatistics;
 import server.entities.User;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
@@ -13,6 +15,7 @@ import server.exceptions.PermissionDeniedException;
 import server.exceptions.UserNotFoundException;
 import server.modules.authentication.Authenticator;
 import server.modules.dbconnector.FlashCardBoxConnector;
+import server.modules.dbconnector.FlashCardStatisticsConnector;
 import server.modules.dbconnector.FlashcardConnector;
 import server.modules.dbconnector.UserConnector;
 import server.modules.utils.DTOContentParser;
@@ -21,6 +24,7 @@ import server.modules.utils.StatusDTO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class FlashcardBoxService {
@@ -29,13 +33,15 @@ public class FlashcardBoxService {
     private final FlashCardBoxConnector flashCardBoxConnector;
     private final FlashcardConnector flashcardConnector;
     private final UserConnector userConnector;
+    private final FlashCardStatisticsConnector flashCardStatisticsConnector;
 
     @Autowired
-    public FlashcardBoxService(Authenticator authenticator, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector, UserConnector userConnector) {
+    public FlashcardBoxService(Authenticator authenticator, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector, UserConnector userConnector, FlashCardStatisticsConnector flashCardStatisticsConnector) {
         this.authenticator = authenticator;
         this.flashCardBoxConnector = flashCardBoxConnector;
         this.flashcardConnector = flashcardConnector;
         this.userConnector = userConnector;
+        this.flashCardStatisticsConnector = flashCardStatisticsConnector;
     }
 
     public ResponseDTO addBox(RequestDTO requestDTO) throws FccExcpetion {
@@ -92,7 +98,6 @@ public class FlashcardBoxService {
 
         Long id = DTOContentParser.getFlashCardBoxID(requestDTO);
 
-        flashcardConnector.deleteByFlashCardBox(flashCardBoxConnector.getBoxByIdAndUser(id,user));
         flashCardBoxConnector.deleteByIdAndUser(user, id);
 
         return StatusDTO.ok();
@@ -108,6 +113,15 @@ public class FlashcardBoxService {
             throw new UserNotFoundException();
         } else {
             sharedUser.getViewableBoxes().add(box);
+            List<FlashCard> flashCards = flashcardConnector.getByFlashCardBox(box);
+            Set<FlashCard> flashCardsWithUserStatistics = flashCardStatisticsConnector.getAllFlashCardsWithStatisticsFromBoxAndUser(box, sharedUser);
+            for (FlashCard flashCard : flashCards) {
+                // nur neue Statistik anlegen, wenn für die Karte noch keine existiert
+                if (!flashCardsWithUserStatistics.contains(flashCard)) {
+                    FlashCardStatistics flashCardStatistics = new FlashCardStatistics(flashCard, sharedUser);
+                    flashCardStatisticsConnector.saveStatistics(flashCardStatistics);
+                }
+            }
             userConnector.save(sharedUser);
         }
         box.setFlashcards(flashcardConnector);
