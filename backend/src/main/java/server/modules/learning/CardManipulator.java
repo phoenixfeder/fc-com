@@ -5,13 +5,20 @@ import server.entities.FlashCardStatistics;
 public class CardManipulator {
     private static char[] bounds = {'A', 'E'};
 
-    public static FlashCardStatistics cardWasCorrect(FlashCardStatistics flashCardStatistics) {
+    public static FlashCardStatistics manipulate(FlashCardStatistics flashCardStatistics, boolean correct){
+        if(correct){
+            return cardWasCorrect(flashCardStatistics);
+        }
+        return cardWasIncorrect(flashCardStatistics);
+    }
+
+    private static FlashCardStatistics cardWasCorrect(FlashCardStatistics flashCardStatistics) {
         flashCardStatistics.setDeck(stayInBoundAdding(flashCardStatistics.getDeck()));
         addTrial(flashCardStatistics);
         return flashCardStatistics;
     }
 
-    public static FlashCardStatistics cardWasIncorrect(FlashCardStatistics flashCardStatistics) {
+    private static FlashCardStatistics cardWasIncorrect(FlashCardStatistics flashCardStatistics) {
         flashCardStatistics.setDeck(bounds[0]);
         addFailedTrial(flashCardStatistics);
         return flashCardStatistics;

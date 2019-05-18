@@ -46,7 +46,7 @@ public class FlashCardStatisticsConnector {
     }
 
     @Transactional
-    public void saveStatistics(FlashCardStatistics statistics) {
-        flashCardStatisticsRepository.save(statistics);
+    public FlashCardStatistics saveStatistics(FlashCardStatistics statistics) {
+        return flashCardStatisticsRepository.save(statistics);
     }
 }
