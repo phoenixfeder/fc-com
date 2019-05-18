@@ -15,6 +15,7 @@ import server.exceptions.PermissionDeniedException;
 import server.exceptions.UserNotFoundException;
 import server.modules.authentication.Authenticator;
 import server.modules.dbconnector.FlashCardBoxConnector;
+import server.modules.dbconnector.FlashCardStatisticsConnector;
 import server.modules.dbconnector.FlashcardConnector;
 import server.modules.dbconnector.UserConnector;
 import server.modules.utils.DTOContentParser;
@@ -32,13 +33,15 @@ public class FlashcardBoxService {
     private final FlashCardBoxConnector flashCardBoxConnector;
     private final FlashcardConnector flashcardConnector;
     private final UserConnector userConnector;
+    private final FlashCardStatisticsConnector flashCardStatisticsConnector;
 
     @Autowired
-    public FlashcardBoxService(Authenticator authenticator, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector, UserConnector userConnector) {
+    public FlashcardBoxService(Authenticator authenticator, FlashCardBoxConnector flashCardBoxConnector, FlashcardConnector flashcardConnector, UserConnector userConnector, FlashCardStatisticsConnector flashCardStatisticsConnector) {
         this.authenticator = authenticator;
         this.flashCardBoxConnector = flashCardBoxConnector;
         this.flashcardConnector = flashcardConnector;
         this.userConnector = userConnector;
+        this.flashCardStatisticsConnector = flashCardStatisticsConnector;
     }
 
     public ResponseDTO addBox(RequestDTO requestDTO) throws FccExcpetion {
@@ -111,12 +114,12 @@ public class FlashcardBoxService {
         } else {
             sharedUser.getViewableBoxes().add(box);
             List<FlashCard> flashCards = flashcardConnector.getByFlashCardBox(box);
-            Set<FlashCard> flashCardsWithUserStatistics = flashcardConnector.getAllFlashCardsWithStatisticsFromBoxAndUser(box, sharedUser);
+            Set<FlashCard> flashCardsWithUserStatistics = flashCardStatisticsConnector.getAllFlashCardsWithStatisticsFromBoxAndUser(box, sharedUser);
             for (FlashCard flashCard : flashCards) {
                 // nur neue Statistik anlegen, wenn für die Karte noch keine existiert
                 if (!flashCardsWithUserStatistics.contains(flashCard)) {
                     FlashCardStatistics flashCardStatistics = new FlashCardStatistics(flashCard, sharedUser);
-                    flashcardConnector.saveStatistics(flashCardStatistics);
+                    flashCardStatisticsConnector.saveStatistics(flashCardStatistics);
                 }
             }
             userConnector.save(sharedUser);

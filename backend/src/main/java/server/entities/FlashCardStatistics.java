@@ -23,13 +23,13 @@ public class FlashCardStatistics implements Serializable {
     private Long failedTrials;
 
     @Column
-    private String deck;
+    private char deck;
 
     public FlashCardStatistics() {
         super();
-        this.deck = "A";
-        this.trials = new Long(0L);
-        this.failedTrials = new Long(0L);
+        this.deck = 'A';
+        this.trials = 0L;
+        this.failedTrials = 0L;
     }
 
     public FlashCardStatistics(FlashCard flashCard, User user) {

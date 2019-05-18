@@ -53,31 +53,4 @@ public class FlashcardConnector {
     public Long countFlashcards(FlashCardBox flashCardBox){
         return flashCardRepository.countByFlashcardBox(flashCardBox);
     }
-
-    @Transactional
-    public FlashCardStatistics getStatisticsByFlashCardAndUser(FlashCard flashCard, User user) {
-        return flashCardStatisticsRepository.findByFlashCardUser(new FlashCardStatistics.FlashCardStatisticsPK(flashCard, user));
-    }
-
-    // Holt alle FlashCards aus der Box zu der es für den User bereits eine Statistik gibt
-    @Transactional
-    public Set<FlashCard> getAllFlashCardsWithStatisticsFromBoxAndUser(FlashCardBox flashCardBox, User user) {
-        List<FlashCardStatistics> allStatistics = new ArrayList<>();
-        flashCardStatisticsRepository.findAll().forEach(entry -> allStatistics.add(entry));
-
-        // wählt alle Statistiken zu einem User und den Karten aus der Box
-        List<FlashCardStatistics> boxAndUserStatistics = allStatistics.stream()
-                .filter(statistics -> statistics.getFlashCardUser().getFlashCard().getFlashcardBox().equals(flashCardBox))
-                .filter(statistics -> statistics.getFlashCardUser().getUser().equals(user))
-                .collect(Collectors.toList());
-
-        Set<FlashCard> flashCards = new HashSet<>();
-        boxAndUserStatistics.forEach(statistics -> flashCards.add(statistics.getFlashCardUser().getFlashCard()));
-        return flashCards;
-    }
-
-    @Transactional
-    public void saveStatistics(FlashCardStatistics statistics) {
-        flashCardStatisticsRepository.save(statistics);
-    }
 }

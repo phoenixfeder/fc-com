@@ -12,5 +12,5 @@ public class Flashcard {
     private String title;
     private String front;
     private String back;
-//    private String deck;
+    private char deck;
 }
