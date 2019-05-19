@@ -8,5 +8,8 @@
     "node"
   ],
   "coverageDirectory": "./coverage/",
+  "collectCoverageFrom": [
+    "**/src/components/**"
+  ],
   "collectCoverage": true
 }
