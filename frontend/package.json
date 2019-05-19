@@ -32,7 +32,7 @@
     "test-allImplemented": "./node_modules/.bin/cucumber-js.cmd  --tags @all",
     "test-only": "./node_modules/.bin/cucumber-js.cmd  --tags @only",
     "test-firefox": "./node_modules/.bin/cucumber-js.cmd --world-parameters \"{\\\"browser\\\": \\\"firefox\\\"}\" --tags @all",
-    "test-bl": "jest --config jestconfig.json",
+    "test-bl": "./node_modules/.bin/jest --config jestconfig.json",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:8080",
