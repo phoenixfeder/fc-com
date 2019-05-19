@@ -85,6 +85,10 @@ class Register extends Component {
     });
   };
 
+  wow = () => {
+
+  }
+
   // Handles input changes
   handleInputChange = (event) => {
 
