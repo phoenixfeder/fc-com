@@ -65,7 +65,7 @@ jobs:
         - "10"
       dist: trusty
       install:
-        - npm install
+        - (cd frontend/; npm install; cd ../)
       script:
         - cd frontend/
         - npm run-script test-bl
