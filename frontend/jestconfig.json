@@ -1,0 +1,17 @@
+{
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json",
+    "node"
+  ],
+  "coverageDirectory": "./coverage/",
+  "collectCoverageFrom": [
+    "**/src/reducers/**",
+    "!**/src/reducers/index-reducer.js",
+    "!**/src/reducers/notistack-snackbar-reducers.js"
+  ],
+  "collectCoverage": true
+}

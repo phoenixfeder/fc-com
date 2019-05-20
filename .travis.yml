@@ -2,6 +2,7 @@ stages:
   - build
   # - test-backend
   - api-test
+  - bl-test
   - ui-test
   - deploy
 
@@ -56,6 +57,19 @@ jobs:
         - sudo ./wait-for-it.sh localhost:8080
         - cd backend_test/
         - newman run postman_integrationtests.json
+        
+    # Runs business logic / functions tests in the frontend (similar to JUnit)
+    - stage: bl-test
+      language: node_js
+      node_js:
+        - "10"
+      dist: trusty
+      install:
+        - (cd frontend/; npm install; cd ../)
+      script:
+        - cd frontend/
+        - npm run-script test-bl
+        - ./node_modules/.bin/codecov --token=$CODECOV_TOKEN
 
     #  Runs UI test with the previously builded docker container
     - stage: ui-test
