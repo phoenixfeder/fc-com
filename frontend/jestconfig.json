@@ -9,7 +9,9 @@
   ],
   "coverageDirectory": "./coverage/",
   "collectCoverageFrom": [
-    "**/src/components/**"
+    "**/src/reducers/**",
+    "!**/src/reducers/index-reducer.js",
+    "!**/src/reducers/notistack-snackbar-reducers.js"
   ],
   "collectCoverage": true
 }
