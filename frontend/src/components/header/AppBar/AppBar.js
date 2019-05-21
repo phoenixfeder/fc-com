@@ -5,23 +5,23 @@ import IconButtonUI from '@material-ui/core/IconButton';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import Menu from '@material-ui/core/Menu/Menu';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
+import Button from '@material-ui/core/Button';
+import withWidth from '@material-ui/core/withWidth';
 import { withStyles } from '@material-ui/core/styles';
-import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
 import ToolBarUI from '@material-ui/core/Toolbar';
 import TypographyUI from '@material-ui/core/Typography';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import MenuIconUI from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
+import compose from 'recompose/compose';
 import React, { Component } from 'react';
 import Link from 'react-router-dom/es/Link';
-import { lightTheme } from '../../../utils/themeLight';
 
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    display: 'flex',
+    width: '100%',
   },
   appBar: {
     zIndex: theme.zIndex.appBar + 11,
@@ -33,8 +33,29 @@ const styles = theme => ({
     marginLeft: -12,
     marginRight: 20,
   },
+  title: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+    },
+  },
+  sectionMobile: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
   drawer: {
-    zIndex: 120, // Manage Flashcards selector index is 110
     width: 0,
     flexShrink: 0,
   },
@@ -66,6 +87,68 @@ const styles = theme => ({
   },
 });
 
+const menu = [
+  {
+    id: 1,
+    title: 'Home',
+    link: '/home',
+  },
+  {
+    id: 2,
+    title: 'FAQ',
+    link: '/faq',
+  },
+];
+
+const menuOnAuth = [
+  {
+    id: 1,
+    title: 'Home',
+    link: '/home',
+  },
+  {
+    id: 2,
+    title: 'Learn',
+    link: '/learn',
+  },
+  {
+    id: 3,
+    title: 'Boxes',
+    link: '/boxes',
+  },
+  {
+    id: 4,
+    title: 'FAQ',
+    link: '/faq',
+  },
+];
+
+const userMenu = [
+  {
+    id: 1,
+    title: 'Login',
+    link: '/login',
+  },
+  {
+    id: 2,
+    title: 'Register',
+    link: '/register',
+  },
+];
+
+const userMenuOnAuth = [
+  {
+    id: 1,
+    title: 'Edit Profile',
+    link: '/edit',
+  },
+  {
+    id: 2,
+    title: 'Logout',
+    link: '/logout',
+  },
+];
+
 class AppBar extends Component {
   state = {
     anchorEl: null,
@@ -84,134 +167,127 @@ class AppBar extends Component {
     this.setState(prevState => ({ sidebarOpen: !prevState.sidebarOpen }));
   };
 
-  render() {
-    const { classes, isAuthenticated, username } = this.props;
+  renderAppBarMenu = menuItems => {
+    const { classes } = this.props;
+    return (
+      <>
+        {
+          menuItems.map(item => (
+            <Button
+              color="inherit"
+              className={classes.menuButton}
+              key={item.id}
+              component={Link}
+              to={item.link}
+            >
+              <TypographyUI variant="subtitle2" color="inherit">
+                {item.title}
+              </TypographyUI>
+            </Button>
+          ))
+        }
+      </>
+    );
+  };
+
+  renderDrawerMenu = menuItems => (
+    <>
+      {
+        menuItems.map(item => (
+          <MenuItem
+            key={item.id}
+            id={`${item.title}-menu-link`}
+            component={Link}
+            to={item.link}
+            color="inherit"
+            onClick={this.handleSideMenu}
+          >
+            {item.title}
+          </MenuItem>
+        ))
+      }
+    </>
+  );
+
+  renderUserIcon = userMenuItems => {
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
-    // Should return a array, as MenuList does not accept fragments as children
-    let menuItems = [
-      <MenuItem key="A" id="register-menu-link" component={Link} to="/register" onClick={this.handleClose}>Register</MenuItem>,
-      <MenuItem key="B" id="register-menu-link" component={Link} to="/login" onClick={this.handleClose}>Login</MenuItem>,
-    ];
-
-
-    if (isAuthenticated) {
-      menuItems = [
-        <MenuItem key="A" id="register-menu-link" component={Link} to="/edit" onClick={this.handleClose}>Edit
-          Profile</MenuItem>,
-        <MenuItem key="B" id="register-menu-link" component={Link} to="/logout" onClick={this.handleClose}>Logout</MenuItem>,
-      ];
-    }
-
-    let sidebarItems = (
+    return (
       <>
-        <MenuItem
-          id="home-menu-link"
-          component={Link}
-          to="/"
+        <IconButton
+          id="account-icon"
+          aria-owns={open ? 'menu-appbar' : null}
+          aria-haspopup="true"
+          onClick={this.handleAccountMenu}
           color="inherit"
-          onClick={this.handleSideMenu}
         >
-          {'Home'}
-        </MenuItem>
-        <Divider />
-        <MenuItem
-          id="faq-menu-link"
-          component={Link}
-          to="/faq"
-          color="inherit"
-          onClick={this.handleSideMenu}
+          <AccountIcon />
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={open}
+          onClose={this.handleClose}
         >
-          {'FAQ'}
-        </MenuItem>
+          {
+            userMenuItems.map(item => (
+              <MenuItem
+                key={item.id}
+                id={`${item.title}-menu-link`}
+                component={Link}
+                to={item.link}
+                color="inherit"
+                onClick={this.handleClose}
+              >
+                {item.title}
+              </MenuItem>
+            ))
+          }
+        </Menu>
       </>
     );
+  };
 
-    if (isAuthenticated) {
-      sidebarItems = (
-        <>
-          <MenuItem
-            id="home-menu-link"
-            component={Link}
-            to="/"
-            color="inherit"
-            onClick={this.handleSideMenu}
-          >
-            {'Home'}
-          </MenuItem>
-          <MenuItem
-            id="home-menu-link"
-            component={Link}
-            to="/boxes"
-            color="inherit"
-            onClick={this.handleSideMenu}
-          >
-            {'Flashcardboxes'}
-          </MenuItem>
-          <Divider />
-          <MenuItem
-            id="faq-menu-link"
-            component={Link}
-            to="/faq"
-            color="inherit"
-            onClick={this.handleSideMenu}
-          >
-            {'FAQ'}
-          </MenuItem>
-        </>
-      );
-    }
+  render() {
+    const { classes, isAuthenticated, username } = this.props;
 
     return (
       <div className={classes.root}>
-        <MuiThemeProviderUI theme={lightTheme}>
-          <AppBarUI position="static" color="primary" className={classes.appBar}>
-            <ToolBarUI>
+        <AppBarUI position="static" color="primary" className={classes.appBar}>
+          <ToolBarUI>
+            <div className={classes.sectionMobile}>
               <IconButtonUI color="inherit" className={classes.menuButton} onClick={this.handleSideMenu}>
                 <MenuIconUI />
               </IconButtonUI>
-
-              <TypographyUI variant="h6" color="inherit" className={classes.grow}>Flashcard Community</TypographyUI>
-
-              {isAuthenticated ? (
-                <TypographyUI variant="subtitle2" color="inherit" className={classes.grow} align="right">
-                  {username}
-                </TypographyUI>
-              ) : null}
-
-              <div>
-                <IconButton
-                  id="account-icon"
-                  aria-owns={open ? 'menu-appbar' : null}
-                  aria-haspopup="true"
-                  onClick={this.handleAccountMenu}
-                  color="inherit"
-                >
-                  <AccountIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={open}
-                  onClose={this.handleClose}
-                >
-                  {menuItems}
-                </Menu>
+            </div>
+            <TypographyUI variant="h6" color="inherit" className={classes.title}>Flashcard Community</TypographyUI>
+            <div className={classes.grow}>
+              <div className={classes.sectionDesktop}>
+                {isAuthenticated ? this.renderAppBarMenu(menuOnAuth) : this.renderAppBarMenu(menu)}
+                {isAuthenticated ? (
+                  <TypographyUI variant="subtitle2" color="inherit">
+                    {username}
+                  </TypographyUI>
+                ) : null}
+                {isAuthenticated ? this.renderUserIcon(userMenuOnAuth) : this.renderUserIcon(userMenu)}
               </div>
-            </ToolBarUI>
-          </AppBarUI>
+              <div className={classes.sectionMobile}>
+                {isAuthenticated ? this.renderUserIcon(userMenuOnAuth) : this.renderUserIcon(userMenu)}
+              </div>
+            </div>
+          </ToolBarUI>
+        </AppBarUI>
 
-          {/* TODO : User own SideBar-Component instead of Drawer */}
-
+        <div classes={classes.sectionMobile}>
           <Drawer
             className={classes.drawer}
             variant="persistent"
@@ -224,10 +300,10 @@ class AppBar extends Component {
             <div className={classes.drawerHeader} />
             <Divider />
 
-            {sidebarItems}
+            {isAuthenticated ? this.renderDrawerMenu(menuOnAuth) : this.renderDrawerMenu(menu)}
 
           </Drawer>
-        </MuiThemeProviderUI>
+        </div>
       </div>
     );
   }
@@ -244,4 +320,4 @@ AppBar.defaultProps = {
   username: '',
 };
 
-export default withStyles(styles, { withTheme: true })(AppBar);
+export default compose(withStyles(styles, { withTheme: true }), withWidth())(AppBar);
