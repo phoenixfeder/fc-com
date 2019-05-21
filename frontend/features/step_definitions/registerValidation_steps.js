@@ -1,56 +1,64 @@
-const {Given, When, Then} = require('cucumber');
+const { Given, When, Then } = require('cucumber');
 const url = require('../support/pages/urls').url;
 const select = require('../support/pages/registration_page').select;
 
 
 Given('I am on the {string} page', async function (page) {
-    await testController.navigateTo(url(page));
+  await testController.navigateTo(url(page));
 });
 
 When('I enter {string} in the {string}', async function (text, field) {
-    const inputField = select(field);
-    await testController.click(inputField)
-        .selectText(inputField).pressKey('delete') //slow solution
-        .typeText(inputField, text);
+  const inputField = select(field);
+  await testController.click(inputField)
+    .selectText(inputField).pressKey('delete') //slow solution
+    .typeText(inputField, text);
 });
 
 When('I click on the {string}', async function (field) {
-    const inputField = select(field);
-    await testController.click(inputField);
+  const inputField = select(field);
+  await testController.click(inputField);
 });
 
 Then('I get the error {string} in the {string}', async function (error, field) {
-    const outputField = select(field).with({boundTestRun: testController});
-    console.log(outputField);
-    await  testController.expect(await outputField.innerText).contains(error);
+  const outputField = select(field).with({ boundTestRun: testController });
+  await testController.expect(await outputField.innerText).contains(error);
 });
 
 Then('I get the message {string}', async function (msg) {
-    const feedbackField = select('snackbar').with({boundTestRun: testController});
-    await  testController.expect(await feedbackField.innerText).contains(msg);
+
+  let fieldExists = false;
+  let iterations = 0;
+  while (!fieldExists && iterations < 10) {
+    await testController.wait(1000);
+    const feedbackField = select('snackbar').with({ boundTestRun: testController }).withText(msg);
+    fieldExists = await feedbackField.exists;
+    iterations += 1;
+  }
+  await testController.expect(fieldExists).ok();
 });
 
 
-  Then('I get no error', async function () {
-    // Write code here that turns the phrase above into concrete actions
-    return 'pending';
+Then('I get no error', async function () {
+  // Write code here that turns the phrase above into concrete actions
+  return 'pending';
 });
 
-Then('the {string} is not clickable', async function(button){
-    const buttonToClick = select(button).with({boundTestRun: testController});;
-   await testController.expect(buttonToClick.hasAttribute('disabled')).ok();
-   
+Then('the {string} is not clickable', async function (button) {
+  const buttonToClick = select(button).with({ boundTestRun: testController });
+  await testController.expect(buttonToClick.hasAttribute('disabled')).ok();
+
 });
 
-Then('the {string} is clickable', async function(button){
-    const buttonToClick = select(button).with({boundTestRun: testController});;
-    await testController.expect(buttonToClick.hasAttribute('disabled')).notOk();
-    });
+Then('the {string} is clickable', async function (button) {
+  const buttonToClick = select(button).with({ boundTestRun: testController });
+  ;
+  await testController.expect(buttonToClick.hasAttribute('disabled')).notOk();
+});
 
 Then('I get redirected to the {string} page', async function (page) {
-       await testController.wait(1000).expect(select('title').with({boundTestRun: testController}).innerText).eql(page);
-    });
+  await testController.wait(1000).expect(select('title').with({ boundTestRun: testController }).innerText).eql(page);
+});
 
 Then('Wait for one second', async function () {
-    await  testController.wait(1000);
+  await testController.wait(1000);
 });
