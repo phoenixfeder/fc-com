@@ -1,5 +1,5 @@
 import * as actionTypes from '../utils/const-actiontypes';
-import flashcardboxesReducer from '../reducers/flashcardboxes-reducer';
+import flashcardsReducer from '../reducers/flashcards-reducer';
 
 // Get a clean new state before each new test
 let initialState = {};
@@ -18,9 +18,9 @@ beforeEach(() => {
 // Test getBoxesStart
 test('authorization starts and thus starts loading', () => {
   const action = {
-    type: actionTypes.GET_BOXES_START,
+    type: actionTypes.GET_FLASHCARDS_START,
   };
 
-  const newState = flashcardboxesReducer(initialState, action);
+  const newState = flashcardsReducer(initialState, action);
   expect(newState.loading).toBeTruthy();
 });
