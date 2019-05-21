@@ -26,7 +26,6 @@ Feature: Test of the users input at the register-page
     And  eI get the message "Please enter the mail you used for our registration"
     And eWait for one second
 
-  @only
   @all
   @verify
   Scenario: I can not verify with an invalid token but can request a new token with the correct email

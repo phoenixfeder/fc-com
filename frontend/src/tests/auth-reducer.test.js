@@ -1,4 +1,4 @@
-import authReducer from './auth-reducer';
+import authReducer from '../reducers/auth-reducer';
 import * as actionTypes from '../utils/const-actiontypes';
 
 // Get a clean new state before each new test
