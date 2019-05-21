@@ -15,7 +15,7 @@ beforeEach(() => {
   };
 });
 
-// Test authStart
+// Test getBoxesStart
 test('authorization starts and thus starts loading', () => {
   const action = {
     type: actionTypes.GET_BOXES_START,
