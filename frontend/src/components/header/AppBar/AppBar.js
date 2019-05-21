@@ -1,17 +1,18 @@
-import AppBarUI from '@material-ui/core/AppBar';
-import Divider from '@material-ui/core/Divider/Divider';
-import Drawer from '@material-ui/core/Drawer/Drawer';
-import IconButtonUI from '@material-ui/core/IconButton';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import Menu from '@material-ui/core/Menu/Menu';
-import MenuItem from '@material-ui/core/MenuItem/MenuItem';
-import Button from '@material-ui/core/Button';
-import withWidth from '@material-ui/core/withWidth';
-import { withStyles } from '@material-ui/core/styles';
-import ToolBarUI from '@material-ui/core/Toolbar';
-import TypographyUI from '@material-ui/core/Typography';
+import {
+  AppBar,
+  SwipeableDrawer,
+  IconButton,
+  Menu,
+  Divider,
+  MenuItem,
+  Button,
+  withWidth,
+  withStyles,
+  Toolbar,
+  Typography,
+} from '@material-ui/core/';
 import AccountIcon from '@material-ui/icons/AccountCircle';
-import MenuIconUI from '@material-ui/icons/Menu';
+import MenuIcon from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import React, { Component } from 'react';
@@ -24,7 +25,6 @@ const styles = theme => ({
     width: '100%',
   },
   appBar: {
-    zIndex: theme.zIndex.appBar + 11,
   },
   grow: {
     flexGrow: 1,
@@ -65,9 +65,9 @@ const styles = theme => ({
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
-    padding: '0 8px',
+    padding: '0 10px',
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
   },
   content: {
     flexGrow: 1,
@@ -149,7 +149,7 @@ const userMenuOnAuth = [
   },
 ];
 
-class AppBar extends Component {
+class Appbar extends Component {
   state = {
     anchorEl: null,
     sidebarOpen: false,
@@ -180,9 +180,9 @@ class AppBar extends Component {
               component={Link}
               to={item.link}
             >
-              <TypographyUI variant="subtitle2" color="inherit">
+              <Typography variant="subtitle2" color="inherit">
                 {item.title}
-              </TypographyUI>
+              </Typography>
             </Button>
           ))
         }
@@ -259,24 +259,25 @@ class AppBar extends Component {
 
   render() {
     const { classes, isAuthenticated, username } = this.props;
+    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent); // see https://material-ui.com/demos/drawers/
 
     return (
       <div className={classes.root}>
-        <AppBarUI position="static" color="primary" className={classes.appBar}>
-          <ToolBarUI>
+        <AppBar position="static" color="primary" className={classes.appBar}>
+          <Toolbar>
             <div className={classes.sectionMobile}>
-              <IconButtonUI color="inherit" className={classes.menuButton} onClick={this.handleSideMenu}>
-                <MenuIconUI />
-              </IconButtonUI>
+              <IconButton color="inherit" className={classes.menuButton} onClick={this.handleSideMenu}>
+                <MenuIcon />
+              </IconButton>
             </div>
-            <TypographyUI variant="h6" color="inherit" className={classes.title}>Flashcard Community</TypographyUI>
+            <Typography variant="h6" color="inherit" className={classes.title}>Flashcard Community</Typography>
             <div className={classes.grow}>
               <div className={classes.sectionDesktop}>
                 {isAuthenticated ? this.renderAppBarMenu(menuOnAuth) : this.renderAppBarMenu(menu)}
                 {isAuthenticated ? (
-                  <TypographyUI variant="subtitle2" color="inherit">
+                  <Typography variant="subtitle2" color="inherit">
                     {username}
-                  </TypographyUI>
+                  </Typography>
                 ) : null}
                 {isAuthenticated ? this.renderUserIcon(userMenuOnAuth) : this.renderUserIcon(userMenu)}
               </div>
@@ -284,25 +285,30 @@ class AppBar extends Component {
                 {isAuthenticated ? this.renderUserIcon(userMenuOnAuth) : this.renderUserIcon(userMenu)}
               </div>
             </div>
-          </ToolBarUI>
-        </AppBarUI>
+          </Toolbar>
+        </AppBar>
 
         <div classes={classes.sectionMobile}>
-          <Drawer
+          <SwipeableDrawer
             className={classes.drawer}
-            variant="persistent"
             anchor="left"
             open={this.state.sidebarOpen}
+            disableBackdropTransition={!iOS}
+            disableDiscovery={iOS}
+            onOpen={() => this.setState({ sidebarOpen: true })}
+            onClose={() => this.setState({ sidebarOpen: false })}
             classes={{
               paper: classes.drawerPaper,
             }}
           >
-            <div className={classes.drawerHeader} />
+            <div className={classes.drawerHeader}>
+              <Typography variant="subtitle2">
+                {'Menu'}
+              </Typography>
+            </div>
             <Divider />
-
             {isAuthenticated ? this.renderDrawerMenu(menuOnAuth) : this.renderDrawerMenu(menu)}
-
-          </Drawer>
+          </SwipeableDrawer>
         </div>
       </div>
     );
@@ -310,14 +316,18 @@ class AppBar extends Component {
 }
 
 
-AppBar.propTypes = {
+Appbar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   username: PropTypes.string,
+};
+
+Appbar.defaultProps = {
+  username: '-',
 };
 
 AppBar.defaultProps = {
   username: '',
 };
 
-export default compose(withStyles(styles, { withTheme: true }), withWidth())(AppBar);
+export default compose(withStyles(styles, { withTheme: true }), withWidth())(Appbar);
