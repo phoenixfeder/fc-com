@@ -5,8 +5,8 @@ import server.entities.FlashCardStatistics;
 public class CardManipulator {
     private static char[] bounds = {'A', 'E'};
 
-    public static FlashCardStatistics manipulate(FlashCardStatistics flashCardStatistics, boolean correct){
-        if(correct){
+    public static FlashCardStatistics manipulate(FlashCardStatistics flashCardStatistics, boolean correct) {
+        if (correct) {
             return cardWasCorrect(flashCardStatistics);
         }
         return cardWasIncorrect(flashCardStatistics);
@@ -25,11 +25,11 @@ public class CardManipulator {
     }
 
     private static char stayInBoundAdding(char deck) {
-        deck = (char) (deck + 1);
-        if (deck > bounds[1]) {
-            deck = bounds[1];
+        char newdeck = (char) (deck + 1);
+        if (newdeck > bounds[1]) {
+            newdeck = bounds[1];
         }
-        return deck;
+        return newdeck;
     }
 
     private static void addTrial(FlashCardStatistics flashCardStatistics) {
