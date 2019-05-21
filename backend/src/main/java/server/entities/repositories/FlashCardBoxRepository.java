@@ -11,7 +11,5 @@ public interface FlashCardBoxRepository extends CrudRepository<FlashCardBox, Lon
 
     void deleteByOwnerAndId(User user, Long id);
 
-    void deleteAllByOwner(User user);
-
     FlashCardBox findByIdAndOwner(Long id, User user);
 }

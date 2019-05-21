@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MailComponent extends MailSender {
-    public enum Purpose{
+    public enum Purpose {
         REGISTER, RESETPASSWORD
     }
 
@@ -20,8 +20,8 @@ public class MailComponent extends MailSender {
     }
 
     @Override
-    public void send(String mailTo, String username, String id, String token, Purpose purpose){
-        switch (purpose){
+    public void send(String mailTo, String username, String id, String token, Purpose purpose) {
+        switch (purpose) {
             case REGISTER:
                 registerMail.send(mailTo, username, id, token, purpose);
                 break;

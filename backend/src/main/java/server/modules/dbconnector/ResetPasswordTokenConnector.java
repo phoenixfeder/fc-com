@@ -14,7 +14,7 @@ public class ResetPasswordTokenConnector {
         this.resetPasswordTokenRepository = resetPasswordTokenRepository;
     }
 
-    public ResetPasswordToken save(ResetPasswordToken resetPasswordToken){
+    public ResetPasswordToken save(ResetPasswordToken resetPasswordToken) {
         return resetPasswordTokenRepository.save(resetPasswordToken);
     }
 

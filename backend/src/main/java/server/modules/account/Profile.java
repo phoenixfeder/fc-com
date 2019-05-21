@@ -26,15 +26,13 @@ public class Profile {
         }
     }
 
-    public static User updateSensitiveData(UserRequest userRequest, User user, Authenticator authenticator) {
+    public static void updateSensitiveData(UserRequest userRequest, User user, Authenticator authenticator) {
         if (userRequest.getPassword() != null) {
             user.setPassword(authenticator.encodePassword(userRequest.getPassword()));
         }
         if (userRequest.getEmail() != null) {
             user.setEmail(userRequest.getEmail());
         }
-
-        return user;
     }
 
     public static void checkOldPassword(User user, UserRequest userRequest, UserResponse userResponse, Authenticator authenticator) {
