@@ -36,11 +36,6 @@ public class FlashcardConnector {
     }
 
     @Transactional
-    public void deleteByFlashCardBox(FlashCardBox flashCardBox) {
-        flashCardRepository.deleteAllByFlashcardBox(flashCardBox);
-    }
-
-    @Transactional
     public Long countFlashcards(FlashCardBox flashCardBox) {
         return flashCardRepository.countByFlashcardBox(flashCardBox);
     }

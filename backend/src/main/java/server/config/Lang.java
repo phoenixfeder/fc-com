@@ -21,8 +21,8 @@ public class Lang {
     public static final String PasswordIncorrect = "Password is incorrect.";
     public final static String mailTextPassword =
             "Hello ##username##, \n\n" +
-            "You recently requested to reset your password for your Flashcard Community Account. " +
-            "Follow the link to enter a new Password: " +
-            Config.RESETPASSWORDORIGINS + "?id=##userid##&token=##token##\n\n" +
-            "Happy learning!";
+                    "You recently requested to reset your password for your Flashcard Community Account. " +
+                    "Follow the link to enter a new Password: " +
+                    Config.RESETPASSWORDORIGINS + "?id=##userid##&token=##token##\n\n" +
+                    "Happy learning!";
 }

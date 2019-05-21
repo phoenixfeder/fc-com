@@ -79,10 +79,10 @@ public class FlashcardService {
         if (flashcardRequest.getTitle() != null) {
             flashCard.setTitle(flashcardRequest.getTitle());
         }
-        if(flashcardRequest.getBack() != null) {
+        if (flashcardRequest.getBack() != null) {
             flashCard.setBackText(flashcardRequest.getBack());
         }
-        if(flashcardRequest.getFront() != null) {
+        if (flashcardRequest.getFront() != null) {
             flashCard.setFrontText(flashcardRequest.getFront());
         }
 

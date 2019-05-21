@@ -8,6 +8,7 @@ import server.entities.dto.request.FlashcardRequest;
 import server.entities.dto.request.RegisterRequest;
 import server.entities.dto.request.UserRequest;
 import server.entities.dto.response.FlashCardBoxResponse;
+import server.exceptions.FccExcpetion;
 import server.exceptions.WrongFormatException;
 
 import java.util.ArrayList;
@@ -16,8 +17,7 @@ import java.util.List;
 public class DTOContentParser {
     public static RegisterRequest getRegisterRequest(RequestDTO requestDTO) throws WrongFormatException {
         try {
-            RegisterRequest registerRequest = requestDTO.getRegisterRequest();
-            return registerRequest;
+            return requestDTO.getRegisterRequest();
         } catch (NullPointerException e) {
             throw new WrongFormatException();
         }
@@ -25,23 +25,13 @@ public class DTOContentParser {
 
     public static UserRequest getRegisterUserRequest(RegisterRequest registerRequest) throws WrongFormatException {
         try {
-            UserRequest userRequest = registerRequest.getUserRequest();
-            return userRequest;
+            return registerRequest.getUserRequest();
         } catch (NullPointerException e) {
             throw new WrongFormatException();
         }
     }
 
     public static UserRequest getUserRequest(RequestDTO requestDTO) throws WrongFormatException {
-        /*try {
-            UserRequest userRequest = requestDTO.getUserRequest();
-            if(userRequest.getUsername() == null || userRequest.getPassword() == null){
-                throw new NullPointerException();
-            }
-            return userRequest;
-        } catch (NullPointerException e) {
-            throw new WrongFormatException();
-        }*/
         UserRequest userRequest = requestDTO.getUserRequest();
         if (userRequest == null) {
             throw new WrongFormatException();
@@ -102,18 +92,25 @@ public class DTOContentParser {
         return flashCardRequest;
     }
 
-    public static Long getFlashCardID(RequestDTO requestDTO) throws WrongFormatException {
-        if (requestDTO.getFlashcardRequest() == null) {
-            throw new WrongFormatException();
-        }
-        return requestDTO.getFlashcardRequest().getId();
-    }
-
     public static String getOldPassword(RequestDTO requestDTO) throws WrongFormatException {
         try {
             return requestDTO.getUserRequest().getOldPassword();
         } catch (Exception e) {
             throw new WrongFormatException();
         }
+    }
+
+    public static Long parseVerifyId(String requestId, String requestToken) throws FccExcpetion {
+        if (requestId == null || requestToken == null) {
+            throw new WrongFormatException();
+        }
+        long id;
+        try {
+            id = Long.parseLong(requestId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            throw new WrongFormatException();
+        }
+        return id;
     }
 }

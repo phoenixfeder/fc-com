@@ -13,7 +13,9 @@ import server.entities.dto.response.RegisterResponse;
 import server.entities.dto.response.UserResponse;
 import server.exceptions.*;
 import server.modules.authentication.Authenticator;
-import server.modules.dbconnector.*;
+import server.modules.dbconnector.ResetPasswordTokenConnector;
+import server.modules.dbconnector.TokenConnector;
+import server.modules.dbconnector.UserConnector;
 import server.modules.utils.DTOContentParser;
 import server.modules.utils.StatusDTO;
 
@@ -106,19 +108,9 @@ public class AccountService {
         return StatusDTO.ok();
     }
 
-    public ResponseDTO verifyAccount(String requestId, String requestToken) {
+    public ResponseDTO verifyAccount(String requestId, String requestToken) throws FccExcpetion{
         //Format Check
-        //TODO Noch unschön
-        if (requestId == null || requestToken == null) {
-            return StatusDTO.missingParamsError();
-        }
-        long id;
-        try {
-            id = Long.parseLong(requestId);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return StatusDTO.missingParamsError();
-        }
+        long id = DTOContentParser.parseVerifyId(requestId, requestToken);
 
         User user = userConnector.getUserByID(id);
         VerificationToken token = tokenConnector.getTokenByUser(user);
@@ -193,6 +185,10 @@ public class AccountService {
 
         //Erstelle Token
         ResetPasswordToken resetPasswordToken = new ResetPasswordToken(user);
+        //TODO: DELETE DEBUG
+        if (user.getUsername().equals("enableduser")) {
+            resetPasswordToken.setToken("debugging");
+        }
         resetPasswordTokenConnector.save(resetPasswordToken);
 
         //Sende mail
@@ -202,16 +198,7 @@ public class AccountService {
     }
 
     public ResponseDTO verifyResetPassword(RequestDTO requestDTO, String requestId, String requestToken) throws FccExcpetion{
-        if (requestId == null || requestToken == null) {
-            return StatusDTO.missingParamsError();
-        }
-        long id;
-        try {
-            id = Long.parseLong(requestId);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return StatusDTO.missingParamsError();
-        }
+        long id = DTOContentParser.parseVerifyId(requestId, requestToken);
 
         UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
         String newPassword = userRequest.getPassword();

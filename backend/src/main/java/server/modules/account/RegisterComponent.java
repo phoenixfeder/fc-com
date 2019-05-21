@@ -149,7 +149,7 @@ public class RegisterComponent {
         }
     }
 
-    public void sendNewPasswordMail(User user) throws EmailSendException{
+    public void sendNewPasswordMail(User user) throws EmailSendException {
         ResetPasswordToken token = resetPasswordTokenConnector.getTokenByUser(user);
         try {
             mailComponent.send(user.getEmail(), user.getUsername(), String.valueOf(user.getId()), token.getToken(), MailComponent.Purpose.RESETPASSWORD);
