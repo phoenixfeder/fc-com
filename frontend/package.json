@@ -19,7 +19,7 @@
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "testcafe": "^1.1.0",
+    "testcafe": "^1.1.4",
     "classnames": "latest",
     "fg-loadcss": "^2.1.0",
     "mui-datatables": "^2.0.0"
