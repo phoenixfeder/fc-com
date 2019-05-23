@@ -109,7 +109,7 @@ const menuOnAuth = [
   {
     id: 2,
     title: 'Learn',
-    link: '/learn',
+    link: '/select_learning',
   },
   {
     id: 3,
