@@ -15,7 +15,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Link from 'react-router-dom/es/Link';
 import { compose } from 'redux';
-import { fetchRegister } from '../../actions/register-actions';
 
 // Styles to design some specific components
 const styles = theme => ({
@@ -27,13 +26,6 @@ const styles = theme => ({
   headline: {
     paddingTop: 20,
     paddingBottom: 20,
-  },
-  buttonProgress: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
   },
 });
 
@@ -182,7 +174,7 @@ class Register extends Component {
       this.createNewSnackbar('error', 'Registration failed: Invalid input');
 
     } else {
-      fetchRegister(this.state, (result) => {
+      this.props.fetchRegister(this.state, (result) => {
         this.setState({ loading: false });
         this.handleSendResult(result);
       });
@@ -338,4 +330,5 @@ Register.propTypes = {
   history: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
+  fetchRegister: PropTypes.func.isRequired,
 };

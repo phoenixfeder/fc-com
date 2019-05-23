@@ -1,11 +1,20 @@
+import * as actionTypes from '../utils/const-actiontypes';
 import {
   BACKEND_URL_ACCOUNT_CLOSE,
   BACKEND_URL_ACCOUNT_GET,
   BACKEND_URL_ACCOUNT_UPDATE,
 } from '../utils/const-paths';
 
-export const fetchUpdateAccount = (state, callback) => {
+const authStart = () => ({
+  type: actionTypes.AUTH_START,
+});
 
+const authEnd = () => ({
+  type: actionTypes.AUTH_END,
+});
+
+export const fetchUpdateAccount = (state, callback) => dispatch => {
+  dispatch(authStart());
   fetch(BACKEND_URL_ACCOUNT_UPDATE, {
     method: 'PUT',
     headers: {
@@ -26,23 +35,19 @@ export const fetchUpdateAccount = (state, callback) => {
     }),
   }).then(results => results.json()).then((result) => {
     callback(result);
+    dispatch(authEnd());
   }).catch(() => {
     callback({
       status: {
         code: 418,
       },
     });
-    /* enqueueSnackbar({
-       message: 'This should not happen. Please contact system admin.',
-       options: {
-         variant: 'error',
-       },
-     }); */
+    dispatch(authEnd());
   });
 };
 
-export const fetchUpdateUser = (state, callback) => {
-
+export const fetchUpdateUser = (state, callback) => dispatch => {
+  dispatch(authStart());
   fetch(BACKEND_URL_ACCOUNT_UPDATE, {
     method: 'PUT',
     headers: {
@@ -63,22 +68,19 @@ export const fetchUpdateUser = (state, callback) => {
     }),
   }).then(results => results.json()).then((result) => {
     callback(result);
+    dispatch(authEnd());
   }).catch(() => {
     callback({
       status: {
         code: 418,
       },
     });
-    /* enqueueSnackbar({
-       message: 'This should not happen. Please contact system admin.',
-       options: {
-         variant: 'error',
-       },
-     }); */
+    dispatch(authEnd());
   });
 };
 
-export const fetchGetAccountData = (state, callback) => {
+export const fetchGetAccountData = (state, callback) => dispatch => {
+  dispatch(authStart());
   fetch(BACKEND_URL_ACCOUNT_GET, {
     method: 'POST',
     headers: {
@@ -96,16 +98,19 @@ export const fetchGetAccountData = (state, callback) => {
     }),
   }).then(results => results.json()).then((result) => {
     callback(result);
+    dispatch(authEnd());
   }).catch(() => {
     callback({
       status: {
         code: 418,
       },
     });
+    dispatch(authEnd());
   });
 };
 
-export const fetchCloseAccount = (state, callback) => {
+export const fetchCloseAccount = (state, callback) => dispatch => {
+  dispatch(authStart());
   fetch(BACKEND_URL_ACCOUNT_CLOSE, {
     method: 'DELETE',
     headers: {
@@ -123,11 +128,13 @@ export const fetchCloseAccount = (state, callback) => {
     }),
   }).then((results) => results.json()).then((result) => {
     callback(result);
+    dispatch(authEnd());
   }).catch(() => {
     callback({
       status: {
         code: 418,
       },
     });
+    dispatch(authEnd());
   });
 };

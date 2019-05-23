@@ -1,5 +1,4 @@
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import withStyles from '@material-ui/core/es/styles/withStyles';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -11,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import EMailIcon from '@material-ui/icons/Mail';
 import * as PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { resetPassword } from '../../actions/auth-actions';
 
 const styles = theme => ({
   root: {
@@ -28,19 +26,6 @@ const styles = theme => ({
   },
   resendButton: {
     padding: 20,
-  },
-  buttonProgress: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
-  },
-  wrapper: {
-    margin: theme.spacing.unit,
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
   },
 });
 
@@ -69,7 +54,7 @@ class ResetPassword extends Component {
     const { history, enqueueSnackbar } = this.props;
 
     this.setState({ loading: true });
-    resetPassword(this.state.email, (result) => {
+    this.props.resetPassword(this.state.email, (result) => {
       switch (result.status.code) {
         case 200:
           enqueueSnackbar({
@@ -161,7 +146,6 @@ class ResetPassword extends Component {
                     </FormHelperText>
                   </FormControl>
                   <div
-                    className={classes.wrapper}
                     style={{
                       alignItems: 'center',
                       alignContent: 'center',
@@ -181,7 +165,6 @@ class ResetPassword extends Component {
                     >
                       {'Reset password!'}
                     </Button>
-                    {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
                 </div>
               </Grid>
@@ -197,6 +180,7 @@ ResetPassword.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
+  resetPassword: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ResetPassword);

@@ -1,12 +1,16 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import { enqueueSnackbar } from '../../actions/notistack-snackbar-actions';
 import Verify from './Verify';
+import * as actions from '../../actions/register-actions';
 
 const mapStateToProps = state => ({ snackbar: state.snackbars.notifications });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ enqueueSnackbar }, dispatch);
+const mapDispatchToProps = dispatch => ({
+  enqueueSnackbar: (object) => dispatch(enqueueSnackbar(object)),
+  fetchVerify: (params, callback) => dispatch(actions.fetchVerify(params, callback)),
+  fetchNewVerifyToken: (state, callback) => dispatch(actions.fetchNewVerifyToken(state, callback)),
+});
 
 
 const VerifyContainer = connect(mapStateToProps, mapDispatchToProps)(Verify);

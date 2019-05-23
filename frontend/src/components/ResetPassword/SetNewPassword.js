@@ -1,5 +1,4 @@
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import withStyles from '@material-ui/core/es/styles/withStyles';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -12,7 +11,6 @@ import PasswordIcon from '@material-ui/icons/Lock';
 import * as PropTypes from 'prop-types';
 import qs from 'query-string';
 import React, { Component } from 'react';
-import { submitNewPassword } from '../../actions/auth-actions';
 
 const styles = theme => ({
   root: {
@@ -29,19 +27,6 @@ const styles = theme => ({
   },
   resendButton: {
     padding: 20,
-  },
-  buttonProgress: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
-  },
-  wrapper: {
-    margin: theme.spacing.unit,
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
   },
 });
 
@@ -88,7 +73,7 @@ class SetNewPassword extends Component {
 
     this.setState({ loading: true });
     if (this.state.password === this.state.repeatPassword) {
-      submitNewPassword(this.state, (result) => {
+      this.props.submitNewPassword(this.state, (result) => {
         switch (result.status.code) {
           case 200:
             enqueueSnackbar({
@@ -208,7 +193,6 @@ class SetNewPassword extends Component {
               </Grid>
               <Grid item lg={12} style={{ textAlign: 'center' }}>
                 <div
-                  className={classes.wrapper}
                   style={{
                     alignItems: 'center',
                     alignContent: 'center',
@@ -228,7 +212,6 @@ class SetNewPassword extends Component {
                   >
                     {'Submit your new password!'}
                   </Button>
-                  {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </div>
               </Grid>
             </Grid>
@@ -244,6 +227,7 @@ SetNewPassword.propTypes = {
   history: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
+  submitNewPassword: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SetNewPassword);

@@ -1,5 +1,4 @@
 import Button from '@material-ui/core/Button/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import withStyles from '@material-ui/core/es/styles/withStyles';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
@@ -15,10 +14,6 @@ import qs from 'query-string';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import {
-  fetchNewVerifyToken,
-  fetchVerify,
-} from '../../actions/register-actions';
 
 const styles = theme => ({
   root: {
@@ -35,19 +30,6 @@ const styles = theme => ({
   },
   resendButton: {
     padding: 20,
-  },
-  buttonProgress: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
-  },
-  wrapper: {
-    margin: theme.spacing.unit,
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
   },
 });
 
@@ -67,7 +49,7 @@ class Verify extends Component {
     document.title = 'Verify';
     const parameters = qs.parse(this.props.location.search);
 
-    fetchVerify(parameters, (result) => {
+    this.props.fetchVerify(parameters, (result) => {
       switch (result.status.code) {
         case 200:
           this.props.enqueueSnackbar({
@@ -134,7 +116,7 @@ class Verify extends Component {
     const { history, enqueueSnackbar } = this.props;
 
     this.setState({ loading: true });
-    fetchNewVerifyToken(this.state, (result) => {
+    this.props.fetchNewVerifyToken(this.state, (result) => {
       switch (result.status.code) {
         case 200:
           enqueueSnackbar({
@@ -207,7 +189,6 @@ class Verify extends Component {
                       >
                         {'We are validating your registration - please wait!'}
                       </Typography>
-                      <CircularProgress className={classes.progress} />
                     </div>
                   ) : (
                     <div>
@@ -241,18 +222,15 @@ class Verify extends Component {
                           </em>
                         </FormHelperText>
                       </FormControl>
-                      <div className={classes.wrapper}>
-                        <Button
-                          id="resend-button"
-                          variant="contained"
-                          color="primary"
-                          disabled={this.state.loading}
-                          onClick={this.handleSubmit}
-                        >
-                          {'Resend token now!'}
-                        </Button>
-                        {this.state.loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-                      </div>
+                      <Button
+                        id="resend-button"
+                        variant="contained"
+                        color="primary"
+                        disabled={this.state.loading}
+                        onClick={this.handleSubmit}
+                      >
+                        {'Resend token now!'}
+                      </Button>
                     </div>
                   )}
                 </Grid>
@@ -270,6 +248,8 @@ Verify.propTypes = {
   enqueueSnackbar: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  fetchNewVerifyToken: PropTypes.func.isRequired,
+  fetchVerify: PropTypes.func.isRequired,
 };
 
 export default compose(withStyles(styles), withRouter)(Verify);
