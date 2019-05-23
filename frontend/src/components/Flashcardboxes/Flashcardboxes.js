@@ -50,7 +50,7 @@ class Flashcardboxes extends Component {
   renderCards = () => (
     <Grid container direction="row" spacing={16} style={{ width: '100%' }} justify="space-evenly">
       <Grid item xs={12} md={12} lg={12} align="center" style={{ paddingTop: '12px' }}>
-        <Button aria-label="Add" onClick={() => this.createDialogOpen()}>
+        <Button aria-label="Add" onClick={() => this.createDialogOpen()} disabled={this.props.createLoading}>
           <Typography variant="subtitle2">
             {'Create new'}
           </Typography>
@@ -105,6 +105,7 @@ Flashcardboxes.propTypes = {
   boxes: PropTypes.array.isRequired,
   createFlashcardbox: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  createLoading: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Flashcardboxes);

@@ -10,6 +10,8 @@ import {
   withStyles,
   Toolbar,
   Typography,
+  LinearProgress,
+  Fade,
 } from '@material-ui/core/';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -310,6 +312,15 @@ class Appbar extends Component {
             {isAuthenticated ? this.renderDrawerMenu(menuOnAuth) : this.renderDrawerMenu(menu)}
           </SwipeableDrawer>
         </div>
+        {<Fade
+          in={this.props.isLoading}
+          style={{
+            transitionDelay: this.props.isLoading ? '500ms' : '0ms',
+          }}
+          unmountOnExit
+        >
+          <LinearProgress />
+        </Fade>}
       </div>
     );
   }
@@ -320,6 +331,7 @@ Appbar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   username: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 Appbar.defaultProps = {

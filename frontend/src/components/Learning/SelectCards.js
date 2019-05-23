@@ -4,7 +4,6 @@ import {
   withStyles,
   Card,
   CardContent,
-  CardActions,
   Button,
   List,
   ListItem,
@@ -70,12 +69,12 @@ class SelectCards extends Component {
   };
 
   renderBoxesWithDecks = () => {
-    const { boxes, setLearningCards, history } = this.props;
+    const { boxes } = this.props;
     return (
       <Card>
         <List>
           {
-            boxes.map(box => (
+            boxes.map((box, index) => (
               <CardContent key={box.id}>
                 <ListItem>
                   <ListItemText primary={box.title} />
@@ -98,28 +97,22 @@ class SelectCards extends Component {
                   {'E'}
                   <Checkbox onChange={() => this.changeDeck(box.id, 'E')}/>
                 </ListItem>
-                <Divider />
+                {(boxes.length - 1 === index) ? null : <Divider /> /* Remove last Divider */}
               </CardContent>
             ))
           }
         </List>
-        <CardActions disableActionSpacing>
-          <Button
-            disabled={this.state.decks.length < 1}
-            onClick={() => {
-              setLearningCards(this.state.decks);
-              history.push('/learning');
-            }}
-          >
-            {'Start learning!'}
-          </Button>
-        </CardActions>
       </Card>
     );
   };
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      setLearningCards,
+      history,
+      loading,
+    } = this.props;
     return (
       <div className={classes.root} id="Decks">
         <Grid container justify="center">
@@ -127,6 +120,17 @@ class SelectCards extends Component {
             <Typography variant="h3" align="center">
               {'Select decks'}
             </Typography>
+          </Grid>
+          <Grid item lg={12} align="center" className={classes.headline}>
+            <Button
+              disabled={this.state.decks.length < 1 || loading}
+              onClick={() => {
+                setLearningCards(this.state.decks);
+                history.push('/learning');
+              }}
+            >
+              {'Start learning!'}
+            </Button>
           </Grid>
           <Grid item lg={8} md={10} xs={12} className={classes.headline}>
             {this.renderBoxesWithDecks()}
@@ -144,6 +148,7 @@ SelectCards.propTypes = {
   boxes: PropTypes.array.isRequired,
   setLearningCards: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(SelectCards);

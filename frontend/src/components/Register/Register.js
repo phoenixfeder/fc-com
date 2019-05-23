@@ -1,5 +1,4 @@
 import Button from '@material-ui/core/Button/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import withStyles from '@material-ui/core/es/styles/withStyles';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
@@ -35,12 +34,6 @@ const styles = theme => ({
     left: '50%',
     marginTop: -12,
     marginLeft: -12,
-  },
-  wrapper: {
-    margin: theme.spacing.unit,
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
   },
 });
 
@@ -311,19 +304,15 @@ class Register extends Component {
                 </FormControl>
               </Grid>
               <Grid item sm={6} md={6} lg={6} style={{ alignSelf: 'center' }}>
-                <div className={classes.wrapper}>
-                  <Button
-                    id="register-button"
-                    variant="contained"
-                    color="primary"
-                    disabled={this.state.loading}
-                    onClick={this.handleSubmit}
-                  >
-                    {'Register now!'}
-                  </Button>
-                  {this.state.loading
-                  && <CircularProgress size={24} className={classes.buttonProgress} />}
-                </div>
+                <Button
+                  id="register-button"
+                  variant="contained"
+                  color="primary"
+                  disabled={this.state.loading}
+                  onClick={this.handleSubmit}
+                >
+                  {'Register now!'}
+                </Button>
               </Grid>
               <Grid item sm={12} md={12} lg={12} style={{ alignSelf: 'center' }}>
                 <Typography variant="caption" className={classes.headline}>

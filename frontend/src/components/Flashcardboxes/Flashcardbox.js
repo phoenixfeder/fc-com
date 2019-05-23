@@ -112,8 +112,13 @@ class Flashcardbox extends Component {
   };
 
   renderCardActions = () => {
-    const { userOwnsBox, deleteLoading, editLoading } = this.props;
-
+    const {
+      userOwnsBox,
+      deleteLoading,
+      editLoading,
+      shareLoading,
+    } = this.props;
+    const disabled = deleteLoading || editLoading || shareLoading;
     if (!userOwnsBox) {
       return (
         <div
@@ -139,21 +144,21 @@ class Flashcardbox extends Component {
           <IconButton
             aria-label="Share Flashcardbox"
             onClick={() => this.shareDialogOpen()}
-            disabled={deleteLoading}
+            disabled={disabled}
           >
             <Share />
           </IconButton>
           <IconButton
             aria-label="Edit Flashcardbox"
             onClick={() => this.editDialogOpen()}
-            disabled={editLoading}
+            disabled={disabled}
           >
             <Edit />
           </IconButton>
           <IconButton
             aria-label="Delete Flashcardbox"
             onClick={() => this.deleteDialogOpen()}
-            disabled={deleteLoading}
+            disabled={disabled}
           >
             <Delete />
           </IconButton>
@@ -275,6 +280,7 @@ Flashcardbox.propTypes = {
   history: PropTypes.object.isRequired,
   userOwnsBox: PropTypes.bool.isRequired,
   sharedUsers: PropTypes.array.isRequired,
+  shareLoading: PropTypes.bool.isRequired,
 };
 
 Flashcardbox.defaultProps = {
