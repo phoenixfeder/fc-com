@@ -1,14 +1,14 @@
 import {
-  Grid,
-  Typography,
-  withStyles,
   Card,
   CardContent,
+  Divider,
+  Grid,
   List,
   ListItem,
-  ListItemText,
   ListItemSecondaryAction,
-  Divider,
+  ListItemText,
+  Typography,
+  withStyles,
 } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -25,6 +25,11 @@ const styles = theme => ({
 });
 
 class Learning extends Component {
+
+  state = {
+    cards: 6,
+    correctCards: 1,
+  };
 
   componentDidMount = () => {
     document.title = 'Select Cards';
@@ -63,9 +68,37 @@ class Learning extends Component {
               {'Learning'}
             </Typography>
           </Grid>
-          <Grid item lg={8} md={10} xs={12} className={classes.headline}>
-            {this.renderDemo()}
-          </Grid>
+            <div style={{
+              verticalAlign: 'top',
+              display: 'flex',
+              flexDirection: 'row',
+              width: '90%',
+              marginLeft: '5%',
+              marginRight: '5%',
+            }}>
+
+              <div style={{
+                width: '65%',
+                verticalAlign: 'top',
+                display: 'flex',
+                flexDirection: 'row',
+                marginRight: '5%',
+                marginLeft: '15%',
+              }}>
+                 {this.renderDemo()}
+              </div>
+              <div
+                className={'Paper'}
+                style={{
+                width: '13%',
+                verticalAlign: 'top',
+                display: 'flex',
+                flexDirection: 'row',
+                  marginLeft: '2%',
+              }}>
+                {'Correct: '+ (100*this.state.correctCards/this.state.cards) + '% (' + this.state.correctCards + '/' + this.state.cards + ')'}
+              </div>
+            </div>
         </Grid>
       </div>
     );
