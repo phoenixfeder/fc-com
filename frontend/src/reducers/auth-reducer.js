@@ -40,7 +40,10 @@ const authCloseAccount = state => ({
   sessionHash: null,
   userID: null,
   username: null,
+  loading: false,
 });
+
+const authEnd = state => ({ ...state, loading: false }); // Used to still have loading as a global state for old actions
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -54,6 +57,8 @@ const authReducer = (state = initialState, action) => {
       return authLogout(state);
     case actionTypes.AUTH_CLOSE:
       return authCloseAccount(state);
+    case actionTypes.AUTH_END:
+      return authEnd(state);
     default:
       return state;
   }

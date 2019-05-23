@@ -20,7 +20,6 @@ import * as PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { fetchCloseAccount, fetchGetAccountData, fetchUpdateAccount } from '../../actions/edit-actions';
 import { lightTheme } from '../../utils/themeLight';
 
 const styles = theme => ({
@@ -72,7 +71,7 @@ class EditAccount extends Component {
   };
 
   componentWillMount() {
-    const { enqueueSnackbar } = this.props;
+    const { enqueueSnackbar, fetchGetAccountData } = this.props;
 
     fetchGetAccountData(this.props, (result) => {
 
@@ -132,6 +131,7 @@ class EditAccount extends Component {
   handleSubmit = () => {
     const {
       enqueueSnackbar,
+      fetchUpdateAccount,
     } = this.props;
     const {
       newEmail,
@@ -182,12 +182,12 @@ class EditAccount extends Component {
       enqueueSnackbar,
       history,
       closeAccount,
+      fetchCloseAccount,
     } = this.props;
     const { closeAccountPassword } = this.state;
     fetchCloseAccount({ ...this.props, closeAccountPassword }, (result) => {
       switch (result.status.code) {
         case 200:
-
           closeAccount();
           history.push('/');
           break;
@@ -212,7 +212,7 @@ class EditAccount extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, loading } = this.props;
     const {
       editSelf,
       oldPassword,
@@ -316,7 +316,7 @@ class EditAccount extends Component {
                     </FormControl>
                   </Grid>
                   <Grid item sm={12} md={12} lg={12}>
-                    <Button variant="contained" color="primary" onClick={this.handleSubmit}>
+                    <Button variant="contained" color="primary" onClick={this.handleSubmit} disabled={loading}>
                       {'Update Profile'}
                     </Button>
                   </Grid>
@@ -338,6 +338,7 @@ class EditAccount extends Component {
                         variant="contained"
                         color="secondary"
                         onClick={this.handleClickOpenCloseAccount}
+                        disabled={loading}
                       >
                         {'Close Account'}
                       </Button>
@@ -396,6 +397,10 @@ EditAccount.propTypes = {
   enqueueSnackbar: PropTypes.func.isRequired,
   history: PropTypes.func.isRequired,
   closeAccount: PropTypes.func.isRequired,
+  fetchGetAccountData: PropTypes.func.isRequired,
+  fetchUpdateAccount: PropTypes.func.isRequired,
+  fetchCloseAccount: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default compose(

@@ -13,10 +13,6 @@ import RealNameIcon from '@material-ui/icons/Face';
 import HobbyIcon from '@material-ui/icons/InsertEmoticon';
 import * as PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  fetchGetAccountData,
-  fetchUpdateUser,
-} from '../../actions/edit-actions';
 
 const styles = theme => ({
   root: {
@@ -69,7 +65,7 @@ class EditUser extends Component {
 
 
   componentWillMount() {
-    const { enqueueSnackbar } = this.props;
+    const { enqueueSnackbar, fetchGetAccountData } = this.props;
 
     fetchGetAccountData(this.props, (result) => {
 
@@ -96,7 +92,7 @@ class EditUser extends Component {
   }
 
   handleCommit = () => {
-    const { enqueueSnackbar } = this.props;
+    const { enqueueSnackbar, fetchUpdateUser } = this.props;
     fetchUpdateUser({ ...this.props, ...this.state }, (result) => {
       switch (result.status.code) {
 
@@ -163,7 +159,7 @@ class EditUser extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, loading } = this.props;
     return (
       <div className={classes.root}>
 
@@ -258,7 +254,7 @@ class EditUser extends Component {
                     </FormControl>
                   </Grid>
                   <Grid item sm={12} md={12} lg={12}>
-                    <Button variant="contained" color="primary" onClick={this.handleCommit}>
+                    <Button variant="contained" color="primary" onClick={this.handleCommit} disabled={loading}>
                       {'Update Profile'}
                     </Button>
                   </Grid>
@@ -284,6 +280,9 @@ class EditUser extends Component {
 EditUser.propTypes = {
   classes: PropTypes.object.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
+  fetchGetAccountData: PropTypes.func.isRequired,
+  fetchUpdateUser: PropTypes.func.isRequired,
+  loading: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(EditUser);
