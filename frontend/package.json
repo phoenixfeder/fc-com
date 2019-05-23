@@ -7,7 +7,10 @@
     "@material-ui/icons": "^3.0.2",
     "base64-img": "^1.0.4",
     "braces": "^2.3.2",
+    "classnames": "latest",
     "cucumber": "^5.1.0",
+    "fg-loadcss": "^2.1.0",
+    "mui-datatables": "^2.0.0",
     "notistack": "0.5.0",
     "npm": "^6.9.0",
     "prop-types": "^15.7.2",
@@ -17,12 +20,10 @@
     "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.8",
+    "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "testcafe": "^1.1.4",
-    "classnames": "latest",
-    "fg-loadcss": "^2.1.0",
-    "mui-datatables": "^2.0.0"
+    "testcafe": "^1.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
