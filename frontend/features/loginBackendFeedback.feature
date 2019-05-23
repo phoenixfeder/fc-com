@@ -29,6 +29,7 @@ Feature: Test of the correct feedback from the backend at the login-page
 		And rWait for one second
 
 	@all
+	@only
 	@login
 	Scenario:
 		When rI enter "enableduser" in the "username-field"

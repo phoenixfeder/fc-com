@@ -24,10 +24,6 @@ public class SessionConnector {
         return sessionRepository.save(session);
     }
 
-    public void deleteBySession(String session) {
-        sessionRepository.deleteBySession(session);
-    }
-
     public void delete(Session authenticate) {
         sessionRepository.delete(authenticate);
     }

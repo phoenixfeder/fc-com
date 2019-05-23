@@ -42,13 +42,6 @@ public class UserResponse {
         }
     }
 
-    public UserResponse(User user, String session) {
-        this(user);
-        this.session = session;
-        this.sessionHash = "";
-        this.userID = user.getId();
-    }
-
     public UserResponse() {
         super();
     }

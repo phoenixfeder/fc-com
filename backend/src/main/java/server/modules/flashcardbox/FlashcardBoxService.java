@@ -137,7 +137,7 @@ public class FlashcardBoxService {
         FlashCardBox box = determineSharedBox(requestDTO, user);
         User sharedUser = determineSharedUser(requestDTO);
 
-        if (sharedUser.getViewableBoxes().contains(box)){
+        if (sharedUser.getViewableBoxes().contains(box)) {
             sharedUser.getViewableBoxes().remove(box);
             userConnector.save(sharedUser);
         } else {
@@ -168,7 +168,7 @@ public class FlashcardBoxService {
         return responseDTO;
     }
 
-    private ResponseDTO createResponseWithBoxes(FlashCardBox flashCardBox){
+    private ResponseDTO createResponseWithBoxes(FlashCardBox flashCardBox) {
         FlashCardBox newBox = flashCardBoxConnector.save(flashCardBox);
         newBox.setFlashcards(flashcardConnector);
         ResponseDTO responseDTO = StatusDTO.ok();

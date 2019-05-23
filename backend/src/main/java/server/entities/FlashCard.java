@@ -15,11 +15,11 @@ public class FlashCard {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "flashcardGen")
     private long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String title;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String frontText;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String backText;
 
     @OneToOne(targetEntity = FlashCardBox.class, fetch = FetchType.EAGER)

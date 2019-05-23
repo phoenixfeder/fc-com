@@ -10,7 +10,5 @@ public interface SessionRepository extends CrudRepository<Session, Long> {
 
     Session findBySession(String session);
 
-    void deleteBySession(String session);
-
     void deleteByUser(User user);
 }

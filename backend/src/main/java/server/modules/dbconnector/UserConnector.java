@@ -33,10 +33,6 @@ public class UserConnector {
         return userRepository.save(user);
     }
 
-    public boolean existsByID(long id) {
-        return userRepository.findById(id).isPresent();
-    }
-
     public User getUserByNameOrEmail(UserRequest userRequest) throws WrongUsernameOrPasswordException {
         String username = userRequest.getUsername();
         User user = getUserByName(username);

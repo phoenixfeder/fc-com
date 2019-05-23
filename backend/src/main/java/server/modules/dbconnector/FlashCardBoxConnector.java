@@ -23,8 +23,7 @@ public class FlashCardBoxConnector {
     }
 
     public List<FlashCardBox> getAllBoxFromUser(User user) {
-        List<FlashCardBox> box = flashCardBoxRepository.getAllByOwner(user);
-        return box;
+        return flashCardBoxRepository.getAllByOwner(user);
     }
 
     public FlashCardBox save(FlashCardBox flashCardBox) {
@@ -34,11 +33,6 @@ public class FlashCardBoxConnector {
     @Transactional
     public void deleteByIdAndUser(User user, Long id) {
         flashCardBoxRepository.deleteByOwnerAndId(user, id);
-    }
-
-    @Transactional
-    public void deleteByUser(User user, FlashcardConnector flashcardConnector) {
-        flashCardBoxRepository.deleteAllByOwner(user);
     }
 
     @Transactional

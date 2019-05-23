@@ -1,6 +1,5 @@
 package server.entities.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import server.config.StatusCode;
@@ -21,10 +20,5 @@ public class StatusResponse {
 
     public static StatusResponse create(StatusCode statusCode) {
         return new StatusResponse(statusCode.value(), statusCode.getReasonPhrase());
-    }
-
-    @JsonIgnore
-    public boolean isOk() {
-        return code == StatusCode.OK.value();
     }
 }

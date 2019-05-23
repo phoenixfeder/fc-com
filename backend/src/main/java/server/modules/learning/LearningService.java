@@ -9,7 +9,6 @@ import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.entities.dto.request.Flashcard;
 import server.exceptions.FccExcpetion;
-import server.exceptions.PermissionDeniedException;
 import server.exceptions.WrongFormatException;
 import server.modules.authentication.Authenticator;
 import server.modules.dbconnector.FlashCardStatisticsConnector;
@@ -38,7 +37,7 @@ public class LearningService {
 
         List<Flashcard> flashcardList = requestDTO.getFlashcardList();
 
-        if(flashcardList == null){
+        if (flashcardList == null) {
             throw new WrongFormatException();
         }
 
@@ -46,7 +45,7 @@ public class LearningService {
         List<server.entities.dto.response.Flashcard> flashcards = new ArrayList<>();
         flashcardList.forEach(flashcard -> {
             server.entities.dto.response.Flashcard flashcardResponse = updateStatistic(flashcard, user);
-            if(flashcardResponse != null) {
+            if (flashcardResponse != null) {
                 flashcards.add(flashcardResponse);
             }
         });
@@ -56,10 +55,10 @@ public class LearningService {
         return responseDTO;
     }
 
-    private server.entities.dto.response.Flashcard updateStatistic(Flashcard flashcard, User user){
+    private server.entities.dto.response.Flashcard updateStatistic(Flashcard flashcard, User user) {
         FlashCard flashCard = flashcardConnector.getById(flashcard.getId());
         FlashCardStatistics flashCardStatistics = flashCardStatisticsConnector.getStatisticsByFlashCardAndUser(flashCard, user);
-        if(flashCardStatistics == null){
+        if (flashCardStatistics == null) {
             return null;
         }
         flashCardStatistics = CardManipulator.manipulate(flashCardStatistics, flashcard.isCorrect());
