@@ -1,12 +1,15 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import { enqueueSnackbar } from '../../actions/notistack-snackbar-actions';
 import Register from './Register';
+import * as actions from '../../actions/register-actions';
 
 const mapStateToProps = state => ({ snackbar: state.snackbars.notifications });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ enqueueSnackbar }, dispatch);
+const mapDispatchToProps = dispatch => ({
+  enqueueSnackbar: (object) => dispatch(enqueueSnackbar(object)),
+  fetchRegister: (state, callback) => dispatch(actions.fetchRegister(state, callback)),
+});
 
 
 const RegisterContainer = connect(mapStateToProps, mapDispatchToProps)(Register);

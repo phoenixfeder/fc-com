@@ -6,7 +6,6 @@ import {
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-
 const styles = theme => ({
   root: {
     paddingTop: theme.spacing.unit * 2,
@@ -16,9 +15,13 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
+  text: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
+  },
 });
 
-class Home extends Component {
+class Dashboard extends Component {
   componentDidMount() {
     document.title = 'Home';
   }
@@ -37,11 +40,11 @@ class Home extends Component {
               direction="column"
             >
               <Grid item lg={12}>
-                <Typography variant="h3" align="center">Home Page</Typography>
+                <Typography variant="h3" align="center" className={classes.text}>Welcome Username!</Typography>
               </Grid>
               <Grid item lg={12}>
-                <Typography variant="body1" align="center">
-                  {'Im currently just a placeholder. Soon there will be more to see!'}
+                <Typography variant="body1" className={classes.text}>
+                  {'Hi there! There! There!'}
                 </Typography>
               </Grid>
             </Grid>
@@ -52,8 +55,8 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {
+Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(Dashboard);

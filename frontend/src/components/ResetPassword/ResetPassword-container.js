@@ -1,12 +1,15 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import { enqueueSnackbar } from '../../actions/notistack-snackbar-actions';
 import ResetPassword from './ResetPassword';
+import * as actions from '../../actions/auth-actions';
 
 const mapStateToProps = state => ({ snackbar: state.snackbars.notifications });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ enqueueSnackbar }, dispatch);
+const mapDispatchToProps = dispatch => ({
+  enqueueSnackbar: (object) => dispatch(enqueueSnackbar(object)),
+  resetPassword: (email, callback) => dispatch(actions.resetPassword(email, callback)),
+});
 
 const ResetPasswordContainer = connect(mapStateToProps, mapDispatchToProps)(ResetPassword);
 

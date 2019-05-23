@@ -11,6 +11,10 @@ export const authStart = () => ({
   type: actionTypes.AUTH_START,
 });
 
+export const authEnd = () => ({
+  type: actionTypes.AUTH_END,
+});
+
 export const authSuccess = (sessionarg, hash, userIDarg, usernamearg) => ({
   type: actionTypes.AUTH_SUCCESS,
   sessionHash: hash,
@@ -37,6 +41,7 @@ export const logoutNoAuth = () => {
 };
 
 export const closeAccount = () => (dispatch) => {
+  dispatch(authStart());
   dispatch(enqueueSnackbar({
     message: `Your account has been closed. We will miss you, ${localStorage.getItem('username')}!`,
     options: {
@@ -207,7 +212,8 @@ export const authCheckState = () => (dispatch) => {
   }
 };
 
-export const resetPassword = (email, callback) => {
+export const resetPassword = (email, callback) => (dispatch) => {
+  dispatch(authStart());
   fetch(BACKEND_URL_ACCOUNT_RESET_PASSWORD, {
     method: 'PUT',
     headers: {
@@ -225,6 +231,7 @@ export const resetPassword = (email, callback) => {
     )
     .then(result => {
       callback(result);
+      dispatch(authEnd());
     })
     .catch(err => {
       callback({
@@ -239,7 +246,8 @@ export const resetPassword = (email, callback) => {
 
 };
 
-export const submitNewPassword = (state, callback) => {
+export const submitNewPassword = (state, callback) => (dispatch) => {
+  dispatch(authStart());
   fetch(BACKEND_URL_ACCOUNT_SUBMIT_NEW_PASSWORD(state.parameters), {
     method: 'PUT',
     headers: {
@@ -257,6 +265,7 @@ export const submitNewPassword = (state, callback) => {
     )
     .then(result => {
       callback(result);
+      dispatch(authEnd());
     })
     .catch(err => {
       callback({

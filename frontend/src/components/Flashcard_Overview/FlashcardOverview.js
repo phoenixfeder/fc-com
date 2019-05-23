@@ -116,6 +116,7 @@ class FlashcardOverview extends Component {
       createFlashcard,
       boxId,
       editFlashcard,
+      createLoading,
     } = this.props;
 
     const columns = ['Title', 'Front', 'Back', 'Success-Rate', ' '];
@@ -135,6 +136,7 @@ class FlashcardOverview extends Component {
         <Tooltip title="Create new Flashcard">
           <IconButton
             className={classes.iconButton}
+            disabled={createLoading}
             onClick={() => {
               this.setState({ createOpen: true });
             }}
@@ -187,6 +189,7 @@ FlashcardOverview.propTypes = {
   deleteFlashcard: PropTypes.func.isRequired,
   editFlashcard: PropTypes.func.isRequired,
   editLoading: PropTypes.bool.isRequired,
+  createLoading: PropTypes.bool.isRequired,
   boxId: PropTypes.number.isRequired,
   boxTitle: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,

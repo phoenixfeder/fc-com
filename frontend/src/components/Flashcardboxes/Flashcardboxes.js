@@ -1,10 +1,9 @@
 import {
-  Fab,
   Grid,
   Typography,
   withStyles,
+  Button,
 } from '@material-ui/core/';
-import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Flashcardbox from './flashcardbox-container';
@@ -50,6 +49,13 @@ class Flashcardboxes extends Component {
 
   renderCards = () => (
     <Grid container direction="row" spacing={16} style={{ width: '100%' }} justify="space-evenly">
+      <Grid item xs={12} md={12} lg={12} align="center" style={{ paddingTop: '12px' }}>
+        <Button aria-label="Add" onClick={() => this.createDialogOpen()} disabled={this.props.createLoading}>
+          <Typography variant="subtitle2">
+            {'Create new'}
+          </Typography>
+        </Button>
+      </Grid>
       {
         this.props.boxes.map(box => (
           <Grid item xs={6} md={4} lg={3} key={box.id}>
@@ -81,11 +87,6 @@ class Flashcardboxes extends Component {
             </Typography>
           </Grid>
           {this.renderCards()}
-          <Grid item xs={12} md={12} lg={12} align="center" style={{ paddingTop: '12px' }}>
-            <Fab color="primary" aria-label="Add" onClick={() => this.createDialogOpen()}>
-              <AddIcon />
-            </Fab>
-          </Grid>
         </Grid>
         <FlashcardboxCreateModal
           open={this.state.createOpen}
@@ -104,6 +105,7 @@ Flashcardboxes.propTypes = {
   boxes: PropTypes.array.isRequired,
   createFlashcardbox: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  createLoading: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Flashcardboxes);
