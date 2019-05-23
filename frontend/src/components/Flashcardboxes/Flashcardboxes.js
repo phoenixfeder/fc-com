@@ -35,10 +35,6 @@ class Flashcardboxes extends Component {
     this.props.getFlashcardboxes();
   };
 
-  componentDidMount = () => {
-    document.title = 'Flashcardboxes';
-  };
-
   createDialogClose = () => {
     this.setState({ createOpen: false });
   };
