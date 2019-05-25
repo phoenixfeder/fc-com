@@ -29,8 +29,8 @@ const styles = theme => ({
 class Learning extends Component {
 
   state = {
-    cards: 6,
-    correctCards: 1,
+    cards: 0,
+    correctCards: 0,
     currentCardIndex: 0,
     currentPageIsFront: true,
     currentTitle: 'first title',
@@ -38,7 +38,7 @@ class Learning extends Component {
   };
 
   componentDidMount = () => {
-    document.title = 'Select Cards';
+    document.title = 'Learning';
     if (this.props.cards && this.props.cards[0]) {
       this.setState({
         currentCardIndex: 0,
@@ -62,6 +62,12 @@ class Learning extends Component {
       () => {
         if (this.state.currentCardIndex >= this.props.cards.length) {
           console.log('done');
+        } else {
+          this.setState({
+            currentTitle: this.props.cards[this.state.currentCardIndex].title,
+            currentPageText: this.props.cards[this.state.currentCardIndex].front,
+            currentPageIsFront: true,
+          });
         }
       });
 
@@ -154,13 +160,22 @@ class Learning extends Component {
             <div
               className={'Paper'}
               style={{
-                width: '13%',
+                width: '15%',
                 verticalAlign: 'top',
                 display: 'flex',
                 flexDirection: 'row',
                 marginLeft: '2%',
               }}>
-              {'Correct: ' + (100 * this.state.correctCards / this.state.cards) + '% (' + this.state.correctCards + '/' + this.state.cards + ')'}
+              {`Cards in Box: ${cards.length}`}
+              <br />
+              {`Cards answered: ${this.state.cards}`}
+              <br />
+              {`Correct: ${this.state.correctCards}`}
+              {' (' + (this.state.cards ? (Math.round((100 * this.state.correctCards / this.state.cards) * 100) / 100) : 0) + '%)'}
+
+              <br />
+              {`Incorrect: ${this.state.cards - this.state.correctCards}`}
+              {' (' + (this.state.cards ? (Math.round((100 * (this.state.cards - this.state.correctCards) / this.state.cards) * 100) / 100) : 0) + '%)'}
             </div>
           </div>
         </Grid>
