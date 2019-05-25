@@ -10,8 +10,10 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core/';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import Flashcard from '../Flashcard/Flashcard';
 
 const styles = theme => ({
   root: {
@@ -29,10 +31,54 @@ class Learning extends Component {
   state = {
     cards: 6,
     correctCards: 1,
+    currentCardIndex: 0,
+    currentPageIsFront: true,
+    currentTitle: 'first title',
+    currentPageText: 'frontText',
   };
 
   componentDidMount = () => {
     document.title = 'Select Cards';
+    if (this.props.cards && this.props.cards[0]) {
+      this.setState({
+        currentCardIndex: 0,
+        currentTitle: this.props.cards[0].title,
+        currentPageText: this.props.cards[0].front,
+      });
+    }
+  };
+
+  handleAnswer = (correct) => {
+    this.props.answerCard({
+      id: this.props.cards[this.state.currentCardIndex].id,
+      correct,
+    });
+    this.setState(
+      {
+        cards: this.state.cards + 1,
+        correctCards: this.state.correctCards + correct,
+        currentCardIndex: this.state.currentCardIndex + 1,
+      },
+      () => {
+        if (this.state.currentCardIndex >= this.props.cards.length) {
+          console.log('done');
+        }
+      });
+
+  };
+
+  handleTurnAround = () => {
+    if (this.state.currentPageIsFront) {
+      this.setState({
+        currentPageText: this.props.cards[this.state.currentCardIndex].back,
+        currentPageIsFront: false,
+      });
+    } else {
+      this.setState({
+        currentPageText: this.props.cards[this.state.currentCardIndex].front,
+        currentPageIsFront: true,
+      });
+    }
   };
 
   renderDemo = () => {
@@ -59,7 +105,7 @@ class Learning extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, cards } = this.props;
     return (
       <div className={classes.root} id="Decks">
         <Grid container justify="center">
@@ -68,47 +114,65 @@ class Learning extends Component {
               {'Learning'}
             </Typography>
           </Grid>
-            <div style={{
-              verticalAlign: 'top',
-              display: 'flex',
-              flexDirection: 'row',
-              width: '90%',
-              marginLeft: '5%',
-              marginRight: '5%',
-            }}>
+          <div style={{
+            verticalAlign: 'top',
+            display: 'flex',
+            flexDirection: 'row',
+            width: '90%',
+            marginLeft: '5%',
+            marginRight: '5%',
+          }}>
 
-              <div style={{
+            <div
+              align="center"
+              style={{
                 width: '65%',
                 verticalAlign: 'top',
                 display: 'flex',
-                flexDirection: 'row',
                 marginRight: '5%',
                 marginLeft: '15%',
+                flexDirection: 'column',
               }}>
-                 {this.renderDemo()}
+              <Flashcard flashcard={{
+                title: this.state.currentTitle,
+                text: this.state.currentPageText,
+              }} />
+
+              <div align="center">
+                <Button onClick={() => this.handleAnswer(false)}>
+                  {'Incorrect'}
+                </Button>
+                <Button onClick={() => this.handleTurnAround()}>
+                  {'Turn around'}
+                </Button>
+                <Button onClick={() => this.handleAnswer(true)}>
+                  {'Correct'}
+                </Button>
               </div>
-              <div
-                className={'Paper'}
-                style={{
+            </div>
+
+            <div
+              className={'Paper'}
+              style={{
                 width: '13%',
                 verticalAlign: 'top',
                 display: 'flex',
                 flexDirection: 'row',
-                  marginLeft: '2%',
+                marginLeft: '2%',
               }}>
-                {'Correct: '+ (100*this.state.correctCards/this.state.cards) + '% (' + this.state.correctCards + '/' + this.state.cards + ')'}
-              </div>
+              {'Correct: ' + (100 * this.state.correctCards / this.state.cards) + '% (' + this.state.correctCards + '/' + this.state.cards + ')'}
             </div>
+          </div>
         </Grid>
       </div>
     );
   }
-
-}
+};
 
 Learning.propTypes = {
   classes: PropTypes.object.isRequired,
   cards: PropTypes.array.isRequired,
+  answerCard: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Learning);

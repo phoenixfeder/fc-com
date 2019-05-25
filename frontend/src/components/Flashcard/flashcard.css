@@ -1,7 +1,7 @@
 .flashcard {
-    width: 594px;
-    height: 420px;
-    margin: 10px;
+    width: 60%;
+    height: 50%;
+    margin: 5px;
     text-align: center;
 
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -9,9 +9,9 @@
 
 .flashcard-title {
     position: relative;
-    font-size: 30px;
-    height: 40px;
-    padding: 10px;
+    font-size: 20px;
+    height: 30px;
+    padding: 5px;
     background: url(../../graphics/fc_linetop.png);
     background-position-y: bottom;
     background-repeat: repeat-x;
@@ -19,14 +19,13 @@
 
 .flashcard-text {
     position: relative;
-    font-size: 20px;
+    font-size: 15px;
     padding: 7px;
-
-    height: 340px;
+    height: 200px;
 
     background: url(../../graphics/fc_lines.png);
 
-    line-height: 37px;
+    line-height: 100%;
 
     text-align: center;
     vertical-align: middle;

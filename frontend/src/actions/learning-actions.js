@@ -145,6 +145,7 @@ export const answerCard = card => dispatch => {
   })
     .then(results => results.json())
     .then(result => {
+      console.log(result);
       switch (result.status.code) {
         case 200:
           dispatch(answerCardSuccess(result.flashcards[0]));
