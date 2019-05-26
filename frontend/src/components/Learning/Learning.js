@@ -10,10 +10,10 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core/';
-import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Flashcard from '../Flashcard/Flashcard';
+import LearningFinished from './LearningFinished';
+import LearningInProgress from './LearningInProgress';
 
 const styles = theme => ({
   root: {
@@ -35,17 +35,12 @@ class Learning extends Component {
     currentPageIsFront: true,
     currentTitle: 'first title',
     currentPageText: 'frontText',
+    finished: false,
   };
 
   componentDidMount = () => {
     document.title = 'Learning';
-    if (this.props.cards && this.props.cards[0]) {
-      this.setState({
-        currentCardIndex: 0,
-        currentTitle: this.props.cards[0].title,
-        currentPageText: this.props.cards[0].front,
-      });
-    }
+    this.props.setLearningFinished(false);
   };
 
   handleAnswer = (correct) => {
@@ -87,107 +82,27 @@ class Learning extends Component {
     }
   };
 
-  renderDemo = () => {
-    const { cards } = this.props;
-    return (
-      <Card>
-        <List>
-          {
-            cards.map(card => (
-              <CardContent key={card.id}>
-                <ListItem>
-                  <ListItemText primary={card.front} secondary={card.back} />
-                  <ListItemSecondaryAction>
-                    {card.deck}
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-              </CardContent>
-            ))
-          }
-        </List>
-      </Card>
-    );
-  };
-
   render() {
     const { classes, cards } = this.props;
     return (
       <div className={classes.root} id="Decks">
-        <Grid container justify="center">
-          <Grid item lg={12} className={classes.headline}>
-            <Typography variant="h3" align="center">
-              {'Learning'}
-            </Typography>
-          </Grid>
-          <div style={{
-            verticalAlign: 'top',
-            display: 'flex',
-            flexDirection: 'row',
-            width: '90%',
-            marginLeft: '5%',
-            marginRight: '5%',
-          }}>
-
-            <div
-              align="center"
-              style={{
-                width: '65%',
-                verticalAlign: 'top',
-                display: 'flex',
-                marginRight: '5%',
-                marginLeft: '15%',
-                flexDirection: 'column',
-              }}>
-              <Flashcard flashcard={{
-                title: this.state.currentTitle,
-                text: this.state.currentPageText,
-              }} />
-
-              <div align="center">
-                <Button onClick={() => this.handleAnswer(false)}>
-                  {'Incorrect'}
-                </Button>
-                <Button onClick={() => this.handleTurnAround()}>
-                  {'Turn around'}
-                </Button>
-                <Button onClick={() => this.handleAnswer(true)}>
-                  {'Correct'}
-                </Button>
-              </div>
-            </div>
-
-            <div
-              className={'Paper'}
-              style={{
-                width: '15%',
-                verticalAlign: 'top',
-                display: 'flex',
-                flexDirection: 'row',
-                marginLeft: '2%',
-              }}>
-              {`Cards in Box: ${cards.length}`}
-              <br />
-              {`Cards answered: ${this.state.cards}`}
-              <br />
-              {`Correct: ${this.state.correctCards}`}
-              {' (' + (this.state.cards ? (Math.round((100 * this.state.correctCards / this.state.cards) * 100) / 100) : 0) + '%)'}
-
-              <br />
-              {`Incorrect: ${this.state.cards - this.state.correctCards}`}
-              {' (' + (this.state.cards ? (Math.round((100 * (this.state.cards - this.state.correctCards) / this.state.cards) * 100) / 100) : 0) + '%)'}
-            </div>
-          </div>
-        </Grid>
+        {
+          this.props.finished ?
+            <LearningFinished cards={cards} />
+            :
+            <LearningInProgress cards={cards} answerCard={this.props.answerCard} setLearningFinished={this.props.setLearningFinished} />
+        }
       </div>
     );
   }
-};
+}
 
 Learning.propTypes = {
   classes: PropTypes.object.isRequired,
   cards: PropTypes.array.isRequired,
   answerCard: PropTypes.func.isRequired,
+  setLearningFinished: PropTypes.func.isRequired,
+  finished: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Learning);

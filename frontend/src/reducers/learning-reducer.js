@@ -5,11 +5,13 @@ import {
   ANSWER_CARD_START,
   ANSWER_CARD_SUCCESS,
   ANSWER_CARD_FAIL,
+  LEARNING_FINISHED,
 } from '../utils/const-actiontypes';
 
 const initialState = {
   loading: false,
   answerLoading: false,
+  learningFinished: false,
   error: false,
   cards: [],
 };
@@ -55,6 +57,11 @@ const answerCardFail = (state, action) => ({
   error: action.error,
 });
 
+const setLearningFinished = (state, action) => ({
+  ...state,
+  learningFinished: action.learningFinished,
+});
+
 const learningReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_LEARNING_CARDS_START:
@@ -69,6 +76,8 @@ const learningReducer = (state = initialState, action) => {
       return answerCardSuccess(state, action);
     case ANSWER_CARD_FAIL:
       return answerCardFail(state, action);
+    case LEARNING_FINISHED:
+      return setLearningFinished(state, action);
     default:
       return state;
   }
