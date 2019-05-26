@@ -20,14 +20,14 @@ public class ExceptionController {
     public @ResponseBody
     ResponseDTO registerErrorException(RegisterErrorException e) {
         System.out.println("Register Error");
-        return StatusDTO.registerError(e.registerResponse);
+        return StatusDTO.registerError(e.getRegisterResponse());
     }
 
     @ExceptionHandler({EditProfileException.class})
     public @ResponseBody
     ResponseDTO editProfileException(EditProfileException e) {
         System.out.println("Edit Profile Error");
-        return StatusDTO.editProfileError(e.userResponse);
+        return StatusDTO.editProfileError(e.getUserResponse());
     }
 
     @ExceptionHandler({EmailSendException.class})

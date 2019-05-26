@@ -3,9 +3,13 @@ package server.exceptions;
 import server.entities.dto.response.UserResponse;
 
 public class EditProfileException extends FccExcpetion {
-    public UserResponse userResponse;
+    private UserResponse userResponse;
 
     public EditProfileException(UserResponse userResponse) {
         this.userResponse = userResponse;
+    }
+
+    public UserResponse getUserResponse() {
+        return userResponse;
     }
 }
