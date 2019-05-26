@@ -1,13 +1,6 @@
 import { withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -33,6 +26,7 @@ class LearningInProgress extends Component {
     currentPageIsFront: true,
     currentTitle: 'first title',
     currentPageText: 'frontText',
+    currentCard: {},
   };
 
   componentDidMount = () => {
@@ -42,13 +36,18 @@ class LearningInProgress extends Component {
         currentCardIndex: 0,
         currentTitle: this.props.cards[0].title,
         currentPageText: this.props.cards[0].front,
+        currentCard: {},
       });
+    }
+    console.log(this.props.cardsLeft);
+    if (this.props.cardsLeft && this.props.cardsLeft[0]) {
+      this.setNextCard();
     }
   };
 
   handleAnswer = (correct) => {
     this.props.answerCard({
-      id: this.props.cards[this.state.currentCardIndex].id,
+      id: this.state.currentCard.id,
       correct,
     });
     this.setState(
@@ -56,57 +55,45 @@ class LearningInProgress extends Component {
         cards: this.state.cards + 1,
         correctCards: this.state.correctCards + correct,
         currentCardIndex: this.state.currentCardIndex + 1,
-      },
-      () => {
-        if (this.state.currentCardIndex >= this.props.cards.length) {
-          this.props.setLearningFinished(true);
-          console.log('done');
-        } else {
-          this.setState({
-            currentTitle: this.props.cards[this.state.currentCardIndex].title,
-            currentPageText: this.props.cards[this.state.currentCardIndex].front,
-            currentPageIsFront: true,
-          });
-        }
       });
 
+    const answeredCard = this.props.cardsLeft.pop();
+    if (correct) {
+      this.props.cardsAnsweredCorrect.push(answeredCard);
+    } else {
+      this.props.cardsAnsweredIncorrect.push(answeredCard);
+    }
+    if (this.props.cardsLeft.length === 0) {
+      this.props.setLearningFinished(true);
+    } else {
+      this.setNextCard();
+    }
+
+  };
+
+  setNextCard = () => {
+    console.log("Setting");
+    console.log(this.props.cardsLeft);
+    this.setState({
+      currentPageIsFront: true,
+      currentCard: this.props.cardsLeft[this.props.cardsLeft.length - 1],
+      currentTitle: this.props.cardsLeft[this.props.cardsLeft.length - 1].title,
+      currentPageText: this.props.cardsLeft[this.props.cardsLeft.length - 1].text,
+    });
   };
 
   handleTurnAround = () => {
     if (this.state.currentPageIsFront) {
       this.setState({
-        currentPageText: this.props.cards[this.state.currentCardIndex].back,
+        currentPageText: this.state.currentCard.back,
         currentPageIsFront: false,
       });
     } else {
       this.setState({
-        currentPageText: this.props.cards[this.state.currentCardIndex].front,
+        currentPageText: this.state.currentCard.front,
         currentPageIsFront: true,
       });
     }
-  };
-
-  renderDemo = () => {
-    const { cards } = this.props;
-    return (
-      <Card>
-        <List>
-          {
-            cards.map(card => (
-              <CardContent key={card.id}>
-                <ListItem>
-                  <ListItemText primary={card.front} secondary={card.back} />
-                  <ListItemSecondaryAction>
-                    {card.deck}
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-              </CardContent>
-            ))
-          }
-        </List>
-      </Card>
-    );
   };
 
   render() {
@@ -189,6 +176,9 @@ LearningInProgress.propTypes = {
   cards: PropTypes.array.isRequired,
   answerCard: PropTypes.func.isRequired,
   setLearningFinished: PropTypes.func.isRequired,
+  cardsLeft: PropTypes.array.isRequired,
+  cardsAnsweredCorrect: PropTypes.array.isRequired,
+  cardsAnsweredIncorrect: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(LearningInProgress);

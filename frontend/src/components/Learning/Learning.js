@@ -29,57 +29,23 @@ const styles = theme => ({
 class Learning extends Component {
 
   state = {
+
+    cardsLeft: [],
+    cardsAnsweredCorrect: [],
+    cardsAnsweredIncorrect: [],
+
     cards: 0,
     correctCards: 0,
     currentCardIndex: 0,
     currentPageIsFront: true,
-    currentTitle: 'first title',
-    currentPageText: 'frontText',
-    finished: false,
   };
 
   componentDidMount = () => {
     document.title = 'Learning';
     this.props.setLearningFinished(false);
-  };
-
-  handleAnswer = (correct) => {
-    this.props.answerCard({
-      id: this.props.cards[this.state.currentCardIndex].id,
-      correct,
+    this.setState({
+      cardsLeft: this.props.cards,
     });
-    this.setState(
-      {
-        cards: this.state.cards + 1,
-        correctCards: this.state.correctCards + correct,
-        currentCardIndex: this.state.currentCardIndex + 1,
-      },
-      () => {
-        if (this.state.currentCardIndex >= this.props.cards.length) {
-          console.log('done');
-        } else {
-          this.setState({
-            currentTitle: this.props.cards[this.state.currentCardIndex].title,
-            currentPageText: this.props.cards[this.state.currentCardIndex].front,
-            currentPageIsFront: true,
-          });
-        }
-      });
-
-  };
-
-  handleTurnAround = () => {
-    if (this.state.currentPageIsFront) {
-      this.setState({
-        currentPageText: this.props.cards[this.state.currentCardIndex].back,
-        currentPageIsFront: false,
-      });
-    } else {
-      this.setState({
-        currentPageText: this.props.cards[this.state.currentCardIndex].front,
-        currentPageIsFront: true,
-      });
-    }
   };
 
   render() {
@@ -90,7 +56,11 @@ class Learning extends Component {
           this.props.finished ?
             <LearningFinished cards={cards} />
             :
-            <LearningInProgress cards={cards} answerCard={this.props.answerCard} setLearningFinished={this.props.setLearningFinished} />
+            <LearningInProgress cards={cards} answerCard={this.props.answerCard} setLearningFinished={this.props.setLearningFinished}
+                                cardsLeft={this.state.cardsLeft}
+                                cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
+                                cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
+            />
         }
       </div>
     );
