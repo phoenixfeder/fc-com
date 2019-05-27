@@ -12,13 +12,38 @@ import './flashcard.css';
 class Flashcard extends Component {
   state = {};
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(prevProps);
+    console.log(prevState);
+  }
+
+  componentDidMount() {
+    console.log("resize")
+  }
+
   renderCardBody() {
     const { flashcard, showFront } = this.props;
     const text = flashcard ? (showFront ? flashcard.front : flashcard.back) : '';
-    const lines = text.split('!');
-    while (lines.length < 4) {
+
+    const words = text.split(' ');
+    console.log(words);
+    console.log(window.innerWidth);
+    const lines = [];
+    let line = '';
+    words.forEach(word => {
+      if (line.length < window.innerWidth/40) {
+        line += `${word} `;
+      } else {
+        lines.push(line);
+        line = `${word} `;
+      }
+    });
+    lines.push(line.trimEnd());
+
+    do {
       lines.push('');
-    }
+    } while (lines.length < 4);
+
     return (
       <List
         style={{ padding: 0 }}
@@ -29,6 +54,7 @@ class Flashcard extends Component {
                 <ListItem
                   style={{
                     minHeight: 25,
+                    maxHeight: 25,
                     textAlign: 'center',
                   }}
                   divider
@@ -44,7 +70,7 @@ class Flashcard extends Component {
 
   render() {
     const { flashcard } = this.props;
-    const title = flashcard? flashcard.title : '';
+    const title = flashcard ? flashcard.title : '';
     return (
       <Paper
         style={{
