@@ -13,12 +13,10 @@ import server.exceptions.FccExcpetion;
 public class AccountController {
 
     private final AccountService accountService;
-    private final DashboardService dashboardService;
 
     @Autowired
-    public AccountController(AccountService accountService, DashboardService dashboardService) {
+    public AccountController(AccountService accountService) {
         this.accountService = accountService;
-        this.dashboardService = dashboardService;
     }
 
 
@@ -79,12 +77,4 @@ public class AccountController {
     ResponseDTO verifyResetPassword(@RequestBody RequestDTO requestDTO, @RequestParam(value = "id", required = false) String id, @RequestParam(value = "token", required = false) String token) throws FccExcpetion {
         return accountService.verifyResetPassword(requestDTO, id, token);
     }
-
-    @CrossOrigin(origins = Config.ORIGIN_URL)
-    @RequestMapping(path = "/dashboard", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDTO getDashboardData(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
-        return dashboardService.getDashBoard((requestDTO));
-    }
-
 }

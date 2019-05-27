@@ -42,8 +42,8 @@ public class FlashCardStatisticsConnector {
     }
 
     private static boolean userHasAccessToFlashCard(User user, FlashCardStatistics statistics) {
-        return statistics.getFlashCardUser().getFlashCard().getFlashcardBox().getOwner().equals(user) ||
-                statistics.getFlashCardUser().getFlashCard().getFlashcardBox().getSharedUserNames().contains(user.getUsername());
+        FlashCardBox flashCardBox = statistics.getFlashCardUser().getFlashCard().getFlashcardBox();
+        return flashCardBox.getOwner().equals(user) || flashCardBox.getSharedUserNames().contains(user.getUsername());
     }
 
     // Holt alle FlashCards aus der Box zu der es für den User bereits eine Statistik gibt

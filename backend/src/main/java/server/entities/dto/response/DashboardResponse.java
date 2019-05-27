@@ -7,7 +7,10 @@ import java.util.stream.IntStream;
 @Data
 public class DashboardResponse {
     private Long ownBoxes;
-    private Long accesToForeignBoxes;
+    private Long accessToForeignBoxes;
+
+    private Long ownCards;
+    private Long accessToForeignCards;
 
     private Long totalTrials;
     private Long successfulTrials;
