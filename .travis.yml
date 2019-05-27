@@ -1,10 +1,10 @@
 stages:
   - build
-  - sonar
   # - test-backend
   - api-test
   - bl-test
   - ui-test
+  - sonar
   - deploy
 
 jobs:
