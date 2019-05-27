@@ -1,6 +1,6 @@
 stages:
-  - sonar
   - build
+  - sonar
   # - test-backend
   - api-test
   - bl-test
@@ -145,17 +145,16 @@ jobs:
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
 
-- stage: sonar
-    language: java
-    dist: trusty
-    addons:
-      sonarcloud:
-        organization: "nifori-github" # the key of the org you chose at step #3
-        token:
-          secure: $SONAR_LOGIN # encrypted value of your token
-    script:
-      # other script steps might be done before running the actual analysis
-      - sonar-scanner
+    - stage: sonar
+      language: java
+      dist: trusty
+      addons:
+        sonarcloud:
+          organization: "nifori-github" # the key of the org you chose at step #3
+          token:
+            secure: $SONAR_LOGIN # encrypted value of your token
+      script:
+        - sonar-scanner
 
 
 after_failure:
