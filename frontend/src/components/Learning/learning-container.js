@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
   loading: state.learning.loading,
   answerLoading: state.learning.answerLoading,
   cards: state.learning.cards,
+  cardsLeft: state.learning.cardsLeft,
   error: state.learning.error,
   finished: state.learning.learningFinished,
 });

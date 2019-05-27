@@ -39,13 +39,13 @@ class Learning extends Component {
         {
           this.props.finished
             ?
-              <LearningFinished cards={cards} />
+              <LearningFinished cards={cards}/>
             :
               <LearningInProgress
                 cards={cards}
                 answerCard={this.props.answerCard}
                 setLearningFinished={this.props.setLearningFinished}
-                cardsLeft={this.state.cardsLeft}
+                cardsLeft={this.props.cardsLeft}
                 cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
                 cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
               />
@@ -58,6 +58,7 @@ class Learning extends Component {
 Learning.propTypes = {
   classes: PropTypes.object.isRequired,
   cards: PropTypes.array.isRequired,
+  cardsLeft: PropTypes.array.isRequired,
   answerCard: PropTypes.func.isRequired,
   setLearningFinished: PropTypes.func.isRequired,
   finished: PropTypes.bool.isRequired,

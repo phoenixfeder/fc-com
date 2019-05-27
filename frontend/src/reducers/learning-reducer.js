@@ -14,6 +14,7 @@ const initialState = {
   learningFinished: false,
   error: false,
   cards: [],
+  cardsLeft: [],
 };
 
 const setLearningCardsStart = (state) => ({
@@ -25,6 +26,7 @@ const setLearningCardsSuccess = (state, action) => ({
   ...state,
   loading: false,
   cards: action.cards,
+  cardsLeft: action.cards,
 });
 
 const setLearningCardsFail = (state, action) => ({

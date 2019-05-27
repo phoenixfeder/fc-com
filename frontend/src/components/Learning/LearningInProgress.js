@@ -20,40 +20,34 @@ const styles = theme => ({
 class LearningInProgress extends Component {
 
   state = {
-    cards: 0,
+    cardsAnswered: 0,
     correctCards: 0,
     currentCardIndex: 0,
     currentPageIsFront: true,
     currentTitle: 'first title',
     currentPageText: 'frontText',
-    currentCard: {},
+    currentCard: {
+      title: 'ok',
+      front: 'mehr',
+      back: 'weniger',
+    },
   };
 
   componentDidMount = () => {
     document.title = 'Learning';
-    console.log("did mount in progress");
-    if (this.props.cards && this.props.cards[0]) {
-      this.setState({
-        currentCardIndex: 0,
-        currentTitle: this.props.cards[0].title,
-        currentPageText: this.props.cards[0].front,
-        currentCard: {},
-      });
-    }
-    console.log(this.props.cardsLeft);
-    if (this.props.cardsLeft && this.props.cardsLeft[0]) {
-      this.setNextCard();
-    }
   };
 
   handleAnswer = (correct) => {
-    this.props.answerCard({
-      id: this.state.currentCard.id,
+    const { cardsLeft, answerCard } = this.props;
+    const currentCard = cardsLeft[cardsLeft.length - 1];
+
+    answerCard({
+      id: currentCard.id,
       correct,
     });
     this.setState(
       {
-        cards: this.state.cards + 1,
+        cardsAnswered: this.state.cardsAnswered + 1,
         correctCards: this.state.correctCards + correct,
         currentCardIndex: this.state.currentCardIndex + 1,
       });
@@ -73,8 +67,6 @@ class LearningInProgress extends Component {
   };
 
   setNextCard = () => {
-    console.log("Setting");
-    console.log(this.props.cardsLeft);
     this.setState({
       currentPageIsFront: true,
       currentCard: this.props.cardsLeft[this.props.cardsLeft.length - 1],
@@ -97,8 +89,21 @@ class LearningInProgress extends Component {
     }
   };
 
+  getNumberOfCardsAnsweredCorrectly = () => this.props.cardsAnsweredCorrect.length;
+
+  getNumberOfCards = () => this.props.cardsAnsweredCorrect.length + this.props.cardsAnsweredIncorrect.length + this.props.cardsLeft.length;
+
+  getNumberOfCardsAnswered = () => this.props.cardsAnsweredCorrect.length + this.props.cardsAnsweredIncorrect.length;
+
+  getProportionOfCardsAnsweredCorrectly = () => (this.getNumberOfCardsAnswered() ? (Math.round((100 * this.getNumberOfCardsAnsweredCorrectly() / this.getNumberOfCardsAnswered()) * 100) / 100) : 0);
+
+  getProportionOfCardsAnsweredIncorrectly = () => (this.getNumberOfCardsAnswered() ? (Math.round((100 * (this.getNumberOfCardsAnsweredIncorrectly()) / this.getNumberOfCardsAnswered()) * 100) / 100) : 0);
+
+  getNumberOfCardsAnsweredIncorrectly = () => this.props.cardsAnsweredIncorrect.length;
+
   render() {
-    const { classes, cards } = this.props;
+    const { classes, cardsLeft } = this.props;
+    const currentCard = cardsLeft[cardsLeft.length - 1];
     return (
       <div className={classes.root} id="Decks">
         <Grid container justify="center">
@@ -126,10 +131,7 @@ class LearningInProgress extends Component {
                 marginLeft: '15%',
                 flexDirection: 'column',
               }}>
-              <Flashcard flashcard={{
-                title: this.state.currentTitle,
-                text: this.state.currentPageText,
-              }} />
+              <Flashcard flashcard={currentCard} showFront={this.state.currentPageIsFront} />
 
               <div align="center">
                 <Button onClick={() => this.handleAnswer(false)}>
@@ -153,16 +155,16 @@ class LearningInProgress extends Component {
                 flexDirection: 'row',
                 marginLeft: '2%',
               }}>
-              {`Cards in Box: ${cards.length}`}
+              {`Cards in Box: ${this.getNumberOfCards()}`}
               <br />
-              {`Cards answered: ${this.state.cards}`}
+              {`Cards answered: ${this.getNumberOfCardsAnswered()}`}
               <br />
-              {`Correct: ${this.state.correctCards}`}
-              {' (' + (this.state.cards ? (Math.round((100 * this.state.correctCards / this.state.cards) * 100) / 100) : 0) + '%)'}
+              {`Correct: ${this.getNumberOfCardsAnsweredCorrectly()}`}
+              {` (${this.getProportionOfCardsAnsweredCorrectly()}%)`}
 
               <br />
-              {`Incorrect: ${this.state.cards - this.state.correctCards}`}
-              {' (' + (this.state.cards ? (Math.round((100 * (this.state.cards - this.state.correctCards) / this.state.cards) * 100) / 100) : 0) + '%)'}
+              {`Incorrect: ${this.getNumberOfCardsAnsweredIncorrectly()}`}
+              {` (${this.getProportionOfCardsAnsweredIncorrectly()}%)`}
             </div>
           </div>
         </Grid>

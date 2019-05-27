@@ -3,6 +3,7 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import * as FlashcardStyle from '../../utils/const-flashcard';
@@ -12,17 +13,30 @@ class Flashcard extends Component {
   state = {};
 
   renderCardBody() {
+    const { flashcard, showFront } = this.props;
+    const text = flashcard ? (showFront ? flashcard.front : flashcard.back) : '';
+    const lines = text.split('!');
+    while (lines.length < 4) {
+      lines.push('');
+    }
     return (
-      <List>
-        {this.props.flashcard.text.split('!')
+      <List
+        style={{ padding: 0 }}
+      >
+        {lines
           .map(part => (
               <div>
-                <Divider />
-                <ListItem>
+                <ListItem
+                  style={{
+                    minHeight: 25,
+                    textAlign: 'center',
+                  }}
+                  divider
+                >
                   <ListItemText primary={part} />
                 </ListItem>
               </div>
-            )
+            ),
           )}
       </List>
     );
@@ -30,31 +44,27 @@ class Flashcard extends Component {
 
   render() {
     const { flashcard } = this.props;
+    const title = flashcard? flashcard.title : '';
     return (
-      <Paper style={{
-        backgroundColor: FlashcardStyle.FLASHCARD_NEUTRAL,
-        width: '50%',
-      }}>
-        {flashcard.title}
+      <Paper
+        style={{
+          backgroundColor: FlashcardStyle.FLASHCARD_NEUTRAL,
+          width: '50%',
+        }}
+        draggable
+      >
+        <Typography style={{ fontSize: 25 }}>
+          {title}
+        </Typography>
         <Divider />
         <Divider style={{
-          height: 2,
+          height: 5,
           visibility: 'hidden',
         }}
         />
+        <Divider />
         {this.renderCardBody()}
       </Paper>
-
-      /*
-      <div className="flashcard" style={{ backgroundColor: FlashcardStyle.FLASHCARD_NEUTRAL }}>
-      <div className="flashcard-title">
-      {flashcard.title}
-      </div>
-      <div className="flashcard-text">
-      {flashcard.text}
-      </div>
-      </div>
-      */
     );
   }
 }
@@ -62,9 +72,10 @@ class Flashcard extends Component {
 Flashcard.propTypes = {
   flashcard: PropTypes.shape({
     title: PropTypes.string,
-    frontText: PropTypes.string,
-    text: PropTypes.string,
+    front: PropTypes.string,
+    back: PropTypes.string,
   }).isRequired,
+  showFront: PropTypes.bool.isRequired,
 };
 
 export default Flashcard;
