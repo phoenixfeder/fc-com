@@ -154,7 +154,7 @@ jobs:
           token:
             secure: $SONAR_LOGIN # encrypted value of your token
       script:
-        - sonar-scanner
+        - sonar-scanner -Dsonar.java.binaries=backend
 
 
 after_failure:
