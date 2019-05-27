@@ -31,6 +31,7 @@ class LearningInProgress extends Component {
 
   componentDidMount = () => {
     document.title = 'Learning';
+    console.log("did mount in progress");
     if (this.props.cards && this.props.cards[0]) {
       this.setState({
         currentCardIndex: 0,

@@ -23,9 +23,10 @@ class Learning extends Component {
     cardsAnsweredIncorrect: [],
   };
 
-  componentDidMount = () => {
+  componentWillMount = () => {
     document.title = 'Learning';
     this.props.setLearningFinished(false);
+    console.log(this.props.cards);
     this.setState({
       cardsLeft: this.props.cards,
     });
