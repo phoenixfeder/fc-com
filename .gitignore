@@ -16,4 +16,3 @@ backend/\.DS_Store
 \.DS_Store
 
 #sonar
-sonar-project.properties
