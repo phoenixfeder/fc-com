@@ -25,6 +25,9 @@ public class ResponseDTO {
     @JsonProperty("flashcards")
     private List<Flashcard> flashcards;
 
+    @JsonProperty("dashboard")
+    private DashboardResponse dashboard;
+
     public ResponseDTO(StatusResponse statusResponse) {
         this.statusResponse = statusResponse;
     }
