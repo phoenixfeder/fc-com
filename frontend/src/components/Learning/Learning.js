@@ -1,15 +1,4 @@
-import {
-  Card,
-  CardContent,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  Typography,
-  withStyles,
-} from '@material-ui/core/';
+import { withStyles } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import LearningFinished from './LearningFinished';
@@ -29,15 +18,9 @@ const styles = theme => ({
 class Learning extends Component {
 
   state = {
-
     cardsLeft: [],
     cardsAnsweredCorrect: [],
     cardsAnsweredIncorrect: [],
-
-    cards: 0,
-    correctCards: 0,
-    currentCardIndex: 0,
-    currentPageIsFront: true,
   };
 
   componentDidMount = () => {
@@ -53,14 +36,18 @@ class Learning extends Component {
     return (
       <div className={classes.root} id="Decks">
         {
-          this.props.finished ?
-            <LearningFinished cards={cards} />
+          this.props.finished
+            ?
+              <LearningFinished cards={cards} />
             :
-            <LearningInProgress cards={cards} answerCard={this.props.answerCard} setLearningFinished={this.props.setLearningFinished}
-                                cardsLeft={this.state.cardsLeft}
-                                cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
-                                cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
-            />
+              <LearningInProgress
+                cards={cards}
+                answerCard={this.props.answerCard}
+                setLearningFinished={this.props.setLearningFinished}
+                cardsLeft={this.state.cardsLeft}
+                cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
+                cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
+              />
         }
       </div>
     );
