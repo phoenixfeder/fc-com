@@ -10,64 +10,7 @@ import * as FlashcardStyle from '../../utils/const-flashcard';
 import './flashcard.css';
 
 class Flashcard extends Component {
-  state = {
-  };
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(prevProps);
-    console.log(prevState);
-  }
-
-  componentDidMount() {
-    console.log("resize")
-  }
-
-  renderCardBody() {
-    const { flashcard, showFront } = this.props;
-    const text = flashcard ? (showFront ? flashcard.front : flashcard.back) : '';
-
-    const words = text.split(' ');
-    console.log(words);
-    console.log(window.innerWidth);
-    const lines = [];
-    let line = '';
-    words.forEach(word => {
-      if (line.length < window.innerWidth/40) {
-        line += `${word} `;
-      } else {
-        lines.push(line);
-        line = `${word} `;
-      }
-    });
-    lines.push(line.trimEnd());
-
-    do {
-      lines.push('');
-    } while (lines.length < 4);
-
-    return (
-      <List
-        style={{ padding: 0 }}
-      >
-        {lines
-          .map(part => (
-              <div>
-                <ListItem
-                  style={{
-                    minHeight: 25,
-                    maxHeight: 25,
-                    textAlign: 'center',
-                  }}
-                  divider
-                >
-                  <ListItemText primary={part} />
-                </ListItem>
-              </div>
-            ),
-          )}
-      </List>
-    );
-  }
+  state = {};
 
   render() {
     const { flashcard } = this.props;
@@ -92,6 +35,51 @@ class Flashcard extends Component {
         <Divider />
         {this.renderCardBody()}
       </Paper>
+    );
+  }
+
+  renderCardBody() {
+    const { flashcard, showFront } = this.props;
+    const text = flashcard ? (showFront ? flashcard.front : flashcard.back) : '';
+
+    const words = text.split(' ');
+    const lines = [];
+    let line = '';
+    words.forEach(word => {
+      if (line.length < window.innerWidth / 40) {
+        line += `${word} `;
+      } else {
+        lines.push(line);
+        line = `${word} `;
+      }
+    });
+    lines.push(line.trimEnd());
+
+    do {
+      lines.push('');
+    } while (lines.length < 4);
+
+    return (
+      <List
+        style={{ padding: 0 }}
+      >
+        {
+          lines
+            .map(part => (
+              <div>
+                <ListItem
+                  style={{
+                    minHeight: 25,
+                    maxHeight: 25,
+                    textAlign: 'center',
+                  }}
+                  divider
+                >
+                  <ListItemText primary={part} />
+                </ListItem>
+              </div>),
+            )}
+      </List>
     );
   }
 }
