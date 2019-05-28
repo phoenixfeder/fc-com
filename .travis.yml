@@ -20,7 +20,7 @@ jobs:
       script:
         - (cd backend/; mvn package)
         - (cd backend/; docker build -f Dockerfile -t fcc-application-docker .)
-        - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME
+        - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME:dev
         - docker push $DOCKER_USERNAME/$DOCKER_REPONAME:dev
         - docker logout
 
@@ -145,7 +145,7 @@ jobs:
         - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
-        - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME
+        - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME:prod
         - docker push $DOCKER_USERNAME/$DOCKER_REPONAME:prod
         - docker logout
 
