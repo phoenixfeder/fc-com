@@ -5,13 +5,16 @@ import {
   ANSWER_CARD_START,
   ANSWER_CARD_SUCCESS,
   ANSWER_CARD_FAIL,
+  LEARNING_FINISHED,
 } from '../utils/const-actiontypes';
 
 const initialState = {
   loading: false,
   answerLoading: false,
+  learningFinished: false,
   error: false,
   cards: [],
+  cardsLeft: [],
 };
 
 const setLearningCardsStart = (state) => ({
@@ -23,6 +26,7 @@ const setLearningCardsSuccess = (state, action) => ({
   ...state,
   loading: false,
   cards: action.cards,
+  cardsLeft: action.cards,
 });
 
 const setLearningCardsFail = (state, action) => ({
@@ -37,9 +41,10 @@ const answerCardStart = (state) => ({
 });
 
 const answerCardSuccess = (state, action) => {
+  console.log(action);
   const indexToUpdate = state.cards.findIndex(card => card.id === action.card.id);
   const newCards = Array.from(state.cards);
-  newCards[indexToUpdate] = action.flashcardbox;
+  newCards[indexToUpdate] = action.card;
 
   return ({
     ...state,
@@ -52,6 +57,11 @@ const answerCardFail = (state, action) => ({
   ...state,
   loading: false,
   error: action.error,
+});
+
+const setLearningFinished = (state, action) => ({
+  ...state,
+  learningFinished: action.learningFinished,
 });
 
 const learningReducer = (state = initialState, action) => {
@@ -68,6 +78,8 @@ const learningReducer = (state = initialState, action) => {
       return answerCardSuccess(state, action);
     case ANSWER_CARD_FAIL:
       return answerCardFail(state, action);
+    case LEARNING_FINISHED:
+      return setLearningFinished(state, action);
     default:
       return state;
   }

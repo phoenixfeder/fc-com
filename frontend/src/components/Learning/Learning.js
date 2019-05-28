@@ -1,17 +1,8 @@
-import {
-  Grid,
-  Typography,
-  withStyles,
-  Card,
-  CardContent,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  Divider,
-} from '@material-ui/core/';
+import { withStyles } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import LearningFinished from './LearningFinished';
+import LearningInProgress from './LearningInProgress';
 
 const styles = theme => ({
   root: {
@@ -26,56 +17,51 @@ const styles = theme => ({
 
 class Learning extends Component {
 
-  componentDidMount = () => {
-    document.title = 'Select Cards';
+  state = {
+    cardsLeft: [],
+    cardsAnsweredCorrect: [],
+    cardsAnsweredIncorrect: [],
   };
 
-  renderDemo = () => {
-    const { cards } = this.props;
-    return (
-      <Card>
-        <List>
-          {
-            cards.map(card => (
-              <CardContent key={card.id}>
-                <ListItem>
-                  <ListItemText primary={card.front} secondary={card.back} />
-                  <ListItemSecondaryAction>
-                    {card.deck}
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-              </CardContent>
-            ))
-          }
-        </List>
-      </Card>
-    );
+  componentWillMount = () => {
+    document.title = 'Learning';
+    this.props.setLearningFinished(false);
+    console.log(this.props.cards);
+    this.setState({
+      cardsLeft: this.props.cards,
+    });
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, cards } = this.props;
     return (
       <div className={classes.root} id="Decks">
-        <Grid container justify="center">
-          <Grid item lg={12} className={classes.headline}>
-            <Typography variant="h3" align="center">
-              {'Learning'}
-            </Typography>
-          </Grid>
-          <Grid item lg={8} md={10} xs={12} className={classes.headline}>
-            {this.renderDemo()}
-          </Grid>
-        </Grid>
+        {
+          this.props.finished
+            ?
+              <LearningFinished cards={cards}/>
+            :
+              <LearningInProgress
+                cards={cards}
+                answerCard={this.props.answerCard}
+                setLearningFinished={this.props.setLearningFinished}
+                cardsLeft={this.props.cardsLeft}
+                cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
+                cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
+              />
+        }
       </div>
     );
   }
-
 }
 
 Learning.propTypes = {
   classes: PropTypes.object.isRequired,
   cards: PropTypes.array.isRequired,
+  cardsLeft: PropTypes.array.isRequired,
+  answerCard: PropTypes.func.isRequired,
+  setLearningFinished: PropTypes.func.isRequired,
+  finished: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Learning);

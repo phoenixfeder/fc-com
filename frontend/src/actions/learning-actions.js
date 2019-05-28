@@ -10,6 +10,7 @@ import {
   ANSWER_CARD_START,
   ANSWER_CARD_SUCCESS,
   ANSWER_CARD_FAIL,
+  LEARNING_FINISHED,
 } from '../utils/const-actiontypes';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
 import { store } from '../store';
@@ -26,6 +27,11 @@ const setLearningCardsSuccess = cards => ({
 const setLearningCardsFail = errorarg => ({
   type: SET_LEARNING_CARDS_FAIL,
   error: errorarg,
+});
+
+const learningFinished = finished => ({
+  type: LEARNING_FINISHED,
+  learningFinished: finished,
 });
 
 /*
@@ -145,6 +151,7 @@ export const answerCard = card => dispatch => {
   })
     .then(results => results.json())
     .then(result => {
+      console.log(result);
       switch (result.status.code) {
         case 200:
           dispatch(answerCardSuccess(result.flashcards[0]));
@@ -170,4 +177,8 @@ export const answerCard = card => dispatch => {
         },
       }));
     });
+};
+
+export const setLearningFinished = finished => dispatch => {
+  dispatch(learningFinished(finished));
 };

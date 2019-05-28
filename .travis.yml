@@ -4,6 +4,7 @@ stages:
   - api-test
   - bl-test
   - ui-test
+  - sonar
   - deploy
 
 jobs:
@@ -57,7 +58,7 @@ jobs:
         - sudo ./wait-for-it.sh localhost:8080
         - cd backend_test/
         - newman run postman_integrationtests.json
-        
+
     # Runs business logic / functions tests in the frontend (similar to JUnit)
     - stage: bl-test
       language: node_js
@@ -143,6 +144,18 @@ jobs:
         - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
+
+    - stage: sonar
+      language: java
+      dist: trusty
+      addons:
+        sonarcloud:
+          organization: "nifori-github" # the key of the org you chose at step #3
+          token:
+            secure: $SONAR_LOGIN # encrypted value of your token
+      script:
+        - sonar-scanner -Dsonar.java.binaries=backend
+
 
 after_failure:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
