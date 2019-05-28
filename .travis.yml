@@ -19,8 +19,8 @@ jobs:
       script:
         - (cd backend/; mvn package)
         - (cd backend/; docker build -f Dockerfile -t fcc-application-docker .)
-        - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME
-        - docker push $DOCKER_USERNAME/$DOCKER_REPONAME
+        - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME:dev
+        - docker push $DOCKER_USERNAME/$DOCKER_REPONAME:dev
         - docker logout
 
     # Runs API test with the previously builded docker container
@@ -50,7 +50,7 @@ jobs:
           -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
           -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME"
           -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD"
-          $DOCKER_USERNAME/$DOCKER_REPONAME
+          $DOCKER_USERNAME/$DOCKER_REPONAME:dev
       before_script:
         - sleep 120
       script:
@@ -113,7 +113,7 @@ jobs:
           -e "SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=false"
           -e "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME"
           -e "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD"
-          $DOCKER_USERNAME/$DOCKER_REPONAME
+          $DOCKER_USERNAME/$DOCKER_REPONAME:dev
       before_script:
         - cd frontend
         - npm start &
@@ -134,7 +134,7 @@ jobs:
         - chmod +x send.sh
         - ./send.sh success $WEBHOOK_URL
 
-    # Deploys the docker container to heroku (prod)
+    # Deploys the docker container to heroku (prod) and docker-prod
     - stage: deploy
       if: branch = master
       language: java
@@ -143,6 +143,7 @@ jobs:
       provider: heroku
       before_script:
         - heroku container:login
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       script:
         - cd backend/
         - mvn package
@@ -150,6 +151,9 @@ jobs:
         - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
+        - docker tag fcc-application-docker $DOCKER_USERNAME/$DOCKER_REPONAME:prod
+        - docker push $DOCKER_USERNAME/$DOCKER_REPONAME:prod
+        - docker logout
 
 after_failure:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
