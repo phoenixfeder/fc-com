@@ -1,10 +1,9 @@
 stages:
   - build
   # - test-backend
-  - bl-test-codecov-sonar
   - api-test
   - ui-test
-  - sonar
+  - bl-test-codecov-sonar
   - deploy
 
 jobs:
