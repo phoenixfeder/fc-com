@@ -8,9 +8,12 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import * as FlashcardStyle from '../../utils/const-flashcard';
 import './flashcard.css';
+import Button from '@material-ui/core/Button';
 
 class Flashcard extends Component {
-  state = {};
+  state = {
+    unusedState: 55,
+  };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     console.log(prevProps);
