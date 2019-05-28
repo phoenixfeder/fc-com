@@ -2,8 +2,8 @@ stages:
   - build
   # - test-backend
   - api-test
-  - bl-test
   - ui-test
+  - bl-test-codecov-sonar
   - sonar
   - deploy
 
@@ -60,17 +60,24 @@ jobs:
         - newman run postman_integrationtests.json
 
     # Runs business logic / functions tests in the frontend (similar to JUnit)
-    - stage: bl-test
+    - stage: bl-test-codecov-sonar
       language: node_js
       node_js:
         - "10"
       dist: trusty
+      addons:
+        sonarcloud:
+          organization: "nifori-github" # the key of the org you chose at step #3
+          token:
+            secure: $SONAR_LOGIN # encrypted value of your token
       install:
         - (cd frontend/; npm install; cd ../)
       script:
         - cd frontend/
         - npm run-script test-bl
         - ./node_modules/.bin/codecov --token=$CODECOV_TOKEN
+        - cd ../
+        - sonar-scanner -Dsonar.java.binaries=backend
 
     #  Runs UI test with the previously builded docker container
     - stage: ui-test
@@ -144,18 +151,6 @@ jobs:
         - docker tag fcc-application-docker registry.heroku.com/flashcardcommunity/web
         - docker push registry.heroku.com/flashcardcommunity/web
         - heroku container:release web -a flashcardcommunity
-
-    - stage: sonar
-      language: java
-      dist: trusty
-      addons:
-        sonarcloud:
-          organization: "nifori-github" # the key of the org you chose at step #3
-          token:
-            secure: $SONAR_LOGIN # encrypted value of your token
-      script:
-        - sonar-scanner -Dsonar.java.binaries=backend
-
 
 after_failure:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh

@@ -24,18 +24,23 @@ class LearningInProgress extends Component {
     correctCards: 0,
     currentCardIndex: 0,
     currentPageIsFront: true,
-    currentTitle: 'first title',
-    currentPageText: 'frontText',
-    currentCard: {
-      title: 'ok',
-      front: 'mehr',
-      back: 'weniger',
-    },
   };
 
   componentDidMount = () => {
     document.title = 'Learning';
   };
+
+  getNumberOfCards = () => this.props.cardsAnsweredCorrect.length + this.props.cardsAnsweredIncorrect.length + this.props.cardsLeft.length;
+
+  getNumberOfCardsAnswered = () => this.props.cardsAnsweredCorrect.length + this.props.cardsAnsweredIncorrect.length;
+
+  getNumberOfCardsAnsweredCorrectly = () => this.props.cardsAnsweredCorrect.length;
+
+  getNumberOfCardsAnsweredIncorrectly = () => this.props.cardsAnsweredIncorrect.length;
+
+  getProportionOfCardsAnsweredCorrectly = () => (this.getNumberOfCardsAnswered() ? (Math.round((100 * this.getNumberOfCardsAnsweredCorrectly() / this.getNumberOfCardsAnswered()) * 100) / 100) : 0);
+
+  getProportionOfCardsAnsweredIncorrectly = () => (this.getNumberOfCardsAnswered() ? (Math.round((100 * (this.getNumberOfCardsAnsweredIncorrectly()) / this.getNumberOfCardsAnswered()) * 100) / 100) : 0);
 
   handleAnswer = (correct) => {
     const { cardsLeft, answerCard } = this.props;
@@ -66,40 +71,17 @@ class LearningInProgress extends Component {
 
   };
 
-  setNextCard = () => {
-    this.setState({
-      currentPageIsFront: true,
-      currentCard: this.props.cardsLeft[this.props.cardsLeft.length - 1],
-      currentTitle: this.props.cardsLeft[this.props.cardsLeft.length - 1].title,
-      currentPageText: this.props.cardsLeft[this.props.cardsLeft.length - 1].text,
-    });
-  };
-
   handleTurnAround = () => {
     if (this.state.currentPageIsFront) {
       this.setState({
-        currentPageText: this.state.currentCard.back,
         currentPageIsFront: false,
       });
     } else {
       this.setState({
-        currentPageText: this.state.currentCard.front,
         currentPageIsFront: true,
       });
     }
   };
-
-  getNumberOfCardsAnsweredCorrectly = () => this.props.cardsAnsweredCorrect.length;
-
-  getNumberOfCards = () => this.props.cardsAnsweredCorrect.length + this.props.cardsAnsweredIncorrect.length + this.props.cardsLeft.length;
-
-  getNumberOfCardsAnswered = () => this.props.cardsAnsweredCorrect.length + this.props.cardsAnsweredIncorrect.length;
-
-  getProportionOfCardsAnsweredCorrectly = () => (this.getNumberOfCardsAnswered() ? (Math.round((100 * this.getNumberOfCardsAnsweredCorrectly() / this.getNumberOfCardsAnswered()) * 100) / 100) : 0);
-
-  getProportionOfCardsAnsweredIncorrectly = () => (this.getNumberOfCardsAnswered() ? (Math.round((100 * (this.getNumberOfCardsAnsweredIncorrectly()) / this.getNumberOfCardsAnswered()) * 100) / 100) : 0);
-
-  getNumberOfCardsAnsweredIncorrectly = () => this.props.cardsAnsweredIncorrect.length;
 
   render() {
     const { classes, cardsLeft } = this.props;
@@ -147,14 +129,15 @@ class LearningInProgress extends Component {
             </div>
 
             <div
-              className={'Paper'}
+              className="Paper"
               style={{
                 width: '15%',
                 verticalAlign: 'top',
                 display: 'flex',
                 flexDirection: 'row',
                 marginLeft: '2%',
-              }}>
+              }}
+            >
               {`Cards in Box: ${this.getNumberOfCards()}`}
               <br />
               {`Cards answered: ${this.getNumberOfCardsAnswered()}`}
@@ -171,6 +154,15 @@ class LearningInProgress extends Component {
       </div>
     );
   }
+
+  setNextCard = () => {
+    this.setState({
+      currentPageIsFront: true,
+      currentCard: this.props.cardsLeft[this.props.cardsLeft.length - 1],
+      currentTitle: this.props.cardsLeft[this.props.cardsLeft.length - 1].title,
+      currentPageText: this.props.cardsLeft[this.props.cardsLeft.length - 1].text,
+    });
+  };
 
 }
 
