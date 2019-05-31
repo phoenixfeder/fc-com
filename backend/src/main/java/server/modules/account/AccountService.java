@@ -31,11 +31,10 @@ public class AccountService {
 
     private final UserConnector userConnector;
     private final TokenConnector tokenConnector;
-    private final ResetPasswordTokenConnector resetPasswordTokenConnector;
 
 
     @Autowired
-    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector, ResetPasswordTokenConnector resetPasswordTokenConnector) {
+    public AccountService(RegisterComponent registerComponent, TokenComponent tokenComponent, Authenticator authenticator, UserConnector userConnector, TokenConnector tokenConnector) {
         this.registerComponent = registerComponent;
         this.tokenComponent = tokenComponent;
 
@@ -43,7 +42,6 @@ public class AccountService {
 
         this.userConnector = userConnector;
         this.tokenConnector = tokenConnector;
-        this.resetPasswordTokenConnector = resetPasswordTokenConnector;
     }
 
     public ResponseDTO newAccount(RequestDTO requestDTO) throws FccExcpetion {
@@ -168,63 +166,5 @@ public class AccountService {
         ResponseDTO responseDTO = StatusDTO.ok();
         responseDTO.setUserResponse(new UserResponse(user));
         return responseDTO;
-    }
-
-    public ResponseDTO resetPassword(RequestDTO requestDTO) throws FccExcpetion{
-
-        //Prüfe mail
-        //String mail = DTOContentParser.getMail(requestDTO);
-        UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
-        String mail = userRequest.getEmail();
-
-        User user = userConnector.getUserByEmail(mail);
-
-        if(user == null){
-            return StatusDTO.emailNotInUseError();
-        }
-
-        //Erstelle Token
-        ResetPasswordToken resetPasswordToken = new ResetPasswordToken(user);
-        //TODO: DELETE DEBUG
-        if (user.getUsername().equals("enableduser")) {
-            resetPasswordToken.setToken("debugging");
-        }
-        resetPasswordTokenConnector.save(resetPasswordToken);
-
-        //Sende mail
-        registerComponent.sendNewPasswordMail(user);
-
-        return StatusDTO.ok();
-    }
-
-    public ResponseDTO verifyResetPassword(RequestDTO requestDTO, String requestId, String requestToken) throws FccExcpetion{
-        long id = DTOContentParser.parseVerifyId(requestId, requestToken);
-
-        UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
-        String newPassword = userRequest.getPassword();
-        if(registerComponent.isPasswordLengthIncorrect(newPassword)){
-            throw new WrongFormatException();
-        }
-
-        User user = userConnector.getUserByID(id);
-        ResetPasswordToken token = resetPasswordTokenConnector.getTokenByUser(user);
-
-        //Verify Entries
-        if (!tokenComponent.isTokenValid(user, token, requestToken)) {
-            return StatusDTO.verifyError();
-        }
-
-        //Verify Time
-        if (tokenComponent.hasTokenExpired(token)) {
-            return StatusDTO.tokenExpiresError();
-        }
-
-        //Enable User
-        user.setPassword(authenticator.encodePassword(newPassword));
-        userConnector.save(user);
-        resetPasswordTokenConnector.delete(token);
-
-        //Response
-        return StatusDTO.ok();
     }
 }

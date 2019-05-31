@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 import server.entities.ResetPasswordToken;
 import server.entities.User;
 import server.entities.VerificationToken;
+import server.exceptions.FccExcpetion;
+import server.exceptions.TokenExpiredException;
+import server.exceptions.TokenVerificationException;
 
 import java.time.LocalDateTime;
 
@@ -34,5 +37,14 @@ public class TokenComponent {
 
     public boolean hasTokenExpired(ResetPasswordToken verificationToken) {
         return verificationToken.getExpiryDate().isBefore(LocalDateTime.now());
+    }
+
+    public static void verifyToken(User user, String requestToken, ResetPasswordToken resetPasswordToken) throws FccExcpetion {
+        if (user == null || requestToken == null || requestToken.equals(resetPasswordToken.getToken()))
+            throw new TokenVerificationException();
+        if(resetPasswordToken.getExpiryDate().isBefore(LocalDateTime.now()))
+            throw new TokenExpiredException();
+
+
     }
 }

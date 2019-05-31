@@ -92,4 +92,18 @@ public class ExceptionController {
         System.out.println("User Not Found Error");
         return StatusDTO.userNotFoundError();
     }
+
+    @ExceptionHandler({TokenExpiredException.class})
+    public @ResponseBody
+    ResponseDTO tokenExpiredError() {
+        System.out.println("Token expired Error");
+        return StatusDTO.tokenExpiresError();
+    }
+
+    @ExceptionHandler({TokenVerificationException.class})
+    public @ResponseBody
+    ResponseDTO tokenVerificationError() {
+        System.out.println("Token Verification Error");
+        return StatusDTO.verifyError();
+    }
 }

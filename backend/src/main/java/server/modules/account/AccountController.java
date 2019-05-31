@@ -13,10 +13,12 @@ import server.exceptions.FccExcpetion;
 public class AccountController {
 
     private final AccountService accountService;
+    private final AccountServicePasswordReset accountServicePasswordReset;
 
     @Autowired
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, AccountServicePasswordReset accountServicePasswordReset) {
         this.accountService = accountService;
+        this.accountServicePasswordReset = accountServicePasswordReset;
     }
 
 
@@ -68,13 +70,13 @@ public class AccountController {
     @RequestMapping(path = "/resetpassword", method = RequestMethod.PUT)
     public @ResponseBody
     ResponseDTO resetPassword(@RequestBody RequestDTO requestDTO) throws FccExcpetion {
-        return accountService.resetPassword(requestDTO);
+        return accountServicePasswordReset.resetPassword(requestDTO);
     }
 
     @CrossOrigin(origins = Config.ORIGIN_URL)
     @RequestMapping(path = "resetpassword/verify", method = RequestMethod.PUT)
     public @ResponseBody
     ResponseDTO verifyResetPassword(@RequestBody RequestDTO requestDTO, @RequestParam(value = "id", required = false) String id, @RequestParam(value = "token", required = false) String token) throws FccExcpetion {
-        return accountService.verifyResetPassword(requestDTO, id, token);
+        return accountServicePasswordReset.verifyResetPassword(requestDTO, id, token);
     }
 }
