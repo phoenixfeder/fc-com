@@ -7,6 +7,7 @@ import server.config.Config;
 import server.entities.dto.RequestDTO;
 import server.entities.dto.ResponseDTO;
 import server.exceptions.FccExcpetion;
+import server.modules.utils.DTOContentParser;
 
 @Controller
 @RequestMapping("/account")
@@ -77,6 +78,9 @@ public class AccountController {
     @RequestMapping(path = "resetpassword/verify", method = RequestMethod.PUT)
     public @ResponseBody
     ResponseDTO verifyResetPassword(@RequestBody RequestDTO requestDTO, @RequestParam(value = "id", required = false) String id, @RequestParam(value = "token", required = false) String token) throws FccExcpetion {
-        return accountServicePasswordReset.verifyResetPassword(requestDTO, id, token);
+        String password = accountServicePasswordReset.parsePassword(requestDTO);
+        accountServicePasswordReset.checkPassword(password);
+        Long requestId = DTOContentParser.parseVerifyId(id, token);
+        return accountServicePasswordReset.verifyResetPassword(requestId, token, password);
     }
 }

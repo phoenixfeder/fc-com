@@ -58,18 +58,9 @@ public class AccountServicePasswordReset {
         return StatusDTO.ok();
     }
 
-    public ResponseDTO verifyResetPassword(RequestDTO requestDTO, String requestId, String requestToken) throws FccExcpetion {
-        long id = DTOContentParser.parseVerifyId(requestId, requestToken);
-
-        UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
-        String newPassword = userRequest.getPassword();
-        if(registerComponent.isPasswordLengthIncorrect(newPassword)){
-            throw new WrongFormatException();
-        }
-
+    public ResponseDTO verifyResetPassword(Long id, String requestToken, String newPassword) throws FccExcpetion {
         User user = userConnector.getUserByID(id);
         ResetPasswordToken token = resetPasswordTokenConnector.getTokenByUser(user);
-
         //Verify Entries
         TokenComponent.verifyToken(user, requestToken, token);
 
@@ -82,5 +73,16 @@ public class AccountServicePasswordReset {
 
         //Response
         return StatusDTO.ok();
+    }
+
+    public String parsePassword(RequestDTO requestDTO) throws FccExcpetion{
+        UserRequest userRequest = DTOContentParser.getUserRequest(requestDTO);
+        return userRequest.getPassword();
+    }
+
+    public void checkPassword(String password) throws FccExcpetion {
+        if(registerComponent.isPasswordLengthIncorrect(password)){
+            throw new WrongFormatException();
+        }
     }
 }
