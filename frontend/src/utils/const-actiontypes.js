@@ -5,6 +5,10 @@ export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const AUTH_CLOSE = 'AUTH_CLOSE';
 export const AUTH_END = 'AUTH_END';
 
+export const STATS_START = 'STATS_START';
+export const STATS_SUCCESS = 'STATS_SUCCESS';
+export const STATS_FAIL = 'STATS_FAIL';
+
 export const GET_BOXES_START = 'GET_BOXES_START';
 export const GET_BOXES_SUCCESS = 'GET_BOXES_SUCCESS';
 export const GET_BOXES_FAIL = 'GET_BOXES_FAIL';

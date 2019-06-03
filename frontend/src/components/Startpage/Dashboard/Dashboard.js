@@ -26,6 +26,10 @@ class Dashboard extends Component {
     document.title = 'Home';
   }
 
+  componentWillMount = () => {
+    this.props.getStatistics();
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -40,7 +44,9 @@ class Dashboard extends Component {
               direction="column"
             >
               <Grid item lg={12}>
-                <Typography variant="h3" align="center" className={classes.text}>Welcome Username!</Typography>
+                <Typography variant="h3" align="center" className={classes.text}>
+                  {`Welcome ${this.props.username}!`}
+                </Typography>
               </Grid>
               <Grid item lg={12}>
                 <Typography variant="body1" className={classes.text}>
@@ -57,6 +63,8 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
+  username: PropTypes.string.isRequired,
+  getStatistics: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Dashboard);
