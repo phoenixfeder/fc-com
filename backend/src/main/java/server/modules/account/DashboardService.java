@@ -17,7 +17,9 @@ import server.modules.dbconnector.FlashcardConnector;
 import server.modules.utils.StatusDTO;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DashboardService {
@@ -75,8 +77,27 @@ public class DashboardService {
 
     private void handleUsersOwnBoxes(User user, DashboardResponse dashboardResponse) {
         List<FlashCardBox> ownBoxesList = flashCardBoxConnector.getAllBoxFromUser(user);
-        dashboardResponse.setOwnCards ((long) ownBoxesList.size());
+        dashboardResponse.setOwnBoxes ((long) ownBoxesList.size());
+        writeSharingStatistics(ownBoxesList, dashboardResponse);
         dashboardResponse.setOwnCards(getNumberOfCardsInBoxes(ownBoxesList));
+    }
+
+    private void writeSharingStatistics(List<FlashCardBox> flashCardBoxes, DashboardResponse dashboardResponse) {
+        Long sharedBoxes = 0L;
+        Long sharedFlashCards = 0L;
+        Set<User> persons = new HashSet<>();
+
+        for (FlashCardBox box : flashCardBoxes) {
+            if (!box.getSharedToUsers().isEmpty()) {
+                sharedBoxes++;
+                sharedFlashCards += flashcardConnector.getByFlashCardBox(box).size();
+                persons.addAll(box.getSharedToUsers());
+            }
+        }
+
+        dashboardResponse.setBoxesSharedToUsers(sharedBoxes);
+        dashboardResponse.setCardsSharedToUsers(sharedFlashCards);
+        dashboardResponse.setSharedPersons((long) persons.size());
     }
 
     private void handleUsersForeignBoxes(User user, DashboardResponse dashboardResponse) {
@@ -88,7 +109,7 @@ public class DashboardService {
         long total = 0;
         for (FlashCardBox box : boxList) {
             List<FlashCard> flashCards = flashcardConnector.getByFlashCardBox(box);
-            total = flashCards.size();
+            total += flashCards.size();
         }
 
         return total;
