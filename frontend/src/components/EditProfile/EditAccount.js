@@ -1,19 +1,21 @@
-import Button from '@material-ui/core/Button/Button';
-import Dialog from '@material-ui/core/Dialog/Dialog';
-import DialogActions from '@material-ui/core/DialogActions/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
-import Divider from '@material-ui/core/Divider/Divider';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  FormControl,
+  FormHelperText,
+  Grid,
+  Input,
+  InputAdornment,
+  InputLabel,
+  Typography,
+} from '@material-ui/core';
 import withStyles from '@material-ui/core/es/styles/withStyles';
-import FormControl from '@material-ui/core/FormControl/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
-import Grid from '@material-ui/core/Grid/Grid';
-import Input from '@material-ui/core/Input/Input';
-import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import MuiThemeProviderUI from '@material-ui/core/styles/MuiThemeProvider';
-import Typography from '@material-ui/core/Typography/Typography';
 import PasswordIcon from '@material-ui/icons/Lock';
 import EMailIcon from '@material-ui/icons/Mail';
 import * as PropTypes from 'prop-types';
