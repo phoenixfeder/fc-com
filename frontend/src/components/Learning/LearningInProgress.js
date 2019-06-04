@@ -113,7 +113,9 @@ class LearningInProgress extends Component {
                 marginLeft: '15%',
                 flexDirection: 'column',
               }}>
-              <Flashcard flashcard={currentCard} showFront={this.state.currentPageIsFront} />
+              <Grid xs={12} sm={12} md={12} lg={12} xl={12} fullWidth>
+                <Flashcard flashcard={currentCard} showFront={this.state.currentPageIsFront} />
+              </Grid>
 
               <div align="center">
                 <Button onClick={() => this.handleAnswer(false)}>
