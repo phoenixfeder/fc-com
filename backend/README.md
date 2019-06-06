@@ -36,6 +36,8 @@ Thank you for trying out our application. If you come up to various problems tha
       spring.mail.password=
       ```
 
+      If you plan to test the whole application with frontend, then you <span style="color:darkred">HAVE TO</span> enter correct data.
+
   3) Get the plugin lombok for IntelliJ (File > Settings > Plugins)
 
   4) You should be able to run the application. The main-class is located at src/main/java/server and is called Application.
