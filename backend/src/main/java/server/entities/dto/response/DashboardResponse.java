@@ -22,10 +22,6 @@ public class DashboardResponse {
 
     private Long[] cardsInDecks;
 
-    public DashboardResponse() {
-        super();
-    }
-
     public void setCardsInDecks(long[] cards) {
         cardsInDecks = new Long[cards.length];
         IntStream.range(0, cards.length).forEach(i -> cardsInDecks[i] = cards[i]);
