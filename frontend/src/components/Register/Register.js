@@ -12,8 +12,7 @@ import EMailIcon from '@material-ui/icons/Mail';
 import UsernameIcon from '@material-ui/icons/Person';
 import * as PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import Link from 'react-router-dom/es/Link';
+import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'redux';
 
 // Styles to design some specific components

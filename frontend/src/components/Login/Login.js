@@ -12,7 +12,7 @@ import UsernameIcon from '@material-ui/icons/Person';
 import * as PropTypes from 'prop-types';
 import qs from 'query-string';
 import React, { Component } from 'react';
-import Link from 'react-router-dom/es/Link';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   root: {

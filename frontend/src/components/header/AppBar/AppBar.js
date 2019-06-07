@@ -18,7 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import React, { Component } from 'react';
-import Link from 'react-router-dom/es/Link';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
