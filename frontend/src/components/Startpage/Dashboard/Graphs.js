@@ -13,74 +13,89 @@ class Graphs extends Component {
     this.props.getStatistics();
   };
 
-  renderCharts = () => (
-    <>
-      <Grid item xs={12}>
-        <Typography variant="subtitle2">
-          {'Cards in Category'}
-        </Typography>
-        <Chart
-          chartType="Bar"
-          loader={<div>Loading Chart</div>}
-          data={[
-            ['', 'Cards'],
-            ['A', 1000],
-            ['B', 1170],
-            ['C', 660],
-            ['D', 1030],
-            ['E', 1030],
-          ]}
-          options={{
-            legend: { position: 'none' },
-            colors: [blue[500]],
-            animation: {
-              duration: 1500,
-              easing: 'in',
-              startup: true,
-            },
-          }}
-        />
-      </Grid>
-      <Grid item xs={12} sm={12} md={6}>
-        <Typography variant="subtitle2">
-          {'Correctly answered'}
-        </Typography>
-        <Chart
-          chartType="PieChart"
-          loader={<div>Loading Chart</div>}
-          data={[
-            ['Correct / Incorrect', 'Percentage'],
-            ['Correct', 67],
-            ['Incorrect', 23],
-          ]}
-          options={{
-            pieSliceText: 'percentage',
-            fontName: 'Roboto',
-            colors: [blue[500], red[500]],
-          }}
-        />
-      </Grid>
-      <Grid item xs={12} sm={12} md={6}>
-        <Typography variant="subtitle2">
-          {'Flashcardboxes distrubution'}
-        </Typography>
-        <Chart
-          chartType="PieChart"
-          loader={<div>Loading Chart</div>}
-          data={[
-            ['Own / Shared', 'Percentage'],
-            ['Own', 67],
-            ['Shared', 23],
-          ]}
-          options={{
-            pieSliceText: 'value',
-            fontName: 'Roboto',
-            colors: [blue[500], green[500]],
-          }}
-        />
-      </Grid>
-    </>
-  );
+  renderCharts = () => {
+    // For some reasons props.cardsInDecks is an object?!
+    /*
+      "0": 0,
+      "1": 2,
+      "3": 4,
+      etc.
+    */
+    const cardsInDecks = [0, 0, 0, 0, 0];
+
+    Object.entries(this.props.stats.cardsInDecks).forEach((entry, iteration) => {
+      cardsInDecks[iteration] = entry[1];
+    });
+
+    return (
+      <>
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            {'Cards in Category'}
+          </Typography>
+          <Chart
+            chartType="Bar"
+            loader={<div>Loading Chart</div>}
+            data={[
+              ['', 'Cards'],
+              ['A', cardsInDecks[0]],
+              ['B', cardsInDecks[1]],
+              ['C', cardsInDecks[2]],
+              ['D', cardsInDecks[3]],
+              ['E', cardsInDecks[4]],
+            ]}
+            options={{
+              legend: { position: 'none' },
+              colors: [blue[500]],
+              animation: {
+                duration: 1500,
+                easing: 'in',
+                startup: true,
+              },
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6}>
+          <Typography variant="subtitle2">
+            {'Correctly answered'}
+          </Typography>
+          <Chart
+            chartType="PieChart"
+            loader={<div>Loading Chart</div>}
+            data={[
+              ['Correct / Incorrect', 'Percentage'],
+              ['Correct', this.props.stats.successfulTrials],
+              ['Incorrect', this.props.stats.failedTrials],
+            ]}
+            options={{
+              pieSliceText: 'percentage',
+              fontName: 'Roboto',
+              colors: [blue[500], red[500]],
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6}>
+          <Typography variant="subtitle2">
+            {'Flashcardboxes distrubution'}
+          </Typography>
+          <Chart
+            chartType="PieChart"
+            loader={<div>Loading Chart</div>}
+            data={[
+              ['Own / Shared', 'Percentage'],
+              ['Own', this.props.stats.ownBoxes],
+              ['Shared', this.props.stats.accessToForeignBoxes],
+            ]}
+            options={{
+              pieSliceText: 'value',
+              fontName: 'Roboto',
+              colors: [blue[500], green[500]],
+            }}
+          />
+        </Grid>
+      </>
+    );
+  };
 
   render() {
     return (
@@ -89,22 +104,30 @@ class Graphs extends Component {
           <Typography variant="h4">Statistics</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant="subtitle2">Total own boxes:</Typography>
-          <Typography variant="subtitle1">123</Typography>
+          <Typography variant="subtitle2">Own boxes:</Typography>
+          <Typography variant="subtitle1">
+            {this.props.stats.ownBoxes}
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography variant="subtitle2">Shared boxes:</Typography>
-          <Typography variant="subtitle1">34</Typography>
+          <Typography variant="subtitle1">
+            {this.props.stats.boxesSharedToUsers}
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography variant="subtitle2">Own cards:</Typography>
-          <Typography variant="subtitle1">987234</Typography>
+          <Typography variant="subtitle1">
+            {this.props.stats.ownCards}
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography variant="subtitle2">
             {'Total answers given:'}
           </Typography>
-          <Typography variant="subtitle1">345980</Typography>
+          <Typography variant="subtitle1">
+            {this.props.stats.totalTrials}
+          </Typography>
         </Grid>
         {/* Google Charts are not responsive! Need to retreigger render when size changes */}
         {isWidthDown('xs', this.props.width) && this.renderCharts()}
@@ -117,6 +140,7 @@ class Graphs extends Component {
 Graphs.propTypes = {
   getStatistics: PropTypes.func.isRequired,
   width: PropTypes.string.isRequired,
+  stats: PropTypes.object.isRequired,
 };
 
 export default withWidth()(Graphs);

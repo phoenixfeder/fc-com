@@ -1,7 +1,9 @@
 import * as actionTypes from '../utils/const-actiontypes';
 
 const initialState = {
-  statistics: {},
+  statistics: {
+    cardsInDecks: [],
+  },
   loading: false,
   error: null,
 };

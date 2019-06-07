@@ -1,5 +1,5 @@
 import * as actionTypes from '../utils/const-actiontypes';
-import { BACKEND_URL_ACCOUNT_STATISTICS } from '../utils/const-paths';
+import { BACKEND_URL_ACCOUNT_DASHBOARD } from '../utils/const-paths';
 import { store } from '../store';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
 
@@ -20,7 +20,7 @@ const statFail = (err) => ({
 export const getStatistics = () => dispatch => {
   dispatch(statStart());
   const authState = store.getState().auth;
-  fetch(BACKEND_URL_ACCOUNT_STATISTICS, {
+  fetch(BACKEND_URL_ACCOUNT_DASHBOARD, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -35,7 +35,7 @@ export const getStatistics = () => dispatch => {
   }).then(results => results.json()).then((result) => {
     switch (result.status.code) {
       case 200:
-        dispatch(statSuccess(result.statistics));
+        dispatch(statSuccess(result.dashboard));
         break;
 
       default:
