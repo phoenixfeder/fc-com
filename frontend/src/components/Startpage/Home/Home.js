@@ -11,14 +11,14 @@ import { withRouter, Link } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     flexGrow: 1,
   },
   headline: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
 });
 
@@ -36,7 +36,7 @@ class Home extends Component {
             <Grid
               container
               justify="center"
-              spacing={16}
+              spacing={5}
               elevation={2}
               direction="column"
             >

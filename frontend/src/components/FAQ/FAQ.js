@@ -11,12 +11,12 @@ import React, { Component } from 'react';
 
 const styles = theme => ({
   root: {
-    paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
     flexGrow: 1,
   },
   headline: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
 });
 
@@ -34,7 +34,7 @@ class FAQ extends Component {
             <Grid
               container
               justify="center"
-              spacing={16}
+              spacing={5}
               elevation={2}
               direction="column"
             >

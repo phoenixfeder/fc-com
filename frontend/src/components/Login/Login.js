@@ -17,8 +17,8 @@ import Link from 'react-router-dom/es/Link';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   headline: {
     paddingTop: 20,
@@ -87,7 +87,7 @@ class Login extends Component {
           <Grid item xs={12} md={6} lg={4}>
             <Grid
               container
-              spacing={16}
+              spacing={5}
               alignItems="stretch"
               justify="space-evenly"
               direction="column"

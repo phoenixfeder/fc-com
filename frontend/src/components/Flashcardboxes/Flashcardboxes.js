@@ -11,12 +11,12 @@ import FlashcardboxCreateModal from './FlashcardboxCreateModal';
 
 const styles = theme => ({
   root: {
-    paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
     flexGrow: 1,
   },
   headline: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
 });
 
@@ -48,7 +48,7 @@ class Flashcardboxes extends Component {
   };
 
   renderCards = () => (
-    <Grid container direction="row" spacing={16} style={{ width: '100%' }} justify="space-evenly">
+    <Grid container direction="row" spacing={5} style={{ width: '100%' }} justify="space-evenly">
       <Grid item xs={12} md={12} lg={12} align="center" style={{ paddingTop: '12px' }}>
         <Button aria-label="Add" onClick={() => this.createDialogOpen()} disabled={this.props.createLoading}>
           <Typography variant="subtitle2">
