@@ -25,20 +25,20 @@ import FlashcardboxUnfollowModal from './FlashcardboxUnfollowModal';
 
 const styles = theme => ({
   headline: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   paper: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   infoChipSuccess: {
-    margin: theme.spacing.unit / 2,
+    margin: theme.spacing(0.5),
     backgroundColor: '#43a047',
   },
   infoChip: {
-    margin: theme.spacing.unit / 2,
+    margin: theme.spacing(0.5),
   },
 });
 
@@ -222,7 +222,7 @@ class Flashcardbox extends Component {
               color="primary"
             />
           </CardContent>
-          <CardActions disableActionSpacing>
+          <CardActions>
             {this.renderCardActions()}
           </CardActions>
         </Card>

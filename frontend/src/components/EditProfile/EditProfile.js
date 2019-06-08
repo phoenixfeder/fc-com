@@ -10,7 +10,7 @@ import EditUserContainer from './EditUser-container';
 
 const styles = theme => ({
   root: {
-    paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
     flexGrow: 1,
   },
 });
@@ -55,7 +55,7 @@ class EditProfile extends Component {
             <Grid
               container
               justify="center"
-              spacing={16}
+              spacing={5}
               elevation={2}
               direction="column"
             >

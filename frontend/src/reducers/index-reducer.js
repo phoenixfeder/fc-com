@@ -4,6 +4,7 @@ import flashcardsReducer from './flashcards-reducer';
 import snackbarReducer from './notistack-snackbar-reducers';
 import boxesReducer from './flashcardboxes-reducer';
 import learningReducer from './learning-reducer';
+import statReducer from './stat-reducer';
 
 const allReducers = combineReducers({
   flashcardsOverview: flashcardsReducer,
@@ -11,6 +12,7 @@ const allReducers = combineReducers({
   learning: learningReducer,
   snackbars: snackbarReducer,
   auth: authReducer,
+  stats: statReducer,
 });
 
 export default allReducers;

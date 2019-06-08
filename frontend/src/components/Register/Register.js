@@ -12,16 +12,15 @@ import EMailIcon from '@material-ui/icons/Mail';
 import UsernameIcon from '@material-ui/icons/Person';
 import * as PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import Link from 'react-router-dom/es/Link';
+import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'redux';
 
 // Styles to design some specific components
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   headline: {
     paddingTop: 20,
@@ -190,7 +189,7 @@ class Register extends Component {
           <Grid item xs={12} md={8} lg={4}>
             <Grid
               container
-              spacing={16}
+              spacing={5}
               alignItems="stretch"
               justify="space-evenly"
               direction="column"

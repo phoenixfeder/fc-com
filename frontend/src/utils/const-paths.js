@@ -26,6 +26,7 @@ export const BACKEND_URL_ACCOUNT_GET = `${BACKEND_URL_ACCOUNT}get`;
 export const BACKEND_URL_ACCOUNT_UPDATE = `${BACKEND_URL_ACCOUNT}update`;
 export const BACKEND_URL_ACCOUNT_CLOSE = `${BACKEND_URL_ACCOUNT}close`;
 export const BACKEND_URL_ACCOUNT_RESET_PASSWORD = `${BACKEND_URL_ACCOUNT}resetpassword`;
+export const BACKEND_URL_ACCOUNT_DASHBOARD = `${BACKEND_URL_ACCOUNT}dashboard`;
 
 /**
  * @return {string}

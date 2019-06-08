@@ -18,7 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import React, { Component } from 'react';
-import Link from 'react-router-dom/es/Link';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -73,7 +73,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
