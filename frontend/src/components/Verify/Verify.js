@@ -18,11 +18,11 @@ import { compose } from 'redux';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   progress: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
   },
   headline: {
     paddingTop: 20,
@@ -173,7 +173,7 @@ class Verify extends Component {
             <Paper elevation={1}>
               <Grid
                 container
-                spacing={16}
+                spacing={5}
                 alignItems="center"
                 justify="center"
                 style={{ minHeight: '100px' }}

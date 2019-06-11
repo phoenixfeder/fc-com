@@ -5,19 +5,22 @@ import {
 } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import Graphs from './graphs-container';
 
 const styles = theme => ({
   root: {
-    paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     flexGrow: 1,
   },
   headline: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   text: {
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
 });
 
@@ -35,18 +38,21 @@ class Dashboard extends Component {
             <Grid
               container
               justify="center"
-              spacing={16}
+              spacing={5}
               elevation={2}
-              direction="column"
+              direction="row"
             >
-              <Grid item lg={12}>
-                <Typography variant="h3" align="center" className={classes.text}>Welcome Username!</Typography>
-              </Grid>
-              <Grid item lg={12}>
-                <Typography variant="body1" className={classes.text}>
-                  {'Hi there! There! There!'}
+              <Grid item xs={12}>
+                <Typography variant="h3" align="center">
+                  {`Welcome ${this.props.username}!`}
                 </Typography>
               </Grid>
+              <Grid item xs={12}>
+                <Typography variant="body1">
+                  {'Glad to see you again! As you are now logged in, you have now access to your flashcardboxes and are able to learn!'}
+                </Typography>
+              </Grid>
+              <Graphs />
             </Grid>
           </Grid>
         </Grid>
@@ -57,6 +63,7 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Dashboard);

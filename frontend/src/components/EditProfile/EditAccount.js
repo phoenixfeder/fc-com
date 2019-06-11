@@ -26,20 +26,20 @@ import { lightTheme } from '../../utils/themeLight';
 
 const styles = theme => ({
   root: {
-    paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
     flexGrow: 1,
   },
   headline: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   paper: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   editProfileEntry: {
-    paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
   },
 });
 
@@ -237,11 +237,11 @@ class EditAccount extends Component {
               <Grid
                 container
                 justify="center"
-                spacing={16}
+                spacing={5}
                 elevation={2}
                 direction="column"
               >
-                <Grid container spacing={16}>
+                <Grid container spacing={5}>
                   <Grid item sm={12} md={12} lg={12}>
                     <Typography variant="h4" component="h3">Edit Account</Typography>
                     <Typography component="p" className={classes.headline}>

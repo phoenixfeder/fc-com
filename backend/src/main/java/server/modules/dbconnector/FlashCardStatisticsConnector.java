@@ -28,6 +28,24 @@ public class FlashCardStatisticsConnector {
         return flashCardStatisticsRepository.findByFlashCardUser(new FlashCardStatistics.FlashCardStatisticsPK(flashCard, user));
     }
 
+    @Transactional
+    public List<FlashCardStatistics> getStatisticsByUser(User user) {
+        List<FlashCardStatistics> allStatistics = new ArrayList<>();
+        flashCardStatisticsRepository.findAll().forEach(allStatistics::add);
+
+        List<FlashCardStatistics> userStatistics = allStatistics.stream()
+                .filter(statistics -> statistics.getFlashCardUser().getUser().equals(user))
+                .filter(statistics -> userHasAccessToFlashCard(user, statistics))
+                .collect(Collectors.toList());
+
+        return userStatistics;
+    }
+
+    private static boolean userHasAccessToFlashCard(User user, FlashCardStatistics statistics) {
+        FlashCardBox flashCardBox = statistics.getFlashCardUser().getFlashCard().getFlashcardBox();
+        return flashCardBox.getOwner().equals(user) || flashCardBox.getSharedUserNames().contains(user.getUsername());
+    }
+
     // Holt alle FlashCards aus der Box zu der es für den User bereits eine Statistik gibt
     @Transactional
     public Set<FlashCard> getAllFlashCardsWithStatisticsFromBoxAndUser(FlashCardBox flashCardBox, User user) {

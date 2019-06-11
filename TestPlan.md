@@ -1,47 +1,47 @@
 # Test plan
 
-- [Test plan](#test-plan)
-  - [1. Introduction](#1-introduction)
-    - [1.1 Purpose](#11-purpose)
-    - [1.2 Scope](#12-scope)
-    - [1.3 Intended Audience](#13-intended-audience)
-    - [1.4 Document Terminology and Acronyms](#14-document-terminology-and-acronyms)
-    - [1.5 References](#15-references)
-  - [2. Evaluation Mission and Test Motivation](#2-evaluation-mission-and-test-motivation)
-    - [2.1 Background](#21-background)
-    - [2.2 Evaluation Mission](#22-evaluation-mission)
-    - [2.3 Test Motivators](#23-test-motivators)
-  - [3. Target Test Items](#3-target-test-items)
-  - [4. Outline of Planned Tests](#4-outline-of-planned-tests)
-    - [4.1 Outline of Test Inclusions](#41-outline-of-test-inclusions)
-    - [4.2 Outline of Other Candidates for Potential Inclusion](#42-outline-of-other-candidates-for-potential-inclusion)
-    - [4.3 Outline of Test Exclusions](#43-outline-of-test-exclusions)
-  - [5. Test Approach](#5-test-approach)
-    - [5.1 Testing Techniques and Types](#51-testing-techniques-and-types)
-      - [5.1.1 Unit Testing](#511-unit-testing)
-      - [5.1.2 User Interface Testing](#512-user-interface-testing)
-      - [5.1.3 API Testing](#513-api-testing)
-  - [6. Entry and Exit Criteria](#6-entry-and-exit-criteria)
-    - [6.1 Test Plan](#61-test-plan)
-      - [6.1.1 Test Plan Entry Criteria](#611-test-plan-entry-criteria)
-      - [6.1.2 Test Plan Exit Criteria](#612-test-plan-exit-criteria)
-  - [7. Deliverables](#7-deliverables)
-  - [7.1 Test Evaluation Summaries](#71-test-evaluation-summaries)
-  - [7.2 Reporting on Test Coverage](#72-reporting-on-test-coverage)
-  - [7.3 Perceived Quality Reports](#73-perceived-quality-reports)
-  - [7.4 Incident Logs and Change Requests](#74-incident-logs-and-change-requests)
-  - [7.5 Smoke Test Suite and Supporting Test Scripts](#75-smoke-test-suite-and-supporting-test-scripts)
-  - [8. Testing Workflow](#8-testing-workflow)
-  - [9. Environmental Needs](#9-environmental-needs)
-    - [9.1 Base System Hardware](#91-base-system-hardware)
-    - [9.2 Base Software Elements in the Test Environment](#92-base-software-elements-in-the-test-environment)
-    - [9.3 Productivity and Support Tools](#93-productivity-and-support-tools)
-  - [10. Responsibilities, Staffing, and Training Needs](#10-responsibilities-staffing-and-training-needs)
-    - [10.1 People and Roles](#101-people-and-roles)
-    - [10.2 Staffing and Training Needs](#102-staffing-and-training-needs)
-  - [11. Iteration Milestones](#11-iteration-milestones)
-  - [12. Risks, Dependencies, Assumptions, and Constraints](#12-risks-dependencies-assumptions-and-constraints)
-  - [13. Management Process and Procedures](#13-management-process-and-procedures)
+-   [Test plan](#test-plan)
+    -   [1. Introduction](#1-introduction)
+        -   [1.1 Purpose](#11-purpose)
+        -   [1.2 Scope](#12-scope)
+        -   [1.3 Intended Audience](#13-intended-audience)
+        -   [1.4 Document Terminology and Acronyms](#14-document-terminology-and-acronyms)
+        -   [1.5 References](#15-references)
+    -   [2. Evaluation Mission and Test Motivation](#2-evaluation-mission-and-test-motivation)
+        -   [2.1 Background](#21-background)
+        -   [2.2 Evaluation Mission](#22-evaluation-mission)
+        -   [2.3 Test Motivators](#23-test-motivators)
+    -   [3. Target Test Items](#3-target-test-items)
+    -   [4. Outline of Planned Tests](#4-outline-of-planned-tests)
+        -   [4.1 Outline of Test Inclusions](#41-outline-of-test-inclusions)
+        -   [4.2 Outline of Other Candidates for Potential Inclusion](#42-outline-of-other-candidates-for-potential-inclusion)
+        -   [4.3 Outline of Test Exclusions](#43-outline-of-test-exclusions)
+    -   [5. Test Approach](#5-test-approach)
+        -   [5.1 Testing Techniques and Types](#51-testing-techniques-and-types)
+            -   [5.1.1 Business Logic Testing](#511-business-logic-testing)
+            -   [5.1.2 User Interface Testing](#512-user-interface-testing)
+            -   [5.1.3 API Testing](#513-api-testing)
+    -   [6. Entry and Exit Criteria](#6-entry-and-exit-criteria)
+        -   [6.1 Test Plan](#61-test-plan)
+            -   [6.1.1 Test Plan Entry Criteria](#611-test-plan-entry-criteria)
+            -   [6.1.2 Test Plan Exit Criteria](#612-test-plan-exit-criteria)
+    -   [7. Deliverables](#7-deliverables)
+    -   [7.1 Test Evaluation Summaries](#71-test-evaluation-summaries)
+    -   [7.2 Reporting on Test Coverage](#72-reporting-on-test-coverage)
+    -   [7.3 Perceived Quality Reports](#73-perceived-quality-reports)
+    -   [7.4 Incident Logs and Change Requests](#74-incident-logs-and-change-requests)
+    -   [7.5 Smoke Test Suite and Supporting Test Scripts](#75-smoke-test-suite-and-supporting-test-scripts)
+    -   [8. Testing Workflow](#8-testing-workflow)
+    -   [9. Environmental Needs](#9-environmental-needs)
+        -   [9.1 Base System Hardware](#91-base-system-hardware)
+        -   [9.2 Base Software Elements in the Test Environment](#92-base-software-elements-in-the-test-environment)
+        -   [9.3 Productivity and Support Tools](#93-productivity-and-support-tools)
+    -   [10. Responsibilities, Staffing, and Training Needs](#10-responsibilities-staffing-and-training-needs)
+        -   [10.1 People and Roles](#101-people-and-roles)
+        -   [10.2 Staffing and Training Needs](#102-staffing-and-training-needs)
+    -   [11. Iteration Milestones](#11-iteration-milestones)
+    -   [12. Risks, Dependencies, Assumptions, and Constraints](#12-risks-dependencies-assumptions-and-constraints)
+    -   [13. Management Process and Procedures](#13-management-process-and-procedures)
 
 ## 1. Introduction
 
@@ -76,7 +76,7 @@ The intended audience of this test plan are the developers themself. This docume
 | TBD  | to be determined                    |
 | UI   | User Interface                      |
 
-### 1.5  References
+### 1.5 References
 
 | Title                                                                                                                |    Date    | Publishing organization |
 | -------------------------------------------------------------------------------------------------------------------- | :--------: | ----------------------- |
@@ -147,11 +147,18 @@ Not testing stress, performance etc. does not mean that we will not think about 
 
 ### 5.1 Testing Techniques and Types
 
-#### 5.1.1 Unit Testing
+#### 5.1.1 Business Logic Testing
 
-Unit testing ensures, that the tested sourcecode works as expected. Therefore small parts of the sourcecode are tested independently.
+Business logic testing in our frontend ensures that the transition from one state to another is correct. This means that reducers (the part of the code that is in charge for changing the state. Therefore small parts of the sourcecode are tested independently.
 
-To be implemented.
+|                        | Description                                                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Technique Objective    | Test application automated from the perspective of the user through Business Logic Test                                  |
+| Technique              | Writing Jest test files that are similar to JUnit tests [Furhter information](https://jestjs.io/docs/en/getting-started) |
+| Oracles                | Expect that the steps of the tests are logged to the command line and be marked as successful.                           |
+| Required Tools         | Dependencies of [Jest](https://jestjs.io/)                                                                               |
+| Success Criteria       | All business logic tests pass.                                                                                           |
+| Special Considerations | -                                                                                                                        |
 
 #### 5.1.2 User Interface Testing
 
@@ -203,7 +210,9 @@ The project contains tests in the front- and backend that run each push to our G
 
 ## 7.2 Reporting on Test Coverage
 
-Test Coverage can be send to Codacy when running tests and therefor be displayed as Badge in GitHub or be seen in Codacy directly. Our main ressource here will be our Unit tests which will be implemented in future.
+Test Coverage can be send to Codecov when running tests and therefor be displayed as Badge in GitHub or be seen in Coddcov directly. Our main ressource here will be our Jest tests.
+
+-   [Codecov](<>), Badge: [![codecov](https://codecov.io/gh/phoenixfeder/fc-com/branch/master/graph/badge.svg)](https://codecov.io/gh/phoenixfeder/fc-com)
 
 ## 7.3 Perceived Quality Reports
 
@@ -224,7 +233,7 @@ Every new push to any branch triggers an execution in our CI/CD pipeline. This w
 Our testing workflow is like the following:
 
 1) Local testing on the developers machines
-2) Commits trigger building (including Unit test) on TravisCI
+2) Commits trigger building on TravisCI
 3) With each pull requests code quality will also be analyzed
 
 ## 9. Environmental Needs
@@ -245,7 +254,7 @@ The following table shows all software used in our testing process.
 | Software Element Name | Type and Other Notes            |
 | --------------------- | ------------------------------- |
 | Terminal              | Test runner                     |
-| JUnit 4 & 5           | Unit testing library            |
+| Jest                  | JavaScript testing library      |
 | Cucumber              | Comprehensible step definitions |
 | TestCafé              | UI testing library              |
 | Postman               | API Test Runner                 |
@@ -254,12 +263,13 @@ The following table shows all software used in our testing process.
 
 The following table shows all tools used in our testing process.
 
-| Tool Category or Type      | Tool Brand Name                                 |
-| -------------------------- | ----------------------------------------------- |
-| Repository                 | [github.com](http://github.com/)                |
-| Quality, Coverage, Metrics | [Codacy](https://app.codacy.com/)               |
-| CI/CD Service              | [Travis CI](http://travis-ci.org/)              |
-| Fake SMTP to test E-Mail   | [FakeSMTP](https://github.com/Nilhcem/FakeSMTP) |
+| Tool Category or Type    | Tool Brand Name                                 |
+| ------------------------ | ----------------------------------------------- |
+| Repository               | [github.com](http://github.com/)                |
+| Quality, Metrics         | [Codacy](https://app.codacy.com/)               |
+| Coverage                 | [Codecov](https://codecov.io/)                  |
+| CI/CD Service            | [Travis CI](http://travis-ci.org/)              |
+| Fake SMTP to test E-Mail | [FakeSMTP](https://github.com/Nilhcem/FakeSMTP) |
 
 ## 10. Responsibilities, Staffing, and Training Needs
 
@@ -286,6 +296,8 @@ We want to keep over 20% code coverage.
 | Travis does block traffic like outgoing mail traffic (needed for API & UI test) | Use a local fake mail server | Publish new .travis.yml        |
 | UI tests fail                                                                   | Refactor tests               | Push refactored test           |
 | API tests fail                                                                  | Refactor tests               | Push refactored test           |
+| Business logic tests fail                                                       | Refactor tests               | Push refactored test           |
+
 | Unit tests fail                                                                 | Refactor tests               | Push refactored test           |
 
 ## 13. Management Process and Procedures
