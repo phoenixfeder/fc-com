@@ -58,10 +58,12 @@ class LearningInProgress extends Component {
       });
 
     const answeredCard = this.props.cardsLeft.pop();
+    console.log(answeredCard.deck);
+    console.log(String.fromCharCode(answeredCard.deck.charCodeAt() + (-1+2*correct)));
     if (correct) {
-      this.props.cardsAnsweredCorrect.push(answeredCard);
+      this.props.cardsAnsweredCorrect.push({...answeredCard, correct, deck: (String.fromCharCode(answeredCard.deck.charCodeAt() + (!(answeredCard.deck === 'E'))))});
     } else {
-      this.props.cardsAnsweredIncorrect.push(answeredCard);
+      this.props.cardsAnsweredIncorrect.push({...answeredCard, correct,  deck: 'A'});
     }
     if (this.props.cardsLeft.length === 0) {
       this.props.setLearningFinished(true);

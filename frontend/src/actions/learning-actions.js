@@ -1,19 +1,19 @@
-import {
-  BACKEND_URL_LEARNING_ANSWER,
-  BACKEND_URL_GET_FLASHCARDS,
-} from '../utils/const-paths';
+import { store } from '../store';
 
 import {
-  SET_LEARNING_CARDS_START,
-  SET_LEARNING_CARDS_SUCCESS,
-  SET_LEARNING_CARDS_FAIL,
+  ANSWER_CARD_FAIL,
   ANSWER_CARD_START,
   ANSWER_CARD_SUCCESS,
-  ANSWER_CARD_FAIL,
   LEARNING_FINISHED,
+  SET_LEARNING_CARDS_FAIL,
+  SET_LEARNING_CARDS_START,
+  SET_LEARNING_CARDS_SUCCESS,
 } from '../utils/const-actiontypes';
+import {
+  BACKEND_URL_GET_FLASHCARDS,
+  BACKEND_URL_LEARNING_ANSWER,
+} from '../utils/const-paths';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
-import { store } from '../store';
 
 const setLearningCardsStart = () => ({
   type: SET_LEARNING_CARDS_START,
@@ -103,10 +103,11 @@ export const setLearningCards = decks => dispatch => {
   });
 
   // Waits for all fetches to be finished
-  Promise.all(promises).then(() => {
-    // Shuffle cards array here?
-    dispatch(setLearningCardsSuccess(cardsToLearn));
-  });
+  Promise.all(promises)
+    .then(() => {
+      // Shuffle cards array here?
+      dispatch(setLearningCardsSuccess(cardsToLearn));
+    });
 };
 
 const answerCardStart = () => ({
@@ -132,6 +133,7 @@ const answerCardFail = errorarg => ({
 export const answerCard = card => dispatch => {
   const authState = store.getState().auth;
   dispatch(answerCardStart());
+  console.log(card);
 
   fetch(BACKEND_URL_LEARNING_ANSWER, {
     method: 'PUT',
@@ -151,10 +153,14 @@ export const answerCard = card => dispatch => {
   })
     .then(results => results.json())
     .then(result => {
+      console.log("result");
       console.log(result);
       switch (result.status.code) {
         case 200:
-          dispatch(answerCardSuccess(result.flashcards[0]));
+          dispatch(answerCardSuccess({
+            ...result.flashcards[0],
+            correct: card.correct,
+          }));
           break;
 
         default:

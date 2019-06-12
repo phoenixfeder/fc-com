@@ -20,7 +20,57 @@ class Learning extends Component {
   state = {
     cardsLeft: [],
     cardsAnsweredCorrect: [],
-    cardsAnsweredIncorrect: [],
+    cardsAnsweredIncorrect: [
+      {
+        back: 'Lösung',
+        deck: 'B',
+        front: 'Frage',
+        id: 100001,
+        title: 'TestCard',
+      },{
+        back: 'Lösung',
+        deck: 'B',
+        front: 'Frage',
+        id: 100001,
+        title: 'TestCard',
+      },{
+        back: 'Lösung',
+        deck: 'B',
+        front: 'Frage',
+        id: 100001,
+        title: 'TestCard',
+      },{
+        back: 'Lösung',
+        deck: 'B',
+        front: 'Frage',
+        id: 100001,
+        title: 'TestCard',
+      },{
+        back: 'Lösung',
+        deck: 'B',
+        front: 'Frage',
+        id: 100001,
+        title: 'TestCard',
+      },{
+        back: 'Lösung',
+        deck: 'B',
+        front: 'Frage',
+        id: 100001,
+        title: 'TestCard',
+      },{
+        back: 'Lösung',
+        deck: 'B',
+        front: 'Frage',
+        id: 100001,
+        title: 'TestCard',
+      },{
+        back: 'Lösung',
+        deck: 'B',
+        front: 'Frage',
+        id: 100001,
+        title: 'TestCard',
+      },
+    ],
   };
 
   componentWillMount = () => {
@@ -29,7 +79,9 @@ class Learning extends Component {
     console.log(this.props.cards);
     this.setState({
       cardsLeft: this.props.cards,
+      cardsAnsweredInorrect: this.props.cards,    //TODO: remove after development
     });
+
   };
 
   render() {
@@ -37,18 +89,19 @@ class Learning extends Component {
     return (
       <div className={classes.root} id="Decks">
         {
-          this.props.finished
+          this.props.finished //TODO: remove !
             ?
-              <LearningFinished cards={cards}/>
+            <LearningFinished cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
+                              cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect} />
             :
-              <LearningInProgress
-                cards={cards}
-                answerCard={this.props.answerCard}
-                setLearningFinished={this.props.setLearningFinished}
-                cardsLeft={this.props.cardsLeft}
-                cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
-                cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
-              />
+            <LearningInProgress
+              cards={cards}
+              answerCard={this.props.answerCard}
+              setLearningFinished={this.props.setLearningFinished}
+              cardsLeft={this.props.cardsLeft}
+              cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
+              cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
+            />
         }
       </div>
     );
