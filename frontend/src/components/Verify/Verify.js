@@ -1,12 +1,11 @@
-import Button from '@material-ui/core/Button/Button';
+import Button from '@material-ui/core/Button';
 import withStyles from '@material-ui/core/es/styles/withStyles';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import EMailIcon from '@material-ui/icons/Mail';
 import * as PropTypes from 'prop-types';
@@ -170,7 +169,6 @@ class Verify extends Component {
 
         <Grid container alignContent="center" justify="center">
           <Grid item xs={12} md={8} lg={4}>
-            <Paper elevation={1}>
               <Grid
                 container
                 spacing={5}
@@ -235,7 +233,6 @@ class Verify extends Component {
                   )}
                 </Grid>
               </Grid>
-            </Paper>
           </Grid>
         </Grid>
       </div>
