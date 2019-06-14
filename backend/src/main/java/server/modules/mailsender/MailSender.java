@@ -17,8 +17,7 @@ abstract class MailSender {
 
     protected void send(String mailTo, String username, String id, String token, MailComponent.Purpose purpose) {
         SimpleMailMessage email = new SimpleMailMessage();
-        //TODO email.setTo(mailTo);
-        email.setTo("flashcardcommunity@gmail.com");
+        email.setTo(mailTo);
         email.setSubject(subject);
         String text = personalize(username, id, token);
         email.setText(text);
