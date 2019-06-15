@@ -104,6 +104,13 @@ For more, see [Thinking in Redux](https://hackernoon.com/thinking-in-redux-when-
 
 The backend however represents a controller and model. It simply follows the MVC pattern, but the view is replaced by the whole Redux pattern. The controller does the endpoint mapping whereas the model represents the possible models that are needed for this project (e.g. user, flashcards).
 
+On other explicit pattern used is the proxy pattern. In proxy pattern, a class represents functionality of another class. So we developed a class that generally took care of the mail dispatch and inherited it to two subclasses. Both subclasses had different values stored for the content of the respective mails. Now another subclass takes care of the administration of both subclasses and sends the right mail if needed.
+
+You can compare:
+
+  - Before: [Mail.java](https://github.com/phoenixfeder/fc-com/blob/05c0465504329b0036d19984dafa6a23da7b1d60/backend/src/main/java/server/modules/utils/Mail.java)
+  - After: [mailsender module](https://github.com/phoenixfeder/fc-com/tree/29ff290a4508638620e2a0dd9092463876bba026/backend/src/main/java/server/modules/mailsender)
+
 ## 2.1 Technologies used
 
 Our two main technologies used are described in the following.
@@ -205,3 +212,5 @@ We also use following tools:
   - [Codacy](https://app.codacy.com/project/FlashCardCommunity/fc-com/dashboard)
   - [SonarCloud](https://sonarcloud.io/dashboard?id=Nifori_fc-com)
   - CodeMR (excluded from pipeline)
+
+  You can find the overall Information [here](https://github.com/phoenixfeder/fc-com/blob/master/TestPlan.md#7-deliverables)
