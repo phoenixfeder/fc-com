@@ -164,7 +164,7 @@ To be specific, React and Redux don't use classes as known from Java or other ob
 the backends model and controller at least.
 
 ![Class Diagram](https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller.png)
-Full version: [https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.svg](https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.svg)
+Full version: [https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.png](https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.png)
 
 ## 6. Process View
 
@@ -202,6 +202,6 @@ To ensure the quality of our frontend, we implemented UI tests with the help of 
 
 We also use following tools:
 
-  - Codacy
-  - SonarCloud
+  - [Codacy](https://app.codacy.com/project/FlashCardCommunity/fc-com/dashboard)
+  - [SonarCloud](https://sonarcloud.io/dashboard?id=Nifori_fc-com)
   - CodeMR (excluded from pipeline)
