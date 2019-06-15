@@ -113,6 +113,8 @@ Our two main technologies used are described in the following.
 Spring Boot is built on top of the Java Spring framework and provides the developer with helpful features to create and run web applications. In our case, a REST Web Service
 which represents the interface between our front- and backend. As we want to benefit from the newest features of Java 10, the platform this service will be hosted on needs to support Java 10 or higher.
 
+We use InteliJ IDEA Ultimate for coding in the backend. The backend will be written with pure Java. Only to fill our database with testable content we use one file SQL.
+
 ### ReactJS (Frontend)
 
 ReactJS helps building interactive UIs that can be updated dynamically and therefore eliminate the need to refresh the web application. One can also develop single
@@ -121,6 +123,8 @@ import a React framework called Material-UI that provides a lot of pre-defined c
 take place with the newest version of JavaScript. Fortunately, our development environment is able to compile it to the lower version of JavaScript. Thus, we can
 use the newest features without having to worry about browser compatibility.
 Furthermore we will extend ReactJS with Redux. Redux allows us to keep track of state changes in the frontend and is able to notify other components about it.
+
+We use Visual Studio Code and IntelliJ Webstorm for coding in the frontend. To display we use HTML and CSS and for functionality we use JavaScript.
 
 ## 3. Architectural Goals and Constraints
 
@@ -160,7 +164,7 @@ To be specific, React and Redux don't use classes as known from Java or other ob
 the backends model and controller at least.
 
 ![Class Diagram](https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller.png)
-Full version: [https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.png](https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.png)
+Full version: [https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.svg](https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelcontroller_all.svg)
 
 ## 6. Process View
 
@@ -186,7 +190,7 @@ Full version: [https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelc
 
 The following graphic describes the relationship model of the in use database
 
-![Relationship Model](https://github.com/phoenixfeder/fc-com/raw/master/graphics/database.png)
+![Relationship Model](https://github.com/phoenixfeder/fc-com/raw/master/graphics/database_model.png)
 
 ## 10. Size and Performance
 
@@ -195,3 +199,9 @@ The following graphic describes the relationship model of the in use database
 ## 11. Quality/Metrics
 
 To ensure the quality of our frontend, we implemented UI tests with the help of Testcafé. Within, we created different scenarios to test every case that could possibly throw errors.
+
+We also use following tools:
+
+  - Codacy
+  - SonarCloud
+  - CodeMR (excluded from pipeline)
