@@ -51,7 +51,7 @@ This document provides a comprehensive architectural overview of the system, usi
 
 ### 1.2 Scope
 
-The scope of this SAS is to show the architecture of our FlashCardCommunity project. Illustrated are the Use-Cases, the class and data structure.
+The scope of this SAD is to show the architecture of our FlashCardCommunity project. Illustrated are the Use-Cases, the class and data structure.
 
 ### 1.3 Definitions, Acronyms and Abbreviations
 
@@ -111,14 +111,13 @@ Our two main technologies used are described in the following.
 ### Spring Boot (Backend)
 
 Spring Boot is built on top of the Java Spring framework and provides the developer with helpful features to create and run web applications. In our case, a REST Web Service
-which represents the interface between our front- and backend. As we want to benefit from the newest features of Java 10, the platform this service will be hosted on
-needs to support Java 10 or higher.
+which represents the interface between our front- and backend. As we want to benefit from the newest features of Java 10, the platform this service will be hosted on needs to support Java 10 or higher.
 
 ### ReactJS (Frontend)
 
 ReactJS helps building interactive UIs that can be updated dynamically and therefore eliminate the need to refresh the web application. One can also develop single
 components and can reuse them all over the application. Such a component could be a login form, a profile card or anything else one wants to reuse. We are going to
-import a React framework called Material-UI that provides a lot of pre-defined components. Its design based on, oh wonder, the Material-Design. The development will
+import a React framework called Material-UI that provides a lot of pre-defined components. Its design based on the Material-Design of Google. The development will
 take place with the newest version of JavaScript. Fortunately, our development environment is able to compile it to the lower version of JavaScript. Thus, we can
 use the newest features without having to worry about browser compatibility.
 Furthermore we will extend ReactJS with Redux. Redux allows us to keep track of state changes in the frontend and is able to notify other components about it.
@@ -187,7 +186,7 @@ Full version: [https://github.com/phoenixfeder/fc-com/raw/master/graphics/modelc
 
 The following graphic describes the relationship model of the in use database
 
-![Relationship Model](https://github.com/phoenixfeder/fc-com/raw/master/graphics/database_model.png)
+![Relationship Model](https://github.com/phoenixfeder/fc-com/raw/master/graphics/database.png)
 
 ## 10. Size and Performance
 
