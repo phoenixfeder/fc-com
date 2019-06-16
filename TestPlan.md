@@ -292,6 +292,11 @@ n/a
 
 We want to keep over 20% code coverage.
 
+Our metrics-tools informed us that the verifyResetPassword-Method from the AccountServicePasswordReset-Class had a high score on Coupling-Between-Object-Metrics and the editAccount-Method had a high n-path-complexity.
+So we according to our TestPlan we refactored those Methods to satisfy the quality requirements.
+
+They also noticed that we used the term "password" as part of our variables, which could mean hardcoded credentials. We investigated that issue, but came to the conclusion, that there are no security issues and disabled that rule manually.
+
 ## 12. Risks, Dependencies, Assumptions, and Constraints
 
 | Risk                                                                            | Mitigation Strategy          | Contingency (Risk is realized) |
