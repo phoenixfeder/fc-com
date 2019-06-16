@@ -206,6 +206,11 @@ The following graphic describes the relationship model of the in use database
 ## 11. Quality/Metrics
 
 To ensure the quality of our frontend, we implemented UI tests with the help of Testcafé. Within, we created different scenarios to test every case that could possibly throw errors.
+Also we implemented Jest for Redux Reducer testing.
+To display our test coverage we use codecov.io.
+  - [codecov.io](https://codecov.io/gh/phoenixfeder/fc-com)
+
+For the Backend we use Postman to test the REST API calls. This is also automated and can be run through all Testcases.
 
 We also use following tools:
 
@@ -214,3 +219,4 @@ We also use following tools:
   - CodeMR (excluded from pipeline)
 
   You can find the overall Information [here](https://github.com/phoenixfeder/fc-com/blob/master/TestPlan.md#7-deliverables)
+  
