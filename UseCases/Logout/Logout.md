@@ -30,7 +30,7 @@ N/A
 
 Description of what is required before the user clicks log out.
 
-### 5.1 Is logged in
+### 4.1 Is logged in
 
 To log out, the user has to be logged in.
 
@@ -42,7 +42,7 @@ Description of what is required after the user clicked log out.
 
 The token that is stored on the client to remember the log in needs to be deleted.
 
-### 5.1 Redirect to welcome page
+### 5.2 Redirect to welcome page
 
 When token is deleted, redirect to welcome page.
 
