@@ -169,70 +169,70 @@ class Verify extends Component {
 
         <Grid container alignContent="center" justify="center">
           <Grid item xs={12} md={8} lg={4}>
-              <Grid
-                container
-                spacing={5}
-                alignItems="center"
-                justify="center"
-                style={{ minHeight: '100px' }}
-                direction="column"
-              >
-                <Grid item lg={12} style={{ textAlign: 'center' }}>
-                  {!this.state.tokenOutdated ? (
-                    <div>
-                      <Typography
-                        component="p"
-                        align="center"
-                        className={classes.headline}
-                      >
-                        {'We are validating your registration - please wait!'}
-                      </Typography>
-                    </div>
-                  ) : (
-                    <div>
-                      <Typography
-                        component="p"
-                        align="center"
-                        className={classes.headline}
-                      >
-                        {'Woops, it seems like your token is outdated. Resend it now!'}
-                      </Typography>
-                      <FormControl
-                        fullWidth
-                        required
-                        error={this.state.isEmailInvalid}
-                      >
-                        <InputLabel>E-Mail</InputLabel>
-                        <Input
-                          id="user-mail-input"
-                          type="email"
-                          value={this.state.email}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <EMailIcon />
-                            </InputAdornment>
-                          }
-                          onChange={this.handleMailChange}
-                        />
-                        <FormHelperText id="mail-error-field">
-                          <em>
-                            {this.state.emailErrorMsg}
-                          </em>
-                        </FormHelperText>
-                      </FormControl>
-                      <Button
-                        id="resend-button"
-                        variant="contained"
-                        color="primary"
-                        disabled={this.state.loading}
-                        onClick={this.handleSubmit}
-                      >
-                        {'Resend token now!'}
-                      </Button>
-                    </div>
-                  )}
-                </Grid>
+            <Grid
+              container
+              spacing={5}
+              alignItems="center"
+              justify="center"
+              style={{ minHeight: '100px' }}
+              direction="column"
+            >
+              <Grid item lg={12} style={{ textAlign: 'center' }}>
+                {!this.state.tokenOutdated ? (
+                  <div>
+                    <Typography
+                      component="p"
+                      align="center"
+                      className={classes.headline}
+                    >
+                      {'We are validating your registration - please wait!'}
+                    </Typography>
+                  </div>
+                ) : (
+                  <div>
+                    <Typography
+                      component="p"
+                      align="center"
+                      className={classes.headline}
+                    >
+                      {'Woops, it seems like your token is outdated. Resend it now!'}
+                    </Typography>
+                    <FormControl
+                      fullWidth
+                      required
+                      error={this.state.isEmailInvalid}
+                    >
+                      <InputLabel>E-Mail</InputLabel>
+                      <Input
+                        id="user-mail-input"
+                        type="email"
+                        value={this.state.email}
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <EMailIcon />
+                          </InputAdornment>
+                        }
+                        onChange={this.handleMailChange}
+                      />
+                      <FormHelperText id="mail-error-field">
+                        <em>
+                          {this.state.emailErrorMsg}
+                        </em>
+                      </FormHelperText>
+                    </FormControl>
+                    <Button
+                      id="resend-button"
+                      variant="contained"
+                      color="primary"
+                      disabled={this.state.loading}
+                      onClick={this.handleSubmit}
+                    >
+                      {'Resend token now!'}
+                    </Button>
+                  </div>
+                )}
               </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </div>

@@ -1,5 +1,5 @@
-import * as actionTypes from '../utils/const-actiontypes';
 import flashcardboxesReducer from '../reducers/flashcardboxes-reducer';
+import * as actionTypes from '../utils/const-actiontypes';
 
 // Get a clean new state before each new test
 let initialState = {};
@@ -22,19 +22,22 @@ test('getting boxes starts and thus starts loading', () => {
   };
 
   const newState = flashcardboxesReducer(initialState, action);
-  expect(newState.loading).toBeTruthy();
+  expect(newState.loading)
+    .toBeTruthy();
 });
 
 test('boxes from action are set correctly', () => {
-  const testBoxes =[{title: 'testBoxTitle'}];
+  const testBoxes = [{ title: 'testBoxTitle' }];
   const action = {
     type: actionTypes.GET_BOXES_SUCCESS,
     boxes: testBoxes,
   };
 
   const newState = flashcardboxesReducer(initialState, action);
-  expect(newState.loading).toBeFalsy();
-  expect(newState.boxes).toBe(testBoxes);
+  expect(newState.loading)
+    .toBeFalsy();
+  expect(newState.boxes)
+    .toBe(testBoxes);
 });
 
 test('Getting boxes failed', () => {
@@ -45,8 +48,10 @@ test('Getting boxes failed', () => {
   };
 
   const newState = flashcardboxesReducer(initialState, action);
-  expect(newState.loading).toBeFalsy();
-  expect(newState.error).toBe(testError);
+  expect(newState.loading)
+    .toBeFalsy();
+  expect(newState.error)
+    .toBe(testError);
 });
 
 test('creating boxes starts and thus starts loading', () => {
@@ -55,22 +60,27 @@ test('creating boxes starts and thus starts loading', () => {
   };
 
   const newState = flashcardboxesReducer(initialState, action);
-  expect(newState.createLoading).toBeTruthy();
+  expect(newState.createLoading)
+    .toBeTruthy();
 });
 
 test('creating boxes starts and thus starts loading', () => {
-  const testBox = {testBoxTitle: 'test title'};
-  const initialBoxes = [{existingBoxTitle: 'existing title'}];
+  const testBox = { testBoxTitle: 'test title' };
+  const initialBoxes = [{ existingBoxTitle: 'existing title' }];
 
   const action = {
     type: actionTypes.CREATE_BOX_SUCCESS,
-    box: testBox
+    box: testBox,
   };
 
-  initialState = {...initialState, boxes: initialBoxes};
+  initialState = {
+    ...initialState,
+    boxes: initialBoxes,
+  };
 
   const newState = flashcardboxesReducer(initialState, action);
-  expect(newState.createLoading).toBeFalsy();
+  expect(newState.createLoading)
+    .toBeFalsy();
   //expect(newState.boxes).toBe([{existingBoxTitle: 'existing title'}, {testBoxTitle: 'test title'}])
 });
 

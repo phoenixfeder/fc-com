@@ -12,33 +12,6 @@ import './flashcard.css';
 class Flashcard extends Component {
   state = {};
 
-  render() {
-    const { flashcard } = this.props;
-    const title = flashcard ? flashcard.title : '';
-    return (
-      <Paper
-        style={{
-          backgroundColor: FlashcardStyle.FLASHCARD_NEUTRAL,
-          width: '100%',
-          maxWidth: 500,
-        }}
-        draggable
-      >
-        <Typography style={{ fontSize: 25 }}>
-          {title}
-        </Typography>
-        <Divider />
-        <Divider style={{
-          height: 5,
-          visibility: 'hidden',
-        }}
-        />
-        <Divider />
-        {this.renderCardBody()}
-      </Paper>
-    );
-  }
-
   renderCardBody() {
     const { flashcard, showFront } = this.props;
     const text = flashcard ? (showFront ? flashcard.front : flashcard.back) : '';
@@ -83,6 +56,34 @@ class Flashcard extends Component {
       </List>
     );
   }
+
+  render() {
+    const { flashcard } = this.props;
+    const title = flashcard ? flashcard.title : '';
+    return (
+      <Paper
+        style={{
+          backgroundColor: FlashcardStyle.FLASHCARD_NEUTRAL,
+          width: '100%',
+          maxWidth: 500,
+        }}
+        draggable
+      >
+        <Typography style={{ fontSize: 25 }}>
+          {title}
+        </Typography>
+        <Divider />
+        <Divider style={{
+          height: 5,
+          visibility: 'hidden',
+        }}
+        />
+        <Divider />
+        {this.renderCardBody()}
+      </Paper>
+    );
+  }
+
 }
 
 Flashcard.propTypes = {

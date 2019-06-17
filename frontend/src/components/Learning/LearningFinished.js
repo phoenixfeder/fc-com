@@ -27,19 +27,15 @@ class LearningFinished extends Component {
     },
   };
 
-  updateCard(card) {
-    this.setState({ card });
-  }
-
   componentDidMount() {
     const { cardsAnsweredCorrect, cardsAnsweredIncorrect } = this.props;
-    let cardsToList = cardsAnsweredCorrect.concat(cardsAnsweredIncorrect);
+    const cardsToList = cardsAnsweredCorrect.concat(cardsAnsweredIncorrect);
     if (cardsToList.length > 0) this.setState({ card: cardsToList[0] });
   }
 
   renderCardList = () => {
     const { cardsAnsweredCorrect, cardsAnsweredIncorrect } = this.props;
-    let cardsToList = cardsAnsweredCorrect.concat(cardsAnsweredIncorrect);
+    const cardsToList = cardsAnsweredCorrect.concat(cardsAnsweredIncorrect);
     return (
       <Paper
         style={{
@@ -74,24 +70,28 @@ class LearningFinished extends Component {
     return cardsByDeck;
   };
 
+  updateCard(card) {
+    this.setState({ card });
+  }
+
   render() {
     const { cardsAnsweredCorrect, cardsAnsweredIncorrect } = this.props;
     const cardsByDeck = this.countCardsByDeck();
 
     return (
-      <div style={{
-        alignItems: 'center',
-        alignContent: 'center',
-      }} justify={'center'}
-
-           align="center"
-
+      <div
+        style={{
+          alignItems: 'center',
+          alignContent: 'center',
+        }}
+        justify="center"
+        align="center"
       >
-        <Typography variant={'h3'}>
-          You finsihed your learning session!
+        <Typography variant="h3">
+          {'You finsihed your learning session!'}
         </Typography>
-        <Typography variant={'h4'}>
-          Check your results here
+        <Typography variant="h4">
+          {'Check your results here'}
         </Typography>
 
         <Paper
@@ -111,20 +111,20 @@ class LearningFinished extends Component {
             <Grid item style={{ padding: 0 }}>
               {this.renderCardList()}
             </Grid>
-            <Grid item justify={'center'}>
+            <Grid item justify="center">
               <Grid
                 container
-                direction={'column'}
+                direction="column"
                 style={{
                   height: this.minHeight,
                 }}
                 align="left"
                 spacing={16}
               >
-                <Typography style={{ textAlign: 'center' }} variant={'h4'}>
+                <Typography style={{ textAlign: 'center' }} variant="h4">
                   {this.state.card.title}
                 </Typography>
-                <Typography style={{ textAlign: 'right' }} variant={'h6'}>
+                <Typography style={{ textAlign: 'right' }} variant="h6">
                   {this.state.card.deck}
                 </Typography>
                 <TextField
@@ -157,11 +157,13 @@ class LearningFinished extends Component {
                 />
               </Grid>
             </Grid>
-            <Grid item container
-                  direction={'column'}
-                  style={{
-                    width: 600,
-                  }}
+            <Grid
+              item
+              container
+              direction="column"
+              style={{
+                width: 600,
+              }}
             >
 
               <Grid item style={{ height: ((this.minHeight - 50) / 2) }}>

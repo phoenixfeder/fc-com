@@ -92,15 +92,21 @@ class LearningInProgress extends Component {
     }
   };
 
+  setNextCard = () => {
+    this.setState({
+      currentPageIsFront: true,
+    });
+  };
+
   render() {
     const { classes, cardsLeft } = this.props;
     const currentCard = cardsLeft[cardsLeft.length - 1];
     const size = 5;
     return (
       <div className={classes.root} id="Decks">
-        <Grid container direction="row" alignItems="stretch" title={"Bla"} justify={'center'} alignContent={'space-around'}>
+        <Grid container direction="row" alignItems="stretch" justify="center" alignContent="space-around">
           <Grid item sm={size} md={size} lg={size}>
-            <Typography variant="h3" align="center" style={{marginBottom: 10}}>
+            <Typography variant="h3" align="center" style={{ marginBottom: 10 }}>
               {'Learning'}
             </Typography>
             <Grid item align="center">
@@ -147,20 +153,10 @@ class LearningInProgress extends Component {
     );
   }
 
-  setNextCard = () => {
-    this.setState({
-      currentPageIsFront: true,
-      currentCard: this.props.cardsLeft[this.props.cardsLeft.length - 1],
-      currentTitle: this.props.cardsLeft[this.props.cardsLeft.length - 1].title,
-      currentPageText: this.props.cardsLeft[this.props.cardsLeft.length - 1].text,
-    });
-  };
-
 }
 
 LearningInProgress.propTypes = {
   classes: PropTypes.object.isRequired,
-  cards: PropTypes.array.isRequired,
   answerCard: PropTypes.func.isRequired,
   setLearningFinished: PropTypes.func.isRequired,
   cardsLeft: PropTypes.array.isRequired,

@@ -5,29 +5,29 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
   List,
   ListItem,
-  ListItemText,
   ListItemSecondaryAction,
-  IconButton,
+  ListItemText,
   TextField,
 } from '@material-ui/core';
+import {
+  Add,
+  Clear,
+} from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  Clear,
-  Add,
-} from '@material-ui/icons';
 
 class FlashcardboxShareModal extends Component {
   state = {
     username: '',
-  }
+  };
 
   handleChange = event => {
     const username = event.target.value;
     this.setState({ username });
-  }
+  };
 
   renderAddSharedUser = () => (
     <DialogContent>
@@ -48,7 +48,7 @@ class FlashcardboxShareModal extends Component {
         <Add />
       </IconButton>
     </DialogContent>
-  )
+  );
 
   renderSharedUsers = (users) => (
     <DialogContent>
@@ -68,7 +68,7 @@ class FlashcardboxShareModal extends Component {
         ))}
       </List>
     </DialogContent>
-  )
+  );
 
   render() {
     return (
@@ -81,7 +81,7 @@ class FlashcardboxShareModal extends Component {
           {'Share Flashcardbox'}
         </DialogTitle>
         {this.renderAddSharedUser()}
-        { this.renderSharedUsers(this.props.sharedUsers)}
+        {this.renderSharedUsers(this.props.sharedUsers)}
         <DialogActions>
           <Button
             onClick={() => {
