@@ -2,73 +2,84 @@
 
 ## Table of Contents
 
-  - [Flashcard Community - Software Requirements Specification](#flashcard-community---software-requirements-specification)
-      - [Table of Contents](#table-of-contents)
+-   [Flashcard Community - Software Requirements Specification](#flashcard-community---software-requirements-specification)
 
-      - [1. Introduction](#1-introduction)
-          - [1.1 Purpose](#11-purpose)
-          - [1.2 Scope](#12-scope)
-          - [1.3 Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
-          - [1.4 References](#14-references)
-          - [1.5 Overview](#15-overview)
+    -   [Table of Contents](#table-of-contents)
 
-      - [2. Overall Description](#2-overall-description)
-          - [2.1 Vision](#21-vision)
+    -   [1. Introduction](#1-introduction)
 
-      - [2.2 Product perspective](#22-product-perspective)
-          - [2.3 User characteristics](#23-user-characteristics)
-          - [2.4 Dependencies](#24-dependencies)
+        -   [1.1 Purpose](#11-purpose)
+        -   [1.2 Scope](#12-scope)
+        -   [1.3 Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
+        -   [1.4 References](#14-references)
+        -   [1.5 Overview](#15-overview)
 
-      - [3. Specific Requirements](#3-specific-requirements)
-          - [3.1 Functionality – Data Backend](#31-functionality-%E2%80%93-data-backend)
-              - [3.1.1 Read data given over API endpoints](#311-read-data-given-over-api-endpoints)
-              - [3.1.2 Parse data](#312-parse-data)
-              - [3.1.3 Provide data](#313-provide-data)
+    -   [2. Overall Description](#2-overall-description)
 
-          - [3.2 Functionality – User Interface](#32-functionality-%E2%80%93-user-interface)
-              - [3.2.1 User system](#321-user-system)
-              - [3.2.3 Flashcard boxes](#323-flashcard-boxes)
-              - [3.2.4 Flashcards](#324-flashcards)
-              - [3.2.5 Statistics](#325-statistics)
+        -   [2.1 Vision](#21-vision)
 
-          - [3.4 Usability](#34-usability)
+    -   [2.2 Product perspective](#22-product-perspective)
 
-          - [3.5 Reliability](#35-reliability)
-              - [3.5.1 Availability](#351-availability)
-              - [3.5.2 MTBF, MTTR](#352-mtbf-mttr)
-              - [3.5.3 Accuracy](#353-accuracy)
-              - [3.5.6 Bug classes](#356-bug-classes)
+        -   [2.3 User characteristics](#23-user-characteristics)
+        -   [2.4 Dependencies](#24-dependencies)
 
-          - [3.6 Performance](#36-performance)
-              - [3.6.1 Response time](#361-response-time)
-              - [3.6.2 Throughput](#362-throughput)
-              - [3.6.3 Capacity](#363-capacity)
-              - [3.6.4 Resource utilization](#364-resource-utilization)
+    -   [3. Specific Requirements](#3-specific-requirements)
 
-          - [3.7 Supportability](#37-supportability)
+        -   [3.1 Functionality – Data Backend](#31-functionality-%E2%80%93-data-backend)
 
-          - [3.8 Design Constraints](#38-design-constraints)
-              - [3.8.1 Spring Boot](#381-spring-boot)
-              - [3.8.2 ReactJS](#382-reactjs)
-              - [3.8.3 Supported Platforms](#383-supported-platforms)
+            -   [3.1.1 Read data given over API endpoints](#311-read-data-given-over-api-endpoints)
+            -   [3.1.2 Parse data](#312-parse-data)
+            -   [3.1.3 Provide data](#313-provide-data)
 
-          - [3.9 Online User Documentation and Help System Requirements](#39-online-user-documentation-and-help-system-requirements)
+        -   [3.2 Functionality – User Interface](#32-functionality-%E2%80%93-user-interface)
 
-          - [3.10 Purchased Components](#310-purchased-components)
+            -   [3.2.1 User system](#321-user-system)
+            -   [3.2.3 Flashcard boxes](#323-flashcard-boxes)
+            -   [3.2.4 Flashcards](#324-flashcards)
+            -   [3.2.5 Statistics](#325-statistics)
 
-          - [3.11 Interfaces](#311-interfaces)
-              - [3.11.1 User Interfaces](#3111-user-interfaces)
-              - [3.11.2 Hardware Interfaces](#3112-hardware-interfaces)
-              - [3.11.3 Software Interfaces](#3113-software-interfaces)
-              - [3.11.4 Communications Interfaces](#3114-communications-interfaces)
+        -   [3.4 Usability](#34-usability)
 
-          - [3.12 Licensing Requirements](#312-licensing-requirements)
+        -   [3.5 Reliability](#35-reliability)
 
-          - [3.13 Legal, Copyright and other Notices](#313-legal-copyright-and-other-notices)
+            -   [3.5.1 Availability](#351-availability)
+            -   [3.5.2 MTBF, MTTR](#352-mtbf-mttr)
+            -   [3.5.3 Accuracy](#353-accuracy)
+            -   [3.5.6 Bug classes](#356-bug-classes)
 
-          - [3.14 Applicable Standards](#314-applicable-standards)
+        -   [3.6 Performance](#36-performance)
 
-      - [4. Supporting Information](#4-supporting-information)
+            -   [3.6.1 Response time](#361-response-time)
+            -   [3.6.2 Throughput](#362-throughput)
+            -   [3.6.3 Capacity](#363-capacity)
+            -   [3.6.4 Resource utilization](#364-resource-utilization)
+
+        -   [3.7 Supportability](#37-supportability)
+
+        -   [3.8 Design Constraints](#38-design-constraints)
+
+            -   [3.8.1 Spring Boot](#381-spring-boot)
+            -   [3.8.2 ReactJS](#382-reactjs)
+            -   [3.8.3 Supported Platforms](#383-supported-platforms)
+
+        -   [3.9 Online User Documentation and Help System Requirements](#39-online-user-documentation-and-help-system-requirements)
+
+        -   [3.10 Purchased Components](#310-purchased-components)
+
+        -   [3.11 Interfaces](#311-interfaces)
+
+            -   [3.11.1 User Interfaces](#3111-user-interfaces)
+            -   [3.11.2 Hardware Interfaces](#3112-hardware-interfaces)
+            -   [3.11.3 Software Interfaces](#3113-software-interfaces)
+            -   [3.11.4 Communications Interfaces](#3114-communications-interfaces)
+
+        -   [3.12 Licensing Requirements](#312-licensing-requirements)
+
+        -   [3.13 Legal, Copyright and other Notices](#313-legal-copyright-and-other-notices)
+
+        -   [3.14 Applicable Standards](#314-applicable-standards)
+
+    -   [4. Supporting Information](#4-supporting-information)
 
 ## 1. Introduction
 
@@ -116,7 +127,8 @@ The goal of Flashcard Community is to create an online solution for creating fla
 
 ## 2.2 Product perspective
 
-Our Use-Case-Diagram\
+Our Use-Case-Diagram
+
 ![UseCaseDiagram](https://github.com/phoenixfeder/fc-com/raw/master/graphics/usecases/FlashCardCommunityUseCases.png)
 
 ### 2.3 User characteristics
@@ -150,18 +162,18 @@ After data is requested from the frontend and the user is allowed to do so, the 
 The frontend provides an user interface for the users to interact with and is able to request data from the data backend. The following subsections explain the types of data the frontend can request.
 According uses cases are:
 
-  - [FAQ](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FAQ/FAQ.md)
+-   [FAQ](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FAQ/FAQ.md)
 
 #### 3.2.1 User system
 
 At registration, the data provided by the user is stored in the backend. It is needed to log in, edit the profile and also provides the basis for a permission-system.
 According use cases are:
 
-  - [Register Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/Register/Register.md)
-  - [Login Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)
-  - [Logout Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)
-  - [Edit Profile Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/EditProfile/EditProfile.md)
-  - [Close Account Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)
+-   [Register Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/Register/Register.md)
+-   [Login Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Login/Login.md)
+-   [Logout Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Logout/Logout.md)
+-   [Edit Profile Use Case](https://github.com/phoenixfeder/fc-com/blob/UCS_Register_Edit/UseCases/EditProfile/EditProfile.md)
+-   [Close Account Use Case](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/CloseAccount/CloseAccount.md)
 
 #### 3.2.3 Flashcard boxes
 
@@ -169,16 +181,16 @@ Data related to single flashcard boxes contain references to individual flashcar
 A user is able to learn with those boxes.
 According use cases are:
 
-  - [Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
-  - [Share Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md)
-  - [Learning](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Learning/Learning.md)
+-   [Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashcardBox/FlashcardBox.md)
+-   [Share Flashcard Boxes](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/ShareFlashcardBoxes/ShareFlashcardBoxes.md)
+-   [Learning](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/Learning/Learning.md)
 
 #### 3.2.4 Flashcards
 
 A flashcard data is composed of a virtual front- and backpage. For a better overview, flashcards can only be accessed from a individual flashcard boxes.
 According use cases are:
 
-  - [Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)
+-   [Flashcards](https://github.com/phoenixfeder/fc-com/blob/master/UseCases/FlashCard/FlashCard.md)
 
 #### 3.2.5 Statistics
 
@@ -212,8 +224,8 @@ We can't ensure that the information on the flashcards will be correct since the
 
 We classify bugs like the following:
 
-  - **Critical bug**: A critical bug occurs when the database starts dropping data without intention, secret user information, like passwords, are open to the public or users are not able to use the application at all.
-  - **Non critical bug**: A non critical bug appears when the user still can use the application but it appears glitched and the user experience is slightly influenced.
+-   **Critical bug**: A critical bug occurs when the database starts dropping data without intention, secret user information, like passwords, are open to the public or users are not able to use the application at all.
+-   **Non critical bug**: A non critical bug appears when the user still can use the application but it appears glitched and the user experience is slightly influenced.
 
 ### 3.6 Performance
 
@@ -274,7 +286,7 @@ instructions and enough pictures to show the user exactly what to click at.
 
 ### 3.10 Purchased Components
 
-  - N\A
+-   N\\A
 
 ### 3.11 Interfaces
 
@@ -287,7 +299,7 @@ Since we are using the Material UI framework the application will be accessible 
 
 #### 3.11.2 Hardware Interfaces
 
-  - N\A
+-   N\\A
 
 #### 3.11.3 Software Interfaces
 
@@ -308,11 +320,11 @@ Our project runs under the MIT License. This way everyone is allowed to create h
 
 ### 3.13 Legal, Copyright and other Notices
 
-  - N\A
+-   N\\A
 
 ### 3.14 Applicable Standards
 
-  - N\A
+-   N\\A
 
 ## 4. Supporting Information
 

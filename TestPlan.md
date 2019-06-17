@@ -1,47 +1,48 @@
 # Test plan
 
--   [Test plan](#test-plan)
-    -   [1. Introduction](#1-introduction)
-        -   [1.1 Purpose](#11-purpose)
-        -   [1.2 Scope](#12-scope)
-        -   [1.3 Intended Audience](#13-intended-audience)
-        -   [1.4 Document Terminology and Acronyms](#14-document-terminology-and-acronyms)
-        -   [1.5 References](#15-references)
-    -   [2. Evaluation Mission and Test Motivation](#2-evaluation-mission-and-test-motivation)
-        -   [2.1 Background](#21-background)
-        -   [2.2 Evaluation Mission](#22-evaluation-mission)
-        -   [2.3 Test Motivators](#23-test-motivators)
-    -   [3. Target Test Items](#3-target-test-items)
-    -   [4. Outline of Planned Tests](#4-outline-of-planned-tests)
-        -   [4.1 Outline of Test Inclusions](#41-outline-of-test-inclusions)
-        -   [4.2 Outline of Other Candidates for Potential Inclusion](#42-outline-of-other-candidates-for-potential-inclusion)
-        -   [4.3 Outline of Test Exclusions](#43-outline-of-test-exclusions)
-    -   [5. Test Approach](#5-test-approach)
-        -   [5.1 Testing Techniques and Types](#51-testing-techniques-and-types)
-            -   [5.1.1 Business Logic Testing](#511-business-logic-testing)
-            -   [5.1.2 User Interface Testing](#512-user-interface-testing)
-            -   [5.1.3 API Testing](#513-api-testing)
-    -   [6. Entry and Exit Criteria](#6-entry-and-exit-criteria)
-        -   [6.1 Test Plan](#61-test-plan)
-            -   [6.1.1 Test Plan Entry Criteria](#611-test-plan-entry-criteria)
-            -   [6.1.2 Test Plan Exit Criteria](#612-test-plan-exit-criteria)
-    -   [7. Deliverables](#7-deliverables)
-    -   [7.1 Test Evaluation Summaries](#71-test-evaluation-summaries)
-    -   [7.2 Reporting on Test Coverage](#72-reporting-on-test-coverage)
-    -   [7.3 Perceived Quality Reports](#73-perceived-quality-reports)
-    -   [7.4 Incident Logs and Change Requests](#74-incident-logs-and-change-requests)
-    -   [7.5 Smoke Test Suite and Supporting Test Scripts](#75-smoke-test-suite-and-supporting-test-scripts)
-    -   [8. Testing Workflow](#8-testing-workflow)
-    -   [9. Environmental Needs](#9-environmental-needs)
-        -   [9.1 Base System Hardware](#91-base-system-hardware)
-        -   [9.2 Base Software Elements in the Test Environment](#92-base-software-elements-in-the-test-environment)
-        -   [9.3 Productivity and Support Tools](#93-productivity-and-support-tools)
-    -   [10. Responsibilities, Staffing, and Training Needs](#10-responsibilities-staffing-and-training-needs)
-        -   [10.1 People and Roles](#101-people-and-roles)
-        -   [10.2 Staffing and Training Needs](#102-staffing-and-training-needs)
-    -   [11. Iteration Milestones](#11-iteration-milestones)
-    -   [12. Risks, Dependencies, Assumptions, and Constraints](#12-risks-dependencies-assumptions-and-constraints)
-    -   [13. Management Process and Procedures](#13-management-process-and-procedures)
+- [Test plan](#Test-plan)
+  - [1. Introduction](#1-Introduction)
+    - [1.1 Purpose](#11-Purpose)
+    - [1.2 Scope](#12-Scope)
+    - [1.3 Intended Audience](#13-Intended-Audience)
+    - [1.4 Document Terminology and Acronyms](#14-Document-Terminology-and-Acronyms)
+    - [1.5 References](#15-References)
+  - [2. Evaluation Mission and Test Motivation](#2-Evaluation-Mission-and-Test-Motivation)
+    - [2.1 Background](#21-Background)
+    - [2.2 Evaluation Mission](#22-Evaluation-Mission)
+    - [2.3 Test Motivators](#23-Test-Motivators)
+  - [3. Target Test Items](#3-Target-Test-Items)
+  - [4. Outline of Planned Tests](#4-Outline-of-Planned-Tests)
+    - [4.1 Outline of Test Inclusions](#41-Outline-of-Test-Inclusions)
+    - [4.2 Outline of Other Candidates for Potential Inclusion](#42-Outline-of-Other-Candidates-for-Potential-Inclusion)
+    - [4.3 Outline of Test Exclusions](#43-Outline-of-Test-Exclusions)
+  - [5. Test Approach](#5-Test-Approach)
+    - [5.1 Testing Techniques and Types](#51-Testing-Techniques-and-Types)
+      - [5.1.1 Business Logic Testing](#511-Business-Logic-Testing)
+      - [5.1.2 User Interface Testing](#512-User-Interface-Testing)
+      - [5.1.3 API Testing](#513-API-Testing)
+  - [6. Entry and Exit Criteria](#6-Entry-and-Exit-Criteria)
+    - [6.1 Test Plan](#61-Test-Plan)
+      - [6.1.1 Test Plan Entry Criteria](#611-Test-Plan-Entry-Criteria)
+      - [6.1.2 Test Plan Exit Criteria](#612-Test-Plan-Exit-Criteria)
+  - [7. Deliverables](#7-Deliverables)
+  - [7.1 Test Evaluation Summaries](#71-Test-Evaluation-Summaries)
+  - [7.2 Reporting on Test Coverage](#72-Reporting-on-Test-Coverage)
+  - [7.3 Perceived Quality Reports](#73-Perceived-Quality-Reports)
+  - [7.4 Incident Logs and Change Requests](#74-Incident-Logs-and-Change-Requests)
+  - [7.5 Smoke Test Suite and Supporting Test Scripts](#75-Smoke-Test-Suite-and-Supporting-Test-Scripts)
+  - [8. Testing Workflow](#8-Testing-Workflow)
+  - [9. Environmental Needs](#9-Environmental-Needs)
+    - [9.1 Base System Hardware](#91-Base-System-Hardware)
+    - [9.2 Base Software Elements in the Test Environment](#92-Base-Software-Elements-in-the-Test-Environment)
+    - [9.3 Productivity and Support Tools](#93-Productivity-and-Support-Tools)
+  - [10. Responsibilities, Staffing, and Training Needs](#10-Responsibilities-Staffing-and-Training-Needs)
+    - [10.1 People and Roles](#101-People-and-Roles)
+    - [10.2 Staffing and Training Needs](#102-Staffing-and-Training-Needs)
+  - [11. Iteration Milestones](#11-Iteration-Milestones)
+  - [12. Risks, Dependencies, Assumptions, and Constraints](#12-Risks-Dependencies-Assumptions-and-Constraints)
+  - [13. Management Process and Procedures](#13-Management-Process-and-Procedures)
+    - [13.1 Reporting and Escalation](#131-Reporting-and-Escalation)
 
 ## 1. Introduction
 
@@ -160,6 +161,8 @@ Business logic testing in our frontend ensures that the transition from one stat
 | Success Criteria       | All business logic tests pass.                                                                                           |
 | Special Considerations | -                                                                                                                        |
 
+![Jest results](graphics/JestTestResult.PNG)
+
 #### 5.1.2 User Interface Testing
 
 By UI testing the application is tested from the perspective of the user. The goal of UI testing is to ensure that the UI behaves as expected.
@@ -173,6 +176,8 @@ By UI testing the application is tested from the perspective of the user. The go
 | Success Criteria       | All UI tests pass.                                                                                                                                                                                                                                                                |
 | Special Considerations | -                                                                                                                                                                                                                                                                                 |
 
+![UI test results](graphics/CucumberTestResult.PNG)
+
 #### 5.1.3 API Testing
 
 API Testing is used to ensure that the communication between the front- and backend is working as expected. API Testing is commonly a part of Integration Testing which means that multiple parts of the application are tested together.
@@ -185,6 +190,8 @@ API Testing is used to ensure that the communication between the front- and back
 | Required Tools         | [Postman](https://www.getpostman.com/) and [Newman](https://www.npmjs.com/package/newman)                              |
 | Success Criteria       | All API tests pass.                                                                                                    |
 | Special Considerations | -                                                                                                                      |
+
+![API test results](graphics/PostmanTestResult.png)
 
 ## 6. Entry and Exit Criteria
 
@@ -278,10 +285,10 @@ The following table shows all tools used in our testing process.
 
 ### 10.1 People and Roles
 
-| Role                      | Person Assigned | Specific Responsibilities or Comments                                    |
-| ------------------------- | :-------------: | ------------------------------------------------------------------------ |
-| Test Manager              |  Moritz, Sascha | Provides management oversight.                                           |
-| Test Designer             |     Everyone    | Defines the technical approach to the implementation of the test effort. |
+| Role                      |  Person Assigned | Specific Responsibilities or Comments                                    |
+| ------------------------- | :--------------: | ------------------------------------------------------------------------ |
+| Test Manager              |  Moritz, Sascha  | Provides management oversight.                                           |
+| Test Designer             |     Everyone     | Defines the technical approach to the implementation of the test effort. |
 | Test System Administrator | Moritz, Benjamin | Ensures test environment and assets are managed and maintained.          |
 
 ### 10.2 Staffing and Training Needs
@@ -311,5 +318,5 @@ They also noticed that we used the term "password" as part of our variables, whi
 
 ### 13.1 Reporting and Escalation
 
-- Travis CI logs all occuring error during his build process
-- If a build fails all team members get notified by discord
+-   Travis CI logs all occuring error during his build process
+-   If a build fails all team members get notified by discord
