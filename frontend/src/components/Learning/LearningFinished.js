@@ -15,7 +15,7 @@ import { Chart } from 'react-google-charts';
 
 class LearningFinished extends Component {
 
-  minHeight = 550;
+  minHeight = 900;
 
   state = {
     card: {
@@ -111,7 +111,7 @@ class LearningFinished extends Component {
             <Grid item style={{ padding: 0 }}>
               {this.renderCardList()}
             </Grid>
-            <Grid container item direction={"row"} style={{maxWidth: 1000}}>
+            <Grid container item direction={"column"} style={{maxWidth: 600}}>
               <Grid item justify="center">
                 <Grid
                   container
@@ -138,7 +138,7 @@ class LearningFinished extends Component {
                     multiline
                     rows={4}
                     style={{
-                      width: 300,
+                      width: 500,
                       margin: 10,
                     }}
                   />
@@ -152,7 +152,7 @@ class LearningFinished extends Component {
                     multiline
                     rows={4}
                     style={{
-                      width: 300,
+                      width: 500,
                       margin: 10,
                     }}
                   />
