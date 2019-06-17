@@ -41,7 +41,7 @@ Description of what is required after the user submitted the form.
 
 Data given by the visitor must be validated and checked if the given username and E-Mail aren't taken yet.
 
-### 5.1 Store data
+### 5.2 Store data
 
 If the data was validated and are in the right format, they need to be stores in the database.
 
