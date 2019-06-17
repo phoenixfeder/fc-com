@@ -20,63 +20,12 @@ class Learning extends Component {
   state = {
     cardsLeft: [],
     cardsAnsweredCorrect: [],
-    cardsAnsweredIncorrect: [
-      {
-        back: 'Lösung',
-        deck: 'B',
-        front: 'Frage',
-        id: 100001,
-        title: 'TestCard',
-      },{
-        back: 'Lösung',
-        deck: 'B',
-        front: 'Frage',
-        id: 100001,
-        title: 'TestCard',
-      },{
-        back: 'Lösung',
-        deck: 'B',
-        front: 'Frage',
-        id: 100001,
-        title: 'TestCard',
-      },{
-        back: 'Lösung',
-        deck: 'B',
-        front: 'Frage',
-        id: 100001,
-        title: 'TestCard',
-      },{
-        back: 'Lösung',
-        deck: 'B',
-        front: 'Frage',
-        id: 100001,
-        title: 'TestCard',
-      },{
-        back: 'Lösung',
-        deck: 'B',
-        front: 'Frage',
-        id: 100001,
-        title: 'TestCard',
-      },{
-        back: 'Lösung',
-        deck: 'B',
-        front: 'Frage',
-        id: 100001,
-        title: 'TestCard',
-      },{
-        back: 'Lösung',
-        deck: 'B',
-        front: 'Frage',
-        id: 100001,
-        title: 'TestCard',
-      },
-    ],
+    cardsAnsweredIncorrect: [],
   };
 
   componentWillMount = () => {
     document.title = 'Learning';
     this.props.setLearningFinished(false);
-    console.log(this.props.cards);
     this.setState({
       cardsLeft: this.props.cards,
       cardsAnsweredInorrect: this.props.cards,    //TODO: remove after development

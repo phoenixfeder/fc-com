@@ -28,8 +28,6 @@ class LearningFinished extends Component {
   };
 
   updateCard(card) {
-    console.log(card);
-    console.log('click');
     this.setState({ card });
   }
 
@@ -42,7 +40,6 @@ class LearningFinished extends Component {
   renderCardList = () => {
     const { cardsAnsweredCorrect, cardsAnsweredIncorrect } = this.props;
     let cardsToList = cardsAnsweredCorrect.concat(cardsAnsweredIncorrect);
-    console.log(cardsToList);
     return (
       <Paper
         style={{
@@ -68,17 +65,10 @@ class LearningFinished extends Component {
     const { cardsAnsweredCorrect, cardsAnsweredIncorrect } = this.props;
     const cardsByDeck = [0, 0, 0, 0, 0];
 
-    console.log(cardsAnsweredIncorrect);
-    console.log(cardsAnsweredCorrect);
-
     cardsAnsweredIncorrect.forEach(card => {
-      console.log(card.deck);
-      console.log(card.deck.charCodeAt(0) - 65);
       cardsByDeck[card.deck.charCodeAt() - 65] += 1;
     });
     cardsAnsweredCorrect.forEach(card => {
-      console.log(card.deck);
-      console.log(card.deck.charCodeAt(0) - 65);
       cardsByDeck[card.deck.charCodeAt() - 65] += 1;
     });
     return cardsByDeck;

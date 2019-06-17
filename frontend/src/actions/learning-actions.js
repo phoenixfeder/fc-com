@@ -133,7 +133,6 @@ const answerCardFail = errorarg => ({
 export const answerCard = card => dispatch => {
   const authState = store.getState().auth;
   dispatch(answerCardStart());
-  console.log(card);
 
   fetch(BACKEND_URL_LEARNING_ANSWER, {
     method: 'PUT',
@@ -153,8 +152,6 @@ export const answerCard = card => dispatch => {
   })
     .then(results => results.json())
     .then(result => {
-      console.log("result");
-      console.log(result);
       switch (result.status.code) {
         case 200:
           dispatch(answerCardSuccess({

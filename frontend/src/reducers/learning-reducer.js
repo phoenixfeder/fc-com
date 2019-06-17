@@ -41,7 +41,6 @@ const answerCardStart = (state) => ({
 });
 
 const answerCardSuccess = (state, action) => {
-  console.log(action);
   const indexToUpdate = state.cards.findIndex(card => card.id === action.card.id);
   const newCards = Array.from(state.cards);
   newCards[indexToUpdate] = action.card;

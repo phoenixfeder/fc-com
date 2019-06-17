@@ -20,6 +20,7 @@ class Flashcard extends Component {
         style={{
           backgroundColor: FlashcardStyle.FLASHCARD_NEUTRAL,
           width: '100%',
+          maxWidth: 500,
         }}
         draggable
       >
@@ -46,7 +47,7 @@ class Flashcard extends Component {
     const lines = [];
     let line = '';
     words.forEach(word => {
-      if (line.length < window.innerWidth /30) {
+      if (line.length < window.innerWidth / 40) {
         line += `${word} `;
       } else {
         lines.push(line);

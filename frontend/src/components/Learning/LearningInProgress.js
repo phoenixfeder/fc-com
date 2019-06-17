@@ -1,6 +1,7 @@
 import { withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -58,12 +59,18 @@ class LearningInProgress extends Component {
       });
 
     const answeredCard = this.props.cardsLeft.pop();
-    console.log(answeredCard.deck);
-    console.log(String.fromCharCode(answeredCard.deck.charCodeAt() + (-1+2*correct)));
     if (correct) {
-      this.props.cardsAnsweredCorrect.push({...answeredCard, correct, deck: (String.fromCharCode(answeredCard.deck.charCodeAt() + (!(answeredCard.deck === 'E'))))});
+      this.props.cardsAnsweredCorrect.push({
+        ...answeredCard,
+        correct,
+        deck: (String.fromCharCode(answeredCard.deck.charCodeAt() + (!(answeredCard.deck === 'E')))),
+      });
     } else {
-      this.props.cardsAnsweredIncorrect.push({...answeredCard, correct,  deck: 'A'});
+      this.props.cardsAnsweredIncorrect.push({
+        ...answeredCard,
+        correct,
+        deck: 'A',
+      });
     }
     if (this.props.cardsLeft.length === 0) {
       this.props.setLearningFinished(true);
@@ -88,58 +95,39 @@ class LearningInProgress extends Component {
   render() {
     const { classes, cardsLeft } = this.props;
     const currentCard = cardsLeft[cardsLeft.length - 1];
+    const size = 5;
     return (
       <div className={classes.root} id="Decks">
-        <Grid container justify="center">
-          <Grid item lg={12} className={classes.headline}>
-            <Typography variant="h3" align="center">
+        <Grid container direction="row" alignItems="stretch" title={"Bla"} justify={'center'} alignContent={'space-around'}>
+          <Grid item sm={size} md={size} lg={size}>
+            <Typography variant="h3" align="center" style={{marginBottom: 10}}>
               {'Learning'}
             </Typography>
-          </Grid>
-          <div style={{
-            verticalAlign: 'top',
-            display: 'flex',
-            flexDirection: 'row',
-            width: '90%',
-            marginLeft: '5%',
-            marginRight: '5%',
-          }}>
-
-            <div
-              align="center"
-              style={{
-                width: '65%',
-                verticalAlign: 'top',
-                display: 'flex',
-                marginRight: '5%',
-                marginLeft: '15%',
-                flexDirection: 'column',
-              }}>
-              <Grid xs={12} sm={12} md={12} lg={12} xl={12} fullWidth>
-                <Flashcard flashcard={currentCard} showFront={this.state.currentPageIsFront} />
-              </Grid>
-
-              <div align="center">
-                <Button onClick={() => this.handleAnswer(false)}>
-                  {'Incorrect'}
-                </Button>
-                <Button onClick={() => this.handleTurnAround()}>
-                  {'Turn around'}
-                </Button>
-                <Button onClick={() => this.handleAnswer(true)}>
-                  {'Correct'}
-                </Button>
-              </div>
+            <Grid item align="center">
+              <Flashcard flashcard={currentCard} showFront={this.state.currentPageIsFront} />
+            </Grid>
+            <div align="center">
+              <Button onClick={() => this.handleAnswer(false)}>
+                {'Incorrect'}
+              </Button>
+              <Button onClick={() => this.handleTurnAround()}>
+                {'Turn around'}
+              </Button>
+              <Button onClick={() => this.handleAnswer(true)}>
+                {'Correct'}
+              </Button>
             </div>
-
-            <div
+          </Grid>
+          <Grid item sm={2} md={2} lg={2}>
+            <Paper
               className="Paper"
               style={{
-                width: '15%',
+                width: '75%',
+                minWidth: '75%',
                 verticalAlign: 'top',
-                display: 'flex',
-                flexDirection: 'row',
-                marginLeft: '2%',
+                marginLeft: '100%',
+                minHeight: 200,
+                textAlign: 'left',
               }}
             >
               {`Cards in Box: ${this.getNumberOfCards()}`}
@@ -152,8 +140,8 @@ class LearningInProgress extends Component {
               <br />
               {`Incorrect: ${this.getNumberOfCardsAnsweredIncorrectly()}`}
               {` (${this.getProportionOfCardsAnsweredIncorrectly()}%)`}
-            </div>
-          </div>
+            </Paper>
+          </Grid>
         </Grid>
       </div>
     );
