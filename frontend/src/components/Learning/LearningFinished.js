@@ -96,7 +96,7 @@ class LearningFinished extends Component {
 
         <Paper
           style={{
-            height: this.minHeight,
+            minHeight: this.minHeight,
             width: '60%',
             marginTop: 50,
           }}
@@ -111,104 +111,112 @@ class LearningFinished extends Component {
             <Grid item style={{ padding: 0 }}>
               {this.renderCardList()}
             </Grid>
-            <Grid item justify="center">
+            <Grid container item direction={"row"} style={{maxWidth: 1000}}>
+              <Grid item justify="center">
+                <Grid
+                  container
+                  direction="column"
+                  style={{
+                    height: 400,
+                  }}
+                  align="left"
+                  spacing={16}
+                >
+                  <Typography style={{ textAlign: 'center' }} variant="h4">
+                    {this.state.card.title}
+                  </Typography>
+                  <Typography style={{ textAlign: 'right' }} variant="h6">
+                    {this.state.card.deck}
+                  </Typography>
+                  <TextField
+                    value={this.state.card.front}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    label="Front"
+                    multiline
+                    rows={4}
+                    style={{
+                      width: 300,
+                      margin: 10,
+                    }}
+                  />
+                  <TextField
+                    value={this.state.card.back}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    label="Back"
+                    multiline
+                    rows={4}
+                    style={{
+                      width: 300,
+                      margin: 10,
+                    }}
+                  />
+                </Grid>
+              </Grid>
               <Grid
+                item
                 container
                 direction="column"
                 style={{
-                  height: this.minHeight,
+                  maxWidth: 450,
+                  minWidth: 400,
                 }}
-                align="left"
-                spacing={16}
               >
-                <Typography style={{ textAlign: 'center' }} variant="h4">
-                  {this.state.card.title}
-                </Typography>
-                <Typography style={{ textAlign: 'right' }} variant="h6">
-                  {this.state.card.deck}
-                </Typography>
-                <TextField
-                  value={this.state.card.front}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="outlined"
-                  label="Front"
-                  multiline
-                  rows={4}
-                  style={{
-                    width: 400,
-                    margin: 10,
-                  }}
-                />
-                <TextField
-                  value={this.state.card.back}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="outlined"
-                  label="Back"
-                  multiline
-                  rows={4}
-                  style={{
-                    width: 400,
-                    margin: 10,
-                  }}
-                />
+
+                <Grid item style={{
+                  minWidth: 400,
+                  height: 200,
+                }}>
+
+                  <Chart
+                    chartType="PieChart"
+                    loader={<div>Loading Chart</div>}
+                    data={[
+                      ['Correct / Incorrect', 'Percentage'],
+                      ['Correct', cardsAnsweredCorrect.length],
+                      ['Incorrect', cardsAnsweredIncorrect.length],
+                    ]}
+                    options={{
+                      pieSliceText: 'percentage',
+                      fontName: 'Roboto',
+                      colors: [lightGreen[500], red[500]],
+                    }}
+                  />
+
+                </Grid>
+                <Grid item style={{
+                  minWidth: 400,
+                  height: 200,
+                }}>
+                  <Chart
+                    chartType="Bar"
+                    loader={<div>Loading Chart</div>}
+                    data={[
+                      ['', 'Cards'],
+                      ['A', cardsByDeck[0]],
+                      ['B', cardsByDeck[1]],
+                      ['C', cardsByDeck[2]],
+                      ['D', cardsByDeck[3]],
+                      ['E', cardsByDeck[4]],
+                    ]}
+                    options={{
+                      legend: { position: 'none' },
+                      colors: [blue[500]],
+                      animation: {
+                        duration: 1500,
+                        easing: 'in',
+                        startup: true,
+                      },
+                    }}
+                  />
+                </Grid>
               </Grid>
             </Grid>
-            <Grid
-              item
-              container
-              direction="column"
-              style={{
-                width: 600,
-              }}
-            >
-
-              <Grid item style={{ height: ((this.minHeight - 50) / 2) }}>
-
-                <Chart
-                  chartType="PieChart"
-                  loader={<div>Loading Chart</div>}
-                  data={[
-                    ['Correct / Incorrect', 'Percentage'],
-                    ['Correct', cardsAnsweredCorrect.length],
-                    ['Incorrect', cardsAnsweredIncorrect.length],
-                  ]}
-                  options={{
-                    pieSliceText: 'percentage',
-                    fontName: 'Roboto',
-                    colors: [lightGreen[500], red[500]],
-                  }}
-                />
-
-              </Grid>
-              <Grid item style={{ height: ((this.minHeight - 50) / 2) }}>
-                <Chart
-                  chartType="Bar"
-                  loader={<div>Loading Chart</div>}
-                  data={[
-                    ['', 'Cards'],
-                    ['A', cardsByDeck[0]],
-                    ['B', cardsByDeck[1]],
-                    ['C', cardsByDeck[2]],
-                    ['D', cardsByDeck[3]],
-                    ['E', cardsByDeck[4]],
-                  ]}
-                  options={{
-                    legend: { position: 'none' },
-                    colors: [blue[500]],
-                    animation: {
-                      duration: 1500,
-                      easing: 'in',
-                      startup: true,
-                    },
-                  }}
-                />
-              </Grid>
-            </Grid>
-
           </Grid>
         </Paper>
       </div>
