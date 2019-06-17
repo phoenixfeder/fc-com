@@ -1,6 +1,6 @@
+import { store } from '../store';
 import * as actionTypes from '../utils/const-actiontypes';
 import { BACKEND_URL_ACCOUNT_DASHBOARD } from '../utils/const-paths';
-import { store } from '../store';
 import { enqueueSnackbar } from './notistack-snackbar-actions';
 
 const statStart = () => ({
@@ -32,23 +32,26 @@ export const getStatistics = () => dispatch => {
         hash: authState.sessionHash,
       },
     }),
-  }).then(results => results.json()).then((result) => {
-    switch (result.status.code) {
-      case 200:
-        dispatch(statSuccess(result.dashboard));
-        break;
+  })
+    .then(results => results.json())
+    .then((result) => {
+      switch (result.status.code) {
+        case 200:
+          dispatch(statSuccess(result.dashboard));
+          break;
 
-      default:
-        dispatch(statFail(result.status.message));
-        dispatch(enqueueSnackbar({
-          message: 'This should not happen. Please contact system admin.',
-          options: {
-            variant: 'error',
-          },
-        }));
-        break;
-    }
-  }).catch((err) => {
-    dispatch(statFail(err));
-  });
+        default:
+          dispatch(statFail(result.status.message));
+          dispatch(enqueueSnackbar({
+            message: 'This should not happen. Please contact system admin.',
+            options: {
+              variant: 'error',
+            },
+          }));
+          break;
+      }
+    })
+    .catch((err) => {
+      dispatch(statFail(err));
+    });
 };

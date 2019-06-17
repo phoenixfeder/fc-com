@@ -18,7 +18,6 @@ const styles = theme => ({
 class Learning extends Component {
 
   state = {
-    cardsLeft: [],
     cardsAnsweredCorrect: [],
     cardsAnsweredIncorrect: [],
   };
@@ -26,10 +25,6 @@ class Learning extends Component {
   componentWillMount = () => {
     document.title = 'Learning';
     this.props.setLearningFinished(false);
-    console.log(this.props.cards);
-    this.setState({
-      cardsLeft: this.props.cards,
-    });
   };
 
   render() {
@@ -39,16 +34,19 @@ class Learning extends Component {
         {
           this.props.finished
             ?
-              <LearningFinished cards={cards}/>
+            <LearningFinished
+              cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
+              cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
+            />
             :
-              <LearningInProgress
-                cards={cards}
-                answerCard={this.props.answerCard}
-                setLearningFinished={this.props.setLearningFinished}
-                cardsLeft={this.props.cardsLeft}
-                cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
-                cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
-              />
+            <LearningInProgress
+              cards={cards}
+              answerCard={this.props.answerCard}
+              setLearningFinished={this.props.setLearningFinished}
+              cardsLeft={this.props.cardsLeft}
+              cardsAnsweredCorrect={this.state.cardsAnsweredCorrect}
+              cardsAnsweredIncorrect={this.state.cardsAnsweredIncorrect}
+            />
         }
       </div>
     );

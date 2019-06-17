@@ -8,7 +8,10 @@ const initialState = {
   error: null,
 };
 
-const statsStart = state => ({ ...state, loading: true });
+const statsStart = state => ({
+  ...state,
+  loading: true,
+});
 
 const statsSuccess = (state, action) => ({
   ...state,

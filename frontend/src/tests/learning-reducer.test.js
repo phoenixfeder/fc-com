@@ -22,5 +22,6 @@ test('starts setting cards to learn and thus starts loading', () => {
   };
 
   const newState = learningReducer(initialState, action);
-  expect(newState.loading).toBeTruthy();
+  expect(newState.loading)
+    .toBeTruthy();
 });

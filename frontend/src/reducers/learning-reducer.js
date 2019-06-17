@@ -1,11 +1,11 @@
 import {
-  SET_LEARNING_CARDS_START,
-  SET_LEARNING_CARDS_SUCCESS,
-  SET_LEARNING_CARDS_FAIL,
+  ANSWER_CARD_FAIL,
   ANSWER_CARD_START,
   ANSWER_CARD_SUCCESS,
-  ANSWER_CARD_FAIL,
   LEARNING_FINISHED,
+  SET_LEARNING_CARDS_FAIL,
+  SET_LEARNING_CARDS_START,
+  SET_LEARNING_CARDS_SUCCESS,
 } from '../utils/const-actiontypes';
 
 const initialState = {
@@ -41,7 +41,6 @@ const answerCardStart = (state) => ({
 });
 
 const answerCardSuccess = (state, action) => {
-  console.log(action);
   const indexToUpdate = state.cards.findIndex(card => card.id === action.card.id);
   const newCards = Array.from(state.cards);
   newCards[indexToUpdate] = action.card;

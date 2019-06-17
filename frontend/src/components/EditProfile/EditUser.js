@@ -1,13 +1,13 @@
-import Button from '@material-ui/core/Button/Button';
-import Divider from '@material-ui/core/Divider/Divider';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import withStyles from '@material-ui/core/es/styles/withStyles';
-import FormControl from '@material-ui/core/FormControl/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid/Grid';
 import Input from '@material-ui/core/Input/Input';
-import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel/InputLabel';
-import Typography from '@material-ui/core/Typography/Typography';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography';
 import CakeIcon from '@material-ui/icons/Cake';
 import RealNameIcon from '@material-ui/icons/Face';
 import HobbyIcon from '@material-ui/icons/InsertEmoticon';
@@ -145,13 +145,22 @@ class EditUser extends Component {
   handleValueChange = (event) => {
     switch (event.target.id) {
       case 'date-input':
-        this.setState({ birthday: event.target.value, isBirthdayIncorrect: false });
+        this.setState({
+          birthday: event.target.value,
+          isBirthdayIncorrect: false,
+        });
         break;
       case 'interest-input':
-        this.setState({ interest: event.target.value, isInterestIncorrect: false });
+        this.setState({
+          interest: event.target.value,
+          isInterestIncorrect: false,
+        });
         break;
       case 'realName-input':
-        this.setState({ realName: event.target.value, isRealNameIncorrect: false });
+        this.setState({
+          realName: event.target.value,
+          isRealNameIncorrect: false,
+        });
         break;
       default:
         break;

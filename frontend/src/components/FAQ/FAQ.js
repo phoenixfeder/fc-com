@@ -1,7 +1,7 @@
 import {
+  Grid,
   ListItem,
   ListItemText,
-  Grid,
   Typography,
   withStyles,
 } from '@material-ui/core';

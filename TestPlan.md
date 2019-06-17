@@ -113,8 +113,8 @@ The tests are done to ensure quality and mitigate risks and fulfill functional r
 
 The following lists represent the tested parts of this application:
 
--   ReactJS frontend / Webapp
--   Java Spring Server backend (and APIs)
+-   ReactJS frontend / Webapp (UI and Business Logic)
+-   Java Spring Server backend (APIs)
 
 ## 4. Outline of Planned Tests
 
@@ -123,11 +123,11 @@ The following lists represent the tested parts of this application:
 _Frontend: ReactJS_:
 
 -   UI testing
+-   Unit testing
 
 _Backend: Spring Boot Application_:
 
 -   API testing
--   Unit testing
 
 ### 4.2 Outline of Other Candidates for Potential Inclusion
 
@@ -202,9 +202,10 @@ The test process ends as soon as all tests succeeded or one failed.
 
 ## 7.1 Test Evaluation Summaries
 
-The project contains tests in the front- and backend that run each push to our GitHub repository. On top of that, we also use Codacy to check our code quality (depending on specific style rules) which is also getting triggered each commit.
+The project contains tests in the front- and backend that run each push to our GitHub repository. On top of that, we also use Codacy and SonarCloud to check our code quality (depending on specific style rules) which is also getting triggered each commit.
 
 -   [Codacy](https://app.codacy.com/project/FlashCardCommunity/fc-com/dashboard), Badge: ![Badge](https://api.codacy.com/project/badge/Grade/95260a54312140bf99814090ab89a940?isInternal=true)
+-   [SonarCloud](https://sonarcloud.io/dashboard?id=Nifori_fc-com), Badge: ![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Nifori_fc-com&metric=alert_status)
 
 -   [Travis CI](https://travis-ci.org/phoenixfeder/fc-com), Badge: ![Badge](https://travis-ci.org/phoenixfeder/fc-com.svg?branch=master)
 
@@ -212,11 +213,12 @@ The project contains tests in the front- and backend that run each push to our G
 
 Test Coverage can be send to Codecov when running tests and therefor be displayed as Badge in GitHub or be seen in Coddcov directly. Our main ressource here will be our Jest tests.
 
--   [Codecov](<>), Badge: [![codecov](https://codecov.io/gh/phoenixfeder/fc-com/branch/master/graph/badge.svg)](https://codecov.io/gh/phoenixfeder/fc-com)
+-   [Codecov](<>), Badge: ![codecov](https://codecov.io/gh/phoenixfeder/fc-com/branch/master/graph/badge.svg)
 
 ## 7.3 Perceived Quality Reports
 
 -   [Codacy](https://app.codacy.com/project/FlashCardCommunity/fc-com/dashboard)
+-   [SonarCloud](https://sonarcloud.io/dashboard?id=Nifori_fc-com)
 
 ## 7.4 Incident Logs and Change Requests
 
@@ -267,6 +269,7 @@ The following table shows all tools used in our testing process.
 | ------------------------ | ----------------------------------------------- |
 | Repository               | [github.com](http://github.com/)                |
 | Quality, Metrics         | [Codacy](https://app.codacy.com/)               |
+| Quality, Metrics         | [SonarCloud](https://sonarcloud.io/)            |
 | Coverage                 | [Codecov](https://codecov.io/)                  |
 | CI/CD Service            | [Travis CI](http://travis-ci.org/)              |
 | Fake SMTP to test E-Mail | [FakeSMTP](https://github.com/Nilhcem/FakeSMTP) |
@@ -279,7 +282,7 @@ The following table shows all tools used in our testing process.
 | ------------------------- | :-------------: | ------------------------------------------------------------------------ |
 | Test Manager              |  Moritz, Sascha | Provides management oversight.                                           |
 | Test Designer             |     Everyone    | Defines the technical approach to the implementation of the test effort. |
-| Test System Administrator |      Moritz     | Ensures test environment and assets are managed and maintained.          |
+| Test System Administrator | Moritz, Benjamin | Ensures test environment and assets are managed and maintained.          |
 
 ### 10.2 Staffing and Training Needs
 
@@ -289,6 +292,11 @@ n/a
 
 We want to keep over 20% code coverage.
 
+Our metrics-tools informed us that the verifyResetPassword-Method from the AccountServicePasswordReset-Class had a high score on Coupling-Between-Object-Metrics and the editAccount-Method had a high n-path-complexity.
+So we according to our TestPlan we refactored those Methods to satisfy the quality requirements.
+
+They also noticed that we used the term "password" as part of our variables, which could mean hardcoded credentials. We investigated that issue, but came to the conclusion, that there are no security issues and disabled that rule manually.
+
 ## 12. Risks, Dependencies, Assumptions, and Constraints
 
 | Risk                                                                            | Mitigation Strategy          | Contingency (Risk is realized) |
@@ -297,9 +305,11 @@ We want to keep over 20% code coverage.
 | UI tests fail                                                                   | Refactor tests               | Push refactored test           |
 | API tests fail                                                                  | Refactor tests               | Push refactored test           |
 | Business logic tests fail                                                       | Refactor tests               | Push refactored test           |
-
 | Unit tests fail                                                                 | Refactor tests               | Push refactored test           |
 
 ## 13. Management Process and Procedures
 
-n/a
+### 13.1 Reporting and Escalation
+
+- Travis CI logs all occuring error during his build process
+- If a build fails all team members get notified by discord

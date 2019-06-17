@@ -10,29 +10,17 @@ import * as FlashcardStyle from '../../utils/const-flashcard';
 import './flashcard.css';
 
 class Flashcard extends Component {
-  state = {
-  };
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(prevProps);
-    console.log(prevState);
-  }
-
-  componentDidMount() {
-    console.log("resize")
-  }
+  state = {};
 
   renderCardBody() {
     const { flashcard, showFront } = this.props;
     const text = flashcard ? (showFront ? flashcard.front : flashcard.back) : '';
 
     const words = text.split(' ');
-    console.log(words);
-    console.log(window.innerWidth);
     const lines = [];
     let line = '';
     words.forEach(word => {
-      if (line.length < window.innerWidth/40) {
+      if (line.length < window.innerWidth / 40) {
         line += `${word} `;
       } else {
         lines.push(line);
@@ -49,8 +37,9 @@ class Flashcard extends Component {
       <List
         style={{ padding: 0 }}
       >
-        {lines
-          .map(part => (
+        {
+          lines
+            .map(part => (
               <div>
                 <ListItem
                   style={{
@@ -62,9 +51,8 @@ class Flashcard extends Component {
                 >
                   <ListItemText primary={part} />
                 </ListItem>
-              </div>
-            ),
-          )}
+              </div>),
+            )}
       </List>
     );
   }
@@ -76,7 +64,8 @@ class Flashcard extends Component {
       <Paper
         style={{
           backgroundColor: FlashcardStyle.FLASHCARD_NEUTRAL,
-          width: '50%',
+          width: '100%',
+          maxWidth: 500,
         }}
         draggable
       >
@@ -94,6 +83,7 @@ class Flashcard extends Component {
       </Paper>
     );
   }
+
 }
 
 Flashcard.propTypes = {

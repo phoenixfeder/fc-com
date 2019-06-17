@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Dashboard from './Dashboard';
 import * as actions from '../../../actions/stat-actions';
+import Dashboard from './Dashboard';
 
 const mapStateToProps = state => ({
   username: state.auth.username,

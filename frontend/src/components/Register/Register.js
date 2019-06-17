@@ -12,7 +12,10 @@ import EMailIcon from '@material-ui/icons/Mail';
 import UsernameIcon from '@material-ui/icons/Person';
 import * as PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import {
+  Link,
+  withRouter,
+} from 'react-router-dom';
 import { compose } from 'redux';
 
 // Styles to design some specific components
@@ -68,10 +71,6 @@ class Register extends Component {
       },
     });
   };
-
-  wow = () => {
-
-  }
 
   // Handles input changes
   handleInputChange = (event) => {
@@ -318,6 +317,7 @@ class Register extends Component {
 
     );
   }
+
 }
 
 export default compose(

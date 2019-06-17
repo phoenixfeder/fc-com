@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import SelectCards from './SelectCards';
-import { setLearningCards } from '../../actions/learning-actions';
 import { getFlashcardboxes } from '../../actions/flashcardboxes-actions';
+import { setLearningCards } from '../../actions/learning-actions';
+import SelectCards from './SelectCards';
 
 const mapStateToProps = state => ({
   loading: state.learning.loading,

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Flashcardboxes from './Flashcardboxes';
 import * as actions from '../../actions/flashcardboxes-actions';
+import Flashcardboxes from './Flashcardboxes';
 
 const mapStateToProps = state => ({
   getLoading: state.flashcardboxes.loading,

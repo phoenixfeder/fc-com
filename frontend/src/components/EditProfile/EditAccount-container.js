@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import { closeAccount } from '../../actions/auth-actions';
-import { fetchCloseAccount, fetchGetAccountData, fetchUpdateAccount } from '../../actions/edit-actions';
+import {
+  fetchCloseAccount,
+  fetchGetAccountData,
+  fetchUpdateAccount,
+} from '../../actions/edit-actions';
 import { enqueueSnackbar } from '../../actions/notistack-snackbar-actions';
 import EditAccount from './EditAccount';
 
