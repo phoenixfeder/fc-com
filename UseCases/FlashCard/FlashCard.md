@@ -40,7 +40,7 @@ Description of what is required after the user changes something.
 
 Always update the list of Flashcards if something changes.
 
-### 5.1 Store data
+### 5.2 Store data
 
 Store the new and updated information in the database.
 
