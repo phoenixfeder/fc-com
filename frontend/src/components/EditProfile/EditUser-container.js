@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
+import {
+  fetchGetAccountData,
+  fetchUpdateUser,
+} from '../../actions/edit-actions';
 import { enqueueSnackbar } from '../../actions/notistack-snackbar-actions';
-import { fetchGetAccountData, fetchUpdateUser } from '../../actions/edit-actions';
 import EditUser from './EditUser';
 
 const mapStateToProps = state => ({

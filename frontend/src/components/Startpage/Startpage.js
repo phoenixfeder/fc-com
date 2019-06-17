@@ -1,7 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import Home from './Home/Home';
+import React from 'react';
 import Dashboard from './Dashboard/dashboard-container';
+import Home from './Home/Home';
 
 function Startpage(props) {
 

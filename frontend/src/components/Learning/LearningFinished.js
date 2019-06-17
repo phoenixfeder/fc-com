@@ -33,6 +33,19 @@ class LearningFinished extends Component {
     if (cardsToList.length > 0) this.setState({ card: cardsToList[0] });
   }
 
+  countCardsByDeck = () => {
+    const { cardsAnsweredCorrect, cardsAnsweredIncorrect } = this.props;
+    const cardsByDeck = [0, 0, 0, 0, 0];
+
+    cardsAnsweredIncorrect.forEach(card => {
+      cardsByDeck[card.deck.charCodeAt() - 65] += 1;
+    });
+    cardsAnsweredCorrect.forEach(card => {
+      cardsByDeck[card.deck.charCodeAt() - 65] += 1;
+    });
+    return cardsByDeck;
+  };
+
   renderCardList = () => {
     const { cardsAnsweredCorrect, cardsAnsweredIncorrect } = this.props;
     const cardsToList = cardsAnsweredCorrect.concat(cardsAnsweredIncorrect);
@@ -55,19 +68,6 @@ class LearningFinished extends Component {
         </MenuList>
       </Paper>
     );
-  };
-
-  countCardsByDeck = () => {
-    const { cardsAnsweredCorrect, cardsAnsweredIncorrect } = this.props;
-    const cardsByDeck = [0, 0, 0, 0, 0];
-
-    cardsAnsweredIncorrect.forEach(card => {
-      cardsByDeck[card.deck.charCodeAt() - 65] += 1;
-    });
-    cardsAnsweredCorrect.forEach(card => {
-      cardsByDeck[card.deck.charCodeAt() - 65] += 1;
-    });
-    return cardsByDeck;
   };
 
   updateCard(card) {

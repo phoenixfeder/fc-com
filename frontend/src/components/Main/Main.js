@@ -9,15 +9,15 @@ import EditProfileContainer from '../EditProfile/EditProfile-container';
 import FAQ from '../FAQ/FAQ';
 import FlashcardOverviewContainer from '../Flashcard_Overview/FlashcardOverview-container';
 import FlashcardboxesContainer from '../Flashcardboxes/flashcardboxes-container';
-import Startpage from '../Startpage/startpage-container';
+import LearningContainer from '../Learning/learning-container';
+import SelectCardsContainer from '../Learning/selectcards-container';
 import LoginContainer from '../Login/login-container';
 import LogoutContainer from '../Logout/logout-container';
 import RegisterContainer from '../Register/register-container';
 import ResetPasswordContainer from '../ResetPassword/ResetPassword-container';
 import SetNewPasswordContainer from '../ResetPassword/SetNewPassword-container';
+import Startpage from '../Startpage/startpage-container';
 import VerfiyContainer from '../Verify/verify-container';
-import SelectCardsContainer from '../Learning/selectcards-container';
-import LearningContainer from '../Learning/learning-container';
 
 class Main extends Component {
   componentDidMount() {

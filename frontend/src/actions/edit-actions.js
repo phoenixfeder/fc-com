@@ -33,17 +33,20 @@ export const fetchUpdateAccount = (state, callback) => dispatch => {
         email: state.newEmail,
       },
     }),
-  }).then(results => results.json()).then((result) => {
-    callback(result);
-    dispatch(authEnd());
-  }).catch(() => {
-    callback({
-      status: {
-        code: 418,
-      },
+  })
+    .then(results => results.json())
+    .then((result) => {
+      callback(result);
+      dispatch(authEnd());
+    })
+    .catch(() => {
+      callback({
+        status: {
+          code: 418,
+        },
+      });
+      dispatch(authEnd());
     });
-    dispatch(authEnd());
-  });
 };
 
 export const fetchUpdateUser = (state, callback) => dispatch => {
@@ -66,17 +69,20 @@ export const fetchUpdateUser = (state, callback) => dispatch => {
         dateOfBirth: state.birthday,
       },
     }),
-  }).then(results => results.json()).then((result) => {
-    callback(result);
-    dispatch(authEnd());
-  }).catch(() => {
-    callback({
-      status: {
-        code: 418,
-      },
+  })
+    .then(results => results.json())
+    .then((result) => {
+      callback(result);
+      dispatch(authEnd());
+    })
+    .catch(() => {
+      callback({
+        status: {
+          code: 418,
+        },
+      });
+      dispatch(authEnd());
     });
-    dispatch(authEnd());
-  });
 };
 
 export const fetchGetAccountData = (state, callback) => dispatch => {
@@ -96,17 +102,20 @@ export const fetchGetAccountData = (state, callback) => dispatch => {
         userID: state.userID,
       },
     }),
-  }).then(results => results.json()).then((result) => {
-    callback(result);
-    dispatch(authEnd());
-  }).catch(() => {
-    callback({
-      status: {
-        code: 418,
-      },
+  })
+    .then(results => results.json())
+    .then((result) => {
+      callback(result);
+      dispatch(authEnd());
+    })
+    .catch(() => {
+      callback({
+        status: {
+          code: 418,
+        },
+      });
+      dispatch(authEnd());
     });
-    dispatch(authEnd());
-  });
 };
 
 export const fetchCloseAccount = (state, callback) => dispatch => {
@@ -126,15 +135,18 @@ export const fetchCloseAccount = (state, callback) => dispatch => {
         oldPassword: state.closeAccountPassword,
       },
     }),
-  }).then((results) => results.json()).then((result) => {
-    callback(result);
-    dispatch(authEnd());
-  }).catch(() => {
-    callback({
-      status: {
-        code: 418,
-      },
+  })
+    .then((results) => results.json())
+    .then((result) => {
+      callback(result);
+      dispatch(authEnd());
+    })
+    .catch(() => {
+      callback({
+        status: {
+          code: 418,
+        },
+      });
+      dispatch(authEnd());
     });
-    dispatch(authEnd());
-  });
 };

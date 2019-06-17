@@ -99,7 +99,10 @@ class EditAccount extends Component {
   };
 
   handleCloseCloseAccount = () => {
-    this.setState({ openCloseAccount: false, closeAccountPassword: '' });
+    this.setState({
+      openCloseAccount: false,
+      closeAccountPassword: '',
+    });
   };
 
   handleInputChange = (event) => {
@@ -119,7 +122,11 @@ class EditAccount extends Component {
         });
         break;
       case 'newEmailInput':
-        this.setState({ newEmail: event.target.value.toLowerCase(), isNewEmailIncorrect: false, newEmailErrorMsg: '' });
+        this.setState({
+          newEmail: event.target.value.toLowerCase(),
+          isNewEmailIncorrect: false,
+          newEmailErrorMsg: '',
+        });
         break;
       case 'closeAccountPasswordInput':
         this.setState({ closeAccountPassword: event.target.value });
@@ -187,7 +194,10 @@ class EditAccount extends Component {
       fetchCloseAccount,
     } = this.props;
     const { closeAccountPassword } = this.state;
-    fetchCloseAccount({ ...this.props, closeAccountPassword }, (result) => {
+    fetchCloseAccount({
+      ...this.props,
+      closeAccountPassword,
+    }, (result) => {
       switch (result.status.code) {
         case 200:
           closeAccount();

@@ -1,11 +1,18 @@
-import { Grid, Typography, withWidth } from '@material-ui/core/';
-import { isWidthUp, isWidthDown } from '@material-ui/core/withWidth';
-import { Chart } from 'react-google-charts';
+import {
+  Grid,
+  Typography,
+  withWidth,
+} from '@material-ui/core/';
+import blue from '@material-ui/core/colors/blue';
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
+import {
+  isWidthDown,
+  isWidthUp,
+} from '@material-ui/core/withWidth';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import blue from '@material-ui/core/colors/blue';
-import red from '@material-ui/core/colors/red';
-import green from '@material-ui/core/colors/green';
+import { Chart } from 'react-google-charts';
 
 class Graphs extends Component {
 
@@ -23,9 +30,10 @@ class Graphs extends Component {
     */
     const cardsInDecks = [0, 0, 0, 0, 0];
 
-    Object.entries(this.props.stats.cardsInDecks).forEach((entry, iteration) => {
-      cardsInDecks[iteration] = entry[1];
-    });
+    Object.entries(this.props.stats.cardsInDecks)
+      .forEach((entry, iteration) => {
+        cardsInDecks[iteration] = entry[1];
+      });
 
     return (
       <>
@@ -135,6 +143,7 @@ class Graphs extends Component {
       </>
     );
   }
+
 }
 
 Graphs.propTypes = {

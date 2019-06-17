@@ -145,13 +145,22 @@ class EditUser extends Component {
   handleValueChange = (event) => {
     switch (event.target.id) {
       case 'date-input':
-        this.setState({ birthday: event.target.value, isBirthdayIncorrect: false });
+        this.setState({
+          birthday: event.target.value,
+          isBirthdayIncorrect: false,
+        });
         break;
       case 'interest-input':
-        this.setState({ interest: event.target.value, isInterestIncorrect: false });
+        this.setState({
+          interest: event.target.value,
+          isInterestIncorrect: false,
+        });
         break;
       case 'realName-input':
-        this.setState({ realName: event.target.value, isRealNameIncorrect: false });
+        this.setState({
+          realName: event.target.value,
+          isRealNameIncorrect: false,
+        });
         break;
       default:
         break;

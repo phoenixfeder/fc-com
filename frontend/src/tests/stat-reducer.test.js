@@ -1,6 +1,5 @@
-
-import * as actionTypes from '../utils/const-actiontypes';
 import statReducer from '../reducers/stat-reducer';
+import * as actionTypes from '../utils/const-actiontypes';
 
 // Get a clean new state before each new test
 let initialState = {};
@@ -20,7 +19,8 @@ test('getting stats starts and thus starts loading', () => {
   };
 
   const newState = statReducer(initialState, action);
-  expect(newState.loading).toBeTruthy();
+  expect(newState.loading)
+    .toBeTruthy();
 });
 
 // Test statsSuccess
@@ -36,15 +36,16 @@ test('getting stats success and thus sets user statistics and stops loading', ()
   };
 
   const newState = statReducer(initialState, action);
-  expect(newState).toEqual({
-    statistics: {
-      boxes: 5,
-      cards: 7,
-      successRate: 64,
-    },
-    loading: false,
-    error: null,
-  });
+  expect(newState)
+    .toEqual({
+      statistics: {
+        boxes: 5,
+        cards: 7,
+        successRate: 64,
+      },
+      loading: false,
+      error: null,
+    });
 });
 
 // Test statsFail
@@ -56,6 +57,8 @@ test('authorization fails and thus error message is set and stops loading', () =
   };
 
   const newState = statReducer(initialState, action);
-  expect(newState.error).toBe('ERROR!');
-  expect(newState.loading).toBeFalsy();
+  expect(newState.error)
+    .toBe('ERROR!');
+  expect(newState.loading)
+    .toBeFalsy();
 });

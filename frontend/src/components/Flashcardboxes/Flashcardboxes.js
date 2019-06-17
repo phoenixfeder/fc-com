@@ -1,8 +1,8 @@
 import {
+  Button,
   Grid,
   Typography,
   withStyles,
-  Button,
 } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';

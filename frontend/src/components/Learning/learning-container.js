@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import Learning from './Learning';
 import {
   answerCard,
   setLearningFinished,
 } from '../../actions/learning-actions';
+import Learning from './Learning';
 
 const mapStateToProps = state => ({
   loading: state.learning.loading,

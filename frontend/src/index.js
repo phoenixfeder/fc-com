@@ -9,14 +9,17 @@ import { HashRouter } from 'react-router-dom';
 import AppContainer from './components/App/app-container';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import { lightTheme } from './utils/themeLight';
 import { store } from './store';
+import { lightTheme } from './utils/themeLight';
 
 ReactDOM.render(
   <Provider store={store}>
     <SnackbarProvider
       maxSnack={4}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
       autoHideDuration={10000}
       action={(
         <IconButton key="close" aria-label="Close" color="inherit">

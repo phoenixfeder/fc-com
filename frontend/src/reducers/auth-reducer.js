@@ -9,7 +9,10 @@ const initialState = {
   error: null,
 };
 
-const authStart = state => ({ ...state, loading: true });
+const authStart = state => ({
+  ...state,
+  loading: true,
+});
 
 const authSuccess = (state, action) => ({
   ...state,
@@ -43,7 +46,10 @@ const authCloseAccount = state => ({
   loading: false,
 });
 
-const authEnd = state => ({ ...state, loading: false }); // Used to still have loading as a global state for old actions
+const authEnd = state => ({
+  ...state,
+  loading: false,
+}); // Used to still have loading as a global state for old actions
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {

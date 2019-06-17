@@ -83,28 +83,12 @@ class Flashcardbox extends Component {
     this.props.history.push('/flashcards');
   };
 
-  shareDialogClose = () => {
-    this.setState({ shareOpen: false });
-  };
-
-  shareDialogOpen = () => {
-    this.setState({ shareOpen: true });
-  };
-
   handleShare = (user) => {
     this.props.shareFlashcardbox(user, this.props.id);
   };
 
   handleStopShare = (user) => {
     this.props.stopShareFlashcardbox(user, this.props.id);
-  };
-
-  unfollowDialogClose = () => {
-    this.setState({ unfollowOpen: false });
-  };
-
-  unfollowDialogOpen = () => {
-    this.setState({ unfollowOpen: true });
   };
 
   handleUnfollow = () => {
@@ -165,6 +149,22 @@ class Flashcardbox extends Component {
         </div>
       </>
     );
+  };
+
+  shareDialogClose = () => {
+    this.setState({ shareOpen: false });
+  };
+
+  shareDialogOpen = () => {
+    this.setState({ shareOpen: true });
+  };
+
+  unfollowDialogClose = () => {
+    this.setState({ unfollowOpen: false });
+  };
+
+  unfollowDialogOpen = () => {
+    this.setState({ unfollowOpen: true });
   };
 
   render() {

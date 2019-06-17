@@ -1,17 +1,17 @@
 import {
-  Grid,
-  Typography,
-  withStyles,
+  Button,
   Card,
   CardContent,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
+  Checkbox,
   Chip,
   Divider,
-  Checkbox,
+  Grid,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography,
+  withStyles,
 } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -31,15 +31,6 @@ class SelectCards extends Component {
 
   state = { decks: [] };
 
-  componentDidMount = () => {
-    document.title = 'Select Cards';
-  };
-
-  componentWillMount = () => {
-    this.props.getFlashcardboxes();
-  };
-
-  // Toggles: Adds entry or removes it
   // Could need some optimizing, but does the job for now
   changeDeck = (boxId, letter) => {
     const decks = this.state.decks;
@@ -61,11 +52,24 @@ class SelectCards extends Component {
         newDecks[indexToUpdate].decks = newDecks[indexToUpdate].decks.concat(`${letter}`);
       }
     } else {
-      const boxToAdd = { id: boxId, decks: [`${letter}`] };
+      const boxToAdd = {
+        id: boxId,
+        decks: [`${letter}`],
+      };
       newDecks.push(boxToAdd);
     }
 
     this.setState({ decks: newDecks });
+  };
+
+  componentDidMount = () => {
+    document.title = 'Select Cards';
+  };
+
+  // Toggles: Adds entry or removes it
+
+  componentWillMount = () => {
+    this.props.getFlashcardboxes();
   };
 
   renderBoxesWithDecks = () => {
@@ -87,15 +91,15 @@ class SelectCards extends Component {
                 </ListItem>
                 <ListItem>
                   {'A'}
-                  <Checkbox onChange={() => this.changeDeck(box.id, 'A')}/>
+                  <Checkbox onChange={() => this.changeDeck(box.id, 'A')} />
                   {'B'}
-                  <Checkbox onChange={() => this.changeDeck(box.id, 'B')}/>
+                  <Checkbox onChange={() => this.changeDeck(box.id, 'B')} />
                   {'C'}
-                  <Checkbox onChange={() => this.changeDeck(box.id, 'C')}/>
+                  <Checkbox onChange={() => this.changeDeck(box.id, 'C')} />
                   {'D'}
-                  <Checkbox onChange={() => this.changeDeck(box.id, 'D')}/>
+                  <Checkbox onChange={() => this.changeDeck(box.id, 'D')} />
                   {'E'}
-                  <Checkbox onChange={() => this.changeDeck(box.id, 'E')}/>
+                  <Checkbox onChange={() => this.changeDeck(box.id, 'E')} />
                 </ListItem>
                 {(boxes.length - 1 === index) ? null : <Divider /> /* Remove last Divider */}
               </CardContent>

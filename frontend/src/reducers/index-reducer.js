@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import authReducer from './auth-reducer';
-import flashcardsReducer from './flashcards-reducer';
-import snackbarReducer from './notistack-snackbar-reducers';
 import boxesReducer from './flashcardboxes-reducer';
+import flashcardsReducer from './flashcards-reducer';
 import learningReducer from './learning-reducer';
+import snackbarReducer from './notistack-snackbar-reducers';
 import statReducer from './stat-reducer';
 
 const allReducers = combineReducers({

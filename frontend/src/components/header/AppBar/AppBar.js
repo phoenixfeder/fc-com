@@ -1,24 +1,24 @@
 import {
   AppBar,
-  SwipeableDrawer,
-  IconButton,
-  Menu,
-  Divider,
-  MenuItem,
   Button,
-  withWidth,
-  withStyles,
+  Divider,
+  Fade,
+  IconButton,
+  LinearProgress,
+  Menu,
+  MenuItem,
+  SwipeableDrawer,
   Toolbar,
   Typography,
-  LinearProgress,
-  Fade,
+  withStyles,
+  withWidth,
 } from '@material-ui/core/';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
-import compose from 'recompose/compose';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import compose from 'recompose/compose';
 
 const drawerWidth = 240;
 
@@ -26,8 +26,7 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
-  appBar: {
-  },
+  appBar: {},
   grow: {
     flexGrow: 1,
   },
@@ -324,6 +323,7 @@ class Appbar extends Component {
       </div>
     );
   }
+
 }
 
 
