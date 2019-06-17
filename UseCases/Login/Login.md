@@ -44,7 +44,7 @@ Description of what is required after the user submitted the form.
 
 The provided username and password needs to be checked for presence and correctnes in the backend.
 
-### 5.1 Store token
+### 5.2 Store token
 
 On success, the client side needs to store a token to remember that the user is now logged in.
 
