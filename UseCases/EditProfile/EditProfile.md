@@ -41,7 +41,7 @@ Description of what is required after the user submitted the form.
 Check which information the user wants to update and if they are valid - e.g. check if the
 E-Mail doesn't already exist in the database.
 
-### 5.1 Store data
+### 5.2 Store data
 
 Store the updated information in the database.
 
